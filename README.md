@@ -1,18 +1,37 @@
 # Difonssé — Marketplace de Pièces Détachées Automobiles avec Séquestre Sécurisé
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpousniang-sudo%2FDifonss-)
+
 Plateforme sénégalaise innovante dédiée au commerce de pièces détachées automobiles neuves et d'occasion (Pikine, Dakar). **Difonssé** sécurise chaque transaction grâce au séquestre mobile money (*Kooru Difonssé* via Wave et Orange Money), assorti d'une période d'essai de 48h au garage avant libération des fonds.
 
 ---
 
-## 🚀 Architecture de la Plateforme
+## 🚀 Déploiement sur Vercel (Production)
 
-Le projet est conçu avec une séparation stricte entre les interfaces clients (acheteurs/vendeurs) et l'administration :
+Le projet est configuré pour un déploiement continu instantané sur **Vercel** :
+
+1. Rendez-vous sur 👉 **[https://vercel.com/new](https://vercel.com/new)** (connectez-vous avec votre compte GitHub **pousniang-sudo**).
+2. Dans la liste de vos dépôts, repérez **`Difonss-`** et cliquez sur **Import**.
+3. Laissez les réglages par défaut (détection automatique de `package.json` et `vercel.json`) et cliquez sur **Deploy**.
+4. En quelques secondes, votre plateforme est en ligne sur une URL publique sécurisée HTTPS (ex: `https://difonss.vercel.app`) !
+
+> **Note :** Chaque nouveau commit poussé sur la branche `main` déclenche un redéploiement automatique sur Vercel.
+
+---
+
+## 🏛️ Architecture de la Plateforme
+
+Le projet sépare strictement les interfaces clients (acheteurs/vendeurs), l'administration DG et l'API :
 
 ```
 Difonssé/
 ├── index.html        # Front-End Mobile-First (Acheteurs & Vendeurs)
 ├── admin.html        # Back-End Superviseur & Cockpit DG (Strictement séparé)
-├── server.ps1        # Serveur Web & API REST PowerShell natif (port 8080)
+├── vercel.json       # Configuration de routage & Serverless Vercel
+├── package.json      # Manifeste Node.js pour Vercel
+├── api/
+│   └── index.js      # API REST Serverless Node.js (Vercel & cloud)
+├── server.ps1        # Serveur Web & API REST PowerShell natif (local port 8080)
 ├── data/             # Base de données JSON
 │   ├── products.json   # Catalogue pièces (OEM, compatibilités, photos)
 │   ├── orders.json     # Commandes & statuts séquestre
@@ -27,7 +46,7 @@ Difonssé/
 
 ## 📱 1. Front-End Mobile (`index.html`)
 
-Accessible directement sur smartphone ou navigateur mobile à l'adresse : **`http://localhost:8080/`**
+Accessible sur mobile à l'adresse locale `http://localhost:8080/` ou sur l'URL Vercel de production :
 
 * **Écran de Connexion & Choix de Profil :** Sélection claire entre profil *Acheteur* (propriétaire de véhicule, mécanicien) et *Vendeur* (échoppes spécialisées).
 * **Parcours Acheteur :**
@@ -48,7 +67,7 @@ Accessible directement sur smartphone ou navigateur mobile à l'adresse : **`htt
 
 ## 🛡️ 2. Back-End Admin & Cockpit de Supervision (`admin.html`)
 
-Interface réservée à la direction générale et aux superviseurs à l'adresse : **`http://localhost:8080/admin.html`**
+Interface réservée à la direction générale et aux superviseurs (`/admin` ou `/admin.html`) :
 
 * **Métriques Consolidées :** Volume d'affaires brut (GMV), montants actuellement verrouillés sous séquestre, commissions collectées, litiges en cours et remboursements en attente.
 * **Suivi Transaction par Transaction :** Visualisation détaillée de chaque commande avec statut exact et actions immédiates recommandées (*« Ce qu'il faudra faire »*).
@@ -78,4 +97,4 @@ Pour lancer le serveur localement :
 1. **Nom de la marque :** Strictement **Difonssé**.
 2. **Vocabulaire standardisé :** Terminologie automobile et marchande (vendeur, boutique, pièces), sans terme ambigu.
 3. **Séquestre Garanti :** Aucun versement n'est fait au vendeur sans validation formelle par le mécanicien ou expiration sans litige des 48h d'essai.
-4. **Déploiement Continu :** Chaque évolution validée est automatiquement committée et déployée sur GitHub (`origin/main`).
+4. **Déploiement Continu :** Chaque évolution validée est automatiquement committée et déployée sur GitHub (`origin/main`), déclenchant la mise à jour Vercel.

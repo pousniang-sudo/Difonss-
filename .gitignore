@@ -1,3 +1,4 @@
 ﻿*.zip
 *.log
-
+.vercel
+node_modules

@@ -322,7 +322,7 @@
 
   <!-- ================= LOGIQUE JAVASCRIPT DU BACK-END ================= -->
   <script>
-    const API_BASE = "http://localhost:8080/api";
+    const API_BASE = window.location.origin.includes(":8080") ? "http://localhost:8080/api" : "/api";
     let adminStats = {};
     let adminOrders = [];
     let adminActivities = [];
