@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision &amp; Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tableau-de-bord" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-lg text-label-lg">Tableau de bord</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-lg text-label-lg">Journal d'activité</span></div><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-label-lg text-label-lg">Séquestre &amp; Finances</span></div><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Connexions &amp; Audit</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">store</span><span class="font-label-lg text-label-lg">Vendeurs &amp; KYC</span></div><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Acheteurs</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogue-pieces" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">precision_manufacturing</span><span class="font-label-lg text-label-lg">Catalogue Pièces</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-label-lg text-label-lg">Commandes</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Catégories &amp; Commissions</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Paramètres système</span></div></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale audit (N° DIF-2026-..., acteur, IP, tel Dakar)..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Top Utility Context Ribbon -->
+<div class="px-space-xl py-space-sm bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-space-md">
+<span class="font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-on-surface">shield</span>
+        Supervision Vendeurs · Conformité §5.1, §8.1 &amp; §10.5
+      </span>
+<span class="text-outline">/</span>
+<span>Base légale OHADA &amp; Loi CDP Sénégal 2008-12</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-sm text-label-sm">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-mono">JOURNAL_HASH: 0x89e2...d41b</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+        Greffe Tribunal Commerce Dakar synchronisé
+      </span>
+</div>
+</div>
+<div class="p-space-xl space-y-space-xl">
+<!-- Header Section with Strict Contrast & Bold Typography -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="space-y-space-xs max-w-3xl">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="px-2.5 py-1 rounded bg-error-container text-on-error-container font-label-sm text-label-sm uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+            1 Dossier en attente de validation (§10.5)
+          </span>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface">verified_user</span>
+            Audit CDP Sénégal actif
+          </span>
+<span class="px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock_clock</span>
+            Règle : Vendeur PENDING = Pièces non publiables (§11)
+          </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-black text-on-surface tracking-tight">
+          Gestion des Vendeurs &amp; Dossiers KYC
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Vérification réglementaire NINEA, RCCM et CNI des commerçants et casses automobiles de Dakar. Supervision de l'agrément marchand et journalisation immuable des décisions.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0">
+<button class="h-12 px-space-lg rounded-xl bg-surface-container-highest text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2 font-label-lg text-label-lg font-bold shadow-sm active:scale-[0.99]" id="btnExportKYC">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Exporter Registre KYC CSV (§10.8)</span>
+</button>
+<button class="h-12 px-space-lg rounded-xl bg-primary text-on-primary hover:bg-primary/90 transition-all flex items-center gap-2 font-label-lg text-label-lg font-bold shadow-md active:scale-[0.99]" id="btnScrollToPending">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed-dim">verified</span>
+<span>Traiter le dossier prioritaire</span>
+</button>
+</div>
+</div>
+<!-- 4 KPI Metrics Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-lg">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Total Vendeurs Inscrits</span>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">store</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">28</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Dakar &amp; Région</span>
+</div>
+<div class="mt-space-sm w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-full"></div>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-secondary-fixed text-on-secondary-fixed shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold text-on-secondary-fixed">Action requise (§10.5)</span>
+<span class="px-2 py-0.5 rounded bg-on-secondary-fixed text-secondary-fixed font-label-sm text-label-sm font-black animate-pulse">
+            URGENT
+          </span>
+</div>
+<div class="mt-space-md">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black">01</span>
+<span class="font-label-lg text-label-lg font-bold">dossier en file d'attente</span>
+</div>
+<span class="block mt-1 font-body-sm text-body-sm opacity-90 truncate">Casse Moderne Pikine (Tally Boumack)</span>
+</div>
+<div class="mt-space-sm pt-2 flex items-center gap-1 font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">priority_high</span>
+<span>Délai d'agrément standard &lt; 24h</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Vendeurs Actifs &amp; Validés</span>
+<span class="w-8 h-8 rounded-lg bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">check_circle</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">24</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-bold">85.7% du pool</span>
+</div>
+<div class="mt-space-sm text-on-surface-variant font-body-sm text-body-sm flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span>162 pièces détachées en vente active</span>
+</div>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Suspendus / Refusés</span>
+<span class="w-8 h-8 rounded-lg bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-error">gavel</span>
+</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-black text-error">03</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Audit non conforme</span>
+</div>
+<div class="mt-space-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>Infractions NINEA ou litiges mécaniques</span>
+</div>
+</div>
+</div>
+<!-- Priority KYC Instruction Section (§10.5) -->
+<div class="rounded-xl bg-surface-container-lowest shadow-md overflow-hidden" id="kycPriorityCard">
+<!-- Section Banner -->
+<div class="px-space-xl py-space-md bg-primary-container text-on-primary flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest/10 flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined text-[24px]">assignment_late</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-black text-on-primary">Dossier KYC en attente de validation</span>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold uppercase">File prioritaire §10.5</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-primary-container">Examen probatoire des documents d'immatriculation et agrément marchand</span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-primary-container">
+<span>Date de soumission : 25/10/2026 à 09:42 GMT</span>
+<span>•</span>
+<span class="font-mono text-tertiary-fixed-dim">Dossier #KYC-DKR-2026-041</span>
+</div>
+</div>
+<div class="p-space-xl grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+<!-- Seller Info Summary (Left column) -->
+<div class="lg:col-span-4 flex flex-col justify-between space-y-space-lg bg-surface-container-low p-space-lg rounded-xl">
+<div class="space-y-space-md">
+<div class="flex items-start justify-between">
+<div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-extrabold uppercase">Casse Auto &amp; Déconstruction</span>
+<h3 class="font-headline-md text-headline-md font-black text-on-surface mt-1">Casse Moderne Pikine</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Spécialiste trains roulants et optiques Toyota/Peugeot</span>
+</div>
+<span class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-black font-label-lg text-label-lg">
+                CMP
+              </span>
+</div>
+<div class="space-y-space-sm pt-2">
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Gérant légal</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Cheikh Tidiane Diop</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Téléphone vérifié</span>
+<span class="font-label-md text-label-md font-bold text-on-surface font-mono">+221 77 345 67 89</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Localisation Dakar</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Pikine Tally Boumack</span>
+</div>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Canal Reversement</span>
+<span class="font-label-md text-label-md font-bold text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+                  Wave Marchand (+221 77 345 67 89)
+                </span>
+</div>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-highest/60 text-on-surface space-y-1">
+<span class="font-label-sm text-label-sm font-extrabold uppercase flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                Statut des publications (§11)
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                3 pièces déposées en brouillon (Toyota Corolla 2012 : alternateur, crémaillère, bloc phare). Ces articles sont <strong class="text-on-surface">invisibles au catalogue acheteur</strong> tant que l'agrément n'est pas accordé.
+              </p>
+</div>
+</div>
+<div class="pt-space-md flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">gpp_maybe</span>
+<span>Vérification physique : Point relais Colobane à notifier après validation</span>
+</div>
+</div>
+<!-- Evidence Visualizer (Center/Right column) -->
+<div class="lg:col-span-8 flex flex-col justify-between space-y-space-lg">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">folder_open</span>
+<span>Pièces justificatives téléversées (4/4 requises)</span>
+</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cliquez sur un document pour inspection zoomée</span>
+</div>
+<!-- Documents Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Doc 1 : NINEA -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between space-y-space-sm group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md font-bold text-on-surface">Attestation NINEA</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">009842104 / SN-DKR</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">À inspecter</span>
+</div>
+<div class="h-28 rounded-lg bg-surface-container-lowest flex items-center justify-center p-3 relative overflow-hidden">
+<div class="text-center">
+<span class="material-symbols-outlined text-outline text-[32px]">description</span>
+<span class="block font-label-sm text-label-sm text-outline mt-1">Ministère des Finances du Sénégal</span>
+</div>
+<button class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-on-primary font-label-md text-label-md font-bold gap-1" onclick="inspectDocument('NINEA 009842104', 'Attestation NINEA officielle enregistrée au centre fiscal de Pikine/Guédiawaye le 14/03/2023')" type="button">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span> Aperçu document
+                  </button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>PDF · 1.4 Mo</span>
+<span class="text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Format conforme
+                  </span>
+</div>
+</div>
+<!-- Doc 2 : RCCM -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between space-y-space-sm group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md font-bold text-on-surface">Extrait RCCM</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">SN-DKR-2023-B-8941</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">Cachet Greffe OK</span>
+</div>
+<div class="h-28 rounded-lg bg-surface-container-lowest flex items-center justify-center p-3 relative overflow-hidden">
+<div class="text-center">
+<span class="material-symbols-outlined text-outline text-[32px]">history_edu</span>
+<span class="block font-label-sm text-label-sm text-outline mt-1">Tribunal de Commerce Hors Classe Dakar</span>
+</div>
+<button class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-on-primary font-label-md text-label-md font-bold gap-1" onclick="inspectDocument('RCCM SN-DKR-2023-B-8941', 'Extrait du Registre du Commerce et du Crédit Mobilier certifié avec cachet humide du Greffe en date du 18/03/2023.')" type="button">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span> Aperçu document
+                  </button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>PDF · 2.8 Mo</span>
+<span class="text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Validité active
+                  </span>
+</div>
+</div>
+<!-- Doc 3 : CNI CEDEAO -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between space-y-space-sm group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">pin</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md font-bold text-on-surface">CNI CEDEAO Gérant</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">1 752 **** **** 9</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">Recto / Verso</span>
+</div>
+<div class="h-28 rounded-lg bg-surface-container-lowest flex items-center justify-center p-3 relative overflow-hidden">
+<div class="text-center">
+<span class="material-symbols-outlined text-outline text-[32px]">id_card</span>
+<span class="block font-label-sm text-label-sm text-outline mt-1">République du Sénégal · CEDEAO</span>
+</div>
+<button class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-on-primary font-label-md text-label-md font-bold gap-1" onclick="inspectDocument('CNI Cheikh Tidiane Diop', 'Carte Nationale d\'Identité biométrique CEDEAO. Expire le 12/09/2031. Concordance faciale avec le compte marchand.')" type="button">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span> Aperçu document
+                  </button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>JPEG · 3.1 Mo</span>
+<span class="text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Non expiré
+                  </span>
+</div>
+</div>
+<!-- Doc 4 : RIB / Mobile Money -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between space-y-space-sm group">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<div>
+<span class="block font-label-md text-label-md font-bold text-on-surface">Attestation Reversement</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">Wave Marchand Pro</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">Séquestre lié</span>
+</div>
+<div class="h-28 rounded-lg bg-surface-container-lowest flex items-center justify-center p-3 relative overflow-hidden">
+<div class="text-center">
+<span class="material-symbols-outlined text-outline text-[32px]">point_of_sale</span>
+<span class="block font-label-sm text-label-sm text-outline mt-1">Compte Marchand +221 77 345 67 89</span>
+</div>
+<button class="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-on-primary font-label-md text-label-md font-bold gap-1" onclick="inspectDocument('Compte Marchand Wave/OM', 'Certificat d\'agrément marchand Wave Digital Finance Sénégal pour Casse Moderne Pikine SARL.')" type="button">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span> Aperçu document
+                  </button>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>PNG · 820 Ko</span>
+<span class="text-on-tertiary-container font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Nom concordance 100%
+                  </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Formal Admin Decision Form (§10.5 & §6.2) -->
+<div class="p-space-lg rounded-xl bg-surface-container-high space-y-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<span class="font-headline-sm text-headline-sm font-black text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px]">policy</span>
+                Décision administrative immédiate (§10.5)
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Opérateur : Ousmane Niang (Super Admin)</span>
+</div>
+<!-- Radio Options -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<label class="flex items-center gap-space-sm p-space-md rounded-lg bg-surface-container-lowest cursor-pointer hover:bg-surface-container transition-all">
+<input checked="" class="w-4 h-4 text-primary focus:ring-0 cursor-pointer" name="kyc_action" type="radio" value="VALIDATE"/>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface">Valider &amp; Agréer</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Autoriser la mise en vente</span>
+</div>
+</label>
+<label class="flex items-center gap-space-sm p-space-md rounded-lg bg-surface-container-lowest cursor-pointer hover:bg-surface-container transition-all">
+<input class="w-4 h-4 text-error focus:ring-0 cursor-pointer" name="kyc_action" type="radio" value="REJECT"/>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-error">Rejeter le dossier</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Demande de pièces</span>
+</div>
+</label>
+<label class="flex items-center gap-space-sm p-space-md rounded-lg bg-surface-container-lowest cursor-pointer hover:bg-surface-container transition-all">
+<input class="w-4 h-4 text-on-surface focus:ring-0 cursor-pointer" name="kyc_action" type="radio" value="SUSPEND"/>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface">Mise en enquête</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Inspection terrain Pikine</span>
+</div>
+</label>
+</div>
+<!-- Mandatory Audit Motive Field -->
+<div class="space-y-1">
+<label class="block font-label-md text-label-md font-bold text-on-surface flex items-center justify-between" for="adminDecisionReason">
+<span>Motif légal consigné au journal d'activité (Audit §6.2 &amp; §10.8) <span class="text-error">*</span></span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Obligatoire pour scellement SHA-256</span>
+</label>
+<textarea class="w-full p-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" id="adminDecisionReason" placeholder="Ex: NINEA 009842104 vérifié auprès du Greffe du Tribunal de Commerce de Dakar. Identité du gérant Cheikh Tidiane Diop concordante. Agrément accordé pour pièces de déconstruction." rows="2"></textarea>
+</div>
+<!-- Execution Actions -->
+<div class="flex flex-wrap items-center justify-end gap-space-sm pt-space-xs">
+<button class="h-12 px-space-lg rounded-xl bg-surface-container-lowest text-error hover:bg-error-container hover:text-on-error-container font-label-lg text-label-lg font-bold transition-all flex items-center gap-2" id="btnRejectKyc" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span>Refuser avec notification SMS</span>
+</button>
+<button class="h-12 px-space-xl rounded-xl bg-primary text-on-primary hover:bg-primary/90 font-label-lg text-label-lg font-black transition-all shadow-md flex items-center gap-2 active:scale-[0.99]" id="btnValidateKyc" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed-dim">verified</span>
+<span>Valider &amp; Agréer le Vendeur (ADMIN_SELLER_VALIDATED)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- General Seller Directory Table Section (§10.5) -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md p-space-xl">
+<!-- Table Header Bar & Filters -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">
+            Répertoire général des Vendeurs Difonssé
+          </h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Table complète des marchands de pièces détachées et casses agréées du Sénégal</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Search input -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" id="sellerSearchInput" placeholder="Filtrer vendeur, NINEA..." type="text"/>
+</div>
+<!-- Status Filter -->
+<select class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer shadow-sm" id="statusFilter">
+<option value="ALL">Tous les statuts (5)</option>
+<option value="VALID">Validés / Actifs (3)</option>
+<option value="PENDING">En attente KYC (1)</option>
+<option value="SUSPENDED">Suspendus (1)</option>
+</select>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md text-on-surface border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md rounded-l-lg">Vendeur &amp; Boutique</th>
+<th class="py-3 px-space-md">Gérant &amp; Contact</th>
+<th class="py-3 px-space-md">Type &amp; Quartier</th>
+<th class="py-3 px-space-md">NINEA / RCCM</th>
+<th class="py-3 px-space-md text-center">Pièces</th>
+<th class="py-3 px-space-md text-right">Volume Ventes</th>
+<th class="py-3 px-space-md text-center">Note Garage</th>
+<th class="py-3 px-space-md text-center">Statut KYC</th>
+<th class="py-3 px-space-md text-right rounded-r-lg">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm" id="sellersTableBody">
+<!-- Row 1: Auto Castors Express -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="VALID">
+<td class="py-space-md px-space-md font-bold text-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-bold text-on-surface">
+                    AC
+                  </div>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface">Auto Castors Express</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Membre depuis Jan 2025</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md font-bold text-on-surface">Amadou Ba</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">+221 77 654 32 10</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-semibold">Castors</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Boutique neuve &amp; adaptable</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-mono font-bold text-on-surface">004829102</span>
+<span class="block font-label-sm text-label-sm text-outline font-mono">SN-DKR-2022-A-1209</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-bold">18 en ligne</span>
+</td>
+<td class="py-space-md px-space-md text-right font-mono font-bold text-on-surface">
+                1 450 000 FCFA
+              </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">star</span> 4.9
+                </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  VALIDÉ ADMIN
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Consulter fiche">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Gérer agrément">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Dakar Pièces Pro -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="VALID">
+<td class="py-space-md px-space-md font-bold text-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-bold text-on-surface">
+                    DP
+                  </div>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface">Dakar Pièces Pro</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Membre depuis Fév 2025</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md font-bold text-on-surface">Babacar Ndiaye</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">+221 78 123 45 67</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-semibold">Grand Dakar</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Magasin grossiste freins/filtres</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-mono font-bold text-on-surface">003189201</span>
+<span class="block font-label-sm text-label-sm text-outline font-mono">SN-DKR-2021-B-4402</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-bold">24 en ligne</span>
+</td>
+<td class="py-space-md px-space-md text-right font-mono font-bold text-on-surface">
+                890 000 FCFA
+              </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">star</span> 4.8
+                </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  VALIDÉ ADMIN
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Consulter fiche">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Gérer agrément">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Casse Moderne Pikine (PENDING) -->
+<tr class="bg-secondary-fixed/30 hover:bg-secondary-fixed/50 transition-colors" data-status="PENDING">
+<td class="py-space-md px-space-md font-bold text-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold">
+                    CM
+                  </div>
+<div>
+<span class="block font-label-lg text-label-lg font-black text-on-surface">Casse Moderne Pikine</span>
+<span class="block font-label-sm text-label-sm text-on-secondary-fixed font-bold">Soumis le 25/10/2026</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md font-bold text-on-surface">Cheikh T. Diop</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">+221 77 345 67 89</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-semibold">Pikine Tally Boumack</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Casse &amp; déconstruction</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-mono font-bold text-on-surface">009842104</span>
+<span class="block font-label-sm text-label-sm text-outline font-mono">SN-DKR-2023-B-8941</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">3 brouillons</span>
+</td>
+<td class="py-space-md px-space-md text-right font-mono font-bold text-outline">
+                0 FCFA
+              </td>
+<td class="py-space-md px-space-md text-center text-outline">
+                N/A (Nouveau)
+              </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-extrabold shadow-sm animate-pulse">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                  EN ATTENTE KYC
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="h-8 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold hover:bg-primary/80 transition-colors" onclick="document.getElementById('kycPriorityCard').scrollIntoView({behavior: 'smooth'})">
+                  Examiner
+                </button>
+</td>
+</tr>
+<!-- Row 4: Colobane Moteurs & Boîtes -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-status="VALID">
+<td class="py-space-md px-space-md font-bold text-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-bold text-on-surface">
+                    CM
+                  </div>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface">Colobane Moteurs &amp; Boîtes</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Membre depuis Nov 2024</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md font-bold text-on-surface">Modou Fall</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">+221 70 890 12 34</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-semibold">Colobane Sud</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Moteurs occasion garantis</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-mono font-bold text-on-surface">001278341</span>
+<span class="block font-label-sm text-label-sm text-outline font-mono">SN-DKR-2020-A-0931</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-bold">12 en ligne</span>
+</td>
+<td class="py-space-md px-space-md text-right font-mono font-bold text-on-surface">
+                540 000 FCFA
+              </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">star</span> 4.6
+                </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  VALIDÉ ADMIN
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Consulter fiche">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors" title="Gérer agrément">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Électro Auto Fass -->
+<tr class="hover:bg-surface-container-low/60 transition-colors opacity-80" data-status="SUSPENDED">
+<td class="py-space-md px-space-md font-bold text-on-surface">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-error-container text-error flex items-center justify-center font-bold">
+                    EF
+                  </div>
+<div>
+<span class="block font-label-lg text-label-lg font-bold text-on-surface line-through">Électro Auto Fass</span>
+<span class="block font-label-sm text-label-sm text-error font-bold">Bloqué le 19/10/2026</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md font-bold text-on-surface">Ibrahima Sy</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant font-mono">+221 76 543 21 09</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-semibold">Fass Gueule Tapée</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Calculateurs &amp; BSI</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="block font-mono font-bold text-on-surface">005612349</span>
+<span class="block font-label-sm text-label-sm text-outline font-mono">SN-DKR-2022-A-5591</span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-bold">0 en ligne</span>
+</td>
+<td class="py-space-md px-space-md text-right font-mono font-bold text-outline">
+                0 FCFA
+              </td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded bg-error-container font-label-sm text-label-sm font-bold text-on-error-container">
+<span class="material-symbols-outlined text-[14px]">warning</span> 2.1
+                </span>
+</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  SUSPENDU (Litige)
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="h-8 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm font-bold transition-colors" title="Lever suspension">
+                    Réexaminer
+                  </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Table Metadata -->
+<div class="pt-space-md flex flex-wrap items-center justify-between gap-space-md font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span>Affichage de 1 à 5 sur 28 marchands répertoriés</span>
+<span>•</span>
+<span>Dakar Agglomération (Pikine, Colobane, Castors, Fass)</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="h-8 px-3 rounded-lg bg-surface-container text-on-surface disabled:opacity-50 font-bold" disabled="">Précédent</button>
+<button class="h-8 w-8 rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="h-8 w-8 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-bold">2</button>
+<button class="h-8 w-8 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-bold">3</button>
+<button class="h-8 px-3 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-bold">Suivant</button>
+</div>
+</div>
+</div>
+<!-- Regulatory Integrity & Compliance Footer Banner -->
+<div class="p-space-lg rounded-xl bg-surface-container-low text-on-surface flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<div class="space-y-0.5">
+<span class="block font-label-md text-label-md font-extrabold text-on-surface">Conformité Légale &amp; Traçabilité Anti-Recel</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            En application de la loi sénégalaise sur les transactions commerciales et les obligations de diligence OHADA, tout agrément accordé à un marchand engage la responsabilité de la plateforme Difonssé. Les décisions administratives font l'objet d'un scellement cryptographique immuable.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 font-mono text-outline font-label-sm text-label-sm">
+<span class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-bold">SEAL: 7f81a9420bc12...</span>
+</div>
+</div>
+</div>
+<!-- Document Inspection Modal Dialog (Overlay Level 3) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center p-space-md bg-inverse-surface/60 backdrop-blur-sm" id="kycModal">
+<div class="w-full max-w-xl rounded-xl bg-surface-container-lowest p-space-xl shadow-xl space-y-space-lg">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase font-extrabold tracking-wider">Visionneuse sécurisée Difonssé</span>
+<h3 class="font-headline-sm text-headline-sm font-black text-on-surface mt-0.5" id="modalDocTitle">Document KYC</h3>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface" onclick="closeKycModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-space-lg rounded-xl bg-surface-container-low space-y-space-md">
+<div class="h-44 rounded-lg bg-surface-container-lowest flex items-center justify-center text-center p-space-md">
+<div>
+<span class="material-symbols-outlined text-outline text-[48px]">verified</span>
+<p class="mt-2 font-body-sm text-body-sm text-on-surface-variant" id="modalDocDesc">Inspection des métadonnées du document administratif...</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">check_circle</span>
+            Signature numérique valide
+          </span>
+<span class="font-mono">Origine : Greffe Dakar</span>
+</div>
+</div>
+<div class="flex justify-end gap-space-sm">
+<button class="h-11 px-space-lg rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold hover:bg-surface-container-high" onclick="closeKycModal()" type="button">
+          Fermer l'aperçu
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript logic for validation simulation & feedback -->
+<script>
+    function inspectDocument(title, desc) {
+      const modal = document.getElementById('kycModal');
+      document.getElementById('modalDocTitle').innerText = title;
+      document.getElementById('modalDocDesc').innerText = desc;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeKycModal() {
+      const modal = document.getElementById('kycModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    document.getElementById('btnScrollToPending').addEventListener('click', function() {
+      document.getElementById('kycPriorityCard').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('btnExportKYC').addEventListener('click', function() {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Génération du CSV...</span>';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">check</span><span>Registre KYC Téléchargé</span>';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 3000);
+      }, 800);
+    });
+
+    document.getElementById('btnValidateKyc').addEventListener('click', function() {
+      const reason = document.getElementById('adminDecisionReason').value.trim();
+      if (!reason) {
+        alert('Veuillez renseigner le motif légal consigné au journal d\'activité (Obligation §6.2 & §10.8).');
+        document.getElementById('adminDecisionReason').focus();
+        return;
+      }
+
+      if (confirm('Confirmer l\'agrément du vendeur Casse Moderne Pikine et autoriser la publication de ses pièces détachées sur Difonssé ?')) {
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">sync</span><span>Scellement SHA-256 en cours...</span>';
+
+        setTimeout(() => {
+          btn.innerHTML = '<span class="material-symbols-outlined text-[20px] text-tertiary-fixed-dim">verified</span><span>Vendeur Agréé avec succès !</span>';
+          btn.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+          
+          const priorityCard = document.getElementById('kycPriorityCard');
+          priorityCard.classList.add('opacity-90');
+          
+          const alertBadge = document.querySelector('span.bg-error-container');
+          if (alertBadge) {
+            alertBadge.innerHTML = '<span class="material-symbols-outlined text-[14px]">check</span> Tous dossiers validés';
+            alertBadge.classList.remove('bg-error-container', 'text-on-error-container');
+            alertBadge.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+          }
+        }, 1200);
+      }
+    });
+
+    document.getElementById('btnRejectKyc').addEventListener('click', function() {
+      const reason = document.getElementById('adminDecisionReason').value.trim();
+      if (!reason) {
+        alert('Un motif légal de rejet est strictement obligatoire pour informer le vendeur par SMS (§10.5).');
+        document.getElementById('adminDecisionReason').focus();
+        return;
+      }
+      alert('Dossier rejeté. Un SMS de demande de complément a été envoyé au +221 77 345 67 89. Décision inscrite dans le journal d\'audit.');
+    });
+
+    // Client-side search and filtering
+    const searchInput = document.getElementById('sellerSearchInput');
+    const statusSelect = document.getElementById('statusFilter');
+    const tableRows = document.querySelectorAll('#sellersTableBody tr');
+
+    function filterTable() {
+      const query = searchInput.value.toLowerCase();
+      const status = statusSelect.value;
+
+      tableRows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const matchesQuery = text.includes(query);
+        const matchesStatus = (status === 'ALL' || rowStatus === status);
+
+        if (matchesQuery && matchesStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+    statusSelect.addEventListener('change', filterTable);
+  </script>
+</div></main></div></body></html>

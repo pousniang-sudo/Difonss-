@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision &amp; Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a aria-current="page" class="flex items-center justify-between px-space-md py-2.5 rounded-lg transition-all bg-primary-container text-on-primary font-bold shadow-sm" data-path="tableau-de-bord" href="#"><span class="font-label-lg text-label-lg">Tableau de bord</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><span class="font-label-lg text-label-lg">Journal d'activité</span><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><span class="font-label-lg text-label-lg">Séquestre &amp; Finances</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><span class="font-label-lg text-label-lg">Connexions &amp; Audit</span></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><span class="font-label-lg text-label-lg">Vendeurs &amp; KYC</span><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><span class="font-label-lg text-label-lg">Acheteurs</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogue-pieces" href="#"><span class="font-label-lg text-label-lg">Catalogue Pièces</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><span class="font-label-lg text-label-lg">Commandes</span></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><span class="font-label-lg text-label-lg">Catégories &amp; Commissions</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><span class="font-label-lg text-label-lg">Paramètres système</span></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale catalogue, référence OEM, pièce ou vendeur..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg space-y-space-lg max-w-[1520px] mx-auto w-full">
+<!-- 1. En-tête de page & Contexte opérationnel -->
+<section class="flex flex-col xl:flex-row xl:items-end justify-between gap-space-md pb-space-xs">
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Plateforme Difonssé V1</span>
+<span class="text-outline-variant font-label-sm">/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision</span>
+<span class="text-outline-variant font-label-sm">/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-extrabold bg-surface-container-high px-2 py-0.5 rounded">Vue d'ensemble</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-black">
+          Tableau de bord général <span class="text-on-surface-variant font-light">— Synthèse &amp; Supervision Opérationnelle</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">
+          Surveillance en direct des flux séquestre, commandes, intégrité catalogue, agréments vendeurs et litiges de la marketplace automobile de Dakar.
+        </p>
+<!-- Context Badges -->
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[15px]">shield</span>
+            Mode Démo — Aucun argent réel (Simulated Dakar Escrow)
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold shadow-sm">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+            Séquestre Intègre 100%
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container">database</span>
+            PostgreSQL Synchronisé
+          </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">public</span>
+            Dakar GMT
+          </span>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="h-11 px-4 rounded-lg bg-surface-container-lowest text-on-surface font-label-lg text-label-lg font-bold shadow-sm hover:bg-surface-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exporter rapport (CSV/PDF)</span>
+</button>
+<button class="h-11 px-4 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-sm hover:bg-primary-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Audit système &amp; SHA-256</span>
+</button>
+</div>
+</section>
+<!-- 2. Barre d'Alertes Prioritaires & Actions Requises -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Alerte 1: Litige Urgent -->
+<a class="p-4 rounded-xl bg-error-container text-on-error-container shadow-sm hover:shadow-md transition-all flex items-start gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-lg bg-error text-on-error flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold text-error">Priorité Haute</span>
+<span class="font-label-sm text-label-sm bg-error/10 text-error px-1.5 py-0.5 rounded font-bold">Séquestre bloqué</span>
+</div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-error-container truncate mt-0.5">1 Litige séquestre à arbitrer</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            DIF-2026-000089 · Alternateur Peugeot 406 (45 000 FCFA) · Casse Moderne Pikine vs Cheikh T.
+          </p>
+<div class="mt-2 inline-flex items-center gap-1 font-label-sm text-label-sm font-bold text-error group-hover:underline">
+<span>Résoudre le litige</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Alerte 2: KYC en attente -->
+<a class="p-4 rounded-xl bg-secondary-fixed text-on-secondary-fixed shadow-sm hover:shadow-md transition-all flex items-start gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">badge</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold text-on-secondary-container">Agrément Vendeur</span>
+<span class="font-label-sm text-label-sm bg-secondary-container/30 px-1.5 py-0.5 rounded font-bold">Action sous 24h</span>
+</div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-secondary-fixed truncate mt-0.5">1 Dossier KYC en attente</h3>
+<p class="font-body-sm text-body-sm text-on-secondary-fixed-variant line-clamp-2 mt-0.5">
+            Casse Moderne Pikine · NINEA 009842104 · 3 pièces bloquées au stock brouillon.
+          </p>
+<div class="mt-2 inline-flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-secondary-container group-hover:underline">
+<span>Vérifier les pièces d'identité</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Alerte 3: Modération catalogue -->
+<a class="p-4 rounded-xl bg-surface-container-high text-on-surface shadow-sm hover:shadow-md transition-all flex items-start gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">rule</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold text-on-surface-variant">Conformité TecDoc</span>
+<span class="font-label-sm text-label-sm bg-surface-variant text-on-surface-variant px-1.5 py-0.5 rounded font-bold">Délai &lt; 4h</span>
+</div>
+<h3 class="font-label-lg text-label-lg font-bold text-on-surface truncate mt-0.5">6 Références OEM à valider</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">
+            Vérification compatibilité Hilux, Mercedes W204 et Avensis soumises ce matin.
+          </p>
+<div class="mt-2 inline-flex items-center gap-1 font-label-sm text-label-sm font-bold text-primary group-hover:underline">
+<span>Ouvrir la file de modération</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+</a>
+</section>
+<!-- 3. KPIs Consolidés Principaux -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- KPI 1 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-outline">Séquestre 30 jours</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">+18.4%</span>
+</div>
+<div class="font-price-display text-price-display text-on-surface font-black tracking-tight">14 850 000 <span class="font-label-md text-label-md text-outline">FCFA</span></div>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low -mx-5 -mb-5 px-5 py-3 rounded-b-xl">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Cantonné en cours :</span>
+<span class="font-bold text-on-surface">2 485 000 FCFA</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">156 commandes actives</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-outline">Commissions Difonssé</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">8.75% moy.</span>
+</div>
+<div class="font-price-display text-price-display text-on-surface font-black tracking-tight">1 124 000 <span class="font-label-md text-label-md text-outline">FCFA</span></div>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low -mx-5 -mb-5 px-5 py-3 rounded-b-xl">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">account_balance</span>
+<span class="font-bold text-on-surface">100% audité CBAO UEMOA</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Compte cantonné séquestre</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-outline">Catalogue Pièces</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">+8%</span>
+</div>
+<div class="font-price-display text-price-display text-on-surface font-black tracking-tight">1 842 <span class="font-label-md text-label-md text-outline">pièces</span></div>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low -mx-5 -mb-5 px-5 py-3 rounded-b-xl">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Homologation OEM :</span>
+<span class="font-bold text-on-tertiary-container">94.8%</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">1 290 certifiées TecDoc Dakar</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-outline">Écosystème Actif</span>
+<span class="material-symbols-outlined text-outline text-[18px]">group</span>
+</div>
+<div class="font-price-display text-price-display text-on-surface font-black tracking-tight">28 <span class="font-label-md text-label-md text-outline">vendeurs</span></div>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low -mx-5 -mb-5 px-5 py-3 rounded-b-xl">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>342 acheteurs inscrits</span>
+<span class="font-bold text-on-surface">418 autos</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">24 validés · 1 KYC · 3 suspendus</span>
+</div>
+</div>
+<!-- KPI 5 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-outline">Qualité Opérationnelle</span>
+<span class="inline-flex items-center gap-1 text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+              98.4%
+            </span>
+</div>
+<div class="font-price-display text-price-display text-on-surface font-black tracking-tight">48 h <span class="font-label-md text-label-md text-outline">essai garage</span></div>
+</div>
+<div class="mt-4 pt-3 bg-surface-container-low -mx-5 -mb-5 px-5 py-3 rounded-b-xl">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>Taux de litiges :</span>
+<span class="font-bold text-on-surface">1.8% (maîtrisé)</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Arbitrage Dakar garanti sous 4h</span>
+</div>
+</div>
+</section>
+<!-- 4. Disposition centrale en 2 colonnes asymétriques -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- COLONNE GAUCHE (~65% / 8 cols) -->
+<div class="lg:col-span-8 space-y-space-lg min-w-0">
+<!-- Module A : Activité Commandes & Flux Séquestre Récents -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Flux Séquestre &amp; Commandes Récentes</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dernières transactions supervisées avec statut des fonds consignés</p>
+</div>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-primary hover:underline" href="#">
+<span>Voir les 156 commandes</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+<!-- Table des commandes -->
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 font-bold">Réf &amp; Horodatage</th>
+<th class="py-3 px-4 font-bold">Pièce &amp; Véhicule</th>
+<th class="py-3 px-4 font-bold">Vendeur Agréé</th>
+<th class="py-3 px-4 font-bold text-right">Montant Séquestré</th>
+<th class="py-3 px-4 font-bold text-right">Statut Escrow</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm divide-y divide-surface-container">
+<!-- Ligne 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4 font-label-md text-label-md font-bold text-on-surface">
+                    DIF-2026-000123
+                    <span class="block font-body-sm text-body-sm text-outline font-normal">Aujourd'hui · 11:20</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-label-md text-label-md font-bold text-on-surface block">Plaquettes Brembo Avensis</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container bg-tertiary-container/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">check_circle</span> OEM 04465-05240
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface">
+<span class="font-label-md text-label-md font-semibold block">Auto Castors Express</span>
+<span class="text-outline text-body-sm">Castors, Dakar</span>
+</td>
+<td class="py-3.5 px-4 text-right font-price-display text-[16px] font-black text-on-surface">
+                    30 500 <span class="font-label-sm text-label-sm text-outline">FCFA</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+                      Test garage 48h (Bloqué)
+                    </span>
+</td>
+</tr>
+<!-- Ligne 2 : LITIGE -->
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors">
+<td class="py-3.5 px-4 font-label-md text-label-md font-bold text-error">
+                    DIF-2026-000089
+                    <span class="block font-body-sm text-body-sm text-error/80 font-normal">Hier · 09:20</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-label-md text-label-md font-bold text-error block">Alternateur Peugeot 406</span>
+<span class="font-label-sm text-label-sm text-error bg-error/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span> Litige poulie non conforme
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface">
+<span class="font-label-md text-label-md font-semibold block">Casse Moderne Pikine</span>
+<span class="text-outline text-body-sm">Pikine Icotaf</span>
+</td>
+<td class="py-3.5 px-4 text-right font-price-display text-[16px] font-black text-error">
+                    45 000 <span class="font-label-sm text-label-sm text-error/80">FCFA</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-error text-on-error font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                      En litige (Gelé)
+                    </span>
+</td>
+</tr>
+<!-- Ligne 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4 font-label-md text-label-md font-bold text-on-surface">
+                    DIF-2026-000124
+                    <span class="block font-body-sm text-body-sm text-outline font-normal">Aujourd'hui · 10:05</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-label-md text-label-md font-bold text-on-surface block">Kit Embrayage Hilux D4D</span>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container px-2 py-0.5 rounded-full inline-block">AISIN OEM-TY-18</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface">
+<span class="font-label-md text-label-md font-semibold block">Colobane Pièces</span>
+<span class="text-outline text-body-sm">Rond-Point Colobane</span>
+</td>
+<td class="py-3.5 px-4 text-right font-price-display text-[16px] font-black text-on-surface">
+                    115 000 <span class="font-label-sm text-label-sm text-outline">FCFA</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span>
+                      Fourgonnette en cours
+                    </span>
+</td>
+</tr>
+<!-- Ligne 4 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4 font-label-md text-label-md font-bold text-on-surface">
+                    DIF-2026-000125
+                    <span class="block font-body-sm text-body-sm text-outline font-normal">Aujourd'hui · 09:40</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-label-md text-label-md font-bold text-on-surface block">Filtre Huile &amp; Air Mercedes W204</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container bg-tertiary-container/10 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">verified</span> Mann-Filter
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-on-surface">
+<span class="font-label-md text-label-md font-semibold block">Magasin Central Étoile</span>
+<span class="text-outline text-body-sm">Vdn Extension</span>
+</td>
+<td class="py-3.5 px-4 text-right font-price-display text-[16px] font-black text-on-surface">
+                    18 000 <span class="font-label-sm text-label-sm text-outline">FCFA</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed-dim text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+                      Payée / Préparation
+                    </span>
+</td>
+</tr>
+<!-- Ligne 5 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-4 font-label-md text-label-md font-bold text-on-surface">
+                    DIF-2026-000120
+                    <span class="block font-body-sm text-body-sm text-outline font-normal">Hier · 18:30</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="font-label-md text-label-md font-bold text-on-surface block">Optique Phare Droit Swift</span>
+<span class="font-label-sm text-label-sm text-outline bg-surface-container px-2 py-0.5 rounded-full inline-block">Suzuki Genuine</span>
+</td>
+<td class="py-3.5 px-4 text-on-surface">
+<span class="font-label-md text-label-md font-semibold block">Électro Auto Dakar</span>
+<span class="text-outline text-body-sm">Médina Rue 22</span>
+</td>
+<td class="py-3.5 px-4 text-right font-price-display text-[16px] font-black text-on-surface">
+                    42 000 <span class="font-label-sm text-label-sm text-outline">FCFA</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                      Clôturée (Libéré)
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Escrow Trust Micro-Banner -->
+<div class="p-3 bg-surface-container flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">lock_clock</span>
+<span>Délai légal de rétractation et test mécanicien : <strong>48 heures ouvrées</strong> avant virement bancaire marchand.</span>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-primary">Conforme OHADA</span>
+</div>
+</section>
+<!-- Module B : Répartition des Ventes & Commissions par Catégorie -->
+<section class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Répartition des Ventes &amp; Commissions par Catégorie</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Données consolidées sur 30 jours calendaires · 6 Catégories réglementaires</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-3 h-3 rounded bg-primary"></span> Volume Ventes
+              <span class="w-3 h-3 rounded bg-secondary-container ml-2"></span> Commission
+            </div>
+</div>
+<!-- Grille de Barres Horizontales -->
+<div class="space-y-4 pt-1">
+<!-- 1. Moteur & Distribution -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">settings</span>
+                  Moteur &amp; Distribution
+                  <span class="font-normal text-outline text-body-sm">(348 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">5 800 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 10.0% (580 000 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 39%"></div>
+<div class="h-full bg-secondary-container" style="width: 4%"></div>
+</div>
+</div>
+<!-- 2. Freinage & Sécurité -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">disc_full</span>
+                  Freinage &amp; Sécurité
+                  <span class="font-normal text-outline text-body-sm">(412 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">4 120 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 8.0% (329 600 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 28%"></div>
+<div class="h-full bg-secondary-container" style="width: 3%"></div>
+</div>
+</div>
+<!-- 3. Transmission & Embrayage -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">sync_alt</span>
+                  Transmission &amp; Embrayage
+                  <span class="font-normal text-outline text-body-sm">(196 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">3 210 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 10.0% (321 000 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 22%"></div>
+<div class="h-full bg-secondary-container" style="width: 2.5%"></div>
+</div>
+</div>
+<!-- 4. Électricité & Alternateurs -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">bolt</span>
+                  Électricité &amp; Alternateurs
+                  <span class="font-normal text-outline text-body-sm">(285 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">2 450 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 9.0% (220 500 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 17%"></div>
+<div class="h-full bg-secondary-container" style="width: 2%"></div>
+</div>
+</div>
+<!-- 5. Suspension & Direction -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">swap_driving_apps_wheel</span>
+                  Suspension &amp; Direction
+                  <span class="font-normal text-outline text-body-sm">(211 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">1 650 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 8.5% (140 250 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 12%"></div>
+<div class="h-full bg-secondary-container" style="width: 1.5%"></div>
+</div>
+</div>
+<!-- 6. Filtration & Vidange -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">filter_alt</span>
+                  Filtration &amp; Vidange
+                  <span class="font-normal text-outline text-body-sm">(390 pièces vendues)</span>
+</span>
+<span class="text-on-surface font-black">890 000 FCFA <span class="font-label-sm text-label-sm text-secondary font-bold">· Com. 7.0% (62 300 FCFA)</span></span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container overflow-hidden flex">
+<div class="h-full bg-primary rounded-l-full" style="width: 6%"></div>
+<div class="h-full bg-secondary-container" style="width: 1%"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- COLONNE DROITE (~35% / 4 cols) -->
+<div class="lg:col-span-4 space-y-space-lg">
+<!-- Module C : Journal d'Audit Immuable Temps Réel -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-4 bg-primary-container text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed text-[20px]">enhanced_encryption</span>
+<div>
+<h2 class="font-label-lg text-label-lg font-bold">Journal d'Audit Immuable</h2>
+<span class="block font-label-sm text-label-sm text-on-primary-container">Horodatage cryptographique SHA-256</span>
+</div>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed animate-ping"></span>
+</div>
+<!-- Liste des événements d'audit -->
+<div class="p-4 space-y-3 font-body-sm text-body-sm">
+<!-- Event 1 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary uppercase bg-surface-container-high px-1.5 py-0.5 rounded">CONFIG_COMMISSION_UPDATED</span>
+<span class="font-label-sm text-label-sm text-outline">14:15 GMT</span>
+</div>
+<p class="text-on-surface font-medium">Ajustement barème Freinage à 8.5% consigné par Super Admin O. Niang</p>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span class="font-mono text-[10px]">sha256: 4f98...91a2</span>
+<span class="text-on-tertiary-container font-semibold">Scellé</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-tertiary-container uppercase bg-tertiary-container/10 px-1.5 py-0.5 rounded">ORDER_DELIVERED_OTP</span>
+<span class="font-label-sm text-label-sm text-outline">11:20 GMT</span>
+</div>
+<p class="text-on-surface font-medium">Code OTP validé par coursier Tiak-Tiak pour DIF-2026-000123</p>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span class="font-mono text-[10px]">sha256: a12c...887f</span>
+<span class="text-on-tertiary-container font-semibold">Scellé</span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="p-3 rounded-lg bg-error-container/30 hover:bg-error-container/40 transition-colors space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-error uppercase bg-error/10 px-1.5 py-0.5 rounded">DISPUTE_OPENED</span>
+<span class="font-label-sm text-label-sm text-outline">09:20 GMT</span>
+</div>
+<p class="text-on-error-container font-medium">Réclamation acheteur DIF-2026-000089 : incompatibilité poulie alternateur 406</p>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span class="font-mono text-[10px]">sha256: d881...7c04</span>
+<span class="text-error font-semibold">Séquestre Gelé</span>
+</div>
+</div>
+<!-- Event 4 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-secondary uppercase bg-secondary-fixed px-1.5 py-0.5 rounded">KYC_DOC_UPLOADED</span>
+<span class="font-label-sm text-label-sm text-outline">08:30 GMT</span>
+</div>
+<p class="text-on-surface font-medium">Nouveau NINEA soumis par Casse Moderne Pikine (En cours d'audit)</p>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span class="font-mono text-[10px]">sha256: b472...09e1</span>
+<span class="text-outline font-semibold">À vérifier</span>
+</div>
+</div>
+<!-- Event 5 -->
+<div class="p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-primary uppercase bg-surface-container-high px-1.5 py-0.5 rounded">PART_APPROVED</span>
+<span class="font-label-sm text-label-sm text-outline">07:45 GMT</span>
+</div>
+<p class="text-on-surface font-medium">Plaquettes Brembo OEM 04465-05240 validées et publiées au catalogue</p>
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span class="font-mono text-[10px]">sha256: 3e99...11cd</span>
+<span class="text-on-tertiary-container font-semibold">Scellé</span>
+</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-low text-center">
+<a class="font-label-sm text-label-sm font-bold text-primary hover:underline" href="#">
+              Accéder au registre complet des signatures (4 812 logs) →
+            </a>
+</div>
+</section>
+<!-- Module D : Santé du Système & Connecteurs -->
+<section class="p-space-lg bg-surface-container-lowest rounded-xl shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">dns</span>
+              Santé Système &amp; Connecteurs
+            </h2>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">100% OK</span>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm">
+<!-- PostgreSQL -->
+<div class="flex items-center justify-between p-2.5 rounded bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span>
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface block leading-tight">PostgreSQL Primaire</span>
+<span class="text-outline text-body-sm">Cluster Dakar-Sénégal</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">24ms latence</span>
+</div>
+<!-- Passerelle Mobile Money -->
+<div class="flex items-center justify-between p-2.5 rounded bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span>
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface block leading-tight">Passerelles Mobile Money</span>
+<span class="text-outline text-body-sm">Wave &amp; Orange Money Sénégal</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-tertiary-container">Webhooks Actifs</span>
+</div>
+<!-- Taux de Disponibilité -->
+<div class="flex items-center justify-between p-2.5 rounded bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span>
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface block leading-tight">Disponibilité API Gateway</span>
+<span class="text-outline text-body-sm">SLA mensuel garanti 99.9%</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">99.98%</span>
+</div>
+<!-- Séquestre OHADA & CBAO -->
+<div class="flex items-center justify-between p-2.5 rounded bg-surface-container-low">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span>
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface block leading-tight">Intégrité Séquestre Escrow</span>
+<span class="text-outline text-body-sm">Rapprochement bancaire CBAO</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-tertiary-container">0 anomalie</span>
+</div>
+</div>
+<!-- Quick Test Button -->
+<button class="w-full py-2.5 px-3 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-bold hover:bg-surface-container-high transition-all flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Lancer un test de ping global multi-zones</span>
+</button>
+</section>
+</div>
+</div>
+<!-- 5. Pied de page légal et de conformité -->
+<footer class="mt-space-lg pt-space-md pb-space-lg bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-3">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3 text-on-surface-variant font-body-sm text-body-sm">
+<div>
+<span class="font-label-md text-label-md font-bold text-on-surface block">
+            Plateforme Difonssé V1 · Agrément Ministère du Commerce &amp; des Télécommunications du Sénégal
+          </span>
+<span class="text-outline">
+            Transactions régies par le Code des Obligations Civiles et Commerciales (COCC sénégalais) et l'Acte Uniforme OHADA · Conformité Commission de Protection des Données Personnelles (CDP Sénégal n°2008-12).
+          </span>
+</div>
+<div class="shrink-0 flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Audit Séquestre Conforme 2026</span>
+</div>
+</div>
+<div class="p-2.5 bg-surface-container-low rounded font-mono text-[11px] text-outline flex flex-col sm:flex-row sm:items-center justify-between gap-2 overflow-x-auto">
+<div class="flex items-center gap-2">
+<span class="font-bold text-primary">SEAL_ROOT_HASH:</span>
+<span>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span>Signé par : Ousmane Niang (Super Admin)</span>
+<span class="text-on-tertiary-container font-bold">● VÉRIFIÉ ENCADRÉ</span>
+</div>
+</div>
+</footer>
+</div>
+</div></main></div></body></html>

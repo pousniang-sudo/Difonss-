@@ -1,0 +1,20 @@
+﻿[
+  {
+    "id": "DIF-2026-000089",
+    "orderId": "CMD-8021",
+    "partName": "Alternateur 150A Original Valéo",
+    "buyerName": "Amadou Diallo (Garage Castors)",
+    "buyerPhone": "+221 77 450 12 34",
+    "vendorName": "Échoppe Modou Pikine",
+    "vendorPhone": "+221 77 890 45 12",
+    "amount": 49500,
+    "provider": "Wave Sénégal",
+    "reason": "Incompatibilité entraxe de fixation moteur (Hilux 2KD requiert 27060-0L040, reçu 27060-0L020)",
+    "buyerStatement": "L'alternateur reçu porte la référence 27060-0L020 alors que le Hilux 2014 requiert 27060-0L040. Impossible de le visser sur le support moteur. Décalage mesuré de 12mm. Photo du montage fournie.",
+    "vendorStatement": "La pièce est fonctionnelle et testée au banc. Le coursier Tiak-Tiak peut la reprendre demain matin à l'atelier si le garage ne l'a pas abîmée. D'accord pour l'annulation après retour.",
+    "status": "OPEN",
+    "statusLabel": "Litige Ouvert · Fonds Gelés",
+    "actionRequired": "Arbitrage Superviseur requis (Remboursement ou Déblocage)",
+    "createdAt": "2026-11-12T15:20:00Z"
+  }
+]

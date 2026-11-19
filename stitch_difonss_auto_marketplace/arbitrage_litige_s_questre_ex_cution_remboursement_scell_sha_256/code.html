@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision &amp; Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tableau-de-bord" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-lg text-label-lg">Tableau de bord</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-lg text-label-lg">Journal d'activité</span></div><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-label-lg text-label-lg">Séquestre &amp; Finances</span></div><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Connexions &amp; Audit</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">store</span><span class="font-label-lg text-label-lg">Vendeurs &amp; KYC</span></div><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Acheteurs</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogue-pieces" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">precision_manufacturing</span><span class="font-label-lg text-label-lg">Catalogue Pièces</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-label-lg text-label-lg">Commandes</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Catégories &amp; Commissions</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Paramètres système</span></div></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale audit (N° DIF-2026-..., acteur, IP, tel Dakar)..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-space-xl py-space-lg space-y-space-lg">
+<!-- Fil d'Ariane & Statut d'Alerte Conservatoire -->
+<div class="space-y-space-sm">
+<nav class="flex items-center gap-2 text-outline font-label-md text-label-md">
+<span class="hover:text-on-surface cursor-pointer">Plateforme Difonssé v1</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-on-surface cursor-pointer">Séquestre &amp; Finances</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-on-surface cursor-pointer">Litiges &amp; Arbitrage</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">DIF-2026-000089</span>
+</nav>
+<!-- Titre d'arbitrage & Badge Forensic -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-extrabold uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span>LITIGE CLÔTURÉ &amp; AUDITÉ (CODE OHADA §9.4 / §10.8)</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold font-mono">CODE PROT-OHADA §9.4</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Arbitrage Litige &amp; Inspection Séquestre — DIF-2026-000089</h1>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="h-10 px-space-md rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span>Journal Brut PG</span>
+</button>
+<button class="h-10 px-space-md rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>Exporter PV d'Arbitrage</span>
+</button>
+</div>
+</div>
+<!-- Bandeau Gel Conservatoire Pinned -->
+<div class="bg-primary-container text-on-primary rounded-xl p-space-md shadow-md flex flex-wrap items-center justify-between gap-space-md border-2 border-tertiary-fixed"><div class="flex items-center gap-space-md min-w-0"><div class="w-11 h-11 rounded-lg bg-tertiary-container flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[26px] text-tertiary-fixed">task_alt</span></div><div class="min-w-0"><div class="flex items-center gap-2"><span class="font-label-lg text-label-lg font-bold text-tertiary-fixed uppercase tracking-wider">ARBITRAGE EXÉCUTÉ &amp; SCELLÉ — DÉCAISSEMENT SÉQUESTRE EFFECTUÉ</span><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-extrabold">SUCCÈS 200 OK</span></div><p class="font-body-md text-body-md text-surface-container-highest/90">43 000 FCFA remboursés instantanément à Cheikh T. (Wave SN) · 2 000 FCFA imputés au Vendeur pour retour Tiak-Tiak · Solde séquestre : 0 FCFA (Cantonnement clos).</p></div></div><div class="text-right shrink-0"><span class="block font-label-sm text-label-sm uppercase tracking-wider text-tertiary-fixed font-bold">Solde Séquestre Résiduel</span><span class="font-price-display text-price-display text-surface-container-lowest font-black tracking-tight">0 FCFA</span><span class="block font-label-sm text-label-sm text-surface-container-highest/60">Cantonnement soldé CBAO</span></div></div>
+</div>
+<!-- Fiche d'identité & Parties Prenantes (Grid Bento) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Détail Composant Pièce & Flux Financier -->
+<div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Pièce Incriminée</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-bold">OEM Certifié</span>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-outline font-mono">RÉF OEM : 5705.4C</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-black">Alternateur Valeo 90A — DW10ATED</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Prévu pour Peugeot 406 Berline Phase 2 (2.0 HDi 110ch turbo)</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Valeur unitaire négociée :</span>
+<span class="font-bold text-on-surface">45 000 FCFA</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Commission Difonssé (9%) :</span>
+<span class="font-bold text-secondary font-mono">-4 050 FCFA</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface-variant">Logistique Tiak-Tiak Urbain :</span>
+<span class="font-bold text-on-surface-variant font-mono">-2 000 FCFA</span>
+</div>
+<div class="pt-2 flex items-center justify-between font-label-lg text-label-lg">
+<span class="font-bold text-on-surface">Net Marchand Bloqué :</span>
+<span class="font-black text-on-surface font-price-display">38 950 FCFA</span>
+</div>
+</div>
+<div class="rounded-lg p-space-sm bg-error-container text-on-error-container space-y-1">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold uppercase">
+<span class="material-symbols-outlined text-[16px]">report_problem</span>
+<span>Motif Déclaré Litige</span>
+</div>
+<p class="font-body-sm text-body-sm font-semibold">
+            « Poulie de débrayage voilée / non conforme — Bruit strident et refus de montage catégorique par l'atelier Keur Massar. »
+          </p>
+</div>
+</div>
+<!-- Vendeur & Acheteur Profils -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Fiche Vendeur -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between space-y-space-md">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase tracking-wide">Partie Venderesse</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>KYC Vérifié
+              </span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Casse Moderne Pikine</h3>
+<p class="font-body-sm text-body-sm text-outline">NINEA : 009842104 · Icotaf Dakar · Zone Artisanale</p>
+</div>
+<div class="grid grid-cols-2 gap-space-xs pt-1">
+<div class="p-space-xs rounded bg-surface-container-low">
+<span class="block font-label-sm text-label-sm text-outline">Score Marchand</span>
+<span class="font-headline-sm text-headline-sm font-black text-on-surface">88%</span>
+</div>
+<div class="p-space-xs rounded bg-surface-container-low">
+<span class="block font-label-sm text-label-sm text-outline">Volume Plateforme</span>
+<span class="font-headline-sm text-headline-sm font-black text-on-surface">14 ventes</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<span class="font-label-sm text-label-sm text-outline block">Historique Litiges &amp; Pénalités</span>
+<p class="font-body-sm text-body-sm text-on-surface">1er incident de compatibilité catalogage. Aucun antécédent de fraude mécanique répertorié sur Dakar.</p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between text-outline font-label-sm text-label-sm">
+<span>Contact : +221 70 ••• 12 88</span>
+<span class="text-on-surface font-bold">Gérant : Moussa D.</span>
+</div>
+</div>
+<!-- Fiche Acheteur & Véhicule -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between space-y-space-md">
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold uppercase tracking-wide">Partie Acheteuse</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">Acheteur Régulier</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Cheikh T.</h3>
+<p class="font-body-sm text-body-sm text-outline">+221 77 ••• 55 90 · Résidence Mermoz Dakar</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Véhicule Enregistré</span>
+<span class="font-label-sm text-label-sm font-mono font-bold text-on-surface bg-surface-container px-1.5 py-0.5 rounded">DK-8412-BB</span>
+</div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Peugeot 406 Phase 2 (Millésime 2002)</p>
+<p class="font-body-sm text-body-sm text-outline">Moteur DW10ATED 2.0 HDi 8 soupapes (Turbo Diesel injection Common Rail)</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<span class="font-label-sm text-label-sm text-outline block">Garage Référent d'Installation</span>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Atelier Mécanique Diop &amp; Frères (Keur Massar)</p>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between text-outline font-label-sm text-label-sm">
+<span>Règlement : Wave Dakar P2M</span>
+<span class="text-tertiary-container font-bold">Séquestre Consigné</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chronologie des Faits & Audit Cryptographique (Timeline Forensic) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-[22px] text-primary">fingerprint</span>
+<span>Chronologie Forensic &amp; Empreintes Cryptographiques SHA-256</span>
+</h3>
+<p class="font-body-sm text-body-sm text-outline">Traçabilité immuable consignée sur PostgreSQL audit log sous le protocole de séquestre Difonssé</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded bg-surface-container text-on-surface font-mono">HORODATAGE DAKAR GMT</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-space-md pt-2">
+<!-- Etape 1 -->
+<div class="relative p-space-sm rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-center">1</span>
+<span class="font-label-sm text-label-sm text-outline">08 Nov 15:02</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm font-bold block text-on-surface">PAIEMENT_CONSIGNE</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Wave 45 000 FCFA cantonné sur CBAO</p>
+</div>
+<div class="pt-1 font-mono text-[10px] text-outline truncate" title="SHA-256: a8f2d0199e74c8b6e22f091c0">
+            Hash: a8f2...91c0
+          </div>
+</div>
+<!-- Etape 2 -->
+<div class="relative p-space-sm rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-center">2</span>
+<span class="font-label-sm text-label-sm text-outline">09 Nov 11:30</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm font-bold block text-on-surface">LIVRAISON_EFFECTUEE</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Colis remis au garage, OTP validé</p>
+</div>
+<div class="pt-1 font-mono text-[10px] text-outline truncate" title="SHA-256: b34de610998a44c9f1a0e881">
+            Hash: b34d...e881
+          </div>
+</div>
+<!-- Etape 3 -->
+<div class="relative p-space-sm rounded-lg bg-surface-container-low space-y-2">
+<div class="flex items-center justify-between">
+<span class="w-6 h-6 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-bold flex items-center justify-center">3</span>
+<span class="font-label-sm text-label-sm text-outline">10 Nov 14:15</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm font-bold block text-on-surface">RAPPORT_MECANICIEN</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Refus de montage, poulie 5 gorges incompatible</p>
+</div>
+<div class="pt-1 font-mono text-[10px] text-outline truncate" title="SHA-256: c590e88231fa76d8b99144fa">
+            Hash: c590...44fa
+          </div>
+</div>
+<!-- Etape 4 -->
+<div class="relative p-space-sm rounded-lg bg-error-container text-on-error-container space-y-2">
+<div class="flex items-center justify-between">
+<span class="w-6 h-6 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold flex items-center justify-center">4</span>
+<span class="font-label-sm text-label-sm text-on-error-container/70">10 Nov 14:20</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm font-bold block">SEQUESTRE_GELE</span>
+<p class="font-body-sm text-body-sm">Gel automatique 45 000 FCFA, notifications SMS</p>
+</div>
+<div class="pt-1 font-mono text-[10px] text-on-error-container truncate" title="SHA-256: d8819bc042a98f107c0411ee">
+            Hash: d881...7c04
+          </div>
+</div>
+<!-- Etape 5 -->
+<div class="relative p-space-sm rounded-lg bg-tertiary-container text-on-tertiary-container space-y-2 border-2 border-tertiary-fixed"><div class="flex items-center justify-between"><span class="w-6 h-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold flex items-center justify-center"><span class="material-symbols-outlined text-[14px]">check</span></span><span class="font-label-sm text-label-sm text-tertiary-fixed font-bold">Aujourd'hui 15:42 GMT</span></div><div><span class="font-label-sm text-label-sm font-bold block text-tertiary-fixed">5. ARBITRAGE EXÉCUTÉ</span><p class="font-body-sm text-body-sm text-surface-container-highest/90">Clôturé et scellé ce jour par Ousmane Niang (Super Admin). Bloc #1483.</p></div><div class="pt-1 font-mono text-[10px] text-tertiary-fixed truncate" title="SHA-256: 7f3b8909e1eacb33075d94bc669f0322ba100cde35a6bb9a42f561994119d9b4">Hash: 7f3b...d9b4 (Immuable)</div></div>
+</div>
+</div>
+<!-- Dossier de Preuves & Confrontation Contradictoire -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Colonne Acheteur & Garagiste Keur Massar -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface text-[20px]">engineering</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Rapport Garagiste Agréé &amp; Acheteur</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold">
+            #GAR-DKR-019
+          </span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Déclaration de l'Atelier Keur Massar</span>
+<span class="font-label-sm text-label-sm text-outline">Maître-Mécanicien Babacar D.</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed italic">
+            « Montage formellement refusé. La poulie d'alternateur livrée est une poulie fixe à 5 gorges (type EW7J4 essence). Or le moteur DW10ATED 2.0 HDi exige impérativement une poulie débrayable à 6 gorges. Monter cette pièce entraînerait la rupture nette de la courroie d'accessoire sous 200 km et un risque majeur pour le bloc moteur. »
+          </p>
+</div>
+<!-- Photos de Preuves -->
+<div class="space-y-space-xs">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Pièces à Conviction Fotografiques</span>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="rounded-lg overflow-hidden bg-surface-container flex flex-col space-y-1">
+<img class="w-full h-40 object-cover" data-alt="Close-up macro mechanical photograph of an incorrect automotive alternator showing a 5-groove fixed metal pulley with stamped reference markings in an auto repair shop in Dakar, workshop lighting, industrial grit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIJEl6ndwr7qwIRj8k7qARz__Q18LdAtGYVjCItSWJxOgXLcnrhZTbIK1lkIYyLcJJYkgacSJR9-wKhTy8B1kahOH82xcJP25lNFbKsvqR-iZg_pMP_jrR5QNinjkyhVRSE2x8hQ1fhx5wvnff_rXBDpA6zZ8qVL_J4we5-MqZvhBnkdniw0Ax07-MUuJrG6nONo6MNjf7vp0UDrBzTYPrHeYSmXgvS1wNgyQbMMQ9"/>
+<div class="p-space-xs">
+<span class="font-label-sm text-label-sm font-bold block text-error">Pièce reçue non conforme</span>
+<span class="font-body-sm text-body-sm text-outline">Poulie fixe 5 gorges (Ref 5705.4A)</span>
+</div>
+</div>
+<div class="rounded-lg overflow-hidden bg-surface-container flex flex-col space-y-1">
+<img class="w-full h-40 object-cover" data-alt="Mechanical photograph of an authentic dismounted Valeo car alternator with a 6-groove freewheel clutch pulley, automotive inspection bench, metallic textures, Dakar mechanic garage background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr-9x1TrNk7PLMhS3Id7230jdD_-nfYd2OMwwJOrbvgARpw2ksQGReumLCCu9bgCzE3Ysfc36KVeDlBFqJSDUBa0ggevdHsjyFWYgtyVwKlhP3ugfKrPWub-ijB7RyM5zhKw1MzaxR5BaBgAfsZSBR4rQOi2aCeVnQz1SN65jPc_CHcbNMAu0ZbRSjFgoSpirm4-ouif-hltNdcOsbcO_fX8hgTDD-gp9FIERJ8taO"/>
+<div class="p-space-xs">
+<span class="font-label-sm text-label-sm font-bold block text-on-surface">Pièce requise d'origine</span>
+<span class="font-body-sm text-body-sm text-outline">Poulie débrayable 6 gorges (5705.4C)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-high/60 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container">verified</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface">Garage Partenaire Certifié Difonssé</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Inspection physique sur site validée</span>
+</div>
+</div>
+<!-- Colonne Vendeur Casse Moderne Pikine -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface text-[20px]">store</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Réponse &amp; Éléments du Vendeur</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-bold">
+            Défense Marchand
+          </span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Argumentaire Casse Moderne Pikine</span>
+<span class="font-label-sm text-label-sm text-outline">Déposé le 11 Nov à 09:12 GMT</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            « L'alternateur a été démonté d'une 406 roulante sans problème de charge. L'acheteur a cliqué sur notre annonce sans indiquer lors de la commande s'il avait une version essence ou HDi. Pour nous, la pièce est fonctionnelle et testée au multimètre à 14.2V. Nous refusons de payer la livraison retour. »
+          </p>
+</div>
+<!-- Audit Technique du Catalogue Difonssé -->
+<div class="space-y-space-xs">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Contrôle d'Éligibilité Catalogue &amp; Charte Vendeur</span>
+<div class="p-space-md rounded-lg bg-surface-container space-y-space-sm">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface">Texte de l'Annonce Vendeur :</span>
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">Non Conforme</span>
+</div>
+<p class="font-body-sm text-body-sm font-mono bg-surface-container-lowest p-space-xs rounded text-on-surface">
+              "Alternateur Peugeot 406 toutes motorisations 1997-2004 — Testé OK"
+            </p>
+<div class="rounded p-space-xs bg-surface-variant text-on-surface-variant text-body-sm">
+<span class="font-bold block text-on-surface">Verdict Contrôle Système (§7.2) :</span>
+              Qualification abusive. Les motorisations DW10ATED (Diesel HDi) et EW7J4 (Essence) possèdent des poulies d'accessoires strictement incompatibles. Responsabilité contractuelle du marchand engagée pour fausse attribution universelle.
+            </div>
+</div>
+</div>
+<div class="rounded-lg p-space-sm bg-surface-container-low flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">Taux de résolution amiable marchand :</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">60% sous 24h</span>
+</div>
+</div>
+</div>
+<!-- Simulateur de Décision d'Arbitrage Interactive (§9.4 & §10.8) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Décision Juridique &amp; Financière</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">Règle d'équité Difonssé</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-black">Options d'Arbitrage &amp; Ventillation du Séquestre</h3>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md" id="arbitrage-options"><div class="relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container-lowest border-2 border-tertiary-fixed shadow-sm"><div class="space-y-space-sm"><div class="flex items-center justify-between"><span class="px-2.5 py-1 rounded-full bg-tertiary-container text-tertiary-fixed font-label-sm text-label-sm font-extrabold uppercase flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">lock</span>DÉCISION EXÉCUTÉE &amp; EN COURS D'ACHEMINEMENT</span><div class="w-5 h-5 rounded-full bg-tertiary-fixed flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-on-tertiary-fixed font-bold">check</span></div></div><div><span class="font-headline-sm text-headline-sm font-bold text-on-surface block">Option A : Remboursement Intégral &amp; Retour</span><p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Annulation de vente pour vice d'incompatibilité imputable au marchand Casse Moderne Pikine.</p></div><div class="space-y-1.5 pt-2 font-body-sm text-body-sm"><div class="flex justify-between"><span class="text-outline">Remboursement Acheteur :</span><span class="font-bold text-tertiary-container font-mono">43 000 FCFA (Wave exécuté)</span></div><div class="flex justify-between"><span class="text-outline">Frais Tiak-Tiak retour :</span><span class="font-bold text-error font-mono">2 000 FCFA (Débité Casse)</span></div><div class="flex justify-between"><span class="text-outline">Pénalité Vendeur :</span><span class="font-bold text-on-surface">Avertissement catalogage inscrit</span></div></div></div><div class="mt-4 pt-3 flex items-center justify-between border-t border-surface-container"><div class="flex items-center gap-1.5 text-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Exécutée via OHADA §10.8</span></div><span class="font-label-sm text-label-sm text-outline font-mono">Ordre #ARB-89A</span></div></div><div class="relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container opacity-60 select-none"><div class="space-y-space-sm"><div class="flex items-center justify-between"><span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-bold uppercase">Option rejetée par l'arbitrage</span><div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center"><span class="material-symbols-outlined text-[14px] text-outline">close</span></div></div><div><span class="font-headline-sm text-headline-sm font-bold text-outline block">Option B : Échange Express OEM Sous 24h</span><p class="font-body-sm text-body-sm text-outline mt-1">La Casse Moderne fournit la référence exacte 5705.4C avant libération des fonds.</p></div><div class="space-y-1.5 pt-2 font-body-sm text-body-sm"><div class="flex justify-between"><span class="text-outline">Maintien Séquestre :</span><span class="font-bold text-outline">Non retenu</span></div><div class="flex justify-between"><span class="text-outline">Course d'échange :</span><span class="font-bold text-outline">Annulée</span></div></div></div><div class="mt-4 pt-3 text-outline font-label-sm text-label-sm">Non applicable suite à la décision d'arbitrage</div></div><div class="relative flex flex-col justify-between p-space-md rounded-xl bg-surface-container opacity-60 select-none"><div class="space-y-space-sm"><div class="flex items-center justify-between"><span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-bold uppercase">Option rejetée par l'arbitrage</span><div class="w-5 h-5 rounded-full border-2 border-outline flex items-center justify-center"><span class="material-symbols-outlined text-[14px] text-outline">close</span></div></div><div><span class="font-headline-sm text-headline-sm font-bold text-outline block">Option C : Déblocage des Fonds au Marchand</span><p class="font-body-sm text-body-sm text-outline mt-1">Rejet de la contestation et clôture du litige sans indemnisation acheteur.</p></div><div class="space-y-1.5 pt-2 font-body-sm text-body-sm"><div class="flex justify-between"><span class="text-outline">Versement Marchand :</span><span class="font-bold text-outline">Rejeté (Incompatibilité avérée)</span></div></div></div><div class="mt-4 pt-3 text-outline font-label-sm text-label-sm">Rejetée formellement au vu des preuves atelier Keur Massar</div></div></div>
+</div>
+<!-- Scellement d'Audit SHA-256 et Consignation Immuable -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Protocole de Clôture &amp; Signature Admin</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-black">Consignation Légale &amp; Scellement d'Arbitrage</h3>
+</div>
+<div class="flex items-center gap-2 px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-mono">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container">enhanced_encryption</span>
+<span>SHA-256 PRE-CALCULATED HASH</span>
+</div>
+</div>
+<div class="space-y-space-sm">
+<label class="block font-label-md text-label-md font-bold text-on-surface" for="arbitrage_notes">
+          Motif Légal &amp; Justification Arbitrale Consignée (§10.8 Cahier des Charges)
+        </label>
+<textarea class="w-full p-space-md bg-surface rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:ring-1 focus:ring-primary shadow-sm leading-relaxed" id="arbitrage_notes" rows="3">Erreur de compatibilité confirmée par garage tiers agréé (poulie 5 gorges reçue vs 6 gorges requise pour moteur DW10ATED). Manquement à l'obligation de conformité catalogage vendeur (§7.2). Remboursement ordonné de 43 000 FCFA avec retour pièce aux frais du marchand Casse Moderne Pikine.</textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md p-space-md rounded-lg bg-surface-container-low">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Signataire Autorisé</span>
+<div class="flex items-center gap-space-sm pt-1">
+<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface block leading-tight">Ousmane Niang</span>
+<span class="font-body-sm text-body-sm text-outline leading-tight">Super Admin Difonssé · Clé matérielle YubiKey 5 NFC active</span>
+</div>
+</div>
+</div>
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Empreinte Cryptographique Projetée</span>
+<p class="font-mono text-[11px] text-on-surface break-all bg-surface-container-lowest p-2 rounded leading-normal">
+            sha256: 7f3b8909e1eacb33075d94bc669f0322ba100cde35a6bb9a42f561994119d9b4
+          </p>
+</div>
+</div>
+<!-- Boutons d'Action Terminaux -->
+<div class="pt-2 flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<button class="h-12 px-space-lg rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">sms</span>
+<span>Avertir Vendeur par SMS</span>
+</button>
+<button class="h-12 px-space-lg rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md font-bold shadow-sm hover:bg-surface-container transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Contacter Garage</span>
+</button>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="h-12 px-space-lg rounded-lg bg-surface-container-lowest text-outline hover:text-on-surface font-label-md text-label-md font-bold transition-all" type="button">
+            Suspendre l'arbitrage
+          </button>
+<button class="h-12 px-space-xl rounded-lg bg-primary text-on-primary font-label-lg text-label-lg font-black shadow-md hover:bg-on-surface-variant transition-all flex items-center gap-space-sm active:scale-[0.99]" id="btn-validate-arbitrage" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed">verified</span>
+<span>Valider l'arbitrage &amp; Débloquer sous Scellement SHA-256</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Modal (Hidden by default, triggered via JS) -->
+<div class="fixed bottom-6 right-6 z-50 bg-primary-container text-on-primary rounded-xl p-space-md shadow-2xl flex items-center gap-space-md translate-y-32 opacity-0 transition-all duration-300 pointer-events-none" id="arbitrage-toast">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold block text-tertiary-fixed">Arbitrage DIF-2026-000089 Scellé !</span>
+<span class="font-body-sm text-body-sm text-surface-container-highest/80 block">
+          43 000 FCFA débloqués en remboursement Wave. Ordre logistique Tiak-Tiak transmis.
+        </span>
+</div>
+</div>
+</div>
+<script>
+    (function() {
+      const validateBtn = document.getElementById('btn-validate-arbitrage');
+      const toast = document.getElementById('arbitrage-toast');
+
+      if (validateBtn && toast) {
+        validateBtn.addEventListener('click', function() {
+          validateBtn.disabled = true;
+          validateBtn.classList.add('opacity-75');
+          validateBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[20px] animate-spin">refresh</span>
+            <span>Scellement SHA-256 en cours...</span>
+          `;
+
+          setTimeout(() => {
+            validateBtn.innerHTML = `
+              <span class="material-symbols-outlined text-[20px] text-tertiary-fixed">done_all</span>
+              <span>Arbitrage Validé &amp; Enregistré</span>
+            `;
+            validateBtn.classList.remove('bg-primary');
+            validateBtn.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+
+            toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+              toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+              toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 6000);
+          }, 900);
+        });
+      }
+    })();
+  </script>
+</div></main></div></body></html>

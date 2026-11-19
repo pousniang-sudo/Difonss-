@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision &amp; Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tableau-de-bord" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-lg text-label-lg">Tableau de bord</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-lg text-label-lg">Journal d'activité</span></div><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-label-lg text-label-lg">Séquestre &amp; Finances</span></div><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Connexions &amp; Audit</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">store</span><span class="font-label-lg text-label-lg">Vendeurs &amp; KYC</span></div><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Acheteurs</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogue-pieces" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">precision_manufacturing</span><span class="font-label-lg text-label-lg">Catalogue Pièces</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-label-lg text-label-lg">Commandes</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Catégories &amp; Commissions</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Paramètres système</span></div></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale audit (N° DIF-2026-..., acteur, IP, tel Dakar)..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg lg:p-space-xl space-y-space-xl max-w-[1720px] mx-auto w-full">
+<!-- En-tête de section contextuel & actions globales -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-xs text-outline">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Plateforme Difonssé v1</span>
+<span>/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-on-surface">Gestion Commerciale</span>
+<span>/</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-primary">Commandes &amp; Expéditions</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-black text-on-surface tracking-tight">Commandes &amp; Expéditions — Suivi des Flux et Litiges</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">
+          Supervision de bout en bout : de la consignation du paiement à la livraison dakaroise, confirmation de montage garage et gestion des litiges (§5.4, §9.2, §10.7).
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">tune</span>
+<span>Filtres : Dakar Grand Quartiers</span>
+</div>
+<button class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-sm hover:bg-primary-container transition-all active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exporter Registre Commandes CSV (§10.8)</span>
+</button>
+</div>
+</div>
+<!-- 1. Métriques & Vue d'ensemble opérationnelle (Bento KPIs) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-space-md">
+<!-- KPI 1 : Total volume -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Total Commandes (30j)</span>
+<span class="material-symbols-outlined text-[20px] text-primary">shopping_bag</span>
+</div>
+<div class="mt-space-md space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">156</span>
+<span class="font-label-md text-label-md text-on-tertiary-container font-bold">+12% vs M-1</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>14 850 000 FCFA consignés</span>
+</div>
+</div>
+</div>
+<!-- KPI 2 : Flux logistique actif -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">En Acheminement / Préparation</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">two_wheeler</span>
+</div>
+<div class="mt-space-md space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">8</span>
+<span class="font-label-md text-label-md text-secondary font-bold">Coursiers Dakar</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">5 motos Tiak-Tiak + 3 retraits boutique</p>
+</div>
+</div>
+<!-- KPI 3 : Phase d'essai atelier -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Test Atelier / Montage Garage</span>
+<span class="material-symbols-outlined text-[20px] text-primary">home_repair_service</span>
+</div>
+<div class="mt-space-md space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">5</span>
+<span class="font-label-md text-label-md text-outline font-bold">Délai 48h actif</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Séquestre sous séquestre d'essai</p>
+</div>
+</div>
+<!-- KPI 4 : Litiges ouverts (Alerte rouge haute visibilité) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 bottom-0 w-1.5 bg-error"></div>
+<div class="flex items-center justify-between text-error">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-extrabold">Arbitrage Litige Requis (§9.4)</span>
+<span class="material-symbols-outlined text-[20px] animate-pulse">warning</span>
+</div>
+<div class="mt-space-md space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-error">1</span>
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold uppercase">Urgent 24h</span>
+</div>
+<p class="font-label-sm text-label-sm text-error font-medium truncate">DIF-2026-000089 (Alternateur 406)</p>
+</div>
+</div>
+<!-- KPI 5 : Fiabilité & Conformité globale -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-outline">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Taux Livraison Sans Encombre</span>
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">verified</span>
+</div>
+<div class="mt-space-md space-y-1">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-on-tertiary-container">98.4%</span>
+<span class="font-label-sm text-label-sm text-outline font-semibold">Cible ≥ 98.0%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-on-tertiary-container h-full rounded-full w-[98.4%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. Filtres rapides par Statuts Opérationnels -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-md bg-surface-container-low p-2 rounded-xl">
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0" id="orderFilterTabs">
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm whitespace-nowrap flex items-center gap-1.5">
+<span>Toutes les commandes</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-lowest text-primary text-[10px]">156</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all whitespace-nowrap flex items-center gap-1.5">
+<span>À expédier / Préparation</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px]">3</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all whitespace-nowrap flex items-center gap-1.5">
+<span>En coursier Dakar</span>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px]">2</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all whitespace-nowrap flex items-center gap-1.5">
+<span>Reçues / Test garage</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px]">3</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-error-container text-on-error-container font-label-sm text-label-sm font-bold shadow-sm whitespace-nowrap flex items-center gap-1.5 animate-pulse">
+<span class="material-symbols-outlined text-[14px]">flag</span>
+<span>Litiges &amp; Réclamations</span>
+<span class="px-1.5 py-0.5 rounded-full bg-error text-on-error text-[10px]">1</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all whitespace-nowrap flex items-center gap-1.5">
+<span>Clôturées &amp; Montées</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-[10px]">147</span>
+</button>
+</div>
+<div class="flex items-center gap-space-xs pl-2">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">filter_list</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container-lowest text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Filtrer réf, NINEA, client..." type="text"/>
+</div>
+</div>
+</div>
+<!-- 3. Disposition Split : Tableau Haute Densité & Fiche Arbitrage Pliable/Détaillée -->
+<div class="grid grid-cols-1 2xl:grid-cols-12 gap-space-xl items-start">
+<!-- Colonne principale : Tableau de bord des flux (7 ou 8 cols selon résolution) -->
+<div class="2xl:col-span-8 flex flex-col space-y-space-md">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-md lg:p-space-lg flex items-center justify-between bg-surface-container-lowest">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">Registre des Flux Temps-Réel</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Suivi des statuts légaux de consignation et de remise physique à Dakar</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-on-tertiary-container font-bold bg-tertiary-container/10 px-2.5 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-ping"></span>
+                Synchro Webhook Orange Money &amp; Wave Active
+              </span>
+</div>
+</div>
+<!-- Tableau Responsive -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md">Réf Commande</th>
+<th class="py-3 px-space-md">Acheteur / Quartier</th>
+<th class="py-3 px-space-md">Vendeur Partenaire</th>
+<th class="py-3 px-space-md">Pièce &amp; Référence</th>
+<th class="py-3 px-space-md">Mode Expédition</th>
+<th class="py-3 px-space-md">Statut Commande</th>
+<th class="py-3 px-space-md text-right">Séquestre Escrow</th>
+<th class="py-3 px-space-md text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm text-body-sm">
+<!-- Ligne 1 : CAS CRITIQUE EN LITIGE -->
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors cursor-pointer ring-1 ring-inset ring-error/20" onclick="document.getElementById('disputeCard').scrollIntoView({behavior: 'smooth'})">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="font-label-md text-label-md font-extrabold text-error">DIF-2026-000089</span>
+</div>
+<span class="block font-label-sm text-label-sm text-outline mt-0.5">10 Nov 2026 09:20 GMT</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Cheikh T.</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[13px]">location_on</span>
+<span>Dakar Plateau</span>
+</div>
+<span class="text-outline text-[11px] font-mono">+221 77 *** ** 88</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Casse Moderne Pikine</div>
+<div class="text-[11px] text-on-surface-variant">Pikine Rue 10</div>
+<span class="text-[10px] text-outline font-mono">NINEA 008920194</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Alternateur Peugeot 406</div>
+<div class="text-[11px] text-on-surface-variant">Occasion certifiée Colobane</div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px] font-mono mt-0.5">OEM 5705.4C</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">two_wheeler</span>
+<span>Tiak-Tiak Express</span>
+</div>
+<span class="text-[11px] text-outline">Livreur: Ibrahima (Pikine)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-black uppercase flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                      EN_LITIGE
+                    </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="font-price-display text-[15px] font-black text-on-surface">45 000 FCFA</div>
+<span class="px-1.5 py-0.5 rounded bg-error/10 text-error font-label-sm text-[10px] font-extrabold uppercase">GELÉ_LITIGE</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<button class="px-2.5 py-1.5 rounded-lg bg-error text-on-error font-label-sm text-label-sm font-bold hover:bg-error/90 transition-all shadow-sm">
+                      Trancher
+                    </button>
+</td>
+</tr>
+<!-- Ligne 2 : EN TEST GARAGE -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-label-md text-label-md font-extrabold text-on-surface">DIF-2026-000123</span>
+<span class="block font-label-sm text-label-sm text-outline mt-0.5">14 Nov 2026 11:20 GMT</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Mamadou D.</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[13px]">location_on</span>
+<span>Fann Résidence</span>
+</div>
+<span class="text-outline text-[11px] font-mono">+221 77 *** ** 34</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Auto Castors Express</div>
+<div class="text-[11px] text-on-surface-variant">Rond-Point Castors</div>
+<span class="text-[10px] text-outline font-mono">NINEA 004829102</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Plaquettes avant Brembo Avensis</div>
+<div class="text-[11px] text-on-surface-variant">Neuf boîte scellée</div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px] font-mono mt-0.5">OEM 04465-05240</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">two_wheeler</span>
+<span>Moto Dakar Express</span>
+</div>
+<span class="text-[11px] text-on-tertiary-container font-semibold">Remis au client</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold uppercase flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px] text-secondary">timer</span>
+                      TEST_GARAGE
+                    </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="font-price-display text-[15px] font-black text-on-surface">30 500 FCFA</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-extrabold uppercase">BLOQUÉ_48H</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all">
+                      Détail
+                    </button>
+</td>
+</tr>
+<!-- Ligne 3 : EN COURS DE LIVRAISON -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-label-md text-label-md font-extrabold text-on-surface">DIF-2026-000124</span>
+<span class="block font-label-sm text-label-sm text-outline mt-0.5">14 Nov 2026 13:45 GMT</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Sokhna N.</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[13px]">location_on</span>
+<span>Almadies Zone 2</span>
+</div>
+<span class="text-outline text-[11px] font-mono">+221 78 *** ** 12</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Colobane Pièces Détachées</div>
+<div class="text-[11px] text-on-surface-variant">Marché Colobane Hangar 4</div>
+<span class="text-[10px] text-outline font-mono">NINEA 001928374</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Kit Embrayage Valeo Toyota Hilux</div>
+<div class="text-[11px] text-on-surface-variant">Kit disque + mécanisme + butée</div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px] font-mono mt-0.5">OEM 31250-0K204</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">local_shipping</span>
+<span>Fourgonnette Dakar</span>
+</div>
+<span class="text-[11px] text-outline">En transit VDN → Almadies</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold uppercase flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">local_shipping</span>
+                      EN_LIVRAISON
+                    </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="font-price-display text-[15px] font-black text-on-surface">115 000 FCFA</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-extrabold uppercase">BLOQUÉ</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all">
+                      Suivre GPS
+                    </button>
+</td>
+</tr>
+<!-- Ligne 4 : PAYEE - EN PREPARATION -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3.5 px-space-md">
+<span class="font-label-md text-label-md font-extrabold text-on-surface">DIF-2026-000125</span>
+<span class="block font-label-sm text-label-sm text-outline mt-0.5">14 Nov 2026 14:10 GMT</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Abdoulaye K.</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[13px]">location_on</span>
+<span>Mermoz Ancienne Piste</span>
+</div>
+<span class="text-outline text-[11px] font-mono">+221 76 *** ** 90</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Magasin Central Étoile</div>
+<div class="text-[11px] text-on-surface-variant">Avenue Faidherbe</div>
+<span class="text-[10px] text-outline font-mono">NINEA 009283174</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Filtre à Huile + Air Mercedes W204</div>
+<div class="text-[11px] text-on-surface-variant">Mann Filter certifié</div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px] font-mono mt-0.5">OEM HU 718/5 X</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-outline">storefront</span>
+<span>Retrait Boutique</span>
+</div>
+<span class="text-[11px] text-outline">En attente coursier</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-bold uppercase flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">inventory_2</span>
+                      PAYEE_PREP
+                    </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="font-price-display text-[15px] font-black text-on-surface">18 000 FCFA</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] font-extrabold uppercase">BLOQUÉ</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all">
+                      Notifier
+                    </button>
+</td>
+</tr>
+<!-- Ligne 5 : CLÔTURÉE AVEC SUCCÈS -->
+<tr class="hover:bg-surface-container-low transition-colors opacity-90">
+<td class="py-3.5 px-space-md">
+<span class="font-label-md text-label-md font-extrabold text-on-surface">DIF-2026-000120</span>
+<span class="block font-label-sm text-label-sm text-outline mt-0.5">13 Nov 2026 09:15 GMT</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Fatou B.</div>
+<div class="flex items-center gap-1 text-on-surface-variant text-[11px]">
+<span class="material-symbols-outlined text-[13px]">location_on</span>
+<span>Grand Yoff</span>
+</div>
+<span class="text-outline text-[11px] font-mono">+221 77 *** ** 41</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Électro Auto Dakar</div>
+<div class="text-[11px] text-on-surface-variant">HLM Grand Médine</div>
+<span class="text-[10px] text-outline font-mono">NINEA 003847291</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="font-label-md text-label-md font-bold text-on-surface">Optique Phare Droit Suzuki Swift</div>
+<div class="text-[11px] text-on-surface-variant">Occasion révisée</div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface text-[10px] font-mono mt-0.5">OEM 35120-63J00</span>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1 font-label-sm text-label-sm font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">two_wheeler</span>
+<span>Tiak-Tiak Express</span>
+</div>
+<span class="text-[11px] text-on-tertiary-container font-semibold">Livré le 13/11</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold uppercase flex items-center gap-1 w-max">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                      CLOTUREE
+                    </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="font-price-display text-[15px] font-black text-on-surface">42 000 FCFA</div>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-on-tertiary-container font-label-sm text-[10px] font-extrabold uppercase">LIBÉRÉ</span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all">
+                      Audit
+                    </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Résumé registre -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Affichage de 5 sur 156 commandes actives · Horloge synchronisée NTP Dakar</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all disabled:opacity-50" disabled="">Précédent</button>
+<span class="font-label-sm text-label-sm font-bold text-on-surface px-2">Page 1 / 32</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high transition-all">Suivant</button>
+</div>
+</div>
+</div>
+<!-- Dispositif de transparence Séquestre Bancaire Dakar -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px] text-primary">security</span>
+</div>
+<div class="space-y-0.5">
+<h4 class="font-label-lg text-label-lg font-black text-on-surface">Protocole de Libération des Fonds Escrow (§5.4 &amp; §9.3)</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl">
+                Toute somme reste cantonnée dans le compte séquestre technique Difonssé. La libération au marchand s'effectue automatiquement sous 48 heures après la remise physique, sauf en cas de signalement pour pièce non-conforme ou vice caché.
+              </p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="px-space-sm py-1 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">100% Fonds Cantonnés</span>
+</div>
+</div>
+</div>
+<!-- 4. Fiche d'arbitrage Admin Focalisée : Dossier Prioritaire DIF-2026-000089 (4 cols) -->
+<div class="2xl:col-span-4 bg-surface-container-lowest rounded-xl shadow-md overflow-hidden flex flex-col" id="disputeCard">
+<!-- En-tête du volet litige -->
+<div class="p-space-lg bg-primary-container text-on-primary">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[22px]">gavel</span>
+<span class="font-label-lg text-label-lg font-extrabold uppercase tracking-wider text-error-container">Dossier Arbitrage Prioritaire</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-error text-on-error font-label-sm text-label-sm font-black uppercase">EN_LITIGE</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<h3 class="font-headline-sm text-headline-sm font-black">DIF-2026-000089</h3>
+<span class="font-price-display text-price-display font-black text-secondary-container">45 000 FCFA</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary-container mt-1">
+            Alternateur Peugeot 406 2.0 HDI · Réf Casse #PKN-994
+          </p>
+</div>
+<div class="p-space-lg space-y-space-lg flex-1">
+<!-- Chronologie horodatée de l'expédition & litige -->
+<div class="space-y-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-extrabold block">
+              Historique Horodaté de la Commande
+            </span>
+<div class="relative pl-6 space-y-space-md before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
+<!-- Etape 1 -->
+<div class="relative">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-on-tertiary-container ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Paiement consignataire Wave</span>
+<span class="font-label-sm text-label-sm text-outline">08/11 15:02</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">45 000 FCFA consignés sur le compte séquestre Démo.</p>
+</div>
+<!-- Etape 2 -->
+<div class="relative">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-on-tertiary-container ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Validation Marchand</span>
+<span class="font-label-sm text-label-sm text-outline">08/11 16:30</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Casse Moderne Pikine confirme la disponibilité en stock.</p>
+</div>
+<!-- Etape 3 -->
+<div class="relative">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-on-tertiary-container ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Prise en charge Coursier</span>
+<span class="font-label-sm text-label-sm text-outline">09/11 11:15</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Livreur moto Tiak-Tiak : Pikine → Dakar Plateau.</p>
+</div>
+<!-- Etape 4 -->
+<div class="relative">
+<span class="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-secondary ring-4 ring-surface-container-lowest"></span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Remise physique client</span>
+<span class="font-label-sm text-label-sm text-outline">09/11 14:40</span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Code OTP de remise validé par Cheikh T. Début du délai garage 48h.</p>
+</div>
+<!-- Etape 5 : Litige -->
+<div class="relative">
+<span class="absolute -left-6 top-1 w-3 h-3 rounded-full bg-error ring-4 ring-error-container"></span>
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-black text-error">Déclaration d'anomalie garage</span>
+<span class="font-label-sm text-label-sm text-error font-bold">10/11 09:20</span>
+</div>
+<div class="mt-1 p-2 rounded bg-error-container/30 text-on-surface text-[12px] font-body-sm space-y-1">
+<span class="font-bold block text-error">Motif de la réclamation acheteur :</span>
+<p>« Poulie d'alternateur voilée causant frottement et sifflement au banc de test. L'atelier refuse le montage sur le véhicule de mon client taxi. »</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Preuves photographiques remontées de l'atelier -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-extrabold">2 Preuves Photographiques d'Atelier</span>
+<span class="font-label-sm text-label-sm text-on-surface font-mono">Dakar Plateau Garage</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="group relative rounded-lg overflow-hidden bg-surface-container aspect-video">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="Close up photography of a cracked and worn car alternator pulley in a Dakar mechanical workshop with grease on metal tools and natural bright sunlight reflecting on steel components" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQss9jcD2PlBotmT6VBbtRmg8klDCkrbNrG6H_W95A3ex39EL59r4XAe9AQzwkevte3hv560SECZxFImyrqnOMw4t6oGHC8eK1-jHklQIVtoJvTjlSTolxXWPqGxoNuTRtSw8BXyJ4seVSUDrHh4aWDmp3hFZ4sRWrmraLmXRj9rS87As6rcbI1-xhdFrjZsYwmxSkXO8dJX-SfkaAzHes5WUJfjdmU4Z5GjQQ0yr9"/>
+<span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-primary/80 text-on-primary text-[10px] font-bold">Poulie voilée</span>
+</div>
+<div class="group relative rounded-lg overflow-hidden bg-surface-container aspect-video">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-105" data-alt="Mechanical testing workbench in Senegal showing testing multimeter and serial number label of a car alternator part with mechanic gloved hands" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbUsYQr6muT2wizzKcIynn5iEd25868GC9EUpxCYVSom9UqMoDkH2ijT71RpeioS8jK_26IYpBZXtfcNoGGiTqVOQ-Gn71RqBV04i8zsFHhfbqdMgiLe9e8oOl5yiXjrz8myMYabzjtEp-ho3RZpTuzsR2qzey2JKn2kVmAf_3KIt6z3RswAPZW2NTueETWHtrDbPRD2Mi_ml7-h5hD-WW7ldnlyrO0Pfqol3Hahpz"/>
+<span class="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-primary/80 text-on-primary text-[10px] font-bold">Banc d'essai</span>
+</div>
+</div>
+</div>
+<!-- Décomposition Financière du Séquestre Gelé -->
+<div class="p-space-md rounded-lg bg-surface-container-low space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-extrabold block">Ventilation Escrow Consigné</span>
+<div class="space-y-1 text-[13px] font-body-sm">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Solde Vendeur net (Casse Pikine) :</span>
+<span class="font-mono font-bold text-on-surface">39 000 FCFA</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Commission Difonssé 9% :</span>
+<span class="font-mono font-bold text-on-surface">4 000 FCFA</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Frais coursier moto (Déjà réalisé) :</span>
+<span class="font-mono font-bold text-on-surface">2 000 FCFA</span>
+</div>
+<div class="pt-1 flex justify-between font-label-md text-label-md font-bold text-error">
+<span>Statut des fonds :</span>
+<span class="tracking-wide">GELÉ AU SÉQUESTRE</span>
+</div>
+</div>
+</div>
+<!-- Console d'arbitrage administrateur avec motif juridique OHADA -->
+<form class="space-y-space-md" onsubmit="event.preventDefault(); alert('Décision arbitrale enregistrée et scellée cryptographiquement en SHA-256 dans l audit log.');">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface font-extrabold mb-1" for="arbitrageReason">
+                Motif Obligatoire de la Décision d'Arbitrage (§9.4)
+              </label>
+<textarea class="w-full p-2.5 rounded-lg bg-surface-container-lowest font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" id="arbitrageReason" placeholder="Précisez les conclusions de l'inspection technique et la conformité au code des obligations civiles et commerciales sénégalais (COCC)..." required="" rows="3"></textarea>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<button class="w-full py-3 px-space-sm rounded-lg bg-error text-on-error font-label-md text-label-md font-black hover:bg-error/90 transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-[0.99]" type="submit">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span>Rembourser Acheteur</span>
+</button>
+<button class="w-full py-3 px-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-[0.99]" onclick="alert('Validation de conformité effectuée. Les 39 000 FCFA sont débloqués pour Casse Moderne Pikine.');" type="button">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Valider Vendeur</span>
+</button>
+</div>
+<div class="flex items-center gap-2 p-2 rounded bg-surface-container text-on-surface-variant font-label-sm text-[11px]">
+<span class="material-symbols-outlined text-[16px] text-primary">history_edu</span>
+<span>Scellement SHA-256 enregistré dans le journal d'audit immuable.</span>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- 5. Pied de page légal et conformité réglementaire Sénégal -->
+<div class="pt-space-xl pb-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-primary">policy</span>
+</div>
+<p>
+          Plateforme régie par la législation sénégalaise sur les transactions électroniques (Loi n° 2008-08) et protection des données personnelles (CDP Sénégal).
+        </p>
+</div>
+<div class="flex items-center gap-space-md font-label-sm text-label-sm font-bold">
+<span>Protocole Escrow Difonssé v1.0.4</span>
+<span class="text-outline">•</span>
+<span>Contrôle Fraude Dakar &amp; Banlieue</span>
+<span class="text-outline">•</span>
+<span class="text-on-tertiary-container">Système Opérationnel</span>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

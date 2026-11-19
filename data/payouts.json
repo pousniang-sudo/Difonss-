@@ -1,0 +1,22 @@
+﻿[
+  {
+    "id": "pay_901",
+    "vendorId": "usr_seller_1",
+    "vendorName": "Échoppe Modou Pikine",
+    "amount": 100000,
+    "provider": "Wave Sngal \ud83c\udf0a",
+    "recipientPhone": "77 890 45 12",
+    "status": "completed",
+    "timestamp": "2026-11-11T16:50:00Z"
+  },
+  {
+    "id": "pay_884",
+    "vendorId": "usr_seller_2",
+    "vendorName": "Dakar Pices Express",
+    "amount": 75000,
+    "provider": "Orange Money \ud83c\udf4a",
+    "recipientPhone": "76 312 90 01",
+    "status": "completed",
+    "timestamp": "2026-11-09T11:25:00Z"
+  }
+]

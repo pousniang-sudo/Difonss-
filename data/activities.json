@@ -1,0 +1,102 @@
+﻿[
+    {
+        "id":  "act_1794613793114",
+        "timestamp":  "2026-11-13T23:49:53.1148340Z",
+        "section":  "escrow",
+        "actor":  "Plateforme Difonsse",
+        "action":  "FUNDS_LOCKED",
+        "details":  "Fonds bloques sous sequestre pour CMD-5878 (Prix vendeur: 45000 | Commission: 4500)",
+        "amount":  49500,
+        "icon":  "lock"
+    },
+    {
+        "id":  "act_1794613793058",
+        "timestamp":  "2026-11-13T23:49:53.0705394Z",
+        "section":  "buyer",
+        "actor":  "Amadou Diallo (Garage Castors)",
+        "action":  "ORDER_PLACED",
+        "details":  "Achat avec sequestre: Alternateur 150A Original (49500 FCFA) via Wave SÃ©nÃ©gal",
+        "amount":  49500,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_101",
+        "timestamp":  "2026-11-12T14:30:15Z",
+        "section":  "escrow",
+        "actor":  "Superviseur Squestre",
+        "action":  "ESCROW_AUDIT",
+        "details":  "Vrification globale des 14 transactions actives sous squestre",
+        "amount":  1425000,
+        "icon":  "shield"
+    },
+    {
+        "id":  "act_102",
+        "timestamp":  "2026-11-12T13:45:00Z",
+        "section":  "buyer",
+        "actor":  "Amadou Diallo (Garage Castors)",
+        "action":  "ORDER_PLACED",
+        "details":  "Achat avec squestre : Alternateur 150A Original via Wave Sngal",
+        "amount":  49500,
+        "icon":  "lock"
+    },
+    {
+        "id":  "act_103",
+        "timestamp":  "2026-11-12T13:46:20Z",
+        "section":  "escrow",
+        "actor":  "Systme Difonss",
+        "action":  "FUNDS_LOCKED",
+        "details":  "Fonds bloqus sous squestre pour la commande CMD-8021 (Vendeur: 45 000 | Com: 4 500)",
+        "amount":  49500,
+        "icon":  "lock_clock"
+    },
+    {
+        "id":  "act_104",
+        "timestamp":  "2026-11-12T12:15:10Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (choppe Pikine)",
+        "action":  "COURIER_PICKUP",
+        "details":  "Pice remise au coursier Tiak-Tiak avec le code PK-891",
+        "amount":  0,
+        "icon":  "local_shipping"
+    },
+    {
+        "id":  "act_105",
+        "timestamp":  "2026-11-12T11:05:40Z",
+        "section":  "buyer",
+        "actor":  "Ibrahima Sall (Particulier)",
+        "action":  "SEARCH_SOS",
+        "details":  "Recherche par photo SOS pour trier de frein avant gauche",
+        "amount":  0,
+        "icon":  "search"
+    },
+    {
+        "id":  "act_106",
+        "timestamp":  "2026-11-12T10:20:00Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (choppe Pikine)",
+        "action":  "ADD_PRODUCT",
+        "details":  "Ajout produit : Paire Amortisseurs Renforcs Arrire (Prix Banque: 58 000 | Prix Client: 63 800)",
+        "amount":  58000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_107",
+        "timestamp":  "2026-11-11T16:50:00Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (choppe Pikine)",
+        "action":  "WITHDRAWAL_WAVE",
+        "details":  "Virement Wave Sngal ralis vers le 77 890 45 12",
+        "amount":  100000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_108",
+        "timestamp":  "2026-11-11T15:10:00Z",
+        "section":  "escrow",
+        "actor":  "Amadou Diallo (Garage)",
+        "action":  "CONFORMITY_VALIDATED",
+        "details":  "Conformit de montage valide sur CMD-7712 -\u003e Fonds dbloqus au vendeur",
+        "amount":  180000,
+        "icon":  "verified"
+    }
+]

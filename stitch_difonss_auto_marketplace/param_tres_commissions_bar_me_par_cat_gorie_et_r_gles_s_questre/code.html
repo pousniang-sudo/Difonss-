@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision &amp; Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tableau-de-bord" href="#"><span class="font-label-lg text-label-lg">Tableau de bord</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><span class="font-label-lg text-label-lg">Journal d'activité</span><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><span class="font-label-lg text-label-lg">Séquestre &amp; Finances</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><span class="font-label-lg text-label-lg">Connexions &amp; Audit</span></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><span class="font-label-lg text-label-lg">Vendeurs &amp; KYC</span><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><span class="font-label-lg text-label-lg">Acheteurs</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary font-bold shadow-sm transition-all" data-path="catalogue-pieces" href="#"><span class="font-label-lg text-label-lg">Catalogue Pièces</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><span class="font-label-lg text-label-lg">Commandes</span></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><span class="font-label-lg text-label-lg">Catégories &amp; Commissions</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><span class="font-label-lg text-label-lg">Paramètres système</span></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale catalogue, référence OEM, pièce ou vendeur..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg lg:p-space-xl max-w-[1440px] mx-auto w-full space-y-space-xl">
+<!-- En-tête de page & Fil d'ariane -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">
+<span>Plateforme Difonssé v1</span>
+<span>/</span>
+<span>Configuration</span>
+<span>/</span>
+<span class="text-secondary font-black">Catégories &amp; Commissions</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-black tracking-tight text-on-surface">
+          Barème des Commissions &amp; Paramétrage Séquestre
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-4xl">
+          Configuration des pourcentages de prélèvement automatique par catégorie de pièces, règles de séquestre temporisé et plafonds de transaction en FCFA selon le cahier des charges (§5.3, §8.2 &amp; §10).
+        </p>
+</div>
+<div class="flex items-center gap-space-sm self-start lg:self-center">
+<button class="flex items-center gap-2 px-space-md py-3 rounded-lg bg-surface-container-lowest text-on-surface font-label-lg text-label-lg shadow-sm hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[20px] text-outline">file_download</span>
+<span>Exporter la grille CSV (§10.8)</span>
+</button>
+<button class="flex items-center gap-2 px-space-lg py-3 rounded-lg bg-secondary-container text-on-secondary-container font-label-lg text-label-lg font-black shadow-md hover:brightness-105 active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span>+ Créer une catégorie</span>
+</button>
+</div>
+</div>
+<!-- KPIs Synthétiques (4 Cartes Utilitaires) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Carte 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Taux Moyen Pondéré</span>
+<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>+0.25%
+          </span>
+</div>
+<div class="my-space-sm">
+<div class="font-price-display text-price-display font-black text-on-surface">8.75 %</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Basé sur 1 842 pièces et 156 commandes</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full rounded-full" style="width: 87.5%;"></div>
+</div>
+</div>
+<!-- Carte 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Commissions M-En-Cours</span>
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+</div>
+<div class="my-space-sm">
+<div class="font-price-display text-price-display font-black text-on-surface">124 000 FCFA</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Consignées sur compte séquestre Almadies</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-outline font-semibold">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">account_balance</span>
+<span>100% audité CBAO UEMOA</span>
+</div>
+</div>
+<!-- Carte 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Délai Séquestre Par Défaut</span>
+<span class="material-symbols-outlined text-[18px] text-outline">timelapse</span>
+</div>
+<div class="my-space-sm">
+<div class="font-price-display text-price-display font-black text-on-surface">48 Heures</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Période d'essai atelier garagiste</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-outline font-semibold">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>Déblocage automatique post-48h</span>
+</div>
+</div>
+<!-- Carte 4 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Frais de Livraison Fixes</span>
+<span class="material-symbols-outlined text-[18px] text-outline">two_wheeler</span>
+</div>
+<div class="my-space-sm">
+<div class="font-price-display text-price-display font-black text-on-surface">2 000 FCFA</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Moto Tiak-Tiak Dakar &amp; Banlieue</span>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-outline font-semibold">
+<span class="material-symbols-outlined text-[16px] text-on-surface">inventory</span>
+<span>Intégré au calcul séquestre</span>
+</div>
+</div>
+</div>
+<!-- Bannière d'Intégrité Réglementaire & Séquestre -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[24px]">gavel</span>
+</div>
+<div class="space-y-1 flex-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">Règle de Transparence &amp; Prélèvement Séquestre (§5.3)</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm font-bold tracking-wider uppercase">Audit Trail Activé</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          La commission Difonssé est calculée sur le prix public affiché et prélevée automatiquement lors de la libération des fonds par le module Séquestre. Tout changement de taux génère un événement d'audit immuable <span class="font-mono bg-surface-container-highest px-1.5 py-0.5 rounded font-bold text-on-surface">CONFIG_COMMISSION_UPDATED</span> scellé dans le journal avec horodatage SHA-256.
+        </p>
+</div>
+</div>
+<!-- Grille Principale : Tableau des Commissions & Panneau d'Édition Rapide -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Colonne Gauche : Tableau Interactif (8 colonnes) -->
+<div class="xl:col-span-8 space-y-space-md">
+<!-- Filtres et Recherche -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-[20px]">search</span>
+<input class="w-full h-11 pl-10 pr-4 bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest transition-all" placeholder="Rechercher par nom de catégorie, code ou pièce..." type="text"/>
+</div>
+<div class="flex items-center gap-space-xs">
+<select class="h-11 px-space-md bg-surface-container-low rounded-lg font-label-md text-label-md text-on-surface focus:outline-none">
+<option value="all">Tous les taux (%)</option>
+<option value="low">&lt; 8.0 %</option>
+<option value="mid">8.0 % — 10.0 %</option>
+<option value="high">&gt; 10.0 %</option>
+</select>
+<select class="h-11 px-space-md bg-surface-container-low rounded-lg font-label-md text-label-md text-on-surface focus:outline-none">
+<option value="all">Statut : Tous</option>
+<option value="active">Actif</option>
+<option value="review">En révision</option>
+</select>
+</div>
+</div>
+<!-- Tableau des Catégories -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3.5 px-space-md font-bold">Catégorie &amp; Code</th>
+<th class="py-3.5 px-space-md font-bold">Taux Actuel</th>
+<th class="py-3.5 px-space-md font-bold">Volume / CA</th>
+<th class="py-3.5 px-space-md font-bold">Exemple Net Vendeur</th>
+<th class="py-3.5 px-space-md font-bold">Statut</th>
+<th class="py-3.5 px-space-md font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Ligne 1 : Freinage (Sélectionnée pour simulateur) -->
+<tr class="bg-surface-container-high/40 hover:bg-surface-container-high transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">speed</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Freinage &amp; Sécurité</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-FRN</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Disques, plaquettes, étriers de frein</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>8.0 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">412 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">4 120 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 600 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-2 400 F (8%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-bold hover:brightness-110 flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" title="Historique d'audit" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Ligne 2 : Moteur & Distribution -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">settings</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Moteur &amp; Distribution</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-MOT</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Courroies, injecteurs, culasses</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>10.0 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">348 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">5 800 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 000 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-3 000 F (10%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Ligne 3 : Électricité & Alternateurs -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">bolt</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Électricité &amp; Alternateurs</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-ELEC</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Alternateurs, démarreurs, calculateurs</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>9.0 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">285 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">2 450 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 300 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-2 700 F (9%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Ligne 4 : Transmission & Embrayage -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">sync_alt</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Transmission &amp; Embrayage</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-TRM</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Kits embrayage, boîtes de vitesse, cardans</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>10.0 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">196 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">3 210 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 000 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-3 000 F (10%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Ligne 5 : Filtration & Vidange -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">filter_alt</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Filtration &amp; Vidange</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-FLT</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Filtres à huile, air, habitacle</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>7.0 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">390 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">890 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 900 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-2 100 F (7%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Ligne 6 : Suspension & Direction -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-4 px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface">explore</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-extrabold flex items-center gap-1.5">
+<span>Suspension &amp; Direction</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-mono text-[10px] text-outline font-bold">CAT-SUSP</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Amortisseurs, rotules, crémaillères</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-headline-sm text-headline-sm font-black">
+<span>8.5 %</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="block font-label-md text-label-md text-on-surface font-bold">211 pièces</span>
+<span class="font-body-sm text-body-sm text-outline">1 650 000 FCFA</span>
+</td>
+<td class="py-4 px-space-md">
+<div class="text-left font-body-sm text-body-sm">
+<span class="text-outline">Sur 30 000 F :</span>
+<div class="font-label-md text-label-md font-bold text-on-surface">Net 27 450 FCFA</div>
+<span class="text-secondary font-semibold text-[11px]">-2 550 F (8.5%)</span>
+</div>
+</td>
+<td class="py-4 px-space-md">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                      ACTIF
+                    </span>
+</td>
+<td class="py-4 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-container-high flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+<span>Éditer</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-outline hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[16px]">history</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Totaux du tableau -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
+<span>Affichage de 6 catégories sur 6 configurées dans le barème v1</span>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline">Dernier scellement blockchain : 12/03/2026 14:15 GMT</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Colonne Droite : Simulateur & Ajustement Immédiat (4 colonnes) -->
+<div class="xl:col-span-4 space-y-space-md">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-md space-y-space-md relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">calculate</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">
+                Simulateur &amp; Mise à jour
+              </h2>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-mono text-[11px] font-bold">
+              CAT-FRN
+            </span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-1">
+<span class="font-label-sm text-label-sm text-outline font-bold uppercase tracking-wider block">Catégorie Cible</span>
+<div class="font-label-lg text-label-lg font-bold text-on-surface flex items-center justify-between">
+<span>Freinage &amp; Sécurité</span>
+<span class="text-outline font-normal">Taux actuel : 8.0 %</span>
+</div>
+</div>
+<!-- Ajustement Taux -->
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm font-bold text-on-surface uppercase tracking-wider">
+                Nouveau Taux Souhaité
+              </label>
+<div class="flex items-center gap-1 font-headline-sm text-headline-sm font-black text-secondary">
+<span id="rateDisplay">8.5</span>
+<span>%</span>
+</div>
+</div>
+<input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-secondary" id="commissionSlider" max="15" min="5" step="0.5" type="range" value="8.5"/>
+<div class="flex justify-between font-label-sm text-label-sm text-outline">
+<span>Min : 5.0 %</span>
+<span>Recommandé : 8.5 %</span>
+<span>Plafond : 15.0 %</span>
+</div>
+</div>
+<!-- Simulation Panier Dakar Type -->
+<div class="p-space-md rounded-xl bg-surface-container-low space-y-space-sm">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-outline uppercase font-bold">
+<span>Panier Type Marché Dakar</span>
+<span class="text-on-surface font-black">Toyota Avensis 2012</span>
+</div>
+<div class="space-y-1.5 font-body-sm text-body-sm">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Plaquettes Brembo (Public) :</span>
+<span class="font-bold text-on-surface">28 500 FCFA</span>
+</div>
+<div class="flex justify-between text-secondary font-bold">
+<span>Commission Difonssé (<span id="simRate">8.5</span>%) :</span>
+<span id="commAmount">2 422 FCFA</span>
+</div>
+<div class="flex justify-between text-outline text-[11px]">
+<span>Ancien prélèvement (8.0%) :</span>
+<span>2 280 FCFA</span>
+</div>
+<div class="flex justify-between pt-1 border-t border-surface-container text-on-tertiary-container font-black">
+<span>Reversement Net Marchand :</span>
+<span id="netMerchant">26 078 FCFA</span>
+</div>
+<div class="flex justify-between text-[11px] text-outline">
+<span>Livraison Tiak-Tiak déduite :</span>
+<span>2 000 FCFA (Escrow)</span>
+</div>
+</div>
+</div>
+<!-- Règle d'application temporelle -->
+<div class="flex items-start gap-2 p-space-sm rounded-lg bg-surface-container">
+<span class="material-symbols-outlined text-[18px] text-secondary shrink-0 mt-0.5">info</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+              Application immédiate pour les nouvelles mises en vente. Les pièces déjà en ligne conservent leur taux contractuel (§6.4).
+            </span>
+</div>
+<!-- Motif de modification (Requis par audit) -->
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-bold text-on-surface uppercase tracking-wider flex items-center justify-between">
+<span>Motif Obligatoire (§6.2 Audit)</span>
+<span class="text-error font-bold">*</span>
+</label>
+<textarea class="w-full p-2.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-secondary resize-none" placeholder="Ex: Révision tarifaire Q1 2026 et couverture garantie atelier." rows="2">Alignement sur révision tarifaire Q1 2026 et couverture des frais de garantie atelier Colobane.</textarea>
+</div>
+<!-- Actions de validation -->
+<div class="space-y-2 pt-2">
+<button class="w-full py-3.5 px-space-md rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-md hover:brightness-110 active:scale-[0.99] flex items-center justify-center gap-2 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">lock</span>
+<span>Sceller la modification (SHA-256)</span>
+</button>
+<button class="w-full py-2 rounded-lg text-outline font-label-md text-label-md font-semibold hover:text-on-surface transition-all" type="button">
+              Annuler les changements
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Paramètres Globaux du Séquestre & Règles de Déblocage (§9) -->
+<div class="space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-black text-on-surface">
+            Paramètres Globaux du Séquestre &amp; Règles de Déblocage (§9)
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Règles d'intégrité financière appliquées par le contrat d'arbitrage Difonssé Dakar.
+          </p>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-black tracking-wider uppercase">
+          En vigueur : Dakar Sandbox 2026
+        </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Carte A : Durée de rétention Séquestre -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-on-surface">hourglass_top</span>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-tertiary-container bg-tertiary-container px-2 py-0.5 rounded">Règle Standard</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-black text-on-surface">
+              Rétention Séquestre Garagiste
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Délai alloué au client ou à son garagiste pour monter la pièce et signaler une non-conformité avant virement automatique au marchand.
+            </p>
+</div>
+<div class="pt-space-sm space-y-2">
+<div class="flex items-center justify-between font-label-lg text-label-lg font-black text-on-surface">
+<span>Délai standard :</span>
+<span class="px-2 py-1 rounded bg-surface-container">48 Heures</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-outline">
+<span>Organes majeurs (Moteur/Boîte) :</span>
+<span class="font-bold text-on-surface">Option test 14j</span>
+</div>
+</div>
+</div>
+<!-- Carte B : Seuil de dérogation KYC -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-error">verified</span>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-error-container bg-error-container px-2 py-0.5 rounded">Strict</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-black text-on-surface">
+              Seuil de Tolérance KYC Vendeur
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Plafond de transactions autorisées avant vérification obligatoire des pièces d'identité (NINEA, RCCM ou CNI marchande Colobane).
+            </p>
+</div>
+<div class="pt-space-sm space-y-2">
+<div class="flex items-center justify-between font-label-lg text-label-lg font-black text-on-surface">
+<span>Tolérance vendeur :</span>
+<span class="px-2 py-1 rounded bg-surface-container text-error font-extrabold">0 FCFA</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-error">cancel</span>
+<span>Aucune mise en vente sans KYC validé</span>
+</div>
+</div>
+</div>
+<!-- Carte C : Tolérance de Prix Dakar -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px] text-secondary">balance</span>
+</div>
+<span class="font-label-sm text-label-sm font-bold text-on-secondary-container bg-secondary-container/20 px-2 py-0.5 rounded">Anti-Fraude</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-black text-on-surface">
+              Fourchette de Prix Colobane
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Algorithme de surveillance contre la spéculation ou la contrefaçon basé sur la médiane constatée Castors / Colobane.
+            </p>
+</div>
+<div class="pt-space-sm space-y-2">
+<div class="flex items-center justify-between font-label-lg text-label-lg font-black text-on-surface">
+<span>Écart max toléré :</span>
+<span class="px-2 py-1 rounded bg-surface-container font-mono">Médiane ± 15%</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-body-sm text-outline">
+<span class="material-symbols-outlined text-[16px] text-secondary">warning</span>
+<span>Alerte modérateur si dépassement</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scellement Sécurisé & Conformité Réglementaire OHADA / UEMOA -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[20px] text-on-tertiary-container">verified</span>
+<span>Conforme OHADA Acte Uniforme Commercial &amp; UEMOA 2026</span>
+<span>•</span>
+<span>Régulation CDP Sénégal n°2008-12</span>
+</div>
+<div class="font-mono text-[11px] text-outline">
+        SHA-256 SCELLEMENT : <span class="font-bold text-on-surface">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const slider = document.getElementById('commissionSlider');
+    const rateDisplay = document.getElementById('rateDisplay');
+    const simRate = document.getElementById('simRate');
+    const commAmount = document.getElementById('commAmount');
+    const netMerchant = document.getElementById('netMerchant');
+    
+    const BASE_PRICE = 28500;
+
+    if (slider) {
+      slider.addEventListener('input', function(e) {
+        const val = parseFloat(e.target.value);
+        rateDisplay.textContent = val.toFixed(1);
+        simRate.textContent = val.toFixed(1);
+
+        const commission = Math.round(BASE_PRICE * (val / 100));
+        const net = BASE_PRICE - commission;
+
+        commAmount.textContent = commission.toLocaleString('fr-FR') + ' FCFA';
+        netMerchant.textContent = net.toLocaleString('fr-FR') + ' FCFA';
+      });
+    }
+  })();
+</script></main></div></body></html>

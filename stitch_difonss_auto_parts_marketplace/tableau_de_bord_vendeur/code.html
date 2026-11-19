@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&amp;family=Literata:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-tertiary-fixed-variant": "#554020",
+        "primary": "#4a7c59",
+        "surface-container-highest": "#e4e0d8",
+        "on-error": "#ffffff",
+        "surface-container-low": "#f5f1ea",
+        "secondary-fixed": "#f0e8db",
+        "primary-fixed": "#c8e8d0",
+        "secondary-fixed-dim": "#d4ccbf",
+        "primary-fixed-dim": "#8ecf9e",
+        "inverse-primary": "#8ecf9e",
+        "error": "#b83230",
+        "on-error-container": "#690005",
+        "on-secondary-fixed-variant": "#4a4538",
+        "surface-container": "#f0ece4",
+        "outline-variant": "#c4c8bc",
+        "error-container": "#ffdad8",
+        "on-primary-fixed-variant": "#2a6038",
+        "inverse-on-surface": "#f5f0e8",
+        "on-primary": "#ffffff",
+        "tertiary-fixed-dim": "#dcc48e",
+        "on-primary-fixed": "#002110",
+        "surface-container-lowest": "#ffffff",
+        "surface-dim": "#dbd7cf",
+        "tertiary-fixed": "#f8e0a8",
+        "on-surface": "#2e3230",
+        "surface": "#faf6f0",
+        "on-secondary": "#ffffff",
+        "on-tertiary-container": "#554020",
+        "on-primary-container": "#d8f0de",
+        "outline": "#74796e",
+        "surface-tint": "#4a7c59",
+        "on-tertiary-fixed": "#221a05",
+        "on-secondary-fixed": "#1e1a13",
+        "primary-container": "#78a886",
+        "inverse-surface": "#2e3230",
+        "surface-container-high": "#eae6de",
+        "on-secondary-container": "#5e5548",
+        "on-background": "#2e3230",
+        "on-tertiary": "#ffffff",
+        "secondary-container": "#f0e8db",
+        "tertiary-container": "#c4a66a",
+        "background": "#faf6f0",
+        "tertiary": "#705c30",
+        "surface-bright": "#faf6f0",
+        "on-surface-variant": "#4a4e4a",
+        "secondary": "#6b6358",
+        "surface-variant": "#e4e0d8"
+      },
+      borderRadius: {
+        "DEFAULT": "0.5rem",
+        "lg": "1rem",
+        "xl": "1.5rem",
+        "full": "9999px"
+      },
+      spacing: {
+        "space-lg": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem",
+        "space-xl": "1.5rem",
+        "gutter": "1rem",
+        "space-sm": "0.5rem",
+        "margin": "1rem"
+      },
+      fontFamily: {
+        "headline": ["Literata", "serif"],
+        "display": ["Literata", "serif"],
+        "body": ["Nunito Sans", "sans-serif"],
+        "label": ["Nunito Sans", "sans-serif"],
+        "body-lg": ["Nunito Sans", "sans-serif"],
+        "display-lg": ["Nunito Sans", "sans-serif"],
+        "body-md": ["Nunito Sans", "sans-serif"],
+        "code-spec": ["Nunito Sans", "sans-serif"],
+        "label-lg": ["Nunito Sans", "sans-serif"],
+        "headline-md": ["Literata", "serif"],
+        "label-sm": ["Nunito Sans", "sans-serif"],
+        "title-md": ["Nunito Sans", "sans-serif"],
+        "headline-lg": ["Literata", "serif"],
+        "body-sm": ["Nunito Sans", "sans-serif"],
+        "headline-lg-mobile": ["Nunito Sans", "sans-serif"],
+        "headline-sm": ["Literata", "serif"],
+        "label-md": ["Nunito Sans", "sans-serif"]
+      },
+      fontSize: {
+        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+        "code-spec": ["13px", { "lineHeight": "18px", "letterSpacing": "0.03em", "fontWeight": "700" }],
+        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }],
+        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+        "title-md": ["16px", { "lineHeight": "22px", "fontWeight": "700" }],
+        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }],
+        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }]
+      }
+    }
+  }
+};</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+      font-family: 'Nunito Sans', sans-serif;
+    }
+  </style>
+</head><body class="bg-surface text-on-surface flex flex-col min-h-screen font-body"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe border-b border-surface-container-high/60 shadow-[0_1px_8px_rgba(46,50,48,0.03)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider truncate">Difonssé Colobane</span><span class="bg-secondary-container text-on-secondary-fixed-variant px-space-xs py-0.5 rounded font-label-sm text-[10px] uppercase font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-primary">verified</span>PRO</span></div><div class="flex items-center gap-space-xs"><span class="font-label-md text-label-md text-primary font-bold">En Ligne</span><span class="text-outline-variant font-body-sm text-[10px]">•</span><span class="font-body-sm text-[12px] text-on-surface-variant truncate">Boutique Ouverte</span></div></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Basculer disponibilité boutique" class="w-11 h-11 flex items-center justify-center rounded-xl bg-surface-container-low text-primary border border-outline-variant/30 active:scale-95 transition-transform" type="button"><span class="material-symbols-outlined text-[20px]">storefront</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full pb-8">
+<div class="px-margin pt-space-md">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm p-space-lg flex flex-col gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-headline truncate">Dakar Pièces Express</h1>
+<span class="bg-surface-container text-on-secondary-fixed-variant font-label-sm text-label-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">verified_user</span>
+              NINEA/RCCM
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[15px] text-tertiary">location_on</span>
+            Boulevard Centenaire, Colobane Casse
+          </p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center shrink-0 text-primary">
+<span class="material-symbols-outlined text-[26px]">settings_suggest</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex items-center justify-between border border-outline-variant/30">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="w-3 h-3 rounded-full bg-primary shrink-0 animate-ping"></span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate" id="shop-status-text">Boutique Ouverte (Prêt pour Tiak-Tiak)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Livraisons en moins de 2h actives</span>
+</div>
+</div>
+<button aria-pressed="true" class="w-12 h-7 rounded-full bg-primary p-0.5 flex items-center transition-colors shadow-inner" id="toggle-shop-btn" type="button">
+<span class="w-6 h-6 rounded-full bg-surface-container-lowest shadow-md transform translate-x-5 transition-transform flex items-center justify-center" id="toggle-shop-knob">
+<span class="material-symbols-outlined text-[14px] text-primary font-bold">bolt</span>
+</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-margin pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-primary">analytics</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline">Métriques Vendeur</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-high px-space-xs py-0.5 rounded">FCFA (XOF)</span>
+</div>
+<div class="grid grid-cols-2 gap-space-md">
+<div class="col-span-2 bg-primary text-on-primary rounded-xl p-space-lg shadow-sm relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 w-32 h-32 bg-primary-container/30 rounded-full pointer-events-none"></div>
+<div class="flex items-start justify-between relative z-10">
+<span class="font-label-md text-label-md text-on-primary-container uppercase tracking-wider font-semibold">Chiffre d'Affaires Hebdo</span>
+<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-space-xs py-0.5 rounded flex items-center gap-0.5 font-bold">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> +14%
+          </span>
+</div>
+<div class="mt-space-sm flex items-baseline gap-space-xs relative z-10">
+<span class="font-display-lg text-display-lg font-extrabold text-on-primary">845 000</span>
+<span class="font-label-md text-label-md text-on-primary-container font-bold">FCFA</span>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-primary-container bg-surface-container-lowest/15 rounded-lg p-space-xs relative z-10">
+<span class="font-body-sm text-body-sm">48 pièces vendues cette semaine</span>
+<span class="font-code-spec text-code-spec text-primary-fixed font-bold">OBJECTIF 92%</span>
+</div>
+</div>
+<div class="col-span-2 bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[16px] text-primary">account_balance_wallet</span>
+              Solde Disponible Retrait
+            </span>
+<div class="mt-space-xs flex items-baseline gap-space-xs">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-extrabold">320 000</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-bold">FCFA</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center font-bold text-[10px] text-on-surface border border-outline-variant/40" title="Wave">W</span>
+<span class="w-7 h-7 rounded-full bg-tertiary-container text-on-tertiary flex items-center justify-center font-bold text-[10px]" title="Orange Money">OM</span>
+</div>
+</div>
+<button class="w-full h-12 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-space-xs active:scale-[0.99] transition-transform shadow-sm hover:bg-primary/95" id="withdraw-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+          Demander un virement immédiat
+        </button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="font-label-sm text-label-sm uppercase font-semibold">Séquestre actif</span>
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+</div>
+<div class="flex items-baseline gap-0.5">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">185 000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">F</span>
+</div>
+</div>
+<p class="font-body-sm text-[11px] leading-tight text-on-surface-variant mt-space-sm bg-surface-container-low p-1.5 rounded-lg border border-outline-variant/20">
+          En attente de test &amp; montage client
+        </p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between text-on-surface-variant mb-1">
+<span class="font-label-sm text-label-sm uppercase font-semibold">Conformité</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary">star</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 5</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-sm bg-surface-container-low p-1.5 rounded-lg text-[11px] border border-outline-variant/20">
+<span class="font-label-sm text-label-sm text-primary font-bold">142 avis</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">99% OEM</span>
+</div>
+</div>
+</div>
+</div>
+<div class="px-margin pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-error animate-pulse">crisis_alert</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline">Actions Urgentes</h2>
+</div>
+<span class="w-6 h-6 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm flex items-center justify-center font-bold">5</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-md text-label-md text-primary font-bold uppercase tracking-wide">3 Devis F08 Express en attente</span>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-fixed-variant px-space-xs py-0.5 rounded font-bold">Colobane / Fass</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Demandes urgentes reçues pour Peugeot 308 (Injecteur), Toyota RAV4 (Crémaillère) et Hyundai Tucson.
+        </p>
+<div class="flex items-center gap-space-sm pt-space-xs">
+<a class="flex-1 h-10 bg-primary text-on-primary rounded-xl font-label-md text-label-md flex items-center justify-center gap-1 active:scale-[0.98] transition-transform shadow-sm" href="#">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+            Chiffrer les 3 devis
+          </a>
+<button class="h-10 px-3 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md flex items-center justify-center border border-outline-variant/30" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-tertiary">two_wheeler</span>
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wide">2 Retraits Tiak-Tiak aujourd'hui</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface px-space-xs py-0.5 rounded font-bold">Avant 16h30</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between bg-surface-container-low p-space-xs rounded-lg border border-outline-variant/20">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">package_2</span>
+<span class="font-code-spec text-code-spec text-on-surface truncate">#CMD-8902 Amortisseurs Av Toyota</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold shrink-0">À emballer</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-space-xs rounded-lg border border-outline-variant/20">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">package_2</span>
+<span class="font-code-spec text-code-spec text-on-surface truncate">#CMD-8914 Kit Embrayage Dacia</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-bold shrink-0">Livreur à 5 min</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-margin pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline">Raccourcis Comptoir</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accès rapide</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<button class="flex flex-col items-center justify-center p-space-md bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm active:scale-95 transition-transform text-center gap-1.5" type="button">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">add_box</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold leading-tight">Ajouter pièce</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-md bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm active:scale-95 transition-transform text-center gap-1.5" id="scan-qr-btn" type="button">
+<div class="w-11 h-11 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[24px]">qr_code_scanner</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold leading-tight">Scanner OTP Livreur</span>
+</button>
+<button class="flex flex-col items-center justify-center p-space-md bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm active:scale-95 transition-transform text-center gap-1.5" type="button">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">print</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold leading-tight">Imprimer Bordereaux</span>
+</button>
+</div>
+</div>
+<div class="px-margin pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">history</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-headline">Activité Récente</h2>
+</div>
+<a class="font-label-md text-label-md text-primary font-bold" href="#">Tout voir</a>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-surface-container shrink-0 overflow-hidden relative border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="A clean set of high quality Brembo brake pads for sedan with metallic clips and technical carton packaging displayed on a neutral workshop counter in bright lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6xQa-4HPwB0E0hk9dGYebB3nX9xGXN3NhfYA7X3nhsISabo3KnxkGVrl_1BZPq3qk9CeciyeLJEdEd6FVER-fdqPCaoGoQQwwUdyIsr7miH73cr8crWs0H3BcaU5dj-7Wd2SFR0FXpaVND4pWPSLhWp49bMr8P7i9Xl5vimU9QSGx1sBNftyOGhID7bykbiBys0mmXLi0SWZNrUhpOKGxYAAH-V6OXm74EJZdbg"/>
+<span class="absolute bottom-0 right-0 bg-primary text-on-primary rounded-tl-lg p-0.5">
+<span class="material-symbols-outlined text-[10px] block">check</span>
+</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-code-spec text-code-spec text-on-surface-variant truncate">#DIF-7842</span>
+<span class="font-label-sm text-[10px] text-on-primary-fixed-variant bg-primary-fixed px-1.5 py-0.5 rounded font-bold shrink-0">Retrait Validé</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface truncate font-bold">Plaquettes Brembo Av.</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Coursier Modou (Tiak-Tiak #14) en route</p>
+<div class="flex items-center justify-between mt-1">
+<span class="font-label-md text-label-md text-on-surface font-extrabold">24 000 FCFA</span>
+<span class="font-label-sm text-[11px] text-outline">Il y a 12 min</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-surface-container shrink-0 overflow-hidden relative border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Automotive alternator for Peugeot 308 engine shown from front angle with pulley and copper coils visible against a clean technical garage staging." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACWGVtSzheMe5p-JRxEWn-AWwJljDnPT80U_KQvjEkHm4bgdkYn__pfratdNByUJrcUmiVSf4RWHNxOk1zHG8n-mbBU_Dw8CLE-2BJmSH7FVs43lyWt2BXVDg8urEzusy2gyp-VodC8p1zQJtybPRVW9U4PxHMk-C268zzfsBT8jYcAjztIoRQaXJl-j9zJJlYozrt7RFV_oseuAP4pTSNh3OSLU2GFi-Ri64miw"/>
+<span class="absolute bottom-0 right-0 bg-tertiary text-on-tertiary rounded-tl-lg p-0.5">
+<span class="material-symbols-outlined text-[10px] block">lock</span>
+</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-code-spec text-code-spec text-on-surface-variant truncate">#DEV-4091</span>
+<span class="font-label-sm text-[10px] text-on-tertiary-fixed-variant bg-tertiary-fixed px-1.5 py-0.5 rounded font-bold shrink-0">Consigné Wave</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface truncate font-bold">Alternateur Peugeot 308</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Garagiste Amadou (Ouakam) a validé le prix</p>
+<div class="flex items-center justify-between mt-1">
+<span class="font-label-md text-label-md text-tertiary font-extrabold">58 000 FCFA</span>
+<span class="font-label-sm text-[11px] text-outline">Il y a 41 min</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/40 shadow-sm flex items-start gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-surface-container shrink-0 overflow-hidden relative border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Cardan transmission drive axle for Toyota Corolla wrapped with protective seal labels ready for workshop installation in Dakar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5PZJnYIpo1-21pq5ENXhDy3tmmhyCvbglViBM2SPya0w9pVz-2jxxePMWrotKt8u8B31ZeVf-jh0h5lBcjjKUXKVwH6nQFgEcBwQZ182mqSglafAa1ifSxzrcihbM1CdI5fkMecFiAq0Cw5C5qqfU8_9u3E2Zb_WeSpWEQ7naUlNJszOFR94-AQA0qluMbph6xvssaDsoznJyVF2mDLZkA8drxbYM8lEIAp1_wg"/>
+<span class="absolute bottom-0 right-0 bg-primary text-on-primary rounded-tl-lg p-0.5">
+<span class="material-symbols-outlined text-[10px] block">done_all</span>
+</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs">
+<span class="font-code-spec text-code-spec text-on-surface-variant truncate">#DIF-7830</span>
+<span class="font-label-sm text-[10px] text-on-primary-fixed-variant bg-primary-fixed px-1.5 py-0.5 rounded font-bold shrink-0">Livré &amp; Payé</span>
+</div>
+<span class="font-title-md text-title-md text-on-surface truncate font-bold">Tête de cardan Toyota</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Fonds libérés vers solde disponible</p>
+<div class="flex items-center justify-between mt-1">
+<span class="font-label-md text-label-md text-on-surface font-extrabold">35 000 FCFA</span>
+<span class="font-label-sm text-[11px] text-outline">Hier 18:20</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed top-20 inset-x-4 z-50 bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-lg flex items-center justify-between opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-2 border border-outline/20" id="toast-notification">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm" id="toast-text">Demande de virement envoyée avec succès</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline-variant uppercase font-bold">OK</span>
+</div>
+</div>
+<script>
+  (function() {
+    const toggleBtn = document.getElementById('toggle-shop-btn');
+    const toggleKnob = document.getElementById('toggle-shop-knob');
+    const statusText = document.getElementById('shop-status-text');
+    const withdrawBtn = document.getElementById('withdraw-btn');
+    const toast = document.getElementById('toast-notification');
+    const toastText = document.getElementById('toast-text');
+    const scanBtn = document.getElementById('scan-qr-btn');
+
+    let isOpen = true;
+
+    function showToast(message) {
+      if (!toast) return;
+      toastText.textContent = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+      }, 2600);
+    }
+
+    if (toggleBtn && toggleKnob && statusText) {
+      toggleBtn.addEventListener('click', () => {
+        isOpen = !isOpen;
+        if (isOpen) {
+          toggleBtn.classList.remove('bg-surface-container-highest');
+          toggleBtn.classList.add('bg-primary');
+          toggleKnob.classList.remove('translate-x-0');
+          toggleKnob.classList.add('translate-x-5');
+          statusText.textContent = 'Boutique Ouverte (Prêt pour Tiak-Tiak)';
+          showToast('Boutique ouverte aux coursiers Tiak-Tiak');
+        } else {
+          toggleBtn.classList.remove('bg-primary');
+          toggleBtn.classList.add('bg-surface-container-highest');
+          toggleKnob.classList.remove('translate-x-5');
+          toggleKnob.classList.add('translate-x-0');
+          statusText.textContent = 'Boutique En Pause (Fermée aux retraits)';
+          showToast('Statut mis à jour : Pause boutique');
+        }
+      });
+    }
+
+    if (withdrawBtn) {
+      withdrawBtn.addEventListener('click', () => {
+        showToast('Demande de virement de 320 000 FCFA initiée');
+      });
+    }
+
+    if (scanBtn) {
+      scanBtn.addEventListener('click', () => {
+        showToast('Ouverture caméra pour validation OTP coursier...');
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/95 backdrop-blur-xl border-t border-surface-container-high/60 shadow-[0_-4px_16px_rgba(46,50,48,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 transition-colors text-primary font-bold" data-path="tableau-de-bord" href="#"><span class="material-symbols-outlined text-[22px]">space_dashboard</span><span class="font-label-sm text-[10px]">Accueil</span></a><a class="relative flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-primary" data-path="commandes-devis" href="#"><span class="material-symbols-outlined text-[22px]">receipt_long</span><span class="font-label-sm text-[10px]">Commandes</span><span class="absolute top-1 right-2 min-w-[16px] h-4 px-1 rounded-full bg-primary text-on-primary font-label-sm text-[9px] flex items-center justify-center font-bold">3</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-primary" data-path="stock-catalogue" href="#"><span class="material-symbols-outlined text-[22px]">inventory_2</span><span class="font-label-sm text-[10px]">Stock</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-primary" data-path="versements-finances" href="#"><span class="material-symbols-outlined text-[22px]">account_balance_wallet</span><span class="font-label-sm text-[10px]">Finances</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-primary" data-path="profil-boutique" href="#"><span class="material-symbols-outlined text-[22px]">settings_account_box</span><span class="font-label-sm text-[10px]">Profil</span></a></div></nav></body></html>

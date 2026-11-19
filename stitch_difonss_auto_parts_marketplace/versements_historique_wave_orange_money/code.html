@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300..900;1,6..12,300..900&amp;family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-fixed-variant": "#554020",
+          "primary": "#4a7c59",
+          "surface-container-highest": "#e4e0d8",
+          "on-error": "#ffffff",
+          "surface-container-low": "#f5f1ea",
+          "secondary-fixed": "#f0e8db",
+          "primary-fixed": "#c8e8d0",
+          "secondary-fixed-dim": "#d4ccbf",
+          "primary-fixed-dim": "#8ecf9e",
+          "inverse-primary": "#8ecf9e",
+          "error": "#b83230",
+          "on-error-container": "#690005",
+          "on-secondary-fixed-variant": "#4a4538",
+          "surface-container": "#f0ece4",
+          "outline-variant": "#c4c8bc",
+          "error-container": "#ffdad8",
+          "on-primary-fixed-variant": "#2a6038",
+          "inverse-on-surface": "#f5f0e8",
+          "on-primary": "#ffffff",
+          "tertiary-fixed-dim": "#dcc48e",
+          "on-primary-fixed": "#002110",
+          "surface-container-lowest": "#ffffff",
+          "surface-dim": "#dbd7cf",
+          "tertiary-fixed": "#f8e0a8",
+          "on-surface": "#2e3230",
+          "surface": "#faf6f0",
+          "on-secondary": "#ffffff",
+          "on-tertiary-container": "#554020",
+          "on-primary-container": "#d8f0de",
+          "outline": "#74796e",
+          "surface-tint": "#4a7c59",
+          "on-tertiary-fixed": "#221a05",
+          "on-secondary-fixed": "#1e1a13",
+          "primary-container": "#78a886",
+          "inverse-surface": "#2e3230",
+          "surface-container-high": "#eae6de",
+          "on-secondary-container": "#5e5548",
+          "on-background": "#2e3230",
+          "on-tertiary": "#ffffff",
+          "secondary-container": "#f0e8db",
+          "tertiary-container": "#c4a66a",
+          "background": "#faf6f0",
+          "tertiary": "#705c30",
+          "surface-bright": "#faf6f0",
+          "on-surface-variant": "#4a4e4a",
+          "secondary": "#6b6358",
+          "surface-variant": "#e4e0d8"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.5rem",
+          "lg": "1rem",
+          "xl": "1.5rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "space-xs": "0.25rem",
+          "gutter": "1rem",
+          "margin": "1rem",
+          "space-xl": "1.5rem",
+          "space-md": "0.75rem",
+          "space-lg": "1rem"
+        },
+        "fontFamily": {
+          "headline": ["Literata", "serif"],
+          "display": ["Literata", "serif"],
+          "body": ["Nunito Sans", "sans-serif"],
+          "label": ["Nunito Sans", "sans-serif"]
+        }
+      },
+    },
+  }
+</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+      font-family: 'Nunito Sans', sans-serif;
+    }
+  </style></head><body class="bg-background font-body text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/30 pt-safe"><div class="h-20 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0 flex-1"><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="text-xs font-bold text-primary uppercase tracking-wide">Boutique Ouverte</span><span class="text-on-surface-variant text-xs">• Castors</span></div><h1 class="text-base font-bold text-on-surface truncate">Dakar Pièces Express</h1><div class="flex items-center gap-space-xs"><span class="text-xs text-on-surface-variant">Séquestre difonssé:</span><span class="text-xs text-primary font-extrabold tracking-wide">845 000 FCFA</span></div></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Notifications commandes" class="w-10 h-10 min-w-[40px] min-h-[40px] rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary font-bold shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full px-margin pt-20 pb-28 bg-background min-h-screen"><div class="flex flex-col w-full gap-space-lg">
+<!-- Entête contexte boutique pro & badges confiance -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0 overflow-hidden ring-1 ring-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Intérieur net d'un magasin de pièces détachées automobiles à Dakar Castors, étagères métalliques bien rangées avec filtres, courroies et alternateurs sous lumière naturelle vive." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4JiIwm7cAY28Ikk_3edgDBkSJoWbRFgnh-t2mk4ZrLmaLfLxDpWX7LXXHpSm3o5fxJ1ZBWri7TUuvEsExFD9l034D_wuWgOXwjhxXG49zDYAtnP8801ADoYbw-yNdgltXz3JXDfe5HngdA3BPrJdBkNLEi6oWRFyj52tOgauY_7Is6zApINVsPgSTGxC284W6dZuDBw0zrjJSwNRdkzrbBqSKgSXT99po5Z4vlA"/>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<h2 class="text-base font-bold text-on-surface truncate">Dakar Pièces Express</h2>
+</div>
+<span class="text-xs text-on-surface-variant flex items-center gap-space-xs mt-0.5">
+<span class="material-symbols-outlined text-[15px] text-primary">storefront</span>
+            Hub Castors &amp; Colobane • Échoppe #42
+          </span>
+</div>
+</div>
+<div class="bg-primary-fixed/40 px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0 border border-primary/20">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-xs text-on-primary-fixed-variant font-bold">NINEA/RCCM</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low p-space-sm rounded-lg border border-outline-variant/30">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="text-xs font-bold text-on-surface">Compte Vendeur Certifié Difonssé</span>
+</div>
+<span class="text-xs font-semibold text-on-surface-variant">ID: SN-DKR-8842</span>
+</div>
+</div>
+<!-- SECTION 1 : Synthèse Financière & Soldes -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-md">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Solde Disponible Immédiat</span>
+<span class="bg-surface-container px-2.5 py-0.5 rounded-full text-xs font-bold text-primary">Liquidation 24/7</span>
+</div>
+<!-- Gros montant avec mise en avant -->
+<div class="flex items-baseline justify-between gap-space-sm">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline text-3xl text-on-surface font-extrabold tracking-tight">320 000</span>
+<span class="text-base text-primary font-bold">FCFA</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed/60 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+</div>
+<!-- CTA Retrait Principal -->
+<button class="w-full h-12 bg-primary hover:bg-primary/90 text-on-primary font-bold text-sm rounded-xl flex items-center justify-center gap-space-sm shadow-sm active:scale-[0.98] transition-all" id="btn-open-withdraw">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<span>Demander un versement immédiat</span>
+</button>
+<!-- Sous-cartes : Séquestre & Cumul Mensuel -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<!-- Séquestre garanti -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between gap-space-xs border border-outline-variant/30">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[18px]">gavel</span>
+<span class="text-xs font-bold">Séquestre Client</span>
+</div>
+<div class="flex flex-col mt-0.5">
+<span class="text-lg text-on-surface font-extrabold">185 000 <span class="text-xs font-normal text-on-surface-variant">F</span></span>
+<span class="text-xs text-on-surface-variant mt-0.5 leading-snug">Garantie 7j &amp; pose atelier</span>
+</div>
+<div class="bg-primary-fixed/30 px-space-xs py-1 rounded text-center mt-1">
+<span class="text-xs text-on-primary-fixed-variant font-bold">Libération 24h-72h</span>
+</div>
+</div>
+<!-- Total versé du mois -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between gap-space-xs border border-outline-variant/30">
+<div class="flex items-center gap-space-xs text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-xs font-bold">Versé en Nov.</span>
+</div>
+<div class="flex flex-col mt-0.5">
+<span class="text-lg text-on-surface font-extrabold">1 450 000 <span class="text-xs font-normal text-on-surface-variant">F</span></span>
+<span class="text-xs text-on-surface-variant mt-0.5 leading-snug">14 ventes clôturées</span>
+</div>
+<div class="bg-surface-container-high px-space-xs py-1 rounded text-center mt-1">
+<span class="text-xs text-on-surface-variant font-bold">Taux de litige : 0%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 2 : Panneau de Versement Rapide Mobile Money -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-md" id="retrait-panel">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[22px] text-primary">flash_on</span>
+<h3 class="text-base font-bold text-on-surface">Effectuer un retrait express</h3>
+</div>
+<span class="bg-primary-fixed/40 text-on-primary-fixed-variant text-xs px-2.5 py-0.5 rounded-full font-bold">0 F de frais</span>
+</div>
+<!-- Sélecteur compte récepteur Wave / Orange Money -->
+<div class="flex flex-col gap-space-sm">
+<span class="text-xs font-bold text-on-surface-variant">Choisir le compte de destination :</span>
+<!-- Option 1: WAVE (sélectionné par défaut) -->
+<label class="flex items-center justify-between p-space-md rounded-xl bg-surface-container-low border border-primary/40 cursor-pointer shadow-sm transition-colors" id="account-wave">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant shrink-0 font-bold">
+<span class="material-symbols-outlined text-[20px]">waves</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="text-sm font-bold text-on-surface">Wave Pro Sénégal</span>
+<span class="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded font-extrabold">Défaut</span>
+</div>
+<span class="text-xs font-semibold text-on-surface-variant mt-0.5">+221 77 452 89 12</span>
+<span class="text-xs text-on-surface-variant">Dakar Pièces Express</span>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+</label>
+<!-- Option 2: ORANGE MONEY -->
+<label class="flex items-center justify-between p-space-md rounded-xl bg-surface-container-lowest border border-outline-variant/30 cursor-pointer transition-colors" id="account-om">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-tertiary shrink-0 font-bold">
+<span class="material-symbols-outlined text-[20px]">toll</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-bold text-on-surface">Orange Money Pro</span>
+<span class="text-xs font-semibold text-on-surface-variant mt-0.5">+221 78 310 44 00</span>
+<span class="text-xs text-on-surface-variant">M. Diallo (Gérant)</span>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-outline shrink-0">
+<span class="w-2 h-2 rounded-full bg-transparent"></span>
+</div>
+</label>
+</div>
+<!-- Saisie & Boutons rapides du montant -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold text-on-surface-variant">Montant à transférer</span>
+<span class="text-xs text-on-surface-variant">Max : 320 000 FCFA</span>
+</div>
+<div class="flex items-center bg-surface-container-low rounded-xl px-space-md py-space-sm border border-outline-variant/30">
+<input class="w-full bg-transparent text-xl text-on-surface font-extrabold focus:outline-none" id="withdraw-input" placeholder="0" type="text" value="320 000"/>
+<span class="text-sm font-bold text-primary ml-2">FCFA</span>
+</div>
+<!-- Quick Chips -->
+<div class="grid grid-cols-4 gap-space-xs">
+<button class="quick-amt-btn bg-surface-container text-on-surface hover:bg-surface-container-high py-2 rounded-lg text-xs font-bold text-center transition-colors" data-val="50 000" type="button">50 000 F</button>
+<button class="quick-amt-btn bg-surface-container text-on-surface hover:bg-surface-container-high py-2 rounded-lg text-xs font-bold text-center transition-colors" data-val="100 000" type="button">100 000 F</button>
+<button class="quick-amt-btn bg-surface-container text-on-surface hover:bg-surface-container-high py-2 rounded-lg text-xs font-bold text-center transition-colors" data-val="200 000" type="button">200 000 F</button>
+<button class="quick-amt-btn bg-primary-fixed text-on-primary-fixed-variant font-extrabold py-2 rounded-lg text-xs text-center border border-primary/20 transition-colors" data-val="320 000" type="button">Tout (Max)</button>
+</div>
+</div>
+<!-- Réassurance vitesse & gratuité -->
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center gap-space-sm border border-outline-variant/20">
+<span class="material-symbols-outlined text-[20px] text-primary shrink-0">bolt</span>
+<p class="text-xs text-on-surface leading-relaxed">
+<strong class="font-bold text-primary">Zéro frais Difonssé.</strong> Réception sur votre mobile en moins de 120 secondes avec accusé SMS instantané.
+      </p>
+</div>
+<!-- Bouton Confirmation Final -->
+<button class="w-full h-12 bg-primary hover:bg-primary/95 text-on-primary font-bold text-sm rounded-xl flex items-center justify-center gap-space-sm active:scale-[0.98] transition-all shadow-sm" id="btn-submit-withdraw">
+<span class="material-symbols-outlined text-[20px]">send_money</span>
+<span id="withdraw-label">Confirmer le versement Wave (320 000 FCFA)</span>
+</button>
+</div>
+<!-- SECTION 3 : Calendrier & Fréquence Virement Automatique -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-primary">event_repeat</span>
+<h4 class="text-sm font-bold">Virement Automatique Hebdomadaire</h4>
+</div>
+<span class="bg-primary-fixed/40 text-on-primary-fixed-variant text-xs px-2.5 py-0.5 rounded-full font-bold">Actif</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+      Vos fonds disponibles sont automatiquement vidés chaque <strong class="text-on-surface font-bold">Vendredi à 17h00</strong> vers votre compte Wave principal sans aucune démarche requise.
+    </p>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between border border-outline-variant/30">
+<div class="flex flex-col">
+<span class="text-xs text-on-surface-variant">Prochaine échéance planifiée</span>
+<span class="text-xs font-bold text-on-surface mt-0.5">Vendredi 14 Nov. • 17:00</span>
+</div>
+<div class="text-right flex flex-col">
+<span class="text-xs text-on-surface-variant">Montant estimé</span>
+<span class="text-xs font-extrabold text-primary mt-0.5">~185 000 FCFA</span>
+</div>
+</div>
+</div>
+<!-- SECTION 4 : Historique des Transactions & Filtres -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex justify-between items-center">
+<h3 class="text-base font-bold text-on-surface">Historique &amp; Justificatifs</h3>
+<span class="text-xs font-semibold text-on-surface-variant">Mois en cours</span>
+</div>
+<!-- Onglets filtres horizontaux sans bordure -->
+<div class="flex gap-space-xs overflow-x-auto pb-1 -mx-margin px-margin">
+<button class="filter-tab active px-3.5 py-1.5 rounded-full text-xs font-bold bg-primary text-on-primary shrink-0 transition-colors" data-filter="all">Tous (12)</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high shrink-0 transition-colors" data-filter="payout">Versements reçus</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high shrink-0 transition-colors" data-filter="unlocked">Séquestres débloqués</button>
+<button class="filter-tab px-3.5 py-1.5 rounded-full text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high shrink-0 transition-colors" data-filter="escrow">En attente garantie</button>
+</div>
+<!-- Liste d'opérations récentes -->
+<div class="flex flex-col gap-space-xs">
+<!-- Item 1: Versement reçu Wave -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/40 shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">north_east</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Versement Sortant Wave</span>
+<span class="text-xs text-on-surface-variant mt-0.5">10 Nov 2026 • 14:22 • Réf #WAV-98124</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-base text-on-surface font-extrabold">-250 000 <span class="text-xs font-normal">F</span></span>
+<span class="bg-primary-fixed/40 text-on-primary-fixed-variant text-[11px] px-2 py-0.5 rounded font-bold mt-0.5">Transféré</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low px-space-sm py-1.5 rounded-lg mt-1 border border-outline-variant/20">
+<span class="text-xs text-on-surface-variant truncate">Crédité sur +221 77 452 89 12</span>
+<button class="flex items-center gap-1 text-primary text-xs font-bold shrink-0 hover:underline">
+<span class="material-symbols-outlined text-[15px]">download</span>
+<span>Reçu PDF</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Séquestre débloqué avec commission déduite -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/40 shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary-fixed/60 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">lock_open</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Séquestre Débloqué #CMD-8902</span>
+<span class="text-xs text-on-surface-variant mt-0.5">Plaquettes frein Brembo • Toyota Hilux</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-base text-primary font-extrabold">+22 050 <span class="text-xs">F net</span></span>
+<span class="text-[11px] text-on-surface-variant mt-0.5">Prix 24 500 F - com. 2 450 F</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low px-space-sm py-1.5 rounded-lg mt-1 border border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-[15px] text-primary">verified</span>
+<span>Validé sans réserve par <strong>Garage Mermoz</strong></span>
+</div>
+<span class="text-xs text-on-surface-variant font-medium">08 Nov 2026</span>
+</div>
+</div>
+<!-- Item 3: Versement Orange Money -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/40 shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[20px]">north_east</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Versement Orange Money</span>
+<span class="text-xs text-on-surface-variant mt-0.5">03 Nov 2026 • 11:05 • Réf #OM-66712</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-base text-on-surface font-extrabold">-400 000 <span class="text-xs font-normal">F</span></span>
+<span class="bg-primary-fixed/40 text-on-primary-fixed-variant text-[11px] px-2 py-0.5 rounded font-bold mt-0.5">Effectué</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low px-space-sm py-1.5 rounded-lg mt-1 border border-outline-variant/20">
+<span class="text-xs text-on-surface-variant truncate">Crédité sur +221 78 310 44 00 (Diallo)</span>
+<button class="flex items-center gap-1 text-primary text-xs font-bold shrink-0 hover:underline">
+<span class="material-symbols-outlined text-[15px]">download</span>
+<span>Reçu</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Séquestre en attente de test -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl border border-outline-variant/40 shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim/40 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-on-surface">Séquestre en cours #CMD-8914</span>
+<span class="text-xs text-on-surface-variant mt-0.5">Kit embrayage Dacia Duster 1.5 dCi</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-base text-tertiary font-extrabold">58 500 <span class="text-xs font-normal text-on-surface-variant">F</span></span>
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant text-[11px] px-2 py-0.5 rounded font-bold mt-0.5">En test atelier</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs bg-surface-container-low px-space-sm py-1.5 rounded-lg mt-1 border border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-xs">
+<span class="material-symbols-outlined text-[15px] text-tertiary">schedule</span>
+<span>Période d'essai : <strong>reste 4 jours</strong></span>
+</div>
+<span class="text-xs text-tertiary font-bold">Auto-libéré le 15 Nov.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 5 : Reçus & Relevé Comptable Mensuel Exportable -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg border border-outline-variant/40 shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[22px]">description</span>
+</div>
+<div class="flex flex-col">
+<h4 class="text-sm font-bold text-on-surface">Relevé Fiscal &amp; Comptabilité Magasin</h4>
+<span class="text-xs text-on-surface-variant">Conforme aux exigences BRS / NINEA Sénégal</span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+      Exportez l'ensemble des bordereaux de ventes, justificatifs de déblocage séquestre et factures de commissions Difonssé pour votre comptable.
+    </p>
+<div class="flex gap-space-sm pt-space-xs">
+<button class="flex-1 h-11 bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 border border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[18px]">table_view</span>
+<span>Export Excel (.XLS)</span>
+</button>
+<button class="flex-1 h-11 bg-primary hover:bg-primary/95 text-on-primary font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Relevé PDF Mensuel</span>
+</button>
+</div>
+</div>
+<!-- Note informative de bas de page -->
+<div class="flex items-center justify-center gap-space-xs text-on-surface-variant py-space-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span class="text-xs font-medium">Séquestres certifiés conformes BCEAO / OHADA via partenaires bancaires</span>
+</div>
+</div>
+<script>
+  // Interactions de l'écran Versements & Retraits Difonssé Pro
+  (function initFinancesPro() {
+    const btnOpenWithdraw = document.getElementById('btn-open-withdraw');
+    const panel = document.getElementById('retrait-panel');
+    const withdrawInput = document.getElementById('withdraw-input');
+    const withdrawLabel = document.getElementById('withdraw-label');
+    const quickBtns = document.querySelectorAll('.quick-amt-btn');
+    const accountWave = document.getElementById('account-wave');
+    const accountOm = document.getElementById('account-om');
+    const btnSubmit = document.getElementById('btn-submit-withdraw');
+
+    let currentAccount = 'Wave';
+
+    // Scroll doux vers le panneau de versement
+    if (btnOpenWithdraw && panel) {
+      btnOpenWithdraw.addEventListener('click', () => {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        withdrawInput.focus();
+      });
+    }
+
+    // Gestion de la sélection de compte
+    if (accountWave && accountOm) {
+      accountWave.addEventListener('click', () => {
+        currentAccount = 'Wave';
+        accountWave.classList.add('bg-surface-container-low', 'border-primary/40');
+        accountWave.classList.remove('bg-surface-container-lowest', 'border-outline-variant/30');
+        accountOm.classList.remove('bg-surface-container-low', 'border-primary/40');
+        accountOm.classList.add('bg-surface-container-lowest', 'border-outline-variant/30');
+
+        accountWave.querySelector('.w-6.h-6').className = 'w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0';
+        accountWave.querySelector('.w-6.h-6').innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
+
+        accountOm.querySelector('.w-6.h-6').className = 'w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-outline shrink-0';
+        accountOm.querySelector('.w-6.h-6').innerHTML = '<span class="w-2 h-2 rounded-full bg-transparent"></span>';
+
+        updateCTA();
+      });
+
+      accountOm.addEventListener('click', () => {
+        currentAccount = 'Orange Money';
+        accountOm.classList.add('bg-surface-container-low', 'border-primary/40');
+        accountOm.classList.remove('bg-surface-container-lowest', 'border-outline-variant/30');
+        accountWave.classList.remove('bg-surface-container-low', 'border-primary/40');
+        accountWave.classList.add('bg-surface-container-lowest', 'border-outline-variant/30');
+
+        accountOm.querySelector('.w-6.h-6').className = 'w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0';
+        accountOm.querySelector('.w-6.h-6').innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
+
+        accountWave.querySelector('.w-6.h-6').className = 'w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-outline shrink-0';
+        accountWave.querySelector('.w-6.h-6').innerHTML = '<span class="w-2 h-2 rounded-full bg-transparent"></span>';
+
+        updateCTA();
+      });
+    }
+
+    // Mise à jour montant boutons rapides
+    quickBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-val');
+        withdrawInput.value = val;
+        updateCTA();
+      });
+    });
+
+    if (withdrawInput) {
+      withdrawInput.addEventListener('input', updateCTA);
+    }
+
+    function updateCTA() {
+      const amt = withdrawInput.value || '0';
+      withdrawLabel.textContent = `Confirmer le versement ${currentAccount} (${amt} FCFA)`;
+    }
+
+    // Simulation de validation de retrait instantané
+    if (btnSubmit) {
+      btnSubmit.addEventListener('click', () => {
+        const amt = withdrawInput.value;
+        const originalText = withdrawLabel.textContent;
+        withdrawLabel.textContent = "Traitement en cours...";
+        btnSubmit.disabled = true;
+
+        setTimeout(() => {
+          alert(`Succès ! Votre demande de retrait de ${amt} FCFA a été validée. Les fonds arrivent sur votre compte ${currentAccount} par API instantanée.`);
+          withdrawLabel.textContent = originalText;
+          btnSubmit.disabled = false;
+        }, 800);
+      });
+    }
+
+    // Onglets de filtrage rapide
+    const tabs = document.querySelectorAll('.filter-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-primary', 'text-on-primary');
+          t.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        tab.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+  })();
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/95 backdrop-blur-xl border-t border-outline-variant/30" data-active-classes="text-primary font-bold"><div class="flex justify-between items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 min-w-[44px] min-h-[44px] text-on-surface-variant hover:text-primary transition-all" data-path="tableau-de-bord" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="text-[11px] text-center truncate w-full font-medium">Activité</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 min-w-[44px] min-h-[44px] text-on-surface-variant hover:text-primary transition-all" data-path="stock-catalogue" href="#"><span class="material-symbols-outlined text-[22px]">inventory_2</span><span class="text-[11px] text-center truncate w-full font-medium">Catalogue</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 min-w-[44px] min-h-[44px] text-on-surface-variant hover:text-primary transition-all relative" data-path="devis-demandes" href="#"><span class="material-symbols-outlined text-[22px]">request_quote</span><span class="text-[11px] text-center truncate w-full font-medium">Devis F08</span><span class="absolute top-2 right-3 w-2 h-2 rounded-full bg-primary"></span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 min-w-[44px] min-h-[44px] text-on-surface-variant hover:text-primary transition-all" data-path="commandes-otp" href="#"><span class="material-symbols-outlined text-[22px]">local_shipping</span><span class="text-[11px] text-center truncate w-full font-medium">Courses OTP</span></a><a class="flex flex-col items-center justify-center gap-1 w-16 h-14 min-w-[44px] min-h-[44px] text-primary font-bold transition-all" data-path="boutique-versements" href="#"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span><span class="text-[11px] text-center truncate w-full font-bold">Retraits</span></a></div></nav></body></html>

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "inverse-on-surface": "#eaf1ff",
+        "on-secondary-container": "#684000",
+        "on-background": "#0b1c30",
+        "surface-dim": "#cbdbf5",
+        "background": "#f8f9ff",
+        "surface-container-low": "#eff4ff",
+        "surface-variant": "#d3e4fe",
+        "tertiary": "#000000",
+        "on-error": "#ffffff",
+        "surface-container-high": "#dce9ff",
+        "tertiary-fixed": "#6ffbbe",
+        "on-secondary": "#ffffff",
+        "primary-container": "#131b2e",
+        "secondary": "#855300",
+        "surface-container-highest": "#d3e4fe",
+        "tertiary-container": "#002113",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#131b2e",
+        "primary-fixed-dim": "#bec6e0",
+        "tertiary-fixed-dim": "#4edea3",
+        "secondary-container": "#fea619",
+        "on-tertiary-container": "#009668",
+        "error": "#ba1a1a",
+        "on-secondary-fixed": "#2a1700",
+        "error-container": "#ffdad6",
+        "on-secondary-fixed-variant": "#653e00",
+        "secondary-fixed-dim": "#ffb95f",
+        "outline-variant": "#c6c6cd",
+        "surface-tint": "#565e74",
+        "on-tertiary-fixed-variant": "#005236",
+        "outline": "#76777d",
+        "surface": "#f8f9ff",
+        "on-primary-container": "#7c839b",
+        "inverse-surface": "#213145",
+        "on-surface": "#0b1c30",
+        "surface-container-lowest": "#ffffff",
+        "inverse-primary": "#bec6e0",
+        "on-primary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3f465c",
+        "on-surface-variant": "#45464d",
+        "surface-bright": "#f8f9ff",
+        "on-tertiary-fixed": "#002113",
+        "surface-container": "#e5eeff",
+        "primary": "#000000",
+        "secondary-fixed": "#ffddb8",
+        "primary-fixed": "#dae2fd"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "space-sm": "0.5rem",
+        "gutter-mobile": "0.75rem",
+        "margin-mobile": "0.75rem",
+        "gutter": "1rem",
+        "space-xl": "1.5rem",
+        "space-lg": "1rem",
+        "margin": "1rem",
+        "space-md": "0.75rem",
+        "space-xs": "0.25rem"
+      },
+      "fontFamily": {
+        "body-lg": ["Plus Jakarta Sans"],
+        "headline-lg-mobile": ["Plus Jakarta Sans"],
+        "headline-lg": ["Plus Jakarta Sans"],
+        "body-sm": ["Plus Jakarta Sans"],
+        "label-lg": ["Plus Jakarta Sans"],
+        "label-md": ["Plus Jakarta Sans"],
+        "headline-sm": ["Plus Jakarta Sans"],
+        "price-display": ["Plus Jakarta Sans"],
+        "label-sm": ["Plus Jakarta Sans"],
+        "body-md": ["Plus Jakarta Sans"],
+        "headline-md": ["Plus Jakarta Sans"]
+      },
+      "fontSize": {
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+        "price-display": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "headline-md": ["20px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-lg flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">directions_car</span></div><div><span class="font-headline-sm text-headline-sm font-black tracking-tight text-on-surface uppercase">Difonssé</span><span class="block font-label-sm text-label-sm text-on-surface-variant leading-none">Dakar Auto Market</span></div></div><span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">SUPER ADMIN</span></div><div class="px-space-md py-space-xs"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Supervision & Audit</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tableau-de-bord" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-label-lg text-label-lg">Tableau de bord</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journal-d-activite" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span><span class="font-label-lg text-label-lg">Journal d'activité</span></div><span class="px-2 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>En direct</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="sequestre-et-finances" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">account_balance</span><span class="font-label-lg text-label-lg">Séquestre & Finances</span></div><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">2 en attente</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="connexions-et-audit" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">verified_user</span><span class="font-label-lg text-label-lg">Connexions & Audit</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Gestion Commerciale</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="vendeurs-et-kyc" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">store</span><span class="font-label-lg text-label-lg">Vendeurs & KYC</span></div><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">1 à valider</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="acheteurs" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Acheteurs</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogue-pieces" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">precision_manufacturing</span><span class="font-label-lg text-label-lg">Catalogue Pièces</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="commandes" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">local_shipping</span><span class="font-label-lg text-label-lg">Commandes</span></div></a><div class="my-2 pt-2"><span class="px-space-sm font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Configuration</span></div><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="categories-et-commissions" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Catégories & Commissions</span></div></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="parametres-systeme" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-lg text-label-lg">Paramètres système</span></div></a></nav></div><div class="p-space-md bg-surface-container space-y-space-sm"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-on-tertiary-container"></span><span class="font-label-sm text-label-sm font-bold text-on-surface">PostgreSQL Connectée</span></div><span class="font-label-sm text-label-sm font-bold text-outline">v1.0.4</span></div><a class="w-full flex items-center justify-center gap-space-xs py-2 px-space-sm rounded-lg bg-surface-container-lowest text-error font-label-md text-label-md font-bold hover:bg-error-container hover:text-on-error-container transition-all" data-path="deconnexion" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Déconnexion</span></a></div></aside><div class="pl-72"><div class="fixed top-0 left-72 right-0 h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-space-lg z-40 select-none shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><span class="font-label-sm text-label-sm uppercase font-extrabold tracking-wider">MODE DÉMO — AUCUN ARGENT RÉEL (SIMULATED DAKAR ESCROW)</span></div><header class="fixed top-8 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl z-30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-space-xl flex items-center justify-between gap-space-lg"><div class="flex-1 max-w-xl"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-[20px]">search</span><input class="w-full h-11 pl-10 pr-10 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-sm" placeholder="Recherche globale audit (N° DIF-2026-..., acteur, IP, tel Dakar)..." type="text"/><button class="absolute right-2 text-outline hover:text-on-surface" type="button"><span class="material-symbols-outlined text-[18px]">qr_code_scanner</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md"><span class="material-symbols-outlined text-[18px]">schedule</span><span>Dakar GMT</span><span class="text-outline">|</span><span class="font-bold text-on-surface">Prod Sandbox</span></div><div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold"><span class="material-symbols-outlined text-[16px]">verified</span><span>Séquestre Intègre 100%</span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="text-right"><span class="block font-label-lg text-label-lg leading-tight text-on-surface">Ousmane Niang</span><span class="block font-label-sm text-label-sm text-outline leading-tight">Super Admin · Almadies</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg space-y-space-lg max-w-[1600px] mx-auto w-full">
+<!-- Top Context & Header Banner -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Journal d'Activité Plateforme</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+            Flux en direct (Auto-refresh 15s)
+          </span>
+<span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm font-semibold text-outline">
+            Audit Immuable §5.2 / §10.2
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+          Traçabilité immuable de chaque événement système, transactionnel et utilisateur en temps réel selon la conformité réglementaire CDP Sénégal.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm pt-2 xl:pt-0">
+<div class="flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-outline text-[18px]">nest_clock_farsight_analog</span>
+<span class="font-bold" id="dakar-clock">13/11/2026 · 15:42:08 GMT</span>
+<span class="text-outline text-label-sm font-normal">(Africa/Dakar)</span>
+</div>
+<button class="h-10 px-3 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all" onclick="resetFilters()" type="button">
+<span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+<span>Vider filtres</span>
+</button>
+<button class="h-10 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all active:scale-[0.99]" onclick="exportAuditLogCSV()" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Exporter CSV (§10.2)</span>
+</button>
+</div>
+</div>
+<!-- Live Telemetry KPI Metrics -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Total Événements (24h)</span>
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">1 482</span>
+<span class="font-body-sm text-body-sm text-on-tertiary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">trending_up</span> +14.2% vs hier
+          </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[24px]">history_edu</span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Connexions & Sessions</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">342</span>
+<span class="font-label-sm text-label-sm text-error font-bold">12 échecs surveillés</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">security</span> Authentification 2FA Wave/SMS
+          </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[24px]">vpn_key</span>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Mouvements Séquestre</span>
+<span class="font-headline-lg text-headline-lg font-black text-on-surface">48</span>
+<span class="font-body-sm text-body-sm text-on-secondary-container flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[15px]">account_balance</span> 30 500 FCFA dénoués à l'instant
+          </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[24px]">lock_clock</span>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Alertes Sécurité</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg font-black text-error">1</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">ACCESS_DENIED bloqué</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">shield</span> IP Dakar 196.207.240.18
+          </span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-[24px]">gpp_bad</span>
+</div>
+</div>
+</div>
+<!-- Filter Control Bar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm space-y-space-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-space-sm">
+<!-- Text query -->
+<div class="lg:col-span-4 relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-outline text-[20px]">filter_list</span>
+<input class="w-full h-11 pl-10 pr-3 rounded-lg bg-surface-container-low font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container shadow-inner" id="searchInput" oninput="applyFilters()" placeholder="Rechercher par acteur, ID d'entité, réf commande (ex: DIF-2026-000123), IP..." type="text"/>
+</div>
+<!-- Role filter -->
+<div class="lg:col-span-2">
+<select class="w-full h-11 px-3 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container" id="roleFilter" onchange="applyFilters()">
+<option value="ALL">Rôle : Tous les rôles</option>
+<option value="BUYER">BUYER (Acheteurs)</option>
+<option value="SELLER">SELLER (Vendeurs Colobane/Castors)</option>
+<option value="ADMIN">ADMIN (Supervision)</option>
+<option value="SYSTEM">SYSTEM (Dakar Escrow Engine)</option>
+</select>
+</div>
+<!-- Event Code Filter -->
+<div class="lg:col-span-2">
+<select class="w-full h-11 px-3 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container" id="actionFilter" onchange="applyFilters()">
+<option value="ALL">Action : Tous événements</option>
+<option value="PART_MOUNTED_CONFORM">PART_MOUNTED_CONFORM</option>
+<option value="COMMISSION_TAKEN">COMMISSION_TAKEN</option>
+<option value="PART_PRICE_CHANGED">PART_PRICE_CHANGED</option>
+<option value="ACCESS_DENIED">ACCESS_DENIED</option>
+<option value="PART_CREATED">PART_CREATED</option>
+<option value="ADMIN_SELLER_VALIDATED">ADMIN_SELLER_VALIDATED</option>
+<option value="PAYMENT_SUCCESS">PAYMENT_SUCCESS</option>
+<option value="DISPUTE_OPENED">DISPUTE_OPENED</option>
+</select>
+</div>
+<!-- Entity Type Filter -->
+<div class="lg:col-span-2">
+<select class="w-full h-11 px-3 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container" id="entityFilter" onchange="applyFilters()">
+<option value="ALL">Entité : Toutes</option>
+<option value="ORDER">Commande (ORDER)</option>
+<option value="PART">Pièce (PART)</option>
+<option value="ESCROW">Séquestre (ESCROW)</option>
+<option value="USER">Utilisateur / Profil (USER)</option>
+</select>
+</div>
+<!-- Time Range -->
+<div class="lg:col-span-2">
+<select class="w-full h-11 px-3 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container" id="timeFilter">
+<option value="TODAY">Aujourd'hui (13 Nov 2026)</option>
+<option value="7D">7 derniers jours</option>
+<option value="30D">30 derniers jours</option>
+<option value="CUSTOM">Période Personnalisée...</option>
+</select>
+</div>
+</div>
+<!-- Quick chips -->
+<div class="flex items-center gap-2 pt-1 overflow-x-auto text-label-sm font-label-sm">
+<span class="text-outline uppercase text-[10px] tracking-widest font-bold">Raccourcis d'audit :</span>
+<button class="px-2.5 py-1 rounded bg-error-container text-on-error-container hover:opacity-90 font-bold transition-all" onclick="setQuickFilter('ACCESS_DENIED')" type="button">Alertes ACCESS_DENIED</button>
+<button class="px-2.5 py-1 rounded bg-primary-fixed text-on-primary-fixed hover:opacity-90 font-bold transition-all" onclick="setQuickFilter('COMMISSION_TAKEN')" type="button">Prélèvements Commissions</button>
+<button class="px-2.5 py-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high transition-all" onclick="setQuickFilter('DIF-2026-000123')" type="button">Commande DIF-2026-000123</button>
+<button class="px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed hover:opacity-90 font-bold transition-all" onclick="setQuickFilter('SELLER')" type="button">Actions Marchands</button>
+</div>
+</div>
+<!-- Main Audit Log Stream Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-space-md flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-low">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Flux d'enregistrement immuable</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm font-bold text-outline">50 entrées / page</span>
+</div>
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Horodatage certifié NTP Observatoire Dakar · Hashing SHA-256</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left" id="auditTable">
+<thead class="bg-surface-container font-label-sm text-label-sm text-outline uppercase tracking-wider select-none">
+<tr>
+<th class="py-3 px-4 font-bold" scope="col">Horodatage (GMT)</th>
+<th class="py-3 px-4 font-bold" scope="col">Acteur & Identité</th>
+<th class="py-3 px-4 font-bold" scope="col">Événement & Gravité</th>
+<th class="py-3 px-4 font-bold" scope="col">Entité Cible</th>
+<th class="py-3 px-4 font-bold" scope="col">Détail & Métadonnées</th>
+<th class="py-3 px-4 font-bold" scope="col">Empreinte & Télémesure</th>
+<th class="py-3 px-4 font-bold text-right" scope="col">Inspecter</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm text-body-sm text-on-surface" id="tableBody">
+<!-- Row 1: PART_MOUNTED_CONFORM -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="PART_MOUNTED_CONFORM" data-entity="ORDER" data-query="mamadou commande dif-2026-000123 197.149.22.45 toyota avensis" data-role="BUYER">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">15:40:12 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Mamadou D.</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] font-bold text-on-surface-variant uppercase">BUYER</span>
+</div>
+<span class="text-outline font-mono text-[11px]">+221 77 *** ** 34</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-tertiary-container text-on-tertiary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  PART_MOUNTED_CONFORM
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+                  DIF-2026-000123
+                </a>
+<span class="text-[11px] text-outline font-mono">Type: Commande Escrow</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  Confirmation montage Toyota Avensis par garage agréé. Séquestre <span class="font-bold text-on-surface">30 500 FCFA</span> libéré.
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">197.149.22.45 (Orange SN)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">phone_android</span> Chrome 130 · Android
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(1)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+<!-- Row 2: COMMISSION_TAKEN -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="COMMISSION_TAKEN" data-entity="ESCROW" data-query="systeme difonssé escrow engine dif-2026-000123 commission 127.0.0.1" data-role="SYSTEM">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">15:40:13 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">SYSTÈME (Escrow Engine)</span>
+<span class="px-1.5 py-0.5 rounded bg-primary-container text-on-primary font-label-sm text-[10px] font-bold uppercase">SYSTEM</span>
+</div>
+<span class="text-outline font-mono text-[11px]">Worker Node #01 · Dakar</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-primary-fixed text-on-primary-fixed">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary-fixed"></span>
+                  COMMISSION_TAKEN
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+                  ESC-2026-000123
+                </a>
+<span class="text-[11px] text-outline font-mono">Type: Compte Séquestre</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  Commission 8.0% catégorie Freinage retenue : <span class="font-bold text-on-secondary-container">2 280 FCFA</span> (Net marchand: 26 220 FCFA).
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">127.0.0.1 (Internal VPC)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">dns</span> Cron Worker · Node.js 20
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(2)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+<!-- Row 3: PART_PRICE_CHANGED -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="PART_PRICE_CHANGED" data-entity="PART" data-query="auto castors express seller part_price_changed ref-04465-05240 154.124.9.110" data-role="SELLER">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">15:32:04 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Auto Castors Express</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px] font-bold uppercase">SELLER</span>
+</div>
+<span class="text-outline font-mono text-[11px]">NINEA: 004829102</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-secondary-container text-on-secondary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-on-secondary-container"></span>
+                  PART_PRICE_CHANGED
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">precision_manufacturing</span>
+                  REF-04465-05240
+                </a>
+<span class="text-[11px] text-outline font-mono">Plaquettes Avensis T27</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<div class="font-body-sm text-body-sm text-on-surface leading-tight">
+<span class="line-through text-outline">30 000 FCFA</span> → <span class="font-bold text-on-tertiary-container">28 500 FCFA</span>
+<span class="text-[11px] text-error font-semibold block">(-1 500 FCFA promotion Castors)</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">154.124.9.110 (Expresso SN)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">phone_iphone</span> Mobile Safari · iOS 18.1
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(3)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+<!-- Row 4: ACCESS_DENIED (Security Alert) -->
+<tr class="hover:bg-error-container/30 transition-colors bg-error-container/10 audit-row" data-action="ACCESS_DENIED" data-entity="USER" data-query="ibrahima sow buyer access_denied vendeur pieces 196.207.240.18" data-role="BUYER">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-error">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-error/80 font-mono">15:18:55 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Ibrahima Sow</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] font-bold text-on-surface-variant uppercase">BUYER</span>
+</div>
+<span class="text-outline font-mono text-[11px]">+221 78 *** ** 12</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-error-container text-on-error-container">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+                  ACCESS_DENIED
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="font-mono text-label-md font-bold text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock_reset</span>
+                  /vendeur/pieces
+                </span>
+<span class="text-[11px] text-outline font-mono">Privilèges insuffisants</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-error leading-tight font-medium">
+                  Tentative d'accès non autorisé à l'espace vendeur pro redirigée vers /acheteur (RBAC Violation interceptée).
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-error font-bold">196.207.240.18 (Sonatel IP)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">desktop_mac</span> Firefox 132 · macOS
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-error-container text-on-error-container hover:bg-error font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(4)" type="button">
+<span class="material-symbols-outlined text-[15px]">security</span> Audit
+                </button>
+</td>
+</tr>
+<!-- Row 5: PART_CREATED -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="PART_CREATED" data-entity="PART" data-query="auto castors express seller part_created ref-04465-05240 plaquettes brembo avensis t27" data-role="SELLER">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">14:45:20 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Auto Castors Express</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px] font-bold uppercase">SELLER</span>
+</div>
+<span class="text-outline font-mono text-[11px]">NINEA: 004829102</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-surface-container-high text-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  PART_CREATED
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">build_circle</span>
+                  REF-04465-05240
+                </a>
+<span class="text-[11px] text-outline font-mono">Catégorie: Freinage</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  "Plaquettes Brembo Avensis T27", Catégorie Freinage, Stock: 3 un., Prix catalogue: 28 500 FCFA.
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">154.124.9.110 (Expresso SN)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">phone_iphone</span> Mobile Safari · iOS 18.1
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(5)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+<!-- Row 6: ADMIN_SELLER_VALIDATED -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="ADMIN_SELLER_VALIDATED" data-entity="USER" data-query="ousmane niang admin admin_seller_validated auto castors express rccm ninea 41.208.132.5" data-role="ADMIN">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">14:10:02 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Ousmane Niang</span>
+<span class="px-1.5 py-0.5 rounded bg-primary text-on-primary font-label-sm text-[10px] font-bold uppercase">ADMIN</span>
+</div>
+<span class="text-outline font-mono text-[11px]">Super Admin · Almadies HQ</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-tertiary-container text-on-tertiary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  ADMIN_SELLER_VALIDATED
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">store</span>
+                  Auto Castors Express
+                </a>
+<span class="text-[11px] text-outline font-mono">ID: VEN-SN-2026-88</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  Validation conformité KYC : NINEA 004829102 certifié avec Registre RCCM Dakar SN.DKR.2024.B.192.
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">41.208.132.5 (Orange Fibre Dakar)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">laptop_chromebook</span> Chrome 130 · macOS
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(6)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+<!-- Row 7: PAYMENT_SUCCESS -->
+<tr class="hover:bg-surface-container-low transition-colors audit-row" data-action="PAYMENT_SUCCESS" data-entity="ORDER" data-query="mamadou payment_success wave simule dif-2026-000123 30500 fcfa" data-role="BUYER">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-label-md font-bold text-on-surface">13/11/2026</div>
+<div class="font-body-sm text-body-sm text-outline font-mono">13:55:40 GMT</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md font-bold text-on-surface">Mamadou D.</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-[10px] font-bold text-on-surface-variant uppercase">BUYER</span>
+</div>
+<span class="text-outline font-mono text-[11px]">+221 77 *** ** 34</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded font-label-sm text-label-sm font-bold bg-tertiary-container text-on-tertiary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+                  PAYMENT_SUCCESS
+                </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<a class="font-label-md text-label-md font-bold text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+                  DIF-2026-000123
+                </a>
+<span class="text-[11px] text-outline font-mono">Gateway: Wave Simulator</span>
+</td>
+<td class="py-3.5 px-4 max-w-xs">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+                  Paiement Wave simulé <span class="font-bold text-on-surface">30 500 FCFA</span> consigné au séquestre (Réf: SIM-WAVE-94021).
+                </p>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-mono text-[11px] text-on-surface">197.149.22.45 (Orange SN)</div>
+<div class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">phone_android</span> Chrome 130 · Android
+                </div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<button class="px-2.5 py-1.5 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1 ml-auto" onclick="openPayloadModal(7)" type="button">
+<span class="material-symbols-outlined text-[15px]">data_object</span> JSON
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Status Bar -->
+<div class="p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-lowest">
+<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
+<span>Affichage de <span class="font-bold text-on-surface" id="visibleCount">7</span> sur <span class="font-bold text-on-surface">1 482</span> événements enregistrés</span>
+<span class="text-outline">|</span>
+<span class="flex items-center gap-1 text-on-tertiary-container font-semibold">
+<span class="material-symbols-outlined text-[15px]">sync</span>
+            Prochaine synchronisation dans 11s
+          </span>
+</div>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low text-outline font-label-sm text-label-sm disabled:opacity-50 cursor-not-allowed" type="button">Précédent</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-sm text-label-sm" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-sm text-label-sm" type="button">3</button>
+<span class="px-1 text-outline">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-sm text-label-sm" type="button">30</button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-dim text-on-surface font-label-sm text-label-sm font-bold" type="button">Suivant</button>
+</div>
+</div>
+</div>
+<!-- Escrow & Legal CDP Sénégal Security Notice Card -->
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">policy</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface block">Garantie d'Immuabilité de l'Audit Difonssé (§5.2 & §6)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-4xl">
+            Toute modification d'état (dépôt Wave/Orange Money, déblocage séquestre, changement tarifaire ou validation KYC) génère une empreinte hachée chaînée dans PostgreSQL. Les logs d'audit sont conservés 10 ans conformément aux obligations commerciales de l'OHADA et de la Commission de Protection des Données Personnelles (CDP) du Sénégal.
+          </p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-2">
+<span class="px-3 py-1.5 rounded bg-surface-container-lowest font-mono text-[11px] font-bold text-outline shadow-sm">
+          CHAIN_HASH: 9e8a71..c21f
+        </span>
+</div>
+</div>
+</div>
+<!-- Slide-over / Modal JSON Inspector -->
+<div class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-end" id="inspectorModal">
+<div class="bg-surface-container-lowest w-full max-w-2xl h-full shadow-2xl flex flex-col justify-between overflow-hidden">
+<!-- Header -->
+<div class="p-space-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface" id="modalTitle">Inspecteur d'Événement Immuable</h2>
+<span class="font-label-sm text-label-sm text-outline font-mono" id="modalEventId">EVT-SN-2026-0091823</span>
+</div>
+</div>
+<button class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center" onclick="closePayloadModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Content / Payload -->
+<div class="p-space-lg flex-1 overflow-y-auto space-y-space-md font-body-sm text-body-sm">
+<!-- Crypto Integrity Badge -->
+<div class="p-space-md rounded-xl bg-tertiary-container text-on-tertiary-container flex items-start gap-3">
+<span class="material-symbols-outlined text-[22px] shrink-0 mt-0.5">verified_user</span>
+<div>
+<div class="font-label-md text-label-md font-bold">Empreinte SHA-256 Validée & Horodatée CDP</div>
+<div class="font-mono text-[11px] break-all pt-1 opacity-90" id="modalSha256">
+              e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+            </div>
+</div>
+</div>
+<!-- Telemetry Summary Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="text-outline uppercase text-[10px] font-bold block">Type d'Événement</span>
+<span class="font-label-md text-label-md font-bold text-on-surface" id="modalEventType">PART_MOUNTED_CONFORM</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="text-outline uppercase text-[10px] font-bold block">Horodatage Serveur</span>
+<span class="font-mono font-bold text-on-surface" id="modalTimestamp">2026-11-13T15:40:12.891Z</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="text-outline uppercase text-[10px] font-bold block">Acteur & Auth ID</span>
+<span class="font-mono font-bold text-on-surface" id="modalActor">USR-DKR-88192 (BUYER)</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container">
+<span class="text-outline uppercase text-[10px] font-bold block">IP & Localisation</span>
+<span class="font-mono font-bold text-on-surface" id="modalGeo">197.149.22.45 · Dakar, SN</span>
+</div>
+</div>
+<!-- Raw Zod/Prisma Payload JSON View -->
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-surface">Payload Structuré (Schéma Zod v1)</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline flex items-center gap-1 font-bold" onclick="copyModalJson()" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span> Copier JSON
+            </button>
+</div>
+<pre class="p-space-md rounded-xl bg-primary-container text-primary-fixed-dim font-mono text-[12px] leading-relaxed overflow-x-auto shadow-inner select-all" id="jsonPayloadDisplay">{
+  "eventId": "EVT-SN-2026-0091823",
+  "action": "PART_MOUNTED_CONFORM",
+  "timestamp": "2026-11-13T15:40:12.891Z",
+  "actor": {
+    "id": "usr_cly89x7a2000008l4gh5n3j1q",
+    "role": "BUYER",
+    "name": "Mamadou D.",
+    "phone": "+221773418834",
+    "phoneMasked": "+221 77 *** ** 34"
+  },
+  "entity": {
+    "type": "ORDER",
+    "reference": "DIF-2026-000123",
+    "partSku": "REF-04465-05240",
+    "partName": "Plaquettes de frein avant Brembo Avensis T27"
+  },
+  "escrow": {
+    "totalHeldFcfa": 30500,
+    "commissionFcfa": 2280,
+    "payoutMerchantFcfa": 26220,
+    "deliveryFeeFcfa": 2000,
+    "status": "RELEASED_TO_SELLER",
+    "gateway": "SIMULATED_WAVE"
+  },
+  "validation": {
+    "method": "GARAGE_PIN_CONFIRMATION",
+    "garageId": "GAR-DKR-CASTORS-01",
+    "mechanicNotes": "Montage conforme, essai route validé sans anomalie freinage"
+  },
+  "clientMetadata": {
+    "ip": "197.149.22.45",
+    "isp": "Sonatel / Orange Sénégal",
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; SM-A546B) AppleWebKit/537.36 Chrome/130.0.0.0 Mobile",
+    "platform": "Android"
+  }
+}
+          </pre>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-space-md bg-surface-container flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">Prisma Audit Table `dif_activity_log`</span>
+<button class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-bold transition-all" onclick="closePayloadModal()" type="button">
+          Fermer l'inspecteur
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Scripts -->
+<script>
+    const samplePayloads = {
+      1: {
+        eventId: "EVT-SN-2026-0091823",
+        action: "PART_MOUNTED_CONFORM",
+        timestamp: "2026-11-13T15:40:12.891Z",
+        sha256: "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9",
+        actor: "Mamadou D. (BUYER)",
+        geo: "197.149.22.45 · Dakar, SN",
+        json: {
+          eventId: "EVT-SN-2026-0091823",
+          action: "PART_MOUNTED_CONFORM",
+          timestamp: "2026-11-13T15:40:12.891Z",
+          actor: { id: "usr_buyer_9921", role: "BUYER", name: "Mamadou D.", phoneMasked: "+221 77 *** ** 34" },
+          entity: { type: "ORDER", reference: "DIF-2026-000123", part: "REF-04465-05240", car: "Toyota Avensis T27" },
+          escrow: { status: "RELEASED", amountFcfa: 30500, netSeller: 26220, feeFcfa: 2280 },
+          validation: { garageVerification: true, mechanicOtpConfirmed: true }
+        }
+      },
+      2: {
+        eventId: "EVT-SN-2026-0091824",
+        action: "COMMISSION_TAKEN",
+        timestamp: "2026-11-13T15:40:13.104Z",
+        sha256: "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
+        actor: "Difonssé Escrow Engine (SYSTEM)",
+        geo: "127.0.0.1 (VPC Internal Dakar)",
+        json: {
+          eventId: "EVT-SN-2026-0091824",
+          action: "COMMISSION_TAKEN",
+          timestamp: "2026-11-13T15:40:13.104Z",
+          actor: { role: "SYSTEM", service: "escrow-payout-worker" },
+          entity: { type: "ESCROW", reference: "ESC-2026-000123" },
+          commission: {
+            ratePercent: 8.0,
+            category: "Freinage",
+            totalOrderFcfa: 30500,
+            commissionRetainedFcfa: 2280,
+            sellerPayoutFcfa: 26220,
+            accountTarget: "DIFONSSE_REVENUE_TREASURY_SN"
+          }
+        }
+      },
+      3: {
+        eventId: "EVT-SN-2026-0091811",
+        action: "PART_PRICE_CHANGED",
+        timestamp: "2026-11-13T15:32:04.220Z",
+        sha256: "9834876dcfb05cb167a5c24953eba58c4ac89b1adf57f28f2f9d09af107ee8f0",
+        actor: "Auto Castors Express (SELLER)",
+        geo: "154.124.9.110 · Castors, Dakar",
+        json: {
+          eventId: "EVT-SN-2026-0091811",
+          action: "PART_PRICE_CHANGED",
+          timestamp: "2026-11-13T15:32:04.220Z",
+          actor: { role: "SELLER", boutique: "Auto Castors Express", ninea: "004829102" },
+          entity: { type: "PART", partId: "REF-04465-05240", designation: "Plaquettes Brembo Avensis T27" },
+          pricingMutation: {
+            oldPriceFcfa: 30000,
+            newPriceFcfa: 28500,
+            deltaFcfa: -1500,
+            reason: "PROMOTION_FLASH_DAKAR"
+          }
+        }
+      },
+      4: {
+        eventId: "EVT-SN-2026-0091790",
+        action: "ACCESS_DENIED",
+        timestamp: "2026-11-13T15:18:55.012Z",
+        sha256: "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+        actor: "Ibrahima Sow (BUYER)",
+        geo: "196.207.240.18 · Dakar Médina",
+        json: {
+          eventId: "EVT-SN-2026-0091790",
+          action: "ACCESS_DENIED",
+          severity: "SECURITY_ALERT",
+          timestamp: "2026-11-13T15:18:55.012Z",
+          actor: { id: "usr_buyer_49102", role: "BUYER", name: "Ibrahima Sow", phoneMasked: "+221 78 *** ** 12" },
+          targetResource: { method: "GET", path: "/vendeur/pieces", requiredRoles: ["SELLER", "ADMIN"] },
+          enforcement: { status: 403, redirectedTo: "/acheteur", blockedByMiddleware: "dif_rbac_guard" },
+          threatContext: { repeatedAttemptsCount: 1, flaggedAnomaly: false }
+        }
+      },
+      5: {
+        eventId: "EVT-SN-2026-0091745",
+        action: "PART_CREATED",
+        timestamp: "2026-11-13T14:45:20.612Z",
+        sha256: "1f82c80c70bda4297161e1b764719b94f1314b192e4ecb163ce5d3b2379b3291",
+        actor: "Auto Castors Express (SELLER)",
+        geo: "154.124.9.110 · Castors, Dakar",
+        json: {
+          eventId: "EVT-SN-2026-0091745",
+          action: "PART_CREATED",
+          actor: { role: "SELLER", name: "Auto Castors Express" },
+          entity: { sku: "REF-04465-05240", name: "Plaquettes Brembo Avensis T27", category: "Freinage", stock: 3, priceFcfa: 28500 }
+        }
+      },
+      6: {
+        eventId: "EVT-SN-2026-0091702",
+        action: "ADMIN_SELLER_VALIDATED",
+        timestamp: "2026-11-13T14:10:02.190Z",
+        sha256: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+        actor: "Ousmane Niang (ADMIN)",
+        geo: "41.208.132.5 · Almadies, Dakar",
+        json: {
+          eventId: "EVT-SN-2026-0091702",
+          action: "ADMIN_SELLER_VALIDATED",
+          admin: "Ousmane Niang (Super Admin)",
+          merchantValidated: {
+            boutique: "Auto Castors Express",
+            ninea: "004829102",
+            rccm: "SN.DKR.2024.B.192",
+            kycStatus: "APPROVED"
+          }
+        }
+      },
+      7: {
+        eventId: "EVT-SN-2026-0091650",
+        action: "PAYMENT_SUCCESS",
+        timestamp: "2026-11-13T13:55:40.405Z",
+        sha256: "3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8552",
+        actor: "Mamadou D. (BUYER)",
+        geo: "197.149.22.45 · Dakar, SN",
+        json: {
+          eventId: "EVT-SN-2026-0091650",
+          action: "PAYMENT_SUCCESS",
+          orderId: "DIF-2026-000123",
+          buyerPhone: "+221 77 *** ** 34",
+          amountFcfa: 30500,
+          gateway: "WAVE_SIMULATION",
+          referenceCode: "SIM-WAVE-94021",
+          escrowStatus: "LOCKED"
+        }
+      }
+    };
+
+    function openPayloadModal(rowId) {
+      const data = samplePayloads[rowId] || samplePayloads[1];
+      document.getElementById('modalEventId').innerText = data.eventId;
+      document.getElementById('modalEventType').innerText = data.action;
+      document.getElementById('modalTimestamp').innerText = data.timestamp;
+      document.getElementById('modalActor').innerText = data.actor;
+      document.getElementById('modalGeo').innerText = data.geo;
+      document.getElementById('modalSha256').innerText = data.sha256;
+      document.getElementById('jsonPayloadDisplay').textContent = JSON.stringify(data.json, null, 2);
+      document.getElementById('inspectorModal').classList.remove('hidden');
+    }
+
+    function closePayloadModal() {
+      document.getElementById('inspectorModal').classList.add('hidden');
+    }
+
+    function copyModalJson() {
+      const text = document.getElementById('jsonPayloadDisplay').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Payload JSON Zod/Prisma copié dans le presse-papier !");
+      });
+    }
+
+    function applyFilters() {
+      const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+      const role = document.getElementById('roleFilter').value;
+      const action = document.getElementById('actionFilter').value;
+      const entity = document.getElementById('entityFilter').value;
+
+      const rows = document.querySelectorAll('.audit-row');
+      let visible = 0;
+
+      rows.forEach(row => {
+        const rowRole = row.getAttribute('data-role');
+        const rowAction = row.getAttribute('data-action');
+        const rowEntity = row.getAttribute('data-entity');
+        const rowQuery = (row.getAttribute('data-query') || '').toLowerCase();
+
+        const matchRole = (role === 'ALL' || rowRole === role);
+        const matchAction = (action === 'ALL' || rowAction === action);
+        const matchEntity = (entity === 'ALL' || rowEntity === entity);
+        const matchQuery = (query === '' || rowQuery.includes(query));
+
+        if (matchRole && matchAction && matchEntity && matchQuery) {
+          row.style.display = '';
+          visible++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      document.getElementById('visibleCount').innerText = visible;
+    }
+
+    function setQuickFilter(keyword) {
+      if (['BUYER', 'SELLER', 'ADMIN', 'SYSTEM'].includes(keyword)) {
+        document.getElementById('roleFilter').value = keyword;
+      } else if (['ACCESS_DENIED', 'COMMISSION_TAKEN', 'PART_PRICE_CHANGED'].includes(keyword)) {
+        document.getElementById('actionFilter').value = keyword;
+      } else {
+        document.getElementById('searchInput').value = keyword;
+      }
+      applyFilters();
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('roleFilter').value = 'ALL';
+      document.getElementById('actionFilter').value = 'ALL';
+      document.getElementById('entityFilter').value = 'ALL';
+      applyFilters();
+    }
+
+    function exportAuditLogCSV() {
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Horodatage_GMT,Acteur,Role,Telephone,Code_Evenement,Entite_Type,Entite_Reference,Details,IP_Dakar,Navigateur\\n"
+        + "2026-11-13 15:40:12,Mamadou D.,BUYER,+221773418834,PART_MOUNTED_CONFORM,ORDER,DIF-2026-000123,Confirmation montage Toyota Avensis. Séquestre 30500 FCFA libéré,197.149.22.45,Chrome Android\\n"
+        + "2026-11-13 15:40:13,Difonssé Escrow Engine,SYSTEM,N/A,COMMISSION_TAKEN,ESCROW,ESC-2026-000123,Commission 8.0% catégorie Freinage retenue : 2280 FCFA,127.0.0.1,Worker Node.js\\n"
+        + "2026-11-13 15:32:04,Auto Castors Express,SELLER,004829102,PART_PRICE_CHANGED,PART,REF-04465-05240,Ancien: 30000 FCFA -> Nouveau: 28500 FCFA,154.124.9.110,Safari iOS\\n"
+        + "2026-11-13 15:18:55,Ibrahima Sow,BUYER,+221789012312,ACCESS_DENIED,USER,/vendeur/pieces,Tentative accès non autorisé espace vendeur,196.207.240.18,Firefox macOS\\n";
+      
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "difonsse_audit_log_20261113.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Dynamic Live Dakar GMT Clock update
+    setInterval(() => {
+      const now = new Date();
+      const dakarTimeString = now.toLocaleDateString('fr-FR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        timeZone: 'UTC'
+      }) + ' · ' + now.toLocaleTimeString('fr-FR', {
+        hour12: false, timeZone: 'UTC'
+      }) + ' GMT';
+      const el = document.getElementById('dakar-clock');
+      if (el) el.innerText = dakarTimeString;
+    }, 1000);
+  </script>
+</div></main></div></body></html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container": "#e5eeff", "inverse-on-surface": "#eaf1ff", "on-tertiary": "#ffffff", "secondary-container": "#fea619", "surface-container-highest": "#d3e4fe", "on-primary-fixed-variant": "#3f465c", "tertiary": "#000000", "surface-container-high": "#dce9ff", "on-secondary-fixed-variant": "#653e00", "on-surface": "#0b1c30", "tertiary-fixed": "#6ffbbe", "inverse-surface": "#213145", "on-tertiary-fixed-variant": "#005236", "primary-fixed": "#dae2fd", "on-primary-container": "#7c839b", "surface-tint": "#565e74", "outline": "#76777d", "on-surface-variant": "#45464d", "on-error": "#ffffff", "error-container": "#ffdad6", "tertiary-fixed-dim": "#4edea3", "surface-dim": "#cbdbf5", "on-secondary-container": "#684000", "outline-variant": "#c6c6cd", "secondary-fixed": "#ffddb8", "error": "#ba1a1a", "on-primary-fixed": "#131b2e", "on-secondary": "#ffffff", "background": "#f8f9ff", "secondary-fixed-dim": "#ffb95f", "on-tertiary-fixed": "#002113", "surface-variant": "#d3e4fe", "on-tertiary-container": "#009668", "on-primary": "#ffffff", "primary-fixed-dim": "#bec6e0", "tertiary-container": "#002113", "on-background": "#0b1c30", "surface-bright": "#f8f9ff", "on-error-container": "#93000a", "surface": "#f8f9ff", "inverse-primary": "#bec6e0", "primary-container": "#131b2e", "surface-container-low": "#eff4ff", "on-secondary-fixed": "#2a1700", "secondary": "#855300", "primary": "#000000", "surface-container-lowest": "#ffffff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1rem", "space-xl": "1.5rem", "margin": "1rem", "margin-mobile": "0.75rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "gutter-mobile": "0.75rem", "space-lg": "1rem", "space-md": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "price-display": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "price-display": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }], "headline-md": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-24 flex flex-col w-full"><div class="h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-margin-mobile"><span class="font-label-sm text-label-sm uppercase tracking-wider flex items-center gap-space-xs"><span class="material-symbols-outlined text-[14px]">verified_user</span>MODE DÉMO — AUCUN ARGENT RÉEL</span></div><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><button aria-label="Retour" class="w-11 h-11 flex items-center justify-center text-on-surface rounded-full hover:bg-surface-container" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="Difonssé Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrD6km19FvOYyq30FPKMng8OmCMKU5RR_q41heWPAh1rUIZWvcE1fPMelLWRDQwEo5EhiE-Mn_zal8IMy7nZ2w2YqAyc20Snixc1Z4Ob0BCi_WdmTAORTeMrWO6WN-kIxbi7l3fxhm_31IGB3zxPXe7T8Of-E4X7b5nOt0vzmBeXM3is44dxJX5sshggoc464PzKcqZAQ7DL4EJBNWMvEfcmLqUm_RYzHFrPKunZDpoPIg"/><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Détails Pièce</h1></div><div class="flex items-center gap-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI_RD1NlTkMCCqJ7_vbVBm2qeKJViAJp7vq2vq_Rq2bYV0Zg8Sp1Zrcsy4Is4uaAwruBLwctU8Fr3pc9ZZC5YQOq0mYtOR_EfvHh5mQG2rofLu543UYJq-tEv_y2kzuS1Q3pJf9pcWYboE-Nmss91lYGlkin-3QU-Q2PI8vEDmXS_PeuvtIk_5hH1wbXTopOgRqvpc2qWts-F2Z3398DcDj-vyFQtf4S6QwH3yrM5w"/></div></div></div></header><main class="flex flex-col relative w-full pt-24 bg-surface pb-safe"><div class="flex flex-col w-full">
+<!-- Content Area with Mobile Rhythm -->
+<div class="flex flex-col gap-space-md px-margin pb-28 pt-space-xs">
+<!-- Breadcrumb & Part Status -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md">
+<span>Freinage</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-label-md">Plaquettes de frein</span>
+</div>
+<span class="bg-surface-container-highest text-on-surface font-label-sm text-label-sm uppercase px-space-sm py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span>
+        Neuf d'origine
+      </span>
+</div>
+<!-- Interactive Media Gallery -->
+<div class="relative flex flex-col gap-space-xs bg-surface-container-lowest rounded-xl p-space-xs shadow-sm overflow-hidden">
+<!-- Main Photo Showcase -->
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-all duration-300" data-alt="High resolution studio product photograph of genuine Brembo ceramic front brake pads, deep red and black Brembo packaging box, metallic brake pads with anti-noise shims, crisp industrial lighting, pristine automotive commerce photography Dakar" id="main-gallery-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmkMwYvOM8ZQG-GIJoDFf-uc3LCJTdHfNiYwYbIgpy3YHReCp67dFSqx4FBd7GWRimNX7jOWpsfIBr3Bqk-qiyOKah8WRXNidC6uS-EYzrDdecTgskcoNPzhA2-kiVX1jIdsfq1TyLwV1Z03YrW-TepDPsgnqth4M2ESvNRPyDuskyNMMJfzD1GNSwl6--6bAzy4Q-UvLMHgCIiJnCTzrPXWgbkasx3d8bGjyiFDjB"/>
+<!-- Condition / Genuine Badge Overlay -->
+<div class="absolute top-space-xs left-space-xs flex items-center gap-1 bg-primary-container text-on-primary px-space-sm py-1 rounded-full shadow-md">
+<span class="material-symbols-outlined text-[14px] text-tertiary-fixed">verified</span>
+<span class="font-label-sm text-label-sm">Brembo Official</span>
+</div>
+<!-- Zoom & Expand Micro-interaction -->
+<button aria-label="Agrandir la photo" class="absolute bottom-space-xs right-space-xs bg-surface-container-lowest/90 backdrop-blur-md text-on-surface w-9 h-9 rounded-full flex items-center justify-center shadow hover:bg-surface-container" onclick="toggleZoom()">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span>
+</button>
+<!-- Dynamic Indicator Dots -->
+<div class="absolute bottom-space-xs left-1/2 -translate-x-1/2 flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-sm px-2 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary transition-all duration-200" id="dot-0"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-all duration-200" id="dot-1"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant transition-all duration-200" id="dot-2"></span>
+</div>
+</div>
+<!-- Thumbnail Carousel Rail -->
+<div class="flex items-center gap-space-xs overflow-x-auto py-1">
+<button aria-label="Boîte et vue globale" class="thumbnail-btn relative w-20 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container shadow-sm" onclick="selectSlide(0, this)">
+<img class="w-full h-full object-cover" data-alt="Brembo high performance ceramic brake pad set shown inside the iconic red Brembo retail box with holographic anti-counterfeit security seal, Dakar marketplace verification context" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEkbhZlojFGNTVtYGK7aLIF6b-y06YwrLt8Eiv7cp6qAEDwR1sX57qQaHoEKNwXU2N4bcXGMHZOUC-RtjA72zCssakTK02902M2ecJupfLHWGk3lXymwrBZd6IYjxzGPytwN__Grm4XOPmw2-1m0ucwv068kTSQt8j0d-pv-4eKLObLO0oEWTb4BkI8G0aDfRuKKB22qVP4K_RlKFca8q9BNEobLCQnLuBitnPmuJZ"/>
+<span class="absolute inset-0 bg-primary/10"></span>
+</button>
+<button aria-label="Plaquettes de frein avant" class="thumbnail-btn relative w-20 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container opacity-60 hover:opacity-100 transition-opacity" onclick="selectSlide(1, this)">
+<img class="w-full h-full object-cover" data-alt="Close-up macro photography of dual ceramic brake pad friction material with heat displacement slot and copper fleck composition, high contrast studio automotive angle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACJF3E0dRsUpWDvN5vBrUXOVTWQsN1hnivRz6VsDuqsVi-OT00N4Daj_3ffiqRWEk4G5rdXzfLi6w4o4VIg5822v9DDr2a_HKXzVoxWkHSRD_yKqud8nUmXNzl3pk-nzJxEFn1nzIhLR42yBZnvRJbi6ZDP2hZel5TAQdCixS4C8FrM1hdzRbXA7vqx6_86TuQrp35Ve755iohZ08Lmue35nnkoltWpQqHZexVXl8D"/>
+</button>
+<button aria-label="Gravure référence OEM constructeur" class="thumbnail-btn relative w-20 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container opacity-60 hover:opacity-100 transition-opacity" onclick="selectSlide(2, this)">
+<img class="w-full h-full object-cover" data-alt="Detailed macro shot of the stamped steel backing plate showing the engraved serial number 04465-05240 and Brembo logo on dark automotive metal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC18PVtwpSxDdcCDfYYVm41htOX5t8rVenR1lGbFnDCQsg9eICAxkA8yyqTK6g7rjGu1Of-oxRWFLb9bNtoVUgRrpvmASk4eXrugW4L1DvbQtzvvkVpkAH8EiyTCDOA6JV6qULeG_-ca8k9Q3WC22gkoRAQ6wZNsHsGTuscUUeGm2b_qcGPoWFZ929cBkDB0OPrzUGPVZKAJawnLkki0Kr80JARnt79t3FWJJIwLgxz"/>
+</button>
+</div>
+</div>
+<!-- Core Details & Price Block -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-xl shadow-sm gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="text-on-secondary-fixed-variant bg-secondary-fixed px-space-sm py-0.5 rounded font-label-sm text-label-sm">
+          REF: 04465-05240
+        </span>
+<div class="flex items-center gap-1 text-on-tertiary-container bg-surface-container-high px-space-sm py-0.5 rounded-full font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+          3 disponibles
+        </div>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">
+        Plaquettes de frein avant céramique haute performance Brembo
+      </h1>
+<div class="flex items-baseline justify-between pt-space-xs">
+<div class="flex flex-col">
+<span class="font-price-display text-price-display text-on-surface">
+            28 500 FCFA
+          </span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">TVA incluse · Aucun frais caché</span>
+</div>
+<div class="flex items-center gap-1 text-on-tertiary-container bg-surface-container-low px-space-sm py-1 rounded">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm">Garantie 30j</span>
+</div>
+</div>
+</div>
+<!-- Crucial Compatibility Card (Toyota Avensis Active Match) -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Active Vehicle Match Banner -->
+<div class="bg-surface-container-high p-space-md flex items-start gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-on-tertiary-container text-surface flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-tertiary-container uppercase tracking-wider">Compatibilité Validée</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">
+            Compatible avec votre Toyota Avensis 2011
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Châssis T27 · Moteur 2.0 D-4D (126 ch) · Montage essieu avant garanti sans modification
+          </p>
+</div>
+</div>
+<!-- Expandable Other Compatible Models -->
+<div class="p-space-md flex flex-col">
+<button aria-expanded="false" class="w-full flex items-center justify-between text-left py-1" id="compat-btn" onclick="toggleAccordion('compat-drawer', 'compat-chevron')">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">directions_car</span>
+            Voir les autres véhicules compatibles (4)
+          </span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant transition-transform duration-200" id="compat-chevron">expand_more</span>
+</button>
+<div class="hidden flex-col gap-space-xs pt-space-sm" id="compat-drawer">
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-low font-body-sm text-body-sm">
+<span class="font-label-md text-label-md text-on-surface">Toyota Corolla Verso</span>
+<span class="text-on-surface-variant">2009 — 2015</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-low font-body-sm text-body-sm">
+<span class="font-label-md text-label-md text-on-surface">Toyota RAV4 (III)</span>
+<span class="text-on-surface-variant">2006 — 2012</span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-low font-body-sm text-body-sm">
+<span class="font-label-md text-label-md text-on-surface">Toyota Auris 2.2 D-CAT</span>
+<span class="text-on-surface-variant">2007 — 2012</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic pt-1">
+            Besoin d'une vérification avec votre numéro de châssis (VIN) ? Le vendeur vérifie avant expédition.
+          </p>
+</div>
+</div>
+</div>
+<!-- Difonssé Escrow Protection Box (Confidence Anchor) -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-space-xs overflow-hidden">
+<!-- Emerald Accent Pillar -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-on-tertiary-container"></div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[24px]">gpp_good</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Séquestre Difonssé Garanti</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed pl-1">
+        Votre paiement est consigné sur un compte sécurisé. L'artisan vendeur n'est crédité que <strong class="text-on-surface font-label-lg">après validation du montage par votre mécanicien</strong> dans un délai de 48 heures.
+      </p>
+<div class="flex items-center gap-space-sm pt-space-xs font-label-sm text-label-sm text-on-tertiary-container pl-1">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+          Zero risque pièce contrefaite
+        </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">assignment_return</span>
+          Retour sans frais si non conforme
+        </span>
+</div>
+</div>
+<!-- Seller Profile Card -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-xl shadow-sm gap-space-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-headline-sm">
+            AC
+          </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Auto Castors Express</span>
+</div>
+<span class="text-on-tertiary-container font-label-sm text-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+              NINEA &amp; RCCM Vérifié Difonssé
+            </span>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-surface-container px-space-xs py-1 rounded">
+<span class="material-symbols-outlined text-[16px] text-secondary">star</span>
+<span class="font-label-lg text-label-lg text-on-surface">4.9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(128)</span>
+</div>
+</div>
+<div class="flex flex-col gap-space-xs bg-surface-container-low p-space-sm rounded-lg font-body-sm text-body-sm text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">location_on</span>
+<span>Dakar, Castors (Rue 11 × Bld Dial Diop)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">schedule</span>
+<span>Retrait immédiat en boutique ou coursier express en 3h</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Pièce vérifiée en stock physique</span>
+<button class="font-label-md text-label-md text-on-surface underline hover:text-on-surface-variant">
+          Voir les 42 avis atelier
+        </button>
+</div>
+</div>
+<!-- Technical Specs Quick View -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-xl shadow-sm gap-space-xs">
+<h3 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Fiche Technique Fabricant</h3>
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs font-body-sm text-body-sm">
+<div class="p-space-xs bg-surface-container-low rounded">
+<span class="text-on-surface-variant block font-label-sm text-label-sm">Épaisseur garniture</span>
+<span class="font-label-md text-label-md text-on-surface">17.8 mm</span>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded">
+<span class="text-on-surface-variant block font-label-sm text-label-sm">Système de freinage</span>
+<span class="font-label-md text-label-md text-on-surface">Akebono</span>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded">
+<span class="text-on-surface-variant block font-label-sm text-label-sm">Témoin d'usure</span>
+<span class="font-label-md text-label-md text-on-surface">Acoustique inclus</span>
+</div>
+<div class="p-space-xs bg-surface-container-low rounded">
+<span class="text-on-surface-variant block font-label-sm text-label-sm">Origine fabrication</span>
+<span class="font-label-md text-label-md text-on-surface">Italie (CE)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Bottom Transaction & Action Bar -->
+<aside aria-label="Passer commande" class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md shadow-lg p-space-md pb-safe">
+<div class="max-w-md mx-auto flex flex-col gap-space-xs">
+<!-- Stepper & Subtotal Row -->
+<div class="flex items-center justify-between">
+<div class="flex items-center bg-surface-container-high rounded-full p-1">
+<button aria-label="Diminuer la quantité" class="w-8 h-8 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center font-headline-sm shadow-sm active:scale-90 transition-transform" onclick="updateQty(-1)">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg text-on-surface px-3" id="qty-display">1</span>
+<button aria-label="Augmenter la quantité" class="w-8 h-8 rounded-full bg-surface-container-lowest text-on-surface flex items-center justify-center font-headline-sm shadow-sm active:scale-90 transition-transform" onclick="updateQty(1)">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Sécurisé</span>
+<span class="font-price-display text-price-display text-on-surface leading-none" id="total-price">
+            28 500 FCFA
+          </span>
+</div>
+</div>
+<!-- Action Buttons Pair -->
+<div class="grid grid-cols-2 gap-space-xs pt-1">
+<button class="h-12 rounded-lg bg-surface-container text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-1 active:scale-[0.98] transition-transform" onclick="triggerCartToast()">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+<span>Ajouter</span>
+</button>
+<button class="h-12 rounded-lg bg-secondary-container text-on-secondary-container font-label-lg text-label-lg flex items-center justify-center gap-1 shadow-md active:scale-[0.98] transition-transform" onclick="triggerDirectOrder()">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+<span>Commander</span>
+</button>
+</div>
+<!-- Quick Micro-guarantee Assurance -->
+<div class="flex items-center justify-center gap-1 text-center font-label-sm text-label-sm text-on-surface-variant pt-0.5">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container">check_circle</span>
+<span>Fonds gardés sous séquestre jusqu'au montage</span>
+</div>
+</div>
+</aside>
+<!-- Interactive Feedback Toast -->
+<div class="fixed top-28 left-1/2 -translate-x-1/2 z-50 bg-primary-container text-on-primary px-space-md py-space-sm rounded-full shadow-xl flex items-center gap-2 transition-all duration-300 opacity-0 pointer-events-none translate-y-2" id="action-toast">
+<span class="material-symbols-outlined text-tertiary-fixed text-[18px]" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-text">Plaquettes ajoutées à votre commande</span>
+</div>
+</div>
+<script>
+  let currentQty = 1;
+  const unitPrice = 28500;
+  const maxStock = 3;
+
+  function updateQty(delta) {
+    const nextQty = currentQty + delta;
+    if (nextQty >= 1 && nextQty <= maxStock) {
+      currentQty = nextQty;
+      document.getElementById('qty-display').innerText = currentQty;
+      const total = currentQty * unitPrice;
+      document.getElementById('total-price').innerText = total.toLocaleString('fr-FR') + ' FCFA';
+    }
+  }
+
+  function selectSlide(index, btn) {
+    const galleryImg = document.getElementById('main-gallery-img');
+    const images = [
+      {
+        alt: "High resolution studio product photograph of genuine Brembo ceramic front brake pads, deep red and black Brembo packaging box, metallic brake pads with anti-noise shims, crisp industrial lighting, pristine automotive commerce photography Dakar"
+      },
+      {
+        alt: "Macro studio shot of friction material on ceramic Brembo front brake pads showing composite particles and copper cooling flecks, immaculate automotive catalogue standard"
+      },
+      {
+        alt: "Detailed macro shot of the stamped steel backing plate showing the engraved serial number 04465-05240 and Brembo logo on dark automotive metal"
+      }
+    ];
+
+    galleryImg.setAttribute('data-alt', images[index].alt);
+    galleryImg.style.opacity = '0.7';
+    setTimeout(() => {
+      galleryImg.style.opacity = '1';
+    }, 150);
+
+    // Update Dots
+    for (let i = 0; i < 3; i++) {
+      const dot = document.getElementById('dot-' + i);
+      if (dot) {
+        if (i === index) {
+          dot.className = 'w-2 h-2 rounded-full bg-primary transition-all duration-200';
+        } else {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-outline-variant transition-all duration-200';
+        }
+      }
+    }
+
+    // Update active thumb styling
+    document.querySelectorAll('.thumbnail-btn').forEach((el, idx) => {
+      if (idx === index) {
+        el.classList.remove('opacity-60');
+      } else {
+        el.classList.add('opacity-60');
+      }
+    });
+  }
+
+  function toggleZoom() {
+    showToast("Photo en haute résolution inspectée par Difonssé", "zoom_in");
+  }
+
+  function toggleAccordion(contentId, iconId) {
+    const content = document.getElementById(contentId);
+    const icon = document.getElementById(iconId);
+    const btn = document.getElementById('compat-btn');
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      content.classList.add('flex');
+      icon.style.transform = 'rotate(180deg)';
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      content.classList.add('hidden');
+      content.classList.remove('flex');
+      icon.style.transform = 'rotate(0deg)';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function triggerCartToast() {
+    showToast(`${currentQty} jeu(x) de plaquettes ajouté(s) au panier`, "shopping_bag");
+  }
+
+  function triggerDirectOrder() {
+    showToast("Paiement séquestre initialisé (Wave / Orange Money)", "lock");
+  }
+
+  function showToast(text, iconName) {
+    const toast = document.getElementById('action-toast');
+    const toastText = document.getElementById('toast-text');
+    const toastIcon = document.getElementById('toast-icon');
+    
+    toastText.innerText = text;
+    if (iconName) toastIcon.innerText = iconName;
+    
+    toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+    }, 2800);
+  }
+</script></main></body></html>

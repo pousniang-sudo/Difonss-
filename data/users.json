@@ -1,0 +1,58 @@
+﻿[
+    {
+        "id":  "usr_buyer_1",
+        "role":  "buyer",
+        "name":  "Amadou Diallo",
+        "type":  "Mcanicien Pro",
+        "garageName":  "Garage Diallo \u0026 Fils",
+        "phone":  "77 450 12 34",
+        "city":  "Dakar (Castors)",
+        "hub":  "Castors",
+        "activeCar":  "Toyota Hilux Vigo 2.5 D-4D",
+        "registeredAt":  "2026-10-15T09:30:00Z"
+    },
+    {
+        "id":  "usr_buyer_2",
+        "role":  "buyer",
+        "name":  "Ibrahima Sall",
+        "type":  "Particulier",
+        "garageName":  "Personnel",
+        "phone":  "78 120 88 99",
+        "city":  "Almadies",
+        "hub":  "Colobane",
+        "activeCar":  "Peugeot 308 II 1.6 HDi",
+        "registeredAt":  "2026-10-22T14:10:00Z"
+    },
+    {
+        "id":  "usr_seller_1",
+        "role":  "seller",
+        "name":  "Modou Ndiaye",
+        "shopName":  "Échoppe Modou Pikine",
+        "ninea":  "008451290-2K3",
+        "boxNumber":  "Box #142",
+        "phone":  "77 890 45 12",
+        "hub":  "Pikine",
+        "availableBalance":  340000,
+        "escrowBalance":  230000,
+        "totalSales":  1820000,
+        "rating":  4.9,
+        "isOpen":  true,
+        "registeredAt":  "2026-09-01T08:00:00Z"
+    },
+    {
+        "id":  "usr_seller_2",
+        "role":  "seller",
+        "name":  "Cheikh Fall",
+        "shopName":  "Dakar Pices Express",
+        "ninea":  "007129481-1A4",
+        "boxNumber":  "Magasin #34",
+        "phone":  "76 312 90 01",
+        "hub":  "Castors",
+        "availableBalance":  210000,
+        "escrowBalance":  95000,
+        "totalSales":  940000,
+        "rating":  4.8,
+        "isOpen":  true,
+        "registeredAt":  "2026-09-12T10:15:00Z"
+    }
+]

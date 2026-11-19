@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container": "#e5eeff", "inverse-on-surface": "#eaf1ff", "on-tertiary": "#ffffff", "secondary-container": "#fea619", "surface-container-highest": "#d3e4fe", "on-primary-fixed-variant": "#3f465c", "tertiary": "#000000", "surface-container-high": "#dce9ff", "on-secondary-fixed-variant": "#653e00", "on-surface": "#0b1c30", "tertiary-fixed": "#6ffbbe", "inverse-surface": "#213145", "on-tertiary-fixed-variant": "#005236", "primary-fixed": "#dae2fd", "on-primary-container": "#7c839b", "surface-tint": "#565e74", "outline": "#76777d", "on-surface-variant": "#45464d", "on-error": "#ffffff", "error-container": "#ffdad6", "tertiary-fixed-dim": "#4edea3", "surface-dim": "#cbdbf5", "on-secondary-container": "#684000", "outline-variant": "#c6c6cd", "secondary-fixed": "#ffddb8", "error": "#ba1a1a", "on-primary-fixed": "#131b2e", "on-secondary": "#ffffff", "background": "#f8f9ff", "secondary-fixed-dim": "#ffb95f", "on-tertiary-fixed": "#002113", "surface-variant": "#d3e4fe", "on-tertiary-container": "#009668", "on-primary": "#ffffff", "primary-fixed-dim": "#bec6e0", "tertiary-container": "#002113", "on-background": "#0b1c30", "surface-bright": "#f8f9ff", "on-error-container": "#93000a", "surface": "#f8f9ff", "inverse-primary": "#bec6e0", "primary-container": "#131b2e", "surface-container-low": "#eff4ff", "on-secondary-fixed": "#2a1700", "secondary": "#855300", "primary": "#000000", "surface-container-lowest": "#ffffff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter": "1rem", "space-xl": "1.5rem", "margin": "1rem", "margin-mobile": "0.75rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "gutter-mobile": "0.75rem", "space-lg": "1rem", "space-md": "0.75rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "price-display": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "price-display": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }], "headline-md": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-24 flex flex-col w-full"><div class="h-8 bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center px-margin-mobile"><span class="font-label-sm text-label-sm uppercase tracking-wider flex items-center gap-space-xs"><span class="material-symbols-outlined text-[14px]">verified_user</span>MODE DÉMO — AUCUN ARGENT RÉEL</span></div><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><img alt="Difonssé Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrD6km19FvOYyq30FPKMng8OmCMKU5RR_q41heWPAh1rUIZWvcE1fPMelLWRDQwEo5EhiE-Mn_zal8IMy7nZ2w2YqAyc20Snixc1Z4Ob0BCi_WdmTAORTeMrWO6WN-kIxbi7l3fxhm_31IGB3zxPXe7T8Of-E4X7b5nOt0vzmBeXM3is44dxJX5sshggoc464PzKcqZAQ7DL4EJBNWMvEfcmLqUm_RYzHFrPKunZDpoPIg"/><span class="bg-primary-container text-on-primary font-label-sm text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full">PRO / VENDEUR</span></div><div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-low text-on-surface min-h-[36px] max-w-[170px] truncate"><span class="material-symbols-outlined text-[16px] text-on-tertiary-container">verified</span><div class="flex flex-col min-w-0 leading-tight"><span class="font-label-md text-label-md truncate font-bold text-left">Auto Castors Express</span><span class="text-[9px] text-outline font-medium tracking-tight">NINEA / RCCM OK</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Profil commerçant" class="relative w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container"><img alt="Commerçant Avatar" class="w-8 h-8 rounded-full object-cover ring-2 ring-secondary-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI_RD1NlTkMCCqJ7_vbVBm2qeKJViAJp7vq2vq_Rq2bYV0Zg8Sp1Zrcsy4Is4uaAwruBLwctU8Fr3pc9ZZC5YQOq0mYtOR_EfvHh5mQG2rofLu543UYJq-tEv_y2kzuS1Q3pJf9pcWYboE-Nmss91lYGlkin-3QU-Q2PI8vEDmXS_PeuvtIk_5hH1wbXTopOgRqvpc2qWts-F2Z3398DcDj-vyFQtf4S6QwH3yrM5w"/><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-tertiary-fixed-dim rounded-full ring-2 ring-surface"></span></button></div></div></div></header><main class="flex flex-col relative w-full pt-24 bg-surface pb-28"><div class="flex flex-col w-full pb-8">
+<!-- Interactive Feedback Banner / Quick Toast Placeholder -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-40 w-11/12 max-w-sm bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-xl flex items-center justify-between transition-all duration-300 opacity-0 pointer-events-none translate-y-[-8px]" id="toastNotification">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md truncate" id="toastMessage">Action effectuée</span>
+</div>
+<button class="text-inverse-on-surface/80 hover:text-inverse-on-surface" onclick="dismissToast()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Header Section: Solde & Trésorerie Décaissée -->
+<div class="px-margin pt-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="p-1 rounded-lg bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Trésorerie Vendeur</span>
+</div>
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm">Séquestre Conforme</span>
+</div>
+</div>
+<!-- Main Balance Card with Visual Warmth & Micro Elevation -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md relative overflow-hidden">
+<!-- Decorative background watermark motif -->
+<div class="absolute -right-4 -bottom-4 opacity-5 pointer-events-none text-primary">
+<span class="material-symbols-outlined text-[120px]">payments</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-md text-label-md text-on-surface-variant">Solde total décaissé cumulé</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-extrabold tracking-tight">1 193 000</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">FCFA</span>
+</div>
+</div>
+<!-- Active Payout Destination Pill / Switcher -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-xl bg-[#1DA1F2]/10 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[22px] text-[#1DA1F2]" style="font-variation-settings: 'FILL' 1;">send_to_mobile</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="font-label-md text-label-md font-bold text-on-surface">Wave Sénégal</span>
+<span class="bg-surface-container-highest text-on-primary-fixed-variant text-[10px] font-bold px-1.5 py-0.2 rounded-full uppercase tracking-tight">Par défaut</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">+221 77 ••• •• 89</span>
+</div>
+</div>
+<button class="flex-shrink-0 px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high active:scale-95 transition-all text-left" onclick="togglePaymentDrawer()">
+<span class="font-label-sm text-label-sm text-primary font-bold flex items-center gap-0.5">
+              Modifier
+              <span class="material-symbols-outlined text-[14px]">expand_more</span>
+</span>
+</button>
+</div>
+<div class="flex items-center justify-between pt-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-on-tertiary-container">schedule</span>
+            Versements quotidiens groupés à 18h00
+          </span>
+<span class="text-[11px] font-semibold text-secondary">Frais 0 FCFA</span>
+</div>
+</div>
+<!-- Quick Action: Switch to Orange Money Drawer (inline collapsible preview) -->
+<div class="hidden flex-col gap-space-xs pt-space-xs animate-fadeIn" id="paymentOptionsDrawer">
+<div class="text-[11px] uppercase tracking-wider font-bold text-outline">Sélectionner un canal de virement</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="p-space-sm rounded-lg bg-surface-container-highest text-left flex items-center gap-space-xs" onclick="selectProvider('Wave (+221 77 ••• •• 89)')">
+<span class="material-symbols-outlined text-[18px] text-[#1DA1F2]">radio_button_checked</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface">Wave</span>
+<span class="text-[10px] text-outline">Actif (+221 77...)</span>
+</div>
+</button>
+<button class="p-space-sm rounded-lg bg-surface-container text-left flex items-center gap-space-xs hover:bg-surface-container-high" onclick="selectProvider('Orange Money (+221 77 ••• •• 89)')">
+<span class="material-symbols-outlined text-[18px] text-secondary">radio_button_unchecked</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface">Orange Money</span>
+<span class="text-[10px] text-outline">Passer en direct</span>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Escrow Synthesized Status Tri-Cards (§9.3) -->
+<div class="px-margin pt-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary-container" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Statut du Séquestre</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline">§9.3 Protocole Difonssé</span>
+</div>
+<!-- 3 Scrollable Metric Cards with Distinct Ambient Depth -->
+<div class="grid grid-cols-3 gap-space-xs">
+<!-- Fonds Bloqués -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="w-1.5 h-full absolute left-0 top-0 bg-secondary-container"></div>
+<div class="pl-1 flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-bold">Bloqués</span>
+<span class="font-price-display text-[15px] leading-tight text-on-surface font-extrabold mt-1">185 000</span>
+<span class="text-[10px] font-bold text-secondary">FCFA</span>
+</div>
+<div class="pl-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary">build_circle</span>
+<span class="text-[10px] text-outline leading-tight">3 en test garage</span>
+</div>
+</div>
+<!-- Fonds Libérés -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="w-1.5 h-full absolute left-0 top-0 bg-tertiary-fixed-dim"></div>
+<div class="pl-1 flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-bold">Libérés</span>
+<span class="font-price-display text-[15px] leading-tight text-on-tertiary-container font-extrabold mt-1">72 000</span>
+<span class="text-[10px] font-bold text-on-tertiary-container">FCFA</span>
+</div>
+<div class="pl-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-on-tertiary-container">schedule</span>
+<span class="text-[10px] text-outline leading-tight">Versé à 18h</span>
+</div>
+</div>
+<!-- Total Reçu ce mois -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="w-1.5 h-full absolute left-0 top-0 bg-primary"></div>
+<div class="pl-1 flex flex-col">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-bold">Reçu (Mois)</span>
+<span class="font-price-display text-[15px] leading-tight text-on-surface font-extrabold mt-1">436 000</span>
+<span class="text-[10px] font-bold text-outline">FCFA</span>
+</div>
+<div class="pl-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">done_all</span>
+<span class="text-[10px] text-outline leading-tight">11 exécutés</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Transactions & Escrow Register (§5.5) -->
+<div class="px-margin pt-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-primary">receipt_long</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Transactions &amp; Séquestres</h3>
+</div>
+<button class="font-label-sm text-label-sm text-secondary font-bold flex items-center gap-0.5" onclick="filterTransactions()">
+        Filtrer
+        <span class="material-symbols-outlined text-[14px]">tune</span>
+</button>
+</div>
+<!-- TRANSACTION #1: LIBÉRÉ - EN COURS DE VERSEMENT -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative overflow-hidden">
+<!-- Status pill banner -->
+<div class="flex items-center justify-between gap-space-xs">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          Libéré par l'acheteur
+        </div>
+<span class="font-label-sm text-label-sm text-outline">DIF-2026-000118</span>
+</div>
+<!-- Item Title & Buyer Location -->
+<div class="flex items-start justify-between gap-space-sm pt-1">
+<div class="flex flex-col min-w-0">
+<h4 class="font-headline-sm text-[16px] text-on-surface font-bold leading-tight">Kit amortisseurs arrière Corolla</h4>
+<div class="flex items-center gap-1.5 mt-0.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">person_pin_circle</span>
+<span class="font-medium text-on-surface">Ibrahima S.</span>
+<span class="text-outline">· Ouakam</span>
+</div>
+</div>
+<div class="flex flex-col items-end flex-shrink-0">
+<span class="font-label-sm text-[10px] text-outline uppercase font-semibold">Net Vendeur</span>
+<span class="font-price-display text-[18px] text-on-tertiary-container font-extrabold">+ 67 500 <span class="text-[12px]">FCFA</span></span>
+</div>
+</div>
+<!-- Financial Calculation Line -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-[12px]">
+<span>Prix de vente initial</span>
+<span class="font-semibold text-on-surface">75 000 FCFA</span>
+</div>
+<div class="flex items-center justify-between text-outline font-body-sm text-[12px]">
+<span class="flex items-center gap-1">
+            Commission Difonssé (10%)
+            <span class="material-symbols-outlined text-[12px]" title="Commission plateforme">info</span>
+</span>
+<span class="font-semibold text-error">- 7 500 FCFA</span>
+</div>
+</div>
+<!-- Confirmation timestamp & SLA -->
+<div class="flex items-center justify-between pt-0.5 font-label-sm text-label-sm">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container">verified</span>
+          Monté le 12/11 à 16:30
+        </span>
+<span class="text-on-secondary-container font-bold flex items-center gap-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-ping"></span>
+          Wave prévu aujourd'hui (18h)
+        </span>
+</div>
+</div>
+<!-- TRANSACTION #2: BLOQUÉ EN SÉQUESTRE -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative overflow-hidden">
+<!-- Status pill banner -->
+<div class="flex items-center justify-between gap-space-xs">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[15px]">lock_clock</span>
+          Séquestre actif (En attente test)
+        </div>
+<span class="font-label-sm text-label-sm text-outline">DIF-2026-000123</span>
+</div>
+<!-- Item Title & Buyer Location -->
+<div class="flex items-start justify-between gap-space-sm pt-1">
+<div class="flex flex-col min-w-0">
+<h4 class="font-headline-sm text-[16px] text-on-surface font-bold leading-tight">Plaquettes Brembo Avensis</h4>
+<div class="flex items-center gap-1.5 mt-0.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">person_pin_circle</span>
+<span class="font-medium text-on-surface">Mamadou D.</span>
+<span class="text-outline">· Fann Atelier</span>
+</div>
+</div>
+<div class="flex flex-col items-end flex-shrink-0">
+<span class="font-label-sm text-[10px] text-outline uppercase font-semibold">Net à venir</span>
+<span class="font-price-display text-[18px] text-secondary font-extrabold">26 220 <span class="text-[12px]">FCFA</span></span>
+</div>
+</div>
+<!-- Financial Calculation Line -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-[12px]">
+<span>Prix de vente initial</span>
+<span class="font-semibold text-on-surface">28 500 FCFA</span>
+</div>
+<div class="flex items-center justify-between text-outline font-body-sm text-[12px]">
+<span class="flex items-center gap-1">
+            Commission Difonssé (8%)
+          </span>
+<span class="font-semibold text-error">- 2 280 FCFA</span>
+</div>
+</div>
+<!-- Confirmation badge status -->
+<div class="flex items-center justify-between pt-0.5 font-label-sm text-label-sm">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">hourglass_bottom</span>
+          Pièce reçue il y a 2j
+        </span>
+<button class="text-primary font-bold underline hover:text-on-surface-variant" onclick="triggerGarageCheck('DIF-2026-000123')">
+          Relancer confirmation
+        </button>
+</div>
+</div>
+<!-- TRANSACTION #3: VERSÉ / CLÔTURÉ -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm relative overflow-hidden">
+<!-- Status pill banner -->
+<div class="flex items-center justify-between gap-space-xs">
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+          Versé &amp; Clôturé
+        </div>
+<span class="font-label-sm text-label-sm text-outline">DIF-2026-000097</span>
+</div>
+<!-- Item Title & Buyer Location -->
+<div class="flex items-start justify-between gap-space-sm pt-1">
+<div class="flex flex-col min-w-0">
+<h4 class="font-headline-sm text-[16px] text-on-surface font-bold leading-tight">Disques de frein Bosch</h4>
+<div class="flex items-center gap-1.5 mt-0.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">person_pin_circle</span>
+<span class="font-medium text-on-surface">Cheikh T.</span>
+<span class="text-outline">· Pikine</span>
+</div>
+</div>
+<div class="flex flex-col items-end flex-shrink-0">
+<span class="font-label-sm text-[10px] text-outline uppercase font-semibold">Montant Reçu</span>
+<span class="font-price-display text-[18px] text-on-surface font-extrabold">+ 41 400 <span class="text-[12px]">FCFA</span></span>
+</div>
+</div>
+<!-- Transaction Reference Pill -->
+<div class="flex items-center justify-between bg-surface-container-low px-space-sm py-1.5 rounded-lg text-[11px]">
+<div class="flex items-center gap-1 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-[#1DA1F2]">check</span>
+<span class="font-mono font-semibold">SIM-WAVE-89210</span>
+</div>
+<span class="text-outline">09/11/2026 à 14:15</span>
+</div>
+<!-- Download receipt action -->
+<div class="flex items-center justify-between pt-1">
+<span class="text-[11px] text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+          Séquestre Difonssé archivé
+        </span>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high text-[11px] font-bold flex items-center gap-1" onclick="downloadSingleReceipt('DIF-2026-000097')">
+<span class="material-symbols-outlined text-[14px] text-secondary">download</span>
+          Reçu PDF
+        </button>
+</div>
+</div>
+</div>
+<!-- Audit & Regulatory Compliance Notice (§6 & §13) -->
+<div class="px-margin pt-space-lg">
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-xs relative overflow-hidden">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">policy</span>
+<span class="font-label-md text-label-md font-bold">Transparence &amp; Journal Comptable Immuable</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Toutes les retenues de commissions et libérations sont tracées dans le registre <span class="font-mono font-bold text-on-surface">EscrowTransaction</span> et certifiées conformes aux directives monétaires UEMOA.
+      </p>
+<div class="flex items-center gap-space-sm pt-1 text-[11px] text-outline">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span> Chiffrement SHA-256
+        </span>
+<span>•</span>
+<span>Audit trimestriel Dakar</span>
+</div>
+</div>
+</div>
+<!-- Primary Statement Action Button -->
+<div class="px-margin pt-space-lg flex flex-col gap-space-sm">
+<button class="w-full h-12 bg-primary text-on-primary font-label-lg text-label-lg rounded-xl shadow-md hover:bg-on-surface-variant active:scale-[0.99] transition-all flex items-center justify-center gap-space-xs" onclick="downloadMonthlyStatement()">
+<span class="material-symbols-outlined text-[20px] text-secondary-container">file_download</span>
+      Télécharger relevé de compte mensuel
+    </button>
+<div class="text-center font-label-sm text-label-sm text-outline">
+      Généré au format PDF officiel avec cachet électronique Difonssé
+    </div>
+</div>
+</div>
+<script>
+  function showToast(message) {
+    var toast = document.getElementById('toastNotification');
+    var msg = document.getElementById('toastMessage');
+    if (!toast || !msg) return;
+    msg.textContent = message;
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-8px]');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    setTimeout(function() {
+      dismissToast();
+    }, 3500);
+  }
+
+  function dismissToast() {
+    var toast = document.getElementById('toastNotification');
+    if (!toast) return;
+    toast.classList.remove('opacity-100', 'translate-y-0');
+    toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-8px]');
+  }
+
+  function togglePaymentDrawer() {
+    var drawer = document.getElementById('paymentOptionsDrawer');
+    if (!drawer) return;
+    drawer.classList.toggle('hidden');
+    drawer.classList.toggle('flex');
+  }
+
+  function selectProvider(providerName) {
+    togglePaymentDrawer();
+    showToast('Canal mis à jour : ' + providerName);
+  }
+
+  function triggerGarageCheck(ref) {
+    showToast('Rappel SMS transmis au mécanicien pour ' + ref);
+  }
+
+  function downloadSingleReceipt(ref) {
+    showToast('Téléchargement du reçu ' + ref + ' en cours...');
+  }
+
+  function downloadMonthlyStatement() {
+    showToast('Relevé Difonssé Novembre 2026 généré (PDF)');
+  }
+
+  function filterTransactions() {
+    showToast('Affichage des transactions récentes filtrées');
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="tableau-de-bord" href="#"><span class="material-symbols-outlined text-[24px]">dashboard</span><span class="font-label-sm text-label-sm">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="mes-pieces" href="#"><span class="material-symbols-outlined text-[24px]">inventory</span><span class="font-label-sm text-label-sm">Mes Pièces</span></a><a class="relative flex flex-col items-center justify-center -mt-5 min-w-[56px] min-h-[56px] text-on-primary bg-primary rounded-full shadow-lg hover:bg-on-surface-variant transition-transform active:scale-95" data-path="ajouter-piece" href="#"><span class="material-symbols-outlined text-[28px] text-secondary-container">add_circle</span><span class="font-label-sm text-[10px] text-white">Ajouter</span></a><a class="relative flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="commandes-vendeur" href="#"><div class="relative"><span class="material-symbols-outlined text-[24px]">receipt_long</span><span class="absolute -top-1 -right-2 bg-error text-on-error font-label-sm text-[10px] w-4 h-4 rounded-full flex items-center justify-center leading-none">3</span></div><span class="font-label-sm text-label-sm">Commandes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="versements" href="#"><span class="material-symbols-outlined text-[24px]">account_balance_wallet</span><span class="font-label-sm text-label-sm">Versements</span></a></div></nav></body></html>
