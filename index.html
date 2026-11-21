@@ -85,73 +85,75 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- ÉCRAN 1 : PAGE DE CONNEXION / CHOIX DE PROFIL                  -->
+    <!-- ÉCRAN 0 : SÉLECTION DU PORTAIL (ACHETEUR VS VENDEUR)           -->
     <!-- ============================================================== -->
-    <div id="screen-login" class="flex-1 p-5 flex flex-col justify-between bg-white">
+    <div id="screen-portal-choice" class="flex-1 p-5 flex flex-col justify-between bg-white">
       <div class="space-y-6 pt-4">
         
-        <!-- Logo & Titre -->
+        <!-- Logo & Titre Difonssé -->
         <div class="text-center space-y-2">
           <div class="w-16 h-16 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-black text-3xl mx-auto shadow-lg border border-slate-700">
             <span class="text-brand-emerald">D</span>
           </div>
           <h1 class="text-2xl font-black text-brand-primary tracking-tight">Difonssé</h1>
           <p class="text-xs text-slate-500 max-w-xs mx-auto">
-            La première plateforme de pièces détachées avec <strong>séquestre garanti</strong> au Sénégal.
+            Marketplace de pièces auto avec <strong>séquestre garanti Wave &amp; OM</strong> (Dakar, Pikine).
           </p>
         </div>
 
-        <!-- SÉLECTEUR DE RÔLE : ACHETEUR VS VENDEUR -->
-        <div class="space-y-2">
-          <label class="block text-[11px] font-black text-slate-600 uppercase">1. Choisissez votre profil :</label>
-          <div class="grid grid-cols-2 gap-2.5">
-            
-            <button type="button" onclick="selectLoginRole('buyer')" id="role-choice-buyer" class="p-3.5 rounded-xl border-2 border-brand-primary bg-slate-50 text-left transition-all relative">
-              <span class="w-2.5 h-2.5 rounded-full bg-brand-emerald absolute top-3 right-3"></span>
-              <span class="material-symbols-outlined text-2xl text-brand-primary">handyman</span>
-              <div class="font-extrabold text-xs text-brand-primary mt-1">Espace Acheteur</div>
-              <div class="text-[10px] text-slate-500">Mécanicien ou Particulier</div>
-            </button>
-
-            <button type="button" onclick="selectLoginRole('seller')" id="role-choice-seller" class="p-3.5 rounded-xl border border-brand-border bg-white text-left transition-all relative hover:border-slate-400">
-              <span class="material-symbols-outlined text-2xl text-brand-gold">storefront</span>
-              <div class="font-extrabold text-xs text-slate-700 mt-1">Espace Vendeur</div>
-              <div class="text-[10px] text-slate-500">Vendeur professionnel</div>
-            </button>
-
-          </div>
-        </div>
-
-        <!-- FORMULAIRE DE CONNEXION -->
-        <div class="space-y-3.5 bg-slate-50 p-4 rounded-xl border border-brand-border">
-          <div>
-            <label class="block text-[11px] font-black text-slate-600 uppercase mb-1">Numéro Téléphone Sénégal (+221) :</label>
-            <div class="relative">
-              <span class="absolute left-3 top-2.5 text-xs font-black text-slate-400">+221</span>
-              <input type="tel" id="login-phone" value="77 450 12 34" class="w-full pl-12 pr-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none" />
+        <!-- Deux Portails Séparés -->
+        <div class="space-y-3 pt-2">
+          <span class="block text-[11px] font-black text-slate-600 uppercase tracking-wider text-center">Choisissez votre espace d'accès :</span>
+          
+          <!-- PORTAIL ACHETEUR -->
+          <div onclick="showScreen('login-buyer')" class="p-4 rounded-2xl border-2 border-brand-primary bg-slate-50 hover:bg-emerald-50/40 hover:border-brand-emerald transition-all cursor-pointer shadow-sm relative group">
+            <span class="w-3 h-3 rounded-full bg-brand-emerald absolute top-4 right-4"></span>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-primary text-white flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px] text-brand-emerald">handyman</span>
+              </div>
+              <div class="space-y-0.5">
+                <div class="font-black text-sm text-brand-primary group-hover:text-emerald-900">Espace Acheteur &amp; Atelier</div>
+                <p class="text-[11px] text-slate-500 leading-tight">
+                  Mécaniciens &amp; particuliers : trouvez des pièces avec essai garage 48h et séquestre garanti.
+                </p>
+                <div class="pt-2 flex items-center gap-1.5 text-[10px] font-extrabold text-brand-emeraldDark">
+                  <span>Accéder à la connexion Acheteur</span>
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div>
-            <label class="block text-[11px] font-black text-slate-600 uppercase mb-1">Code PIN ou OTP :</label>
-            <input type="password" id="login-pin" value="1234" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-center tracking-widest text-slate-900 outline-none" />
+          <!-- PORTAIL VENDEUR -->
+          <div onclick="showScreen('login-seller')" class="p-4 rounded-2xl border border-brand-border bg-white hover:bg-amber-50/40 hover:border-brand-gold transition-all cursor-pointer shadow-sm relative group">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]">storefront</span>
+              </div>
+              <div class="space-y-0.5">
+                <div class="font-black text-sm text-slate-900 group-hover:text-amber-950">Espace Vendeur &amp; Échoppes</div>
+                <p class="text-[11px] text-slate-500 leading-tight">
+                  Commerçants de Pikine &amp; Colobane : publiez vos pièces et recevez vos paiements directs.
+                </p>
+                <div class="pt-2 flex items-center gap-1.5 text-[10px] font-extrabold text-amber-900">
+                  <span>Accéder à la connexion Vendeur</span>
+                  <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <button onclick="handleLoginSubmit()" class="w-full py-3 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-[18px] text-brand-gold">login</span>
-            <span id="login-btn-label">Entrer dans mon Espace Acheteur</span>
-          </button>
         </div>
 
-        <!-- DÉMOS EN 1 CLIC -->
+        <!-- Accès Rapides Démo 1-clic -->
         <div class="pt-2 text-center space-y-2">
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Accès Démo Instantané :</span>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Démonstrations instantanées :</span>
           <div class="flex items-center justify-center gap-2">
-            <button onclick="quickLogin('buyer')" class="text-xs font-bold text-brand-emeraldDark hover:underline bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+            <button onclick="demoLogin('buyer')" class="text-xs font-bold text-brand-emeraldDark hover:underline bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
               ⚡ Démo Acheteur (Amadou Diallo)
             </button>
-            <button onclick="quickLogin('seller')" class="text-xs font-bold text-amber-900 hover:underline bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-              ⚡ Démo Vendeur (Modou Pikine)
+            <button onclick="demoLogin('seller')" class="text-xs font-bold text-amber-900 hover:underline bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+              ⚡ Démo Vendeur (Modou Ndiaye)
             </button>
           </div>
         </div>
@@ -159,7 +161,166 @@
       </div>
 
       <div class="pt-6 pb-2 text-center text-[10px] text-slate-400">
-        Sécurisé par séquestre bancaire &amp; Mobile Money (Wave / Orange Money)
+        Paiements sécurisés par Wave Sénégal &amp; Orange Money
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- ÉCRAN 1-A : PAGE DE CONNEXION DÉDIÉE ACHETEUR                  -->
+    <!-- ============================================================== -->
+    <div id="screen-login-buyer" class="hidden flex-1 p-5 flex flex-col justify-between bg-white">
+      <div class="space-y-5 pt-2">
+        
+        <!-- En-tête avec bouton retour -->
+        <div class="flex items-center justify-between border-b border-brand-border pb-3">
+          <button onclick="showScreen('portal-choice')" class="flex items-center gap-1 text-slate-500 hover:text-slate-900 text-xs font-bold">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>Changer de portail</span>
+          </button>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase">
+            Espace Acheteur
+          </span>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-black text-brand-primary">Identification de l'Acheteur</h2>
+          <p class="text-xs text-slate-500 mt-1">
+            Renseignez votre <strong>Nom et Prénom</strong> afin de tracer vos commandes, certifier votre réputation et activer votre indice de solvabilité.
+          </p>
+        </div>
+
+        <!-- FORMULAIRE ACHETEUR AVEC NOM ET PRÉNOM -->
+        <form onsubmit="handleBuyerLogin(event)" class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-brand-border">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Prénom :</label>
+              <input type="text" id="login-buyer-firstname" required value="Amadou" placeholder="Ex: Amadou" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-primary" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de famille :</label>
+              <input type="text" id="login-buyer-lastname" required value="Diallo" placeholder="Ex: Diallo" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-primary" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Téléphone Wave / Orange Money (+221) :</label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-xs font-black text-slate-400">+221</span>
+              <input type="tel" id="login-buyer-phone" required value="77 450 12 34" class="w-full pl-12 pr-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-primary" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de votre Atelier / Garage ou Ville :</label>
+            <input type="text" id="login-buyer-garage" value="Garage Castors Dakar" placeholder="Ex: Garage Expert Ouakam" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-bold text-slate-900 outline-none focus:border-brand-primary" />
+          </div>
+
+          <!-- BANDEAU SOLVABILITÉ & SÉQUESTRE -->
+          <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[10px] text-emerald-950 flex items-start gap-2">
+            <span class="material-symbols-outlined text-[16px] text-brand-emerald shrink-0 mt-0.5">verified_user</span>
+            <div>
+              <strong class="font-black text-emerald-900">Solvabilité Garantie Difonssé :</strong>
+              <p class="text-emerald-800">
+                L'identification nominative permet le déblocage instantané des pièces auprès des échoppes avec essai de 48h au garage.
+              </p>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-brand-emerald">check_circle</span>
+            <span>Entrer dans mon Espace Acheteur</span>
+          </button>
+        </form>
+
+        <div class="text-center pt-1">
+          <button onclick="demoLogin('buyer')" class="text-xs font-bold text-brand-emeraldDark hover:underline">
+            ⚡ Remplir avec le profil démo (Amadou Diallo)
+          </button>
+        </div>
+
+      </div>
+
+      <div class="pt-4 pb-2 text-center text-[10px] text-slate-400">
+        Vos transactions sont tracées et sécurisées sous séquestre
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- ÉCRAN 1-B : PAGE DE CONNEXION DÉDIÉE VENDEUR                  -->
+    <!-- ============================================================== -->
+    <div id="screen-login-seller" class="hidden flex-1 p-5 flex flex-col justify-between bg-white">
+      <div class="space-y-5 pt-2">
+        
+        <!-- En-tête avec bouton retour -->
+        <div class="flex items-center justify-between border-b border-brand-border pb-3">
+          <button onclick="showScreen('portal-choice')" class="flex items-center gap-1 text-slate-500 hover:text-slate-900 text-xs font-bold">
+            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            <span>Changer de portail</span>
+          </button>
+          <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-black uppercase">
+            Espace Vendeur
+          </span>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-black text-slate-900">Identification du Vendeur</h2>
+          <p class="text-xs text-slate-500 mt-1">
+            Renseignez votre <strong>Nom et Prénom</strong> ainsi que votre échoppe pour gérer vos stocks et percevoir les fonds débloqués du séquestre.
+          </p>
+        </div>
+
+        <!-- FORMULAIRE VENDEUR AVEC NOM ET PRÉNOM -->
+        <form onsubmit="handleSellerLogin(event)" class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-brand-border">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Prénom :</label>
+              <input type="text" id="login-seller-firstname" required value="Modou" placeholder="Ex: Modou" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de famille :</label>
+              <input type="text" id="login-seller-lastname" required value="Ndiaye" placeholder="Ex: Ndiaye" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de l'Échoppe / Boutique :</label>
+            <input type="text" id="login-seller-shop" required value="Échoppe Modou Pikine" placeholder="Ex: Échoppe Modou" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Téléphone Virements Wave / OM (+221) :</label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-xs font-black text-slate-400">+221</span>
+              <input type="tel" id="login-seller-phone" required value="77 890 45 12" class="w-full pl-12 pr-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Hub d'implantation géographique :</label>
+            <select id="login-seller-hub" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-bold text-slate-900 outline-none focus:border-brand-gold">
+              <option value="Pikine" selected>Hub Pikine</option>
+              <option value="Colobane">Hub Marché Colobane</option>
+              <option value="Castors">Hub Castors</option>
+              <option value="Thiaroye">Hub Thiaroye</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-brand-gold hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">store</span>
+            <span>Entrer dans mon Espace Vendeur</span>
+          </button>
+        </form>
+
+        <div class="text-center pt-1">
+          <button onclick="demoLogin('seller')" class="text-xs font-bold text-amber-900 hover:underline">
+            ⚡ Remplir avec le profil démo (Modou Ndiaye - Pikine)
+          </button>
+        </div>
+
+      </div>
+
+      <div class="pt-4 pb-2 text-center text-[10px] text-slate-400">
+        Vos fonds de vente sont sécurisés par séquestre bancaire
       </div>
     </div>
 
@@ -168,30 +329,41 @@
     <!-- ============================================================== -->
     <div id="screen-buyer" class="hidden flex-1 flex flex-col bg-slate-50 pb-20">
       
-      <!-- Top App Bar Acheteur -->
-      <header class="bg-white border-b border-brand-border px-4 py-2.5 sticky top-7 z-40 shadow-sm flex items-center justify-between">
+      <!-- Top App Bar Acheteur Enrichie -->
+      <header class="bg-white border-b border-brand-border px-3.5 py-2.5 sticky top-7 z-40 shadow-sm flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-brand-primary text-white flex items-center justify-center font-black text-sm">
-            <span class="text-brand-emerald">D</span>
+          <div class="w-9 h-9 rounded-xl bg-brand-primary text-white flex items-center justify-center font-black text-xs shadow-sm border border-slate-700" id="buyer-avatar-initials">
+            AD
           </div>
           <div>
-            <div class="text-xs font-black text-brand-primary flex items-center gap-1">
-              <span>Amadou Diallo</span>
-              <span class="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded-full">Garage Castors</span>
+            <div class="text-xs font-black text-brand-primary flex items-center gap-1.5">
+              <span id="buyer-header-name">Amadou Diallo</span>
+              <button type="button" onclick="openSolvencyModal()" class="text-[9px] bg-emerald-100 text-emerald-800 font-extrabold px-1.5 py-0.5 rounded-full flex items-center gap-0.5 hover:bg-emerald-200 transition-colors cursor-pointer" title="Voir mon score de solvabilité">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span id="buyer-header-score">Solvabilité : 98/100</span>
+              </button>
             </div>
-            <p class="text-[10px] text-slate-400">Acheteur / Mécanicien Pro</p>
+            <p class="text-[10px] text-slate-500 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px] text-slate-400">garage</span>
+              <span id="buyer-header-garage">Garage Castors Dakar</span>
+            </p>
           </div>
         </div>
 
-        <!-- BOUTON CAPITAL : « DEVENIR VENDEUR » -->
-        <div class="flex items-center gap-1.5">
+        <!-- Actions Acheteur -->
+        <div class="flex items-center gap-1">
+          <!-- BOUTON CAPITAL : « DEVENIR VENDEUR » -->
           <button onclick="openBecomeSellerModal()" class="px-2.5 py-1.5 bg-brand-gold hover:bg-brand-goldHover text-brand-primary font-black text-[11px] rounded-lg shadow-sm flex items-center gap-1 transition-all active:scale-95">
             <span class="material-symbols-outlined text-[15px]">store</span>
             <span>Devenir Vendeur</span>
           </button>
 
           <button onclick="playWolofAudio('buyer')" title="Aide vocale Wolof" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700">
-            <span class="material-symbols-outlined text-[18px] text-brand-gold">volume_up</span>
+            <span class="material-symbols-outlined text-[17px] text-brand-gold">volume_up</span>
+          </button>
+
+          <button onclick="showScreen('portal-choice')" title="Déconnexion / Changer de profil" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-600 flex items-center justify-center text-slate-400 transition-colors">
+            <span class="material-symbols-outlined text-[17px]">logout</span>
           </button>
         </div>
       </header>
@@ -284,6 +456,47 @@
           </div>
         </div>
 
+        <!-- 6. PASSEPORT DE SOLVABILITÉ & TRAÇABILITÉ NOMINATIVE -->
+        <div class="bg-gradient-to-br from-slate-900 via-brand-primary to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-700 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-700 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-700 text-brand-emerald flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]">verified_user</span>
+              </span>
+              <div>
+                <h4 class="font-black text-xs text-white">Passeport de Solvabilité Client</h4>
+                <p class="text-[9px] text-slate-400">Traçabilité nominative des commandes</p>
+              </div>
+            </div>
+            <button onclick="openSolvencyModal()" class="text-[10px] text-brand-gold hover:underline font-bold">Voir détails</button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-[9px] text-slate-400 uppercase font-bold block">Score Solvable</span>
+              <span class="text-sm font-black text-brand-emerald" id="passport-score">98 / 100</span>
+              <span class="text-[8px] text-emerald-400 block font-bold">Certifié Wave</span>
+            </div>
+            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-[9px] text-slate-400 uppercase font-bold block">Commandes</span>
+              <span class="text-sm font-black text-white" id="passport-count">4</span>
+              <span class="text-[8px] text-slate-400 block">100% Honorées</span>
+            </div>
+            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+              <span class="text-[9px] text-slate-400 uppercase font-bold block">Conformité</span>
+              <span class="text-sm font-black text-brand-gold">100%</span>
+              <span class="text-[8px] text-slate-400 block">Zéro litige abusif</span>
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700 text-[10px] text-slate-300 flex items-start gap-2">
+            <span class="material-symbols-outlined text-[15px] text-brand-emerald shrink-0 mt-0.5">check_circle</span>
+            <p>
+              Client identifié : <strong class="text-white" id="passport-client-name">Amadou Diallo</strong>. Votre solvabilité est reconnue par les échoppes de Pikine : expédition immédiate Tiak-Tiak autorisée.
+            </p>
+          </div>
+        </div>
+
       </div>
 
       <!-- Navigation Fixe Bas Mobile Acheteur -->
@@ -313,27 +526,32 @@
     <!-- ============================================================== -->
     <div id="screen-seller" class="hidden flex-1 flex flex-col bg-slate-50 pb-20">
       
-      <!-- Top App Bar Vendeur -->
-      <header class="bg-white border-b border-brand-border px-4 py-2.5 sticky top-7 z-40 shadow-sm flex items-center justify-between">
+      <!-- Top App Bar Vendeur Enrichie -->
+      <header class="bg-white border-b border-brand-border px-3.5 py-2.5 sticky top-7 z-40 shadow-sm flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-brand-gold text-slate-950 flex items-center justify-center font-black text-sm">
-            🏪
+          <div class="w-9 h-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xs shadow-sm" id="seller-avatar-initials">
+            MN
           </div>
           <div>
-            <div class="text-xs font-black text-brand-primary flex items-center gap-1">
-              <span id="seller-shop-title">Échoppe Modou</span>
-              <span class="w-2 h-2 rounded-full bg-brand-emerald"></span>
+            <div class="text-xs font-black text-brand-primary flex items-center gap-1.5">
+              <span id="seller-header-name">Modou Ndiaye</span>
+              <span class="text-[9px] bg-amber-100 text-amber-900 font-extrabold px-1.5 py-0.2 rounded-full">Vendeur Agréé</span>
             </div>
-            <p class="text-[10px] text-slate-400">Box #142 · Pikine</p>
+            <p class="text-[10px] text-slate-500 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px] text-brand-gold">storefront</span>
+              <span id="seller-shop-title">Échoppe Modou Pikine</span>
+              <span class="text-slate-300">·</span>
+              <span id="seller-hub-badge" class="font-bold text-slate-600">Pikine</span>
+            </p>
           </div>
         </div>
 
         <!-- Bascule Acheteur & Quitter -->
-        <div class="flex items-center gap-1.5">
-          <button onclick="quickLogin('buyer')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] rounded-lg">
-            Mode Acheteur
+        <div class="flex items-center gap-1">
+          <button onclick="showScreen('buyer')" class="px-2 py-1 bg-slate-100 hover:bg-emerald-50 hover:text-emerald-800 text-slate-700 font-bold text-[10px] rounded-lg transition-colors">
+            Portail Acheteur
           </button>
-          <button onclick="logoutToLogin()" class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-500">
+          <button onclick="showScreen('portal-choice')" title="Changer d'utilisateur" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-red-600 flex items-center justify-center text-slate-400 transition-colors">
             <span class="material-symbols-outlined text-[16px]">logout</span>
           </button>
         </div>
@@ -676,9 +894,98 @@
     </div>
   </div>
 
+  <!-- ================= MODALE : PASSEPORT & DÉTAILS DE SOLVABILITÉ ================= -->
+  <div id="solvency-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-brand-border">
+      <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-lg bg-emerald-100 text-brand-emerald flex items-center justify-center font-black">
+            <span class="material-symbols-outlined text-[18px]">verified_user</span>
+          </span>
+          <div>
+            <h3 class="font-black text-sm text-brand-primary">Passeport de Solvabilité Client</h3>
+            <p class="text-[10px] text-slate-400">Évaluation de réputation &amp; Sécurité séquestre</p>
+          </div>
+        </div>
+        <button onclick="closeSolvencyModal()" class="text-slate-400 hover:text-slate-600">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-emerald-800">Indice de Solvabilité Difonssé</span>
+            <div class="text-lg font-black text-emerald-950" id="modal-solvency-score">98 / 100 (Très Élevé)</div>
+          </div>
+          <span class="px-2 py-1 rounded-full bg-emerald-200 text-emerald-950 font-black text-[10px]">Solvable ✓</span>
+        </div>
+
+        <div class="space-y-2 text-[11px] text-slate-600 bg-slate-50 p-3 rounded-xl border border-brand-border">
+          <div class="flex items-center justify-between py-1 border-b border-slate-200/60">
+            <span>Client identifié :</span>
+            <strong class="text-slate-900 font-extrabold" id="modal-solvency-fullname">Amadou Diallo</strong>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-slate-200/60">
+            <span>Numéro Mobile Money :</span>
+            <strong class="text-slate-900 font-mono" id="modal-solvency-phone">+221 77 450 12 34</strong>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-slate-200/60">
+            <span>Atelier / Garage :</span>
+            <strong class="text-slate-900" id="modal-solvency-garage">Garage Castors Dakar</strong>
+          </div>
+          <div class="flex items-center justify-between py-1 border-b border-slate-200/60">
+            <span>Historique paiements :</span>
+            <span class="text-brand-emerald font-bold">100% honorés sans défaut</span>
+          </div>
+          <div class="flex items-center justify-between py-1">
+            <span>Plafond Séquestre Kooru :</span>
+            <strong class="text-slate-900">1 500 000 FCFA</strong>
+          </div>
+        </div>
+
+        <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-[10px] text-amber-950 space-y-1">
+          <strong class="font-bold text-amber-900">Pourquoi ce suivi nominatif ?</strong>
+          <p class="leading-relaxed">
+            Chaque transaction initiée sur Difonssé est tracée de manière sécurisée. Ce score de solvabilité protège la communauté et garantit aux échoppes que vos commandes sont honorées par séquestre bancaire.
+          </p>
+        </div>
+
+        <button onclick="closeSolvencyModal()" class="w-full py-2.5 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-sm transition-all">
+          Compris, fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= LOGIQUE JAVASCRIPT FRONT-END ================= -->
   <script>
     const API_BASE = window.location.origin.includes(":8080") ? "http://localhost:8080/api" : "/api";
+    
+    // Profils de session nominatifs pour identification et solvabilité
+    let currentBuyer = {
+      firstName: "Amadou",
+      lastName: "Diallo",
+      fullName: "Amadou Diallo",
+      phone: "+221 77 450 12 34",
+      garageName: "Garage Castors Dakar",
+      solvencyScore: 98,
+      solvencyStatus: "Solvable Vérifié",
+      solvencyDetails: "Client vérifié par Wave / Orange Money sans défaut de paiement."
+    };
+
+    let currentSeller = {
+      firstName: "Modou",
+      lastName: "Ndiaye",
+      fullName: "Modou Ndiaye",
+      shopName: "Échoppe Modou Pikine",
+      phone: "+221 77 890 45 12",
+      hub: "Pikine",
+      availableBalance: 340000,
+      escrowBalance: 230000,
+      totalSales: 1820000
+    };
+
     let currentUserRole = "buyer";
     let buyerProducts = [];
     let buyerOrders = [];
@@ -688,63 +995,211 @@
     let selectedCat = "all";
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Démarrage par défaut sur l'écran Login
-      showScreen('login');
+      // Démarrage sur la sélection du portail (Acheteur vs Vendeur)
+      showScreen('portal-choice');
       updateSellerLiveCalc();
     });
 
     function showScreen(screenId) {
-      document.getElementById("screen-login").classList.add("hidden");
-      document.getElementById("screen-buyer").classList.add("hidden");
-      document.getElementById("screen-seller").classList.add("hidden");
+      const screens = [
+        'screen-portal-choice',
+        'screen-login-buyer',
+        'screen-login-seller',
+        'screen-buyer',
+        'screen-seller'
+      ];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+      });
 
-      if (screenId === 'login') {
-        document.getElementById("screen-login").classList.remove("hidden");
+      if (screenId === 'portal-choice') {
+        const el = document.getElementById('screen-portal-choice');
+        if (el) el.classList.remove('hidden');
+      } else if (screenId === 'login-buyer') {
+        const el = document.getElementById('screen-login-buyer');
+        if (el) el.classList.remove('hidden');
+      } else if (screenId === 'login-seller') {
+        const el = document.getElementById('screen-login-seller');
+        if (el) el.classList.remove('hidden');
       } else if (screenId === 'buyer') {
-        document.getElementById("screen-buyer").classList.remove("hidden");
+        const el = document.getElementById('screen-buyer');
+        if (el) el.classList.remove('hidden');
+        syncBuyerHeader();
         loadBuyerData();
       } else if (screenId === 'seller') {
-        document.getElementById("screen-seller").classList.remove("hidden");
+        const el = document.getElementById('screen-seller');
+        if (el) el.classList.remove('hidden');
+        syncSellerHeader();
         loadSellerData();
       }
       window.scrollTo(0, 0);
     }
 
-    function selectLoginRole(role) {
-      currentUserRole = role;
-      const bBtn = document.getElementById("role-choice-buyer");
-      const sBtn = document.getElementById("role-choice-seller");
-      const phoneInput = document.getElementById("login-phone");
-      const submitLabel = document.getElementById("login-btn-label");
+    // Gestion de la connexion nominative Acheteur
+    async function handleBuyerLogin(e) {
+      if (e) e.preventDefault();
+      const fnInput = document.getElementById("login-buyer-firstname");
+      const lnInput = document.getElementById("login-buyer-lastname");
+      const phInput = document.getElementById("login-buyer-phone");
+      const grgInput = document.getElementById("login-buyer-garage");
 
+      const fn = (fnInput ? fnInput.value : "").trim() || "Amadou";
+      const ln = (lnInput ? lnInput.value : "").trim() || "Diallo";
+      const ph = (phInput ? phInput.value : "").trim() || "77 450 12 34";
+      const garage = (grgInput ? grgInput.value : "").trim() || "Garage Castors Dakar";
+
+      currentBuyer.firstName = fn;
+      currentBuyer.lastName = ln;
+      currentBuyer.fullName = `${fn} ${ln}`;
+      currentBuyer.phone = ph.startsWith("+221") ? ph : `+221 ${ph}`;
+      currentBuyer.garageName = garage;
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role: "buyer",
+            firstName: fn,
+            lastName: ln,
+            phone: currentBuyer.phone,
+            garageName: garage
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            currentBuyer.solvencyScore = data.user.solvencyScore || 98;
+            currentBuyer.solvencyStatus = data.user.solvencyStatus || "Solvable Vérifié";
+          }
+        }
+      } catch (err) {}
+
+      showScreen('buyer');
+    }
+
+    // Gestion de la connexion nominative Vendeur
+    async function handleSellerLogin(e) {
+      if (e) e.preventDefault();
+      const fnInput = document.getElementById("login-seller-firstname");
+      const lnInput = document.getElementById("login-seller-lastname");
+      const shopInput = document.getElementById("login-seller-shop");
+      const phInput = document.getElementById("login-seller-phone");
+      const hubInput = document.getElementById("login-seller-hub");
+
+      const fn = (fnInput ? fnInput.value : "").trim() || "Modou";
+      const ln = (lnInput ? lnInput.value : "").trim() || "Ndiaye";
+      const shop = (shopInput ? shopInput.value : "").trim() || "Échoppe Modou Pikine";
+      const ph = (phInput ? phInput.value : "").trim() || "77 890 45 12";
+      const hub = hubInput ? hubInput.value : "Pikine";
+
+      currentSeller.firstName = fn;
+      currentSeller.lastName = ln;
+      currentSeller.fullName = `${fn} ${ln}`;
+      currentSeller.shopName = shop;
+      currentSeller.phone = ph.startsWith("+221") ? ph : `+221 ${ph}`;
+      currentSeller.hub = hub;
+
+      try {
+        await fetch(`${API_BASE}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role: "seller",
+            firstName: fn,
+            lastName: ln,
+            shopName: shop,
+            phone: currentSeller.phone,
+            hub: hub
+          })
+        });
+      } catch (err) {}
+
+      showScreen('seller');
+    }
+
+    // Remplissage rapide démo
+    function demoLogin(role) {
       if (role === 'buyer') {
-        bBtn.className = "p-3.5 rounded-xl border-2 border-brand-primary bg-slate-50 text-left transition-all relative";
-        sBtn.className = "p-3.5 rounded-xl border border-brand-border bg-white text-left transition-all relative hover:border-slate-400";
-        phoneInput.value = "77 450 12 34";
-        submitLabel.innerText = "Entrer dans mon Espace Acheteur";
+        const fn = document.getElementById("login-buyer-firstname");
+        const ln = document.getElementById("login-buyer-lastname");
+        const ph = document.getElementById("login-buyer-phone");
+        const grg = document.getElementById("login-buyer-garage");
+        if (fn) fn.value = "Amadou";
+        if (ln) ln.value = "Diallo";
+        if (ph) ph.value = "77 450 12 34";
+        if (grg) grg.value = "Garage Castors Dakar";
+        handleBuyerLogin();
       } else {
-        sBtn.className = "p-3.5 rounded-xl border-2 border-brand-primary bg-slate-50 text-left transition-all relative";
-        bBtn.className = "p-3.5 rounded-xl border border-brand-border bg-white text-left transition-all relative hover:border-slate-400";
-        phoneInput.value = "77 890 45 12";
-        submitLabel.innerText = "Entrer dans mon Espace Vendeur";
+        const fn = document.getElementById("login-seller-firstname");
+        const ln = document.getElementById("login-seller-lastname");
+        const shop = document.getElementById("login-seller-shop");
+        const ph = document.getElementById("login-seller-phone");
+        const hub = document.getElementById("login-seller-hub");
+        if (fn) fn.value = "Modou";
+        if (ln) ln.value = "Ndiaye";
+        if (shop) shop.value = "Échoppe Modou Pikine";
+        if (ph) ph.value = "77 890 45 12";
+        if (hub) hub.value = "Pikine";
+        handleSellerLogin();
       }
     }
 
-    function handleLoginSubmit() {
-      if (currentUserRole === 'buyer') {
-        showScreen('buyer');
-      } else {
-        showScreen('seller');
-      }
+    // Synchronisation dynamique du header et profil Acheteur
+    function syncBuyerHeader() {
+      const nameEl = document.getElementById("buyer-header-name");
+      const garageEl = document.getElementById("buyer-header-garage");
+      const scoreEl = document.getElementById("buyer-header-score");
+      const initialsEl = document.getElementById("buyer-avatar-initials");
+      const passScoreEl = document.getElementById("passport-score");
+      const passNameEl = document.getElementById("passport-client-name");
+
+      if (nameEl) nameEl.innerText = currentBuyer.fullName;
+      if (garageEl) garageEl.innerText = currentBuyer.garageName;
+      if (scoreEl) scoreEl.innerText = `Solvabilité : ${currentBuyer.solvencyScore}/100`;
+      
+      const initials = ((currentBuyer.firstName[0] || 'A') + (currentBuyer.lastName[0] || 'D')).toUpperCase();
+      if (initialsEl) initialsEl.innerText = initials;
+
+      if (passScoreEl) passScoreEl.innerText = `${currentBuyer.solvencyScore} / 100`;
+      if (passNameEl) passNameEl.innerText = currentBuyer.fullName;
     }
 
-    function quickLogin(role) {
-      selectLoginRole(role);
-      handleLoginSubmit();
+    // Synchronisation dynamique du header et profil Vendeur
+    function syncSellerHeader() {
+      const nameEl = document.getElementById("seller-header-name");
+      const shopEl = document.getElementById("seller-shop-title");
+      const hubEl = document.getElementById("seller-hub-badge");
+      const initialsEl = document.getElementById("seller-avatar-initials");
+
+      if (nameEl) nameEl.innerText = currentSeller.fullName;
+      if (shopEl) shopEl.innerText = currentSeller.shopName;
+      if (hubEl) hubEl.innerText = currentSeller.hub;
+
+      const initials = ((currentSeller.firstName[0] || 'M') + (currentSeller.lastName[0] || 'N')).toUpperCase();
+      if (initialsEl) initialsEl.innerText = initials;
     }
 
-    function logoutToLogin() {
-      showScreen('login');
+    // Gestion de la modale de Solvabilité
+    function openSolvencyModal() {
+      const scoreEl = document.getElementById("modal-solvency-score");
+      const nameEl = document.getElementById("modal-solvency-fullname");
+      const phoneEl = document.getElementById("modal-solvency-phone");
+      const garageEl = document.getElementById("modal-solvency-garage");
+
+      if (scoreEl) scoreEl.innerText = `${currentBuyer.solvencyScore} / 100 (${currentBuyer.solvencyStatus})`;
+      if (nameEl) nameEl.innerText = currentBuyer.fullName;
+      if (phoneEl) phoneEl.innerText = currentBuyer.phone;
+      if (garageEl) garageEl.innerText = currentBuyer.garageName;
+
+      const modal = document.getElementById("solvency-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeSolvencyModal() {
+      const modal = document.getElementById("solvency-modal");
+      if (modal) modal.classList.add("hidden");
     }
 
     function formatCFA(num) {
@@ -1110,8 +1565,12 @@
       const orderData = {
         productId: activeCheckoutItem.id,
         partName: activeCheckoutItem.name,
-        clientName: "Amadou Diallo (Garage Castors)",
-        clientPhone: "+221 77 450 12 34",
+        clientFirstName: currentBuyer.firstName,
+        clientLastName: currentBuyer.lastName,
+        clientName: `${currentBuyer.fullName} (${currentBuyer.garageName})`,
+        clientPhone: currentBuyer.phone,
+        solvencyScore: currentBuyer.solvencyScore,
+        solvencyStatus: currentBuyer.solvencyStatus,
         vendorId: activeCheckoutItem.vendorId || "usr_seller_1",
         vendorName: activeCheckoutItem.vendor,
         vendorBankPrice: activeCheckoutItem.bankPrice,

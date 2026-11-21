@@ -219,12 +219,22 @@ while ($listener.IsListening) {
                     $cmdId = "CMD-" + (Get-Random -Minimum 1000 -Maximum 9999)
                     $pkCode = "PK-" + (Get-Random -Minimum 100 -Maximum 999)
 
+                    $cFirst = if ($bodyObj.clientFirstName) { $bodyObj.clientFirstName } else { "Amadou" }
+                    $cLast = if ($bodyObj.clientLastName) { $bodyObj.clientLastName } else { "Diallo" }
+                    $cFull = if ($bodyObj.clientName) { $bodyObj.clientName } else { "$cFirst $cLast" }
+                    $cScore = if ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
+                    $cStatus = if ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
+
                     $newO = [PSCustomObject]@{
                         id = $cmdId
                         productId = $bodyObj.productId
                         partName = $bodyObj.partName
-                        clientName = $bodyObj.clientName
+                        clientFirstName = $cFirst
+                        clientLastName = $cLast
+                        clientName = $cFull
                         clientPhone = $bodyObj.clientPhone
+                        solvencyScore = $cScore
+                        solvencyStatus = $cStatus
                         vendorId = $bodyObj.vendorId
                         vendorName = $bodyObj.vendorName
                         vendorBankPrice = [int]$bodyObj.vendorBankPrice
@@ -507,12 +517,34 @@ while ($listener.IsListening) {
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
                     $matched = $users | Where-Object { $_.role -eq $bodyObj.role } | Select-Object -First 1
 
-                    if ($null -ne $matched) {
-                        Helper-LogActivity $matched.role $matched.name "LOGIN" ("Connexion réussie à l'espace " + $matched.role) 0 "login"
-                        $respObj = @{ success = $true; user = $matched }
-                    } else {
-                        $respObj = @{ success = $false; message = "Utilisateur non trouvé" }
+                    $fn = if ($bodyObj.firstName) { $bodyObj.firstName } elseif ($matched -and $matched.firstName) { $matched.firstName } else { "Amadou" }
+                    $ln = if ($bodyObj.lastName) { $bodyObj.lastName } elseif ($matched -and $matched.lastName) { $matched.lastName } else { "Diallo" }
+                    $ph = if ($bodyObj.phone) { $bodyObj.phone } elseif ($matched -and $matched.phone) { $matched.phone } else { "+221 77 450 12 34" }
+                    $fullN = "$fn $ln"
+
+                    $sessUser = [PSCustomObject]@{
+                        id = if ($matched) { $matched.id } else { "usr_" + $bodyObj.role + "_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }
+                        role = $bodyObj.role
+                        firstName = $fn
+                        lastName = $ln
+                        name = $fullN
+                        phone = $ph
+                        garageName = if ($bodyObj.garageName) { $bodyObj.garageName } elseif ($matched -and $matched.garageName) { $matched.garageName } else { "Garage Castors Dakar" }
+                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Échoppe Modou Pikine" }
+                        hub = if ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Pikine" }
+                        activeCar = if ($matched -and $matched.activeCar) { $matched.activeCar } else { "Toyota Hilux Vigo 2.5 D-4D" }
+                        solvencyScore = if ($matched -and $matched.solvencyScore) { $matched.solvencyScore } else { 98 }
+                        solvencyStatus = if ($matched -and $matched.solvencyStatus) { $matched.solvencyStatus } else { "Solvable Vérifié" }
+                        solvencyDetails = "Client vérifié par Wave / Orange Money sans défaut de paiement."
+                        availableBalance = if ($matched -and $matched.availableBalance) { $matched.availableBalance } else { 340000 }
+                        escrowBalance = if ($matched -and $matched.escrowBalance) { $matched.escrowBalance } else { 230000 }
+                        totalSales = if ($matched -and $matched.totalSales) { $matched.totalSales } else { 1820000 }
+                        rating = 4.9
+                        isOpen = $true
                     }
+
+                    Helper-LogActivity $sessUser.role $sessUser.name "LOGIN" ("Connexion réussie : " + $sessUser.name + " (" + $sessUser.role + " - Solvabilité: " + $sessUser.solvencyScore + "/100)") 0 "login"
+                    $respObj = @{ success = $true; user = $sessUser }
                 }
             } else {
                 $response.StatusCode = 404

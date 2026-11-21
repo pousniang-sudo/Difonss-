@@ -484,7 +484,18 @@
             <td class="py-3 px-4 font-mono font-bold text-white">${o.id}</td>
             <td class="py-3 px-4 text-slate-400">${new Date(o.createdAt || Date.now()).toLocaleTimeString()}</td>
             <td class="py-3 px-4 font-bold text-slate-200">${o.partName}</td>
-            <td class="py-3 px-4 text-slate-300">${o.clientName}</td>
+            <td class="py-3 px-4 text-slate-300">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <span>${o.clientFirstName ? (o.clientFirstName + ' ' + (o.clientLastName || '')) : o.clientName}</span>
+                <span class="w-1.5 h-1.5 rounded-full ${o.solvencyScore && o.solvencyScore >= 80 ? 'bg-emerald-400' : 'bg-amber-400'}"></span>
+              </div>
+              <div class="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
+                <span>${o.clientPhone || ''}</span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] font-bold ${o.solvencyScore && o.solvencyScore >= 80 ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-amber-950 text-amber-300 border border-amber-800'}">
+                  🛡️ ${o.solvencyScore || 98}/100 · ${o.solvencyStatus || 'Solvable'}
+                </span>
+              </div>
+            </td>
             <td class="py-3 px-4 text-slate-400">${o.vendorName}</td>
             <td class="py-3 px-4 font-black text-white price-num">${formatCFA(o.totalPaid)}</td>
             <td class="py-3 px-4">

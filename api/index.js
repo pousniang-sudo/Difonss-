@@ -230,8 +230,12 @@ module.exports = async function handler(req, res) {
       id: cmdId,
       productId: body.productId,
       partName: body.partName,
-      clientName: body.clientName,
-      clientPhone: body.clientPhone,
+      clientFirstName: body.clientFirstName || (body.clientName ? body.clientName.split(' ')[0] : 'Amadou'),
+      clientLastName: body.clientLastName || (body.clientName ? body.clientName.split(' ').slice(1).join(' ') : 'Diallo'),
+      clientName: body.clientName || 'Amadou Diallo',
+      clientPhone: body.clientPhone || '+221 77 450 12 34',
+      solvencyScore: body.solvencyScore || 98,
+      solvencyStatus: body.solvencyStatus || 'Solvable Vérifié',
       vendorId: body.vendorId,
       vendorName: body.vendorName,
       vendorBankPrice: Number(body.vendorBankPrice) || 0,
@@ -493,14 +497,43 @@ module.exports = async function handler(req, res) {
   // ROUTE 17: POST /api/auth/login
   if (route === '/auth/login' && req.method === 'POST') {
     const body = await parseBody();
-    const matched = users.find(u => u.role === body.role);
+    const firstName = (body.firstName || '').trim();
+    const lastName = (body.lastName || '').trim();
+    const phone = (body.phone || '').trim();
+    const role = body.role || 'buyer';
 
-    if (matched) {
-      logActivity(matched.role, matched.name, "LOGIN", `Connexion réussie à l'espace ${matched.role}`, 0, "login");
-      return sendJson(200, { success: true, user: matched });
-    } else {
-      return sendJson(404, { success: false, message: "Utilisateur non trouvé" });
+    let matched = users.find(u => u.phone === phone && u.role === role);
+    if (!matched) {
+      matched = users.find(u => u.role === role);
     }
+
+    const fullName = (firstName && lastName) ? `${firstName} ${lastName}` : (matched ? matched.name : (role === 'buyer' ? 'Amadou Diallo' : 'Modou Ndiaye'));
+    const finalFirst = firstName || (matched ? matched.firstName : (role === 'buyer' ? 'Amadou' : 'Modou'));
+    const finalLast = lastName || (matched ? matched.lastName : (role === 'buyer' ? 'Diallo' : 'Ndiaye'));
+
+    const userSession = {
+      id: matched ? matched.id : `usr_${role}_${Date.now()}`,
+      role: role,
+      firstName: finalFirst,
+      lastName: finalLast,
+      name: fullName,
+      phone: phone || (matched ? matched.phone : (role === 'buyer' ? '+221 77 450 12 34' : '+221 77 890 45 12')),
+      garageName: body.garageName || (matched && matched.garageName) || 'Garage Castors Dakar',
+      shopName: body.shopName || (matched && matched.shopName) || 'Échoppe Modou Pikine',
+      hub: body.hub || (matched && matched.hub) || 'Pikine',
+      activeCar: body.activeCar || (matched && matched.activeCar) || 'Toyota Hilux Vigo 2.5 D-4D',
+      solvencyScore: (matched && matched.solvencyScore) || (role === 'buyer' ? 98 : 95),
+      solvencyStatus: (matched && matched.solvencyStatus) || (role === 'buyer' ? 'Solvable Vérifié' : 'Vendeur Certifié'),
+      solvencyDetails: (matched && matched.solvencyDetails) || 'Client vérifié par Wave / Orange Money sans défaut de paiement.',
+      availableBalance: (matched && matched.availableBalance) || 340000,
+      escrowBalance: (matched && matched.escrowBalance) || 230000,
+      totalSales: (matched && matched.totalSales) || 1820000,
+      rating: (matched && matched.rating) || 4.9,
+      isOpen: true
+    };
+
+    logActivity(userSession.role, userSession.name, "LOGIN", `Connexion réussie : ${userSession.name} (${userSession.role === 'buyer' ? 'Acheteur · Solvabilité ' + userSession.solvencyScore + '/100' : 'Vendeur'})`, 0, "login");
+    return sendJson(200, { success: true, user: userSession });
   }
 
   // 404 Route non trouvée
