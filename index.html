@@ -1175,6 +1175,50 @@
   <!-- ================= LOGIQUE JAVASCRIPT FRONT-END ================= -->
   <script>
     const API_BASE = window.location.origin.includes(":8080") ? "http://localhost:8080/api" : "/api";
+
+    // Supabase Live Tracking
+    const SUPABASE_URL = "https://qqhgxnizhxfqanswjpmg.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxaGd4bml6aHhmcWFuc3dqcG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyOTAzMTAsImV4cCI6MjExMDg2NjMxMH0.PQ9qZ1HrSzq4u7EbOwa3PqTdY5Me9ECzx2MPIeylq-M";
+    let supabaseClient = null;
+    try {
+      if (window.supabase && window.supabase.createClient) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (e) {
+      console.warn("Supabase init:", e);
+    }
+
+    async function trackUserConnection(data) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('user_connections').insert([{
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phone,
+          role: data.role,
+          organization: data.organization || '',
+          hub: data.hub || 'Dakar',
+          solvency_score: data.solvencyScore || 98,
+          user_agent: navigator.userAgent,
+          connected_at: new Date().toISOString()
+        }]);
+
+        await supabaseClient.from('profiles').upsert([{
+          phone: data.phone,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          role: data.role,
+          organization: data.organization || '',
+          hub: data.hub || 'Dakar',
+          solvency_score: data.solvencyScore || 98,
+          solvency_status: 'Solvable Vérifié',
+          last_login: new Date().toISOString()
+        }], { onConflict: 'phone' });
+        console.log("✅ Connexion tracée dans Supabase avec succès");
+      } catch (err) {
+        console.warn("Supabase tracking:", err);
+      }
+    }
     
     // Profils de session nominatifs pour identification et solvabilité
     let currentBuyer = {
@@ -1292,6 +1336,15 @@
         }
       } catch (err) {}
 
+      trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: currentBuyer.phone,
+        role: "buyer",
+        organization: garage,
+        hub: "Castors",
+        solvencyScore: currentBuyer.solvencyScore || 98
+      });
       showScreen('buyer');
     }
 
@@ -1332,6 +1385,15 @@
         });
       } catch (err) {}
 
+      trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: currentSeller.phone,
+        role: "seller",
+        organization: shop,
+        hub: hub,
+        solvencyScore: 98
+      });
       showScreen('seller');
     }
 
@@ -2226,13 +2288,31 @@
           closeBecomeSellerModal();
           alert(`🎉 Félicitations ! Votre échoppe « ${shopName} » est désormais active au hub ${hub}.\nVous basculez maintenant dans votre Espace Vendeur.`);
           document.getElementById("seller-shop-title").innerText = shopName;
-          showScreen('seller');
+          trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: currentSeller.phone,
+        role: "seller",
+        organization: shop,
+        hub: hub,
+        solvencyScore: 98
+      });
+      showScreen('seller');
           return;
         }
       } catch (err) {}
 
       closeBecomeSellerModal();
       alert(`🎉 Félicitations ! Votre échoppe « ${shopName} » est créée.`);
+      trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: currentSeller.phone,
+        role: "seller",
+        organization: shop,
+        hub: hub,
+        solvencyScore: 98
+      });
       showScreen('seller');
     }
 

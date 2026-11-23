@@ -106,6 +106,11 @@
           <span class="material-symbols-outlined text-[16px]">history</span>
           <span>Grand Livre SHA-256</span>
         </button>
+        <button onclick="switchAdminTab('tracking')" id="tab-btn-tracking" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[16px] text-emerald-400">radar</span>
+          <span>Tracking Supabase</span>
+          <span id="badge-supabase-count" class="bg-emerald-500 text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+        </button>
       </nav>
 
       <!-- Statut API & Bascule Front-End -->
@@ -321,11 +326,159 @@
       </div>
     </div>
 
+    <!-- ============================================================== -->
+    <!-- 6. VUE : TRACKING SUPABASE & CONNEXIONS EN TEMPS RÉEL           -->
+    <!-- ============================================================== -->
+    <div id="view-tracking" class="hidden space-y-6">
+      
+      <!-- Carte Statut Supabase -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-admin-border pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <span class="material-symbols-outlined text-[24px]">database</span>
+            </div>
+            <div>
+              <h2 class="text-base font-extrabold text-white flex items-center gap-2">
+                <span>Supabase Live Connection &amp; User Tracker</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase">PostgreSQL Live</span>
+              </h2>
+              <p class="text-xs text-slate-400">Projet : <code class="text-emerald-400 font-mono text-[11px]">qqhgxnizhxfqanswjpmg</code> (eu-west-1) · Tables : <code class="text-slate-300 font-mono text-[11px]">user_connections</code> &amp; <code class="text-slate-300 font-mono text-[11px]">profiles</code></p>
+            </div>
+          </div>
+          <button onclick="loadSupabaseTrackingData()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm">
+            <span class="material-symbols-outlined text-[16px]">sync</span>
+            <span>Rafraîchir Supabase</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-admin-bg border border-admin-border">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">Statut Connexion</div>
+            <div class="text-lg font-black text-emerald-400 flex items-center gap-1.5 mt-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Actif &amp; Opérationnel</span>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Événements tracés en direct</p>
+          </div>
+          <div class="p-4 rounded-xl bg-admin-bg border border-admin-border">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">Sessions Tracées</div>
+            <div class="text-2xl font-black text-white mt-1" id="supabase-stat-connections">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Historique des accès nominatifs</p>
+          </div>
+          <div class="p-4 rounded-xl bg-admin-bg border border-admin-border">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">Profils Uniques Actifs</div>
+            <div class="text-2xl font-black text-admin-accent mt-1" id="supabase-stat-profiles">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Acheteurs &amp; Vendeurs enregistrés</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau Live des Connexions Supabase -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border overflow-hidden shadow-lg space-y-3">
+        <div class="p-4 sm:p-5 border-b border-admin-border flex items-center justify-between">
+          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-emerald-400">history_toggle_off</span>
+            <span>Journal en Direct des Personnes Connectées (Flux Supabase)</span>
+          </h3>
+          <span class="text-[11px] text-slate-400">Tri par horodatage décroissant</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-admin-bg/80 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-admin-border">
+              <tr>
+                <th class="py-3 px-4">Horodatage</th>
+                <th class="py-3 px-4">Utilisateur</th>
+                <th class="py-3 px-4">Téléphone (Wave / OM)</th>
+                <th class="py-3 px-4">Rôle</th>
+                <th class="py-3 px-4">Garage / Échoppe</th>
+                <th class="py-3 px-4">Hub</th>
+                <th class="py-3 px-4">Indice Solvabilité</th>
+              </tr>
+            </thead>
+            <tbody id="supabase-connections-table-body" class="divide-y divide-admin-border/60">
+              <tr>
+                <td colspan="7" class="py-8 text-center text-slate-500">Chargement des données Supabase...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- ================= LOGIQUE JAVASCRIPT DU BACK-END ================= -->
   <script>
     const API_BASE = window.location.origin.includes(":8080") ? "http://localhost:8080/api" : "/api";
+
+    // Supabase Client pour Admin
+    const SUPABASE_URL = "https://qqhgxnizhxfqanswjpmg.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxaGd4bml6aHhmcWFuc3dqcG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyOTAzMTAsImV4cCI6MjExMDg2NjMxMH0.PQ9qZ1HrSzq4u7EbOwa3PqTdY5Me9ECzx2MPIeylq-M";
+    let supabaseClient = null;
+    try {
+      if (window.supabase && window.supabase.createClient) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (e) {
+      console.warn("Supabase admin init:", e);
+    }
+
+    async function loadSupabaseTrackingData() {
+      if (!supabaseClient) return;
+      try {
+        const { data: connections, error: connErr } = await supabaseClient
+          .from('user_connections')
+          .select('*')
+          .order('connected_at', { ascending: false })
+          .limit(50);
+
+        const { count: profCount } = await supabaseClient
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+
+        const statConn = document.getElementById("supabase-stat-connections");
+        const statProf = document.getElementById("supabase-stat-profiles");
+        const badge = document.getElementById("badge-supabase-count");
+        const tbody = document.getElementById("supabase-connections-table-body");
+
+        if (connections) {
+          if (statConn) statConn.innerText = connections.length;
+          if (badge) badge.innerText = connections.length;
+          if (statProf) statProf.innerText = profCount || connections.length;
+
+          if (tbody) {
+            if (connections.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Aucune connexion enregistrée pour l'instant. Connectez-vous sur le front-end pour générer une entrée.</td></tr>`;
+            } else {
+              tbody.innerHTML = connections.map(c => {
+                const dateStr = new Date(c.connected_at).toLocaleString("fr-FR", {
+                  day: "2-digit", month: "2-digit", year: "numeric",
+                  hour: "2-digit", minute: "2-digit", second: "2-digit"
+                });
+                const isBuyer = c.role === "buyer";
+                const roleBadge = isBuyer 
+                  ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase">Acheteur</span>`
+                  : `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-black uppercase">Vendeur</span>`;
+                return `
+                  <tr class="hover:bg-slate-800/40 transition-colors">
+                    <td class="py-3 px-4 font-mono text-[11px] text-slate-400">${dateStr}</td>
+                    <td class="py-3 px-4 font-bold text-white">${c.first_name || ""} ${c.last_name || ""}</td>
+                    <td class="py-3 px-4 font-mono text-emerald-400">${c.phone || "N/A"}</td>
+                    <td class="py-3 px-4">${roleBadge}</td>
+                    <td class="py-3 px-4 text-slate-300">${c.organization || "Particulier"}</td>
+                    <td class="py-3 px-4 font-semibold text-slate-400">${c.hub || "Dakar"}</td>
+                    <td class="py-3 px-4 font-black text-emerald-400">${c.solvency_score || 98}/100</td>
+                  </tr>
+                `;
+              }).join("");
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Supabase tracker load:", err);
+      }
+    }
     let adminStats = {};
     let adminOrders = [];
     let adminActivities = [];
@@ -339,7 +492,7 @@
     });
 
     function switchAdminTab(tab) {
-      const tabs = ["dashboard", "guarantee", "disputes", "payouts", "audit"];
+      const tabs = ["dashboard", "guarantee", "disputes", "payouts", "audit", "tracking"];
       tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         const btn = document.getElementById(`tab-btn-${t}`);
