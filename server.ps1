@@ -125,16 +125,16 @@ while ($listener.IsListening) {
 
                 $buyerActs = ($acts | Where-Object { $_.section -eq "buyer" }).Count
                 $sellerActs = ($acts | Where-Object { $_.section -eq "seller" }).Count
-                $escrowActs = ($acts | Where-Object { $_.section -eq "escrow" }).Count
+                $platformActs = ($acts | Where-Object { $_.section -eq "platform" -or $_.section -eq "orders" }).Count
 
                 $openDisputesCount = if ($disputes) { ($disputes | Where-Object { $_.status -eq "OPEN" }).Count } else { 0 }
 
                 $respObj = @{
-                    totalEscrow = 0
                     totalCommissions = $totRetainer
                     totalRetainers = $totRetainer
                     totalVendorPayouts = $totVendorPayouts
                     totalGMV = $totGmv
+                    activeOrders = $activeCount
                     activeEscrowOrders = $activeCount
                     pendingRefundsAmount = $totPendingRefunds
                     openDisputesCount = $openDisputesCount
@@ -144,7 +144,7 @@ while ($listener.IsListening) {
                     activityCounts = @{
                         buyer = $buyerActs
                         seller = $sellerActs
-                        escrow = $escrowActs
+                        platform = $platformActs
                         total = if ($acts) { $acts.Count } else { 0 }
                     }
                 }
@@ -287,13 +287,12 @@ while ($listener.IsListening) {
                                 $u.availableBalance += $vBank
                                 $u.totalSales += $vBank
                                 $u.totalRetainerPaid += $retainer
-                                $u.escrowBalance = 0
                             }
                         }
 
                         Helper-LogActivity "buyer" $cFull "ORDER_PLACED" ("Commande payée via " + $prov + " : " + $pName + " (" + $total + " FCFA)") $total "shopping_bag"
                         Helper-LogActivity "platform" "Plateforme Difonssé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $cmdId) $retainer "savings"
-                        Helper-LogActivity "seller" $vName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $pName + " (Zéro séquestre)") $vBank "payments"
+                        Helper-LogActivity "seller" $vName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $pName) $vBank "payments"
                     }
 
                     Helper-WriteJsonFile "orders.json" $orders
@@ -325,7 +324,7 @@ while ($listener.IsListening) {
 
                     if ($null -ne $found) {
                         Helper-LogActivity "seller" $found.vendorName "COURIER_PICKUP" ("Pièce remise au coursier pour " + $found.id + " contre code " + $found.pickupCode) 0 "local_shipping"
-                        Helper-LogActivity "escrow" "Plateforme Difonssé" "TEST_PERIOD_STARTED" ("Délai d'essai 48h démarré pour " + $found.id) 0 "timer"
+                        Helper-LogActivity "platform" "Plateforme Difonssé" "TEST_PERIOD_STARTED" ("Délai d'essai 48h démarré pour " + $found.id) 0 "timer"
                     }
 
                     $respObj = @{ success = $true; order = $found }
@@ -350,7 +349,6 @@ while ($listener.IsListening) {
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
                     foreach ($u in $users) {
                         if ($u.shopName -eq $found.vendorName -or $u.id -eq $found.vendorId) {
-                            $u.escrowBalance = 0
                             if ($found.vendorPaymentStatus -ne "PAID_DIRECT") {
                                 $vNet = if ($null -ne $found.vendorNetPrice) { [int]$found.vendorNetPrice } else { [int]$found.vendorBankPrice }
                                 $u.availableBalance += $vNet
@@ -421,7 +419,7 @@ while ($listener.IsListening) {
                     foreach ($o in $orders) {
                         if ($o.id -eq $bodyObj.orderId) {
                             $o.step = 5
-                            $o.stepLabel = "Litige Ouvert · Séquestre Gelé"
+                            $o.stepLabel = "Litige Ouvert · Arbitrage en Cours"
                             $o.actionRequired = "Superviseur : Arbitrage contradictoire requis"
                             $o.timeline = "Litige déclaré par le garage : " + $bodyObj.reason
                             $foundOrder = $o
@@ -456,7 +454,7 @@ while ($listener.IsListening) {
                     Helper-WriteJsonFile "disputes.json" $allDisps
 
                     Helper-LogActivity "buyer" $newDisp.buyerName "DISPUTE_OPENED" ("Litige ouvert " + $newDisp.id + " pour commande " + $newDisp.orderId + " (" + $newDisp.reason + ")") $newDisp.amount "report_problem"
-                    Helper-LogActivity "escrow" "Plateforme Difonssé" "FUNDS_FROZEN" ("Séquestre gelé pour litige " + $newDisp.id + " (" + $newDisp.amount + " FCFA)") $newDisp.amount "gavel"
+                    Helper-LogActivity "arbitration" "Plateforme Difonssé" "DISPUTE_OPENED" ("Dossier litige ouvert " + $newDisp.id + " (" + $newDisp.amount + " FCFA)") $newDisp.amount "gavel"
 
                     $respObj = @{ success = $true; dispute = $newDisp }
                 }
@@ -487,7 +485,7 @@ while ($listener.IsListening) {
                     $nowStr = [DateTime]::UtcNow.ToString("o")
                     $amt = if ($targetDisp) { $targetDisp.amount } else { 49500 }
                     $recip = if ($targetDisp) { $targetDisp.buyerName } else { "Acheteur" }
-                    $rawSign = "${dId}_${amt}_${recip}_${nowStr}_ESCROW_ARBITRATION_FINAL"
+                    $rawSign = "${dId}_${amt}_${recip}_${nowStr}_DIFONSSE_ARBITRATION_FINAL"
                     $sha = [System.Security.Cryptography.SHA256]::Create()
                     $hashBytes = $sha.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($rawSign))
                     $sha256Seal = [BitConverter]::ToString($hashBytes).Replace("-","").ToLower()
@@ -506,7 +504,7 @@ while ($listener.IsListening) {
                         Helper-WriteJsonFile "orders.json" $orders
                     }
 
-                    Helper-LogActivity "escrow" "Comité d'Arbitrage Difonssé" "ARBITRATION_RESOLVED" ("Litige " + $dId + " scellé SHA-256 (" + $sha256Seal.Substring(0, 16) + "...). Remboursement intégral de " + $amt + " FCFA via Wave.") $amt "verified_user"
+                    Helper-LogActivity "arbitration" "Comité d'Arbitrage Difonssé" "ARBITRATION_RESOLVED" ("Litige " + $dId + " scellé SHA-256 (" + $sha256Seal.Substring(0, 16) + "...). Remboursement intégral de " + $amt + " FCFA via Wave.") $amt "verified_user"
 
                     $respObj = @{
                         success = $true
@@ -585,7 +583,6 @@ while ($listener.IsListening) {
                         phone = $bodyObj.phone
                         hub = if ($bodyObj.hub) { $bodyObj.hub } else { "Pikine" }
                         availableBalance = 0
-                        escrowBalance = 0
                         totalSales = 0
                         rating = 5.0
                         isOpen = $true
@@ -625,7 +622,6 @@ while ($listener.IsListening) {
                         solvencyStatus = if ($matched -and $matched.solvencyStatus) { $matched.solvencyStatus } else { "Solvable Vérifié" }
                         solvencyDetails = "Client vérifié par Wave / Orange Money sans défaut de paiement."
                         availableBalance = if ($matched -and $matched.availableBalance) { $matched.availableBalance } else { 340000 }
-                        escrowBalance = if ($matched -and $matched.escrowBalance) { $matched.escrowBalance } else { 230000 }
                         totalSales = if ($matched -and $matched.totalSales) { $matched.totalSales } else { 1820000 }
                         rating = 4.9
                         isOpen = $true

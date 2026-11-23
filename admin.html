@@ -89,10 +89,10 @@
           <span class="material-symbols-outlined text-[16px] text-admin-accent">dashboard</span>
           <span>Cockpit &amp; Activités</span>
         </button>
-        <button onclick="switchAdminTab('escrow')" id="tab-btn-escrow" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
+        <button onclick="switchAdminTab('guarantee')" id="tab-btn-guarantee" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
           <span class="material-symbols-outlined text-[16px] text-admin-emerald">verified</span>
           <span>Garantie 2 Jours &amp; Retours</span>
-          <span id="badge-escrow-orders" class="bg-admin-emerald text-slate-900 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+          <span id="badge-guarantee-orders" class="bg-admin-emerald text-slate-900 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
         </button>
         <button onclick="switchAdminTab('disputes')" id="tab-btn-disputes" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
           <span class="material-symbols-outlined text-[16px] text-admin-red">gavel</span>
@@ -230,7 +230,7 @@
     <!-- ============================================================== -->
     <!-- 2. VUE : GARANTIE CONFORMITÉ 2 JOURS & RETOURS / REMBOURSEMENTS-->
     <!-- ============================================================== -->
-    <div id="view-escrow" class="hidden space-y-6">
+    <div id="view-guarantee" class="hidden space-y-6">
       <div class="bg-admin-card rounded-2xl border border-admin-border p-5 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-admin-border pb-4">
           <div>
@@ -246,7 +246,7 @@
           </span>
         </div>
 
-        <div id="escrow-orders-list" class="space-y-3">
+        <div id="guarantee-orders-list" class="space-y-3">
           <!-- Dynamiquement généré -->
         </div>
       </div>
@@ -340,7 +340,7 @@
     });
 
     function switchAdminTab(tab) {
-      const tabs = ["dashboard", "escrow", "disputes", "payouts", "audit"];
+      const tabs = ["dashboard", "guarantee", "disputes", "payouts", "audit"];
       tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         const btn = document.getElementById(`tab-btn-${t}`);
@@ -365,7 +365,7 @@
         loadActivities()
       ]);
       renderTransactionsTable();
-      renderEscrowOrdersList();
+      renderGuaranteeOrdersList();
       renderDisputesList();
       renderPayoutsList();
       renderAuditFeed();
@@ -383,9 +383,9 @@
           }
           document.getElementById("stat-commissions").innerText = formatCFA(adminStats.totalRetainers || adminStats.totalCommissions);
           document.getElementById("stat-disputes-amount").innerText = formatCFA(adminStats.pendingRefundsAmount);
-          document.getElementById("stat-active-orders-label").innerText = `${adminStats.activeEscrowOrders} commandes`;
+          document.getElementById("stat-active-orders-label").innerText = `${adminStats.activeOrders || 0} commandes`;
           document.getElementById("stat-open-disputes-label").innerText = `${adminStats.openDisputesCount} litige(s)`;
-          document.getElementById("badge-escrow-orders").innerText = adminStats.activeEscrowOrders;
+          document.getElementById("badge-guarantee-orders").innerText = adminStats.activeOrders || 0;
           document.getElementById("badge-open-disputes").innerText = adminStats.openDisputesCount;
         }
       } catch (e) {}
@@ -532,8 +532,8 @@
     // -------------------------------------------------------------
     // RENDU DE LA GARANTIE DE CONFORMITÉ 2 JOURS & GESTION DES RETOURS
     // -------------------------------------------------------------
-    function renderEscrowOrdersList() {
-      const container = document.getElementById("escrow-orders-list");
+    function renderGuaranteeOrdersList() {
+      const container = document.getElementById("guarantee-orders-list");
       if (!container) return;
 
       const activeGuaranteeOrders = adminOrders.filter(o => o.step === 2 || o.step === 3);

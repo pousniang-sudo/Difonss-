@@ -1,7 +1,7 @@
 {
   "name": "difonsse",
   "version": "1.0.0",
-  "description": "Difonssé — Marketplace de pièces détachées automobiles avec séquestre Kooru Difonssé",
+  "description": "Difonssé — Marketplace de pièces détachées automobiles avec paiement sécurisé et garantie 2 jours",
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js"

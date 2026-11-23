@@ -1,5 +1,5 @@
 // api/index.js — API REST & Serverless Handler pour Vercel & Node.js
-// Plateforme Difonssé — Pièces Détachées & Séquestre Mobile Money (Sénégal)
+// Plateforme Difonssé — Pièces Détachées, Paiement Direct & Retainer Plateforme (Sénégal)
 
 const fs = require('fs');
 const path = require('path');
@@ -42,7 +42,7 @@ let orders = loadDataFile('orders.json', [
 
 let users = loadDataFile('users.json', [
   { id: "usr_buyer_1", role: "buyer", name: "Ousmane Niang", phone: "+221 77 123 45 67", currentVehicle: "Toyota Hilux 2.5 D-4D 2KD", garage: "Garage Expert Ouakam" },
-  { id: "usr_seller_1", role: "seller", name: "Modou Fall", shopName: "Échoppe Modou", ninea: "00458921-2K", boxNumber: "Box #42", phone: "+221 77 890 45 12", hub: "Pikine", availableBalance: 125000, escrowBalance: 45000, totalSales: 850000, rating: 4.9, isOpen: true }
+  { id: "usr_seller_1", role: "seller", name: "Modou Fall", shopName: "Échoppe Modou", ninea: "00458921-2K", boxNumber: "Box #42", phone: "+221 77 890 45 12", hub: "Pikine", availableBalance: 125000, totalSales: 850000, rating: 4.9, isOpen: true }
 ]);
 
 let disputes = loadDataFile('disputes.json', [
@@ -54,7 +54,7 @@ let payouts = loadDataFile('payouts.json', [
 ]);
 
 let activities = loadDataFile('activities.json', [
-  { id: "act_1", section: "escrow", actor: "Plateforme Difonssé", action: "FUNDS_LOCKED", details: "Fonds bloqués sous séquestre pour CMD-9281 (49 500 FCFA)", amount: 49500, icon: "lock", timestamp: new Date().toISOString() }
+  { id: "act_1", section: "orders", actor: "Plateforme Difonssé", action: "ORDER_PAID", details: "Paiement direct reçu pour CMD-9281 (49 500 FCFA)", amount: 49500, icon: "payments", timestamp: new Date().toISOString() }
 ]);
 
 function logActivity(section, actor, action, details, amount = 0, icon = "info") {
@@ -145,11 +145,11 @@ module.exports = async function handler(req, res) {
     const openDisputesCount = disputes.filter(d => d.status === 'OPEN').length;
 
     return sendJson(200, {
-      totalEscrow: 0, // Zéro séquestre vendeur dans le nouveau business model
       totalCommissions: totRetainer,
       totalRetainers: totRetainer,
       totalVendorPayouts: totVendorPayouts,
       totalGMV: totGmv,
+      activeOrders: activeCount,
       activeEscrowOrders: activeCount,
       pendingRefundsAmount: totPendingRefunds,
       openDisputesCount: openDisputesCount,
@@ -159,7 +159,7 @@ module.exports = async function handler(req, res) {
       activityCounts: {
         buyer: activities.filter(a => a.section === 'buyer').length,
         seller: activities.filter(a => a.section === 'seller').length,
-        escrow: activities.filter(a => a.section === 'escrow').length,
+        platform: activities.filter(a => a.section === 'platform' || a.section === 'escrow').length,
         total: activities.length
       }
     });
@@ -278,19 +278,19 @@ module.exports = async function handler(req, res) {
       orders.unshift(newO);
       createdOrders.push(newO);
 
-      // Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
+      // Paiement direct du vendeur (crédit instantané du solde disponible)
       users.forEach(u => {
         if (u.shopName === newO.vendorName || u.id === newO.vendorId) {
           u.availableBalance = (u.availableBalance || 0) + vBank;
           u.totalSales = (u.totalSales || 0) + vBank;
           u.totalRetainerPaid = (u.totalRetainerPaid || 0) + retainer;
-          u.escrowBalance = 0; // Aucun séquestre vendeur
+          u.escrowBalance = 0;
         }
       });
 
       logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
       logActivity("platform", "Plateforme Difonssé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
-      logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName} (Zéro séquestre)`, vBank, "payments");
+      logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName}`, vBank, "payments");
     });
 
     saveDataFile('orders.json', orders);
@@ -321,7 +321,7 @@ module.exports = async function handler(req, res) {
 
     if (found) {
       logActivity("seller", found.vendorName, "COURIER_PICKUP", `Pièce remise au coursier pour ${found.id} contre code ${found.pickupCode}`, 0, "local_shipping");
-      logActivity("escrow", "Plateforme Difonssé", "TEST_PERIOD_STARTED", `Délai d'essai 48h démarré pour ${found.id}`, 0, "timer");
+      logActivity("platform", "Plateforme Difonssé", "TEST_PERIOD_STARTED", `Délai d'essai 48h démarré pour ${found.id}`, 0, "timer");
     }
 
     return sendJson(200, { success: true, order: found });
@@ -345,7 +345,7 @@ module.exports = async function handler(req, res) {
     if (found) {
       users.forEach(u => {
         if (u.shopName === found.vendorName || u.id === found.vendorId) {
-          u.escrowBalance = 0; // Aucun séquestre vendeur
+          u.escrowBalance = 0;
           if (found.vendorPaymentStatus !== "PAID_DIRECT") {
             u.availableBalance = (u.availableBalance || 0) + (found.vendorNetPrice || found.vendorBankPrice);
             u.totalSales = (u.totalSales || 0) + (found.vendorNetPrice || found.vendorBankPrice);
@@ -410,7 +410,7 @@ module.exports = async function handler(req, res) {
     orders.forEach(o => {
       if (o.id === body.orderId) {
         o.step = 5;
-        o.stepLabel = "Litige Ouvert · Séquestre Gelé";
+        o.stepLabel = "Litige Ouvert · Arbitrage en Cours";
         o.actionRequired = "Superviseur : Arbitrage contradictoire requis";
         o.timeline = "Litige déclaré par le garage : " + body.reason;
         foundOrder = o;
@@ -441,7 +441,7 @@ module.exports = async function handler(req, res) {
     saveDataFile('disputes.json', disputes);
 
     logActivity("buyer", newDisp.buyerName, "DISPUTE_OPENED", `Litige ouvert ${newDisp.id} pour commande ${newDisp.orderId} (${newDisp.reason})`, newDisp.amount, "report_problem");
-    logActivity("escrow", "Plateforme Difonssé", "FUNDS_FROZEN", `Séquestre gelé pour litige ${newDisp.id} (${newDisp.amount} FCFA)`, newDisp.amount, "gavel");
+    logActivity("arbitration", "Plateforme Difonssé", "DISPUTE_OPENED", `Dossier litige ouvert ${newDisp.id} (${newDisp.amount} FCFA)`, newDisp.amount, "gavel");
 
     return sendJson(200, { success: true, dispute: newDisp });
   }
@@ -472,7 +472,7 @@ module.exports = async function handler(req, res) {
     const nowStr = new Date().toISOString();
     const amt = targetDisp ? targetDisp.amount : 49500;
     const recip = targetDisp ? targetDisp.buyerName : "Acheteur";
-    const rawSign = `${dId}_${amt}_${recip}_${nowStr}_ESCROW_ARBITRATION_FINAL`;
+    const rawSign = `${dId}_${amt}_${recip}_${nowStr}_DIFONSSE_ARBITRATION_FINAL`;
     const sha256Seal = crypto.createHash('sha256').update(rawSign, 'utf8').digest('hex');
 
     if (targetDisp) {
@@ -487,7 +487,7 @@ module.exports = async function handler(req, res) {
       saveDataFile('orders.json', orders);
     }
 
-    logActivity("escrow", "Comité d'Arbitrage Difonssé", "ARBITRATION_RESOLVED", `Litige ${dId} scellé SHA-256 (${sha256Seal.substring(0, 16)}...). Remboursement intégral de ${amt} FCFA via Wave.`, amt, "verified_user");
+    logActivity("arbitration", "Comité d'Arbitrage Difonssé", "ARBITRATION_RESOLVED", `Litige ${dId} scellé SHA-256 (${sha256Seal.substring(0, 16)}...). Remboursement intégral de ${amt} FCFA via Wave.`, amt, "verified_user");
 
     return sendJson(200, {
       success: true,
@@ -560,7 +560,6 @@ module.exports = async function handler(req, res) {
       phone: body.phone,
       hub: body.hub || "Pikine",
       availableBalance: 0,
-      escrowBalance: 0,
       totalSales: 0,
       rating: 5.0,
       isOpen: true,
@@ -607,7 +606,6 @@ module.exports = async function handler(req, res) {
       solvencyStatus: (matched && matched.solvencyStatus) || (role === 'buyer' ? 'Solvable Vérifié' : 'Vendeur Certifié'),
       solvencyDetails: (matched && matched.solvencyDetails) || 'Client vérifié par Wave / Orange Money sans défaut de paiement.',
       availableBalance: (matched && matched.availableBalance) || 340000,
-      escrowBalance: (matched && matched.escrowBalance) || 230000,
       totalSales: (matched && matched.totalSales) || 1820000,
       rating: (matched && matched.rating) || 4.9,
       isOpen: true
