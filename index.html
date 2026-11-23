@@ -559,11 +559,25 @@
 
       <!-- Contenu Déroulant Vendeur -->
       <div class="p-3.5 space-y-4 flex-1 overflow-y-auto">
-        
-        <!-- 1. CARTES DE SOLDE : DISPONIBLE VS SÉQUESTRE -->
+
+        <!-- BANNIÈRE NOUVEAU BM : DIRECT PAYOUT SANS SÉQUESTRE -->
+        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3 text-white shadow-sm space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/40">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Nouveau Business Model Vendeur
+            </span>
+            <span class="text-[10px] font-black text-amber-400">Zéro Séquestre</span>
+          </div>
+          <p class="text-[11px] text-slate-300 leading-snug">
+            L'acheteur paye via Difonssé : la plateforme prélève son retainer (10%) et crédite directement votre solde sans délai de séquestre. Remettez la pièce au coursier Tiak-Tiak !
+          </p>
+        </div>
+
+        <!-- 1. CARTES DE SOLDE : DISPONIBLE & RETAINERS DÉDUITS -->
         <div class="grid grid-cols-2 gap-2.5">
           <div class="bg-white p-3 rounded-2xl border border-brand-border space-y-1 shadow-sm">
-            <span class="text-[9px] uppercase font-bold text-slate-400 block">Solde Disponible</span>
+            <span class="text-[9px] uppercase font-bold text-slate-400 block">Solde Disponible (Encaissé)</span>
             <div class="text-lg font-black text-brand-emerald price-num" id="seller-avail-bal">340 000 FCFA</div>
             <button onclick="openWithdrawModal()" class="w-full mt-1.5 py-1.5 bg-brand-emerald text-white text-[10px] font-black rounded-lg hover:bg-emerald-600 transition-all flex items-center justify-center gap-1">
               <span class="material-symbols-outlined text-[12px]">payments</span>
@@ -572,9 +586,9 @@
           </div>
 
           <div class="bg-white p-3 rounded-2xl border border-brand-border space-y-1 shadow-sm">
-            <span class="text-[9px] uppercase font-bold text-slate-400 block">En Séquestre (Montage)</span>
-            <div class="text-lg font-black text-brand-gold price-num" id="seller-escrow-bal">145 000 FCFA</div>
-            <p class="text-[9px] text-slate-400">Libéré après essai garage</p>
+            <span class="text-[9px] uppercase font-bold text-slate-400 block">Retainers Déduits (10%)</span>
+            <div class="text-lg font-black text-brand-gold price-num" id="seller-retainer-bal">34 000 FCFA</div>
+            <p class="text-[9px] text-slate-400">Frais Difonssé prélevés</p>
           </div>
         </div>
 
@@ -586,7 +600,7 @@
               <h3 class="font-extrabold text-xs text-brand-primary">Mettre une Pièce en Vente</h3>
             </div>
             <span class="text-[9px] font-bold bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full">
-              Commission: +10%
+              Retainer Difonssé: 10%
             </span>
           </div>
 
@@ -616,7 +630,7 @@
             <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 space-y-2">
               <div>
                 <label class="block text-[10px] font-black text-amber-950 uppercase">
-                  💰 Votre Prix de Banque Net (ce que vous touchez) :
+                  💰 Votre Prix Vendeur Net (ce que vous touchez directement) :
                 </label>
                 <div class="relative mt-1">
                   <input type="number" id="seller-bank-price" oninput="updateSellerLiveCalc()" required placeholder="50000" class="w-full pl-3 pr-14 py-1.5 rounded-lg bg-white border border-amber-300 font-black text-slate-900 outline-none price-num text-sm" />
@@ -626,7 +640,7 @@
 
               <div class="flex items-center justify-between text-[11px] pt-1">
                 <div>
-                  <span class="text-[9px] uppercase font-bold text-slate-500 block">Commission (+10%)</span>
+                  <span class="text-[9px] uppercase font-bold text-slate-500 block">Retainer Difonssé (+10%)</span>
                   <span class="font-extrabold text-brand-gold" id="seller-calc-comm">+0 FCFA</span>
                 </div>
                 <div class="text-right">
@@ -730,17 +744,17 @@
     </div>
   </div>
 
-  <!-- ================= MODALE : PAIEMENT SÉQUESTRE GARANTI ================= -->
+  <!-- ================= MODALE : PAIEMENT SÉCURISÉ VIA LA PLATEFORME ================= -->
   <div id="checkout-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-brand-border">
       <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
         <div class="flex items-center gap-2">
           <span class="w-8 h-8 rounded-lg bg-emerald-100 text-brand-emerald flex items-center justify-center font-black">
-            <span class="material-symbols-outlined text-[18px]">lock</span>
+            <span class="material-symbols-outlined text-[18px]">verified_user</span>
           </span>
           <div>
-            <h3 class="font-black text-sm text-brand-primary">Paiement Garanti par Séquestre</h3>
-            <p class="text-[10px] text-slate-400">L'argent est bloqué jusqu'au test au garage</p>
+            <h3 class="font-black text-sm text-brand-primary">Paiement Sécurisé Difonssé</h3>
+            <p class="text-[10px] text-slate-400">Retainer prélevé &amp; Vendeur rémunéré directement</p>
           </div>
         </div>
         <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-slate-600">
@@ -756,7 +770,7 @@
           </div>
           <div class="text-right">
             <span class="font-black text-sm text-brand-primary price-num" id="checkout-item-price">0 FCFA</span>
-            <span class="block text-[9px] text-brand-emerald font-bold">Séquestre Inclus</span>
+            <span class="block text-[9px] text-brand-emerald font-bold">Retainer Plateforme Inclus</span>
           </div>
         </div>
 
@@ -774,13 +788,19 @@
           </div>
         </div>
 
-        <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-[10px] text-amber-900">
-          <strong>Garantie Kooru Difonssé :</strong> Votre compte est débité, mais le vendeur n'est payé qu'après 48h de test sur votre véhicule.
+        <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-[10px] text-emerald-950 space-y-1">
+          <div class="flex items-center gap-1 font-black text-brand-emerald">
+            <span class="material-symbols-outlined text-[13px]">check_circle</span>
+            <span>Flux de Paiement Direct Difonssé</span>
+          </div>
+          <p class="text-slate-600">
+            Vous réglez via la plateforme : Difonssé prélève son retainer de service (10%) et rémunère directement le vendeur. Le coursier Tiak-Tiak est mandaté pour récupérer la pièce avec le code de retrait.
+          </p>
         </div>
 
         <button onclick="executeOrderCheckout()" class="w-full py-2.5 bg-brand-primary text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5">
-          <span class="material-symbols-outlined text-[16px] text-brand-emerald">verified_user</span>
-          <span>Payer et Bloquer sous Séquestre</span>
+          <span class="material-symbols-outlined text-[16px] text-brand-emerald">payments</span>
+          <span>Payer via la Plateforme Difonssé</span>
         </button>
       </div>
     </div>
@@ -1287,8 +1307,8 @@
             <div class="pt-1.5 flex items-center justify-between border-t border-brand-border/60">
               <span class="font-black text-xs text-brand-primary price-num">${formatCFA(p.publicPrice)}</span>
               <button onclick="openCheckoutModalForItem('${p.id}')" class="px-2.5 py-1 bg-brand-primary hover:bg-slate-800 text-white font-black text-[10px] rounded-lg flex items-center gap-1 transition-all active:scale-95">
-                <span class="material-symbols-outlined text-[13px] text-brand-emerald">lock</span>
-                <span>Acheter Séquestre</span>
+                <span class="material-symbols-outlined text-[13px] text-brand-gold">shopping_bag</span>
+                <span>Commander &amp; Payer</span>
               </button>
             </div>
           </div>
@@ -1383,7 +1403,9 @@
           const seller = users.find(u => u.role === "seller");
           if (seller) {
             document.getElementById("seller-avail-bal").innerText = formatCFA(seller.availableBalance);
-            document.getElementById("seller-escrow-bal").innerText = formatCFA(seller.escrowBalance);
+            const retainerTotal = seller.totalRetainerPaid != null ? seller.totalRetainerPaid : Math.round((seller.totalSales || 0) * 0.10);
+            const retEl = document.getElementById("seller-retainer-bal");
+            if (retEl) retEl.innerText = formatCFA(retainerTotal);
           }
         }
       } catch (e) {}
@@ -1450,22 +1472,23 @@
               <span class="font-mono font-bold text-brand-primary">${o.id}</span>
               <span class="font-bold text-slate-800">· ${o.partName}</span>
             </div>
-            <span class="font-black text-brand-emerald price-num">${formatCFA(o.vendorBankPrice)}</span>
+            <span class="font-black text-brand-emerald price-num">${formatCFA(o.vendorNetPrice || o.vendorBankPrice)}</span>
           </div>
 
           <div class="text-[10px] text-slate-500">
             Acheteur : <strong class="text-slate-700">${o.clientName}</strong><br/>
+            Statut : <span class="text-brand-emerald font-bold">✓ Payé directement par la plateforme</span><br/>
             Code de retrait : <strong class="text-brand-primary font-mono text-xs">${o.pickupCode}</strong>
           </div>
 
           ${o.step === 2 ? `
             <button onclick="advanceSellerOrder('${o.id}')" class="w-full py-1.5 bg-brand-primary text-white font-black text-[10px] rounded-lg shadow-sm flex items-center justify-center gap-1">
               <span class="material-symbols-outlined text-[13px] text-brand-gold">two_wheeler</span>
-              <span>Remettre la Pièce au Livreur Tiak-Tiak</span>
+              <span>Remettre la Pièce Payée au Livreur Tiak-Tiak</span>
             </button>
           ` : `
             <div class="text-[10px] text-slate-400 italic">
-              ${o.step === 3 ? '🚚 En cours d\'essai au garage' : '✅ Commande finalisée'}
+              ${o.step === 3 ? '🚚 En cours d\'essai au garage' : '✅ Commande finalisée (Vendeur payé)'}
             </div>
           `}
         </div>
@@ -1574,7 +1597,9 @@
         vendorId: activeCheckoutItem.vendorId || "usr_seller_1",
         vendorName: activeCheckoutItem.vendor,
         vendorBankPrice: activeCheckoutItem.bankPrice,
+        vendorNetPrice: activeCheckoutItem.bankPrice,
         commission: activeCheckoutItem.commission,
+        platformRetainer: activeCheckoutItem.commission,
         totalPaid: activeCheckoutItem.publicPrice,
         provider: selectedPay + " Sénégal"
       };
@@ -1587,7 +1612,7 @@
         });
         if (res.ok) {
           closeCheckoutModal();
-          alert(`🎉 Paiement validé via ${selectedPay} ! Les fonds sont bloqués sous séquestre. Le coursier Tiak-Tiak se rend à l'échoppe.`);
+          alert(`🎉 Paiement validé via ${selectedPay} !\nRetainer Difonssé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak se rend à l'échoppe.`);
           await loadBuyerData();
         }
       } catch (e) {

@@ -12,15 +12,18 @@
     "vendorId": "usr_seller_1",
     "vendorName": "Échoppe Modou Pikine",
     "vendorBankPrice": 45000,
+    "vendorNetPrice": 45000,
     "commission": 4500,
+    "platformRetainer": 4500,
     "totalPaid": 49500,
     "provider": "Wave Sénégal",
     "pickupCode": "PK-941",
     "step": 2,
-    "stepLabel": "Fonds Séquestrés · Tiak-Tiak en route vers l'échoppe",
-    "actionRequired": "Vendeur : Remettre la pièce au coursier contre le code PK-941",
-    "timeline": "Commande créée avec succès via Wave. Code retrait coursier: PK-941",
-    "createdAt": "2026-11-19T10:30:00.000Z"
+    "stepLabel": "Payé par la Plateforme · Tiak-Tiak en route vers l'échoppe",
+    "vendorPaymentStatus": "PAID_DIRECT",
+    "actionRequired": "Vendeur : Remettre la pièce payée au coursier contre le code PK-941",
+    "timeline": "Acheteur débité via Wave. Retainer Difonssé prélevé (4 500 FCFA). Vendeur payé directement (45 000 FCFA). Code retrait coursier: PK-941",
+    "createdAt": "2026-11-21T10:30:00.000Z"
   },
   {
     "id": "CMD-8021",
@@ -35,15 +38,18 @@
     "vendorId": "usr_seller_1",
     "vendorName": "Échoppe Modou Pikine",
     "vendorBankPrice": 45000,
+    "vendorNetPrice": 45000,
     "commission": 4500,
+    "platformRetainer": 4500,
     "totalPaid": 49500,
     "provider": "Wave Sénégal",
     "pickupCode": "PK-891",
     "step": 3,
-    "stepLabel": "Pièce livrée au Garage · Montage & Essai en cours (48h)",
-    "actionRequired": "Mécanicien : Tester la pièce sur le véhicule et valider conformité",
-    "timeline": "Pièce livrée au garage de Castors. Délai restant: 36h.",
-    "createdAt": "2026-11-18T14:20:00.000Z"
+    "stepLabel": "Pièce livrée au Garage · Vendeur déjà rémunéré",
+    "vendorPaymentStatus": "PAID_DIRECT",
+    "actionRequired": "Mécanicien : Montage en cours sur le véhicule",
+    "timeline": "Pièce livrée au garage de Castors. Vendeur payé immédiatement via Wave sans séquestre.",
+    "createdAt": "2026-11-20T14:20:00.000Z"
   },
   {
     "id": "CMD-7944",
@@ -58,15 +64,18 @@
     "vendorId": "usr_seller_2",
     "vendorName": "Dakar Pièces Express",
     "vendorBankPrice": 32000,
+    "vendorNetPrice": 32000,
     "commission": 3200,
+    "platformRetainer": 3200,
     "totalPaid": 35200,
     "provider": "Orange Money",
     "pickupCode": "PK-442",
     "step": 4,
-    "stepLabel": "Pièce Conforme Validée · Fonds Débloqués",
+    "stepLabel": "Commande Finalisée · Paiement Vendeur Réglé",
+    "vendorPaymentStatus": "PAID_DIRECT",
     "actionRequired": "Aucune action requise (Terminé)",
-    "timeline": "Montage validé conforme par le client. Vendeur crédité.",
-    "createdAt": "2026-11-17T09:15:00.000Z"
+    "timeline": "Commande livrée. Retainer Difonssé perçu (3 200 FCFA), Vendeur rémunéré directement (32 000 FCFA).",
+    "createdAt": "2026-11-19T09:15:00.000Z"
   },
   {
     "id": "CMD-7712",
@@ -81,14 +90,17 @@
     "vendorId": "usr_seller_1",
     "vendorName": "Échoppe Modou Pikine",
     "vendorBankPrice": 80000,
+    "vendorNetPrice": 80000,
     "commission": 8000,
+    "platformRetainer": 8000,
     "totalPaid": 88000,
     "provider": "Wave Sénégal",
     "pickupCode": "PK-119",
     "step": 4,
-    "stepLabel": "Pièce Conforme Validée · Fonds Débloqués",
+    "stepLabel": "Commande Finalisée · Paiement Vendeur Réglé",
+    "vendorPaymentStatus": "PAID_DIRECT",
     "actionRequired": "Aucune action requise (Terminé)",
-    "timeline": "Essai 48h concluant. Injection étalonnée.",
-    "createdAt": "2026-11-15T11:00:00.000Z"
+    "timeline": "Injection montée et validée. Vendeur payé directement dès commande.",
+    "createdAt": "2026-11-18T11:00:00.000Z"
   }
 ]

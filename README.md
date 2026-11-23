@@ -1,31 +1,31 @@
-# Difonssé — Marketplace de Pièces Détachées Automobiles avec Séquestre Sécurisé
+# Difonssé — Marketplace de Pièces Détachées Automobiles avec Paiement Direct & Retainer Plateforme
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpousniang-sudo%2FDifonss-)
 
-Plateforme sénégalaise innovante dédiée au commerce de pièces détachées automobiles neuves et d'occasion (Pikine, Dakar). **Difonssé** sécurise chaque transaction grâce au séquestre mobile money (*Kooru Difonssé* via Wave et Orange Money), assorti d'une période d'essai de 48h au garage avant libération des fonds.
+Plateforme sénégalaise innovante dédiée au commerce de pièces détachées automobiles neuves et d'occasion (Pikine, Dakar). **Difonssé** connecte les acheteurs (propriétaires de véhicules, mécaniciens, flottes) et les échoppes marchandes de Dakar.
+
+Dans le nouveau **Business Model**, l'acheteur paye via la plateforme (Wave ou Orange Money). La plateforme **prélève son retainer de service (10%) et rémunère directement le vendeur** au comptant (zéro séquestre vendeur). Le coursier Tiak-Tiak récupère la pièce payée à l'échoppe grâce à un code de retrait pour livraison au garage.
 
 ---
 
 ## 🚀 Déploiement sur Vercel (Production)
 
-Le projet est configuré pour un déploiement continu instantané sur **Vercel** :
+Le projet est déployé en continu sur **Vercel** :
 
-1. Rendez-vous sur 👉 **[https://vercel.com/new](https://vercel.com/new)** (connectez-vous avec votre compte GitHub **pousniang-sudo**).
-2. Dans la liste de vos dépôts, repérez **`Difonss-`** et cliquez sur **Import**.
-3. Laissez les réglages par défaut (détection automatique de `package.json` et `vercel.json`) et cliquez sur **Deploy**.
-4. En quelques secondes, votre plateforme est en ligne sur une URL publique sécurisée HTTPS (ex: `https://difonss.vercel.app`) !
+* **URL de Production :** [https://difonss.vercel.app](https://difonss.vercel.app)
+* **Dépôt GitHub :** [https://github.com/pousniang-sudo/Difonss-](https://github.com/pousniang-sudo/Difonss-)
 
-> **Note :** Chaque nouveau commit poussé sur la branche `main` déclenche un redéploiement automatique sur Vercel.
+> **Note :** Chaque nouveau commit poussé sur la branche `main` déclenche un redéploiement automatique instantané sur Vercel.
 
 ---
 
-## 🏛️ Architecture de la Plateforme
+## 🏛️ Architecture & Nouveau Business Model
 
 Le projet sépare strictement les interfaces clients (acheteurs/vendeurs), l'administration DG et l'API :
 
 ```
 Difonssé/
-├── index.html        # Front-End Mobile-First (Acheteurs & Vendeurs)
+├── index.html        # Front-End Mobile-First (Acheteurs & Vendeurs différenciés)
 ├── admin.html        # Back-End Superviseur & Cockpit DG (Strictement séparé)
 ├── vercel.json       # Configuration de routage & Serverless Vercel
 ├── package.json      # Manifeste Node.js pour Vercel
@@ -34,13 +34,20 @@ Difonssé/
 ├── server.ps1        # Serveur Web & API REST PowerShell natif (local port 8080)
 ├── data/             # Base de données JSON
 │   ├── products.json   # Catalogue pièces (OEM, compatibilités, photos)
-│   ├── orders.json     # Commandes & statuts séquestre
-│   ├── users.json      # Profils acheteurs, mécaniciens & vendeurs
+│   ├── orders.json     # Commandes, retainers & flux de paiement direct
+│   ├── users.json      # Profils acheteurs (avec solvabilité) & vendeurs
 │   ├── disputes.json   # Dossiers de litige & arbitrages
 │   ├── payouts.json    # Demandes de retraits vendeurs
 │   └── activities.json # Journal d'audit temps réel
 └── README.md
 ```
+
+### 💼 Flux Financier (Nouveau Business Model)
+1. **Sélection de la pièce :** L'acheteur choisit sa pièce compatible.
+2. **Paiement via Difonssé :** L'acheteur règle le montant total (Prix Vendeur Net + Retainer Plateforme 10%) via Wave ou Orange Money.
+3. **Prélèvement du Retainer :** Difonssé conserve son retainer (10%) pour la mise en relation et la logistique.
+4. **Paiement Direct du Vendeur :** Le vendeur est rémunéré directement et immédiatement (crédit instantané de son solde disponible, zéro séquestre vendeur).
+5. **Livraison Tiak-Tiak :** Le coursier se rend à l'échoppe et récupère la pièce contre le code sécurisé (`PK-XXX`).
 
 ---
 
@@ -48,19 +55,21 @@ Difonssé/
 
 Accessible sur mobile à l'adresse locale `http://localhost:8080/` ou sur l'URL Vercel de production :
 
-* **Écran de Connexion & Choix de Profil :** Sélection claire entre profil *Acheteur* (propriétaire de véhicule, mécanicien) et *Vendeur* (échoppes spécialisées).
+* **Identification & Traçabilité Complète :**
+  * Connexion séparée avec saisie obligatoire du **Nom & Prénom** pour acheteurs et vendeurs.
+  * Passeport et indicateur de **Solvabilité Acheteur** (ex: *🛡️ Solvabilité 98/100 · Solvable Vérifié*) pour tracer toutes les transactions.
 * **Parcours Acheteur :**
-  * Véhicule actif en contexte d'atelier (ex: Toyota Hilux 2.5 D-4D 2KD-FTV).
-  * Recherche par mot-clé, catégorie, note vocale en Wolof ou envoi de photo de pièce cassée (SOS Pièce).
-  * Paiement sécurisé via séquestre *Kooru Difonssé* (Wave / Orange Money).
-  * Suivi de commande en temps réel avec période d'essai 48h au garage.
-  * Validation « Pièce Conforme » pour débloquer les fonds au vendeur ou « Signaler Litige ».
-  * Bouton **« Devenir Vendeur »** pour permettre aux mécaniciens et commerçants d'enregistrer leur boutique.
-* **Parcours Vendeur :**
-  * Tableau de bord marchand (solde disponible, séquestre en cours, commandes à préparer).
-  * Validation des remises coursier Tiak-Tiak avec code de retrait sécurisé.
-  * Calculateur de commission transparent en direct (5%).
-  * Demandes de retraits vers Wave ou Orange Money.
+  * Véhicule actif en atelier (ex: Toyota Hilux 2.5 D-4D).
+  * Catalogue interactif par filtres et recherche de pièces.
+  * Commande et paiement sécurisé via Difonssé.
+  * Suivi de commande et réception au garage.
+  * Bouton **« Devenir Vendeur »** pour enregistrer une échoppe.
+* **Parcours Vendeur (Nouveau BM) :**
+  * Bannière informative du nouveau modèle sans séquestre.
+  * Cartes de solde : **Solde Disponible Encaissé** vs **Retainers Difonssé Déduits (10%)**.
+  * Formulaire de mise en vente avec calculateur en direct : *Prix Vendeur Net* + *Retainer Plateforme* = *Prix Affiché Client*.
+  * Commandes reçues avec statut payé d'office et remise au coursier Tiak-Tiak.
+  * Demandes de retraits instantanés vers Wave ou Orange Money.
 * **Sécurité & Confidentialité :** Aucun lien ou mention du tableau de bord d'administration n'apparaît sur le front-end client.
 
 ---
@@ -69,11 +78,10 @@ Accessible sur mobile à l'adresse locale `http://localhost:8080/` ou sur l'URL 
 
 Interface réservée à la direction générale et aux superviseurs (`/admin` ou `/admin.html`) :
 
-* **Métriques Consolidées :** Volume d'affaires brut (GMV), montants actuellement verrouillés sous séquestre, commissions collectées, litiges en cours et remboursements en attente.
-* **Suivi Transaction par Transaction :** Visualisation détaillée de chaque commande avec statut exact et actions immédiates recommandées (*« Ce qu'il faudra faire »*).
-* **Coffre-fort du Séquestre (*Kooru Difonssé*) :** Déblocage manuel d'urgence ou gel conservatoire des fonds.
-* **Chambre d'Arbitrage des Litiges :** Résolution des contestations avec calcul d'empreinte cryptographique **SHA-256** pour sceller chaque décision de manière immuable.
-* **Journal d'Audit Temps Réel :** Traçabilité complète de tous les événements de la plateforme.
+* **Métriques Consolidées :** Volume d'affaires brut (GMV), **Versements directs aux vendeurs**, **Retainers Difonssé encaissés (10%)**, litiges et remboursements.
+* **Registre Transaction par Transaction :** Visualisation détaillée de chaque commande avec ventilation *Prix Client*, *Retainer Plateforme (10%)*, *Net Vendeur Payé*, et statut immédiat.
+* **Chambre d'Arbitrage des Litiges :** Résolution des contestations avec calcul d'empreinte cryptographique **SHA-256**.
+* **Journal d'Audit Temps Réel :** Traçabilité exhaustive de tous les événements de la plateforme.
 
 ---
 
@@ -95,6 +103,6 @@ Pour lancer le serveur localement :
 ## 🔒 Règles de Gestion & Engagements
 
 1. **Nom de la marque :** Strictement **Difonssé**.
-2. **Vocabulaire standardisé :** Terminologie automobile et marchande (vendeur, boutique, pièces), sans terme ambigu.
-3. **Séquestre Garanti :** Aucun versement n'est fait au vendeur sans validation formelle par le mécanicien ou expiration sans litige des 48h d'essai.
-4. **Déploiement Continu :** Chaque évolution validée est automatiquement committée et déployée sur GitHub (`origin/main`), déclenchant la mise à jour Vercel.
+2. **Vocabulaire standardisé :** Terminologie automobile et marchande, sans terme ambigu.
+3. **Paiement Direct :** Le vendeur perçoit son montant net sans délai de séquestre dès l'encaissement acheteur.
+4. **Déploiement Continu :** Chaque évolution validée est automatiquement committée et déployée sur GitHub (`origin/main`), assurant la synchronisation instantanée de Vercel.

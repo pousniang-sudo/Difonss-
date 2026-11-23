@@ -117,21 +117,22 @@ module.exports = async function handler(req, res) {
     res.end(JSON.stringify(data));
   }
 
-  // ROUTE 1: GET /api/stats
+  // ROUTE 1: GET /api/stats (Nouveau BM: Retainers collectés & Paiements directs vendeurs)
   if (route === '/stats' && req.method === 'GET') {
-    let totEscrow = 0;
-    let totComm = 0;
+    let totRetainer = 0;
+    let totVendorPayouts = 0;
     let totGmv = 0;
     let activeCount = 0;
     let totPendingRefunds = 0;
 
     orders.forEach(o => {
       totGmv += (o.totalPaid || 0);
+      const ret = (o.platformRetainer != null) ? o.platformRetainer : (o.commission || Math.round((o.vendorBankPrice || 0) * 0.10));
+      totRetainer += ret;
+      const vNet = (o.vendorNetPrice != null) ? o.vendorNetPrice : (o.vendorBankPrice || (o.totalPaid - ret));
+      totVendorPayouts += vNet;
       if (o.step < 4) {
-        totEscrow += (o.totalPaid || 0);
         activeCount++;
-      } else {
-        totComm += (o.commission || 0);
       }
     });
 
@@ -144,8 +145,10 @@ module.exports = async function handler(req, res) {
     const openDisputesCount = disputes.filter(d => d.status === 'OPEN').length;
 
     return sendJson(200, {
-      totalEscrow: totEscrow,
-      totalCommissions: totComm,
+      totalEscrow: 0, // Zéro séquestre vendeur dans le nouveau business model
+      totalCommissions: totRetainer,
+      totalRetainers: totRetainer,
+      totalVendorPayouts: totVendorPayouts,
       totalGMV: totGmv,
       activeEscrowOrders: activeCount,
       pendingRefundsAmount: totPendingRefunds,
@@ -220,11 +223,14 @@ module.exports = async function handler(req, res) {
     return sendJson(200, orders);
   }
 
-  // ROUTE 7: POST /api/orders
+  // ROUTE 7: POST /api/orders (Nouveau Business Model: Prélèvement Retainer & Paiement Direct Vendeur)
   if (route === '/orders' && req.method === 'POST') {
     const body = await parseBody();
     const cmdId = "CMD-" + Math.floor(1000 + Math.random() * 9000);
     const pkCode = "PK-" + Math.floor(100 + Math.random() * 900);
+    const vBank = Number(body.vendorBankPrice) || Number(body.vendorNetPrice) || 0;
+    const retainer = Number(body.platformRetainer) || Number(body.commission) || Math.round(vBank * 0.10);
+    const total = vBank + retainer;
 
     const newO = {
       id: cmdId,
@@ -238,31 +244,38 @@ module.exports = async function handler(req, res) {
       solvencyStatus: body.solvencyStatus || 'Solvable Vérifié',
       vendorId: body.vendorId,
       vendorName: body.vendorName,
-      vendorBankPrice: Number(body.vendorBankPrice) || 0,
-      commission: Number(body.commission) || 0,
-      totalPaid: Number(body.totalPaid) || 0,
+      vendorBankPrice: vBank,
+      vendorNetPrice: vBank,
+      commission: retainer,
+      platformRetainer: retainer,
+      totalPaid: total,
       provider: body.provider || "Wave",
       pickupCode: pkCode,
       step: 2,
-      stepLabel: "Fonds Séquestrés · Tiak-Tiak en route vers l'échoppe",
-      actionRequired: `Vendeur : Remettre la pièce au coursier contre le code ${pkCode}`,
-      timeline: `Commande créée via ${body.provider}. Code retrait: ${pkCode}`,
+      stepLabel: "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe",
+      vendorPaymentStatus: "PAID_DIRECT",
+      actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
+      timeline: `Acheteur débité via ${body.provider}. Retainer Difonssé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
       createdAt: new Date().toISOString()
     };
 
     orders.unshift(newO);
     saveDataFile('orders.json', orders);
 
-    // Mise à jour solde sous séquestre vendeur
+    // Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
     users.forEach(u => {
       if (u.shopName === newO.vendorName || u.id === newO.vendorId) {
-        u.escrowBalance = (u.escrowBalance || 0) + newO.vendorBankPrice;
+        u.availableBalance = (u.availableBalance || 0) + vBank;
+        u.totalSales = (u.totalSales || 0) + vBank;
+        u.totalRetainerPaid = (u.totalRetainerPaid || 0) + retainer;
+        u.escrowBalance = 0; // Aucun séquestre vendeur
       }
     });
     saveDataFile('users.json', users);
 
-    logActivity("buyer", newO.clientName, "ORDER_PLACED", `Achat avec séquestre: ${newO.partName} (${newO.totalPaid} FCFA) via ${newO.provider}`, newO.totalPaid, "shopping_bag");
-    logActivity("escrow", "Plateforme Difonssé", "FUNDS_LOCKED", `Fonds bloqués sous séquestre pour ${newO.id} (Prix vendeur: ${newO.vendorBankPrice} | Commission: ${newO.commission})`, newO.totalPaid, "lock");
+    logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${newO.provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
+    logActivity("platform", "Plateforme Difonssé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
+    logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName} (Zéro séquestre)`, vBank, "payments");
 
     return sendJson(200, { success: true, order: newO });
   }
@@ -290,16 +303,16 @@ module.exports = async function handler(req, res) {
     return sendJson(200, { success: true, order: found });
   }
 
-  // ROUTE 9: POST /api/orders/confirm
+  // ROUTE 9: POST /api/orders/confirm (Clôture de la transaction après essai conforme au garage)
   if (route === '/orders/confirm' && req.method === 'POST') {
     const body = await parseBody();
     let found = null;
     orders.forEach(o => {
       if (o.id === body.id) {
         o.step = 4;
-        o.stepLabel = "Pièce Conforme Validée · Fonds Débloqués";
+        o.stepLabel = "Pièce Conforme Validée · Transaction Clôturée";
         o.actionRequired = "Aucune action requise (Terminé)";
-        o.timeline = "Validé conforme par le mécanicien au garage. Vendeur crédité.";
+        o.timeline = "Validé conforme par le mécanicien au garage. Transaction finalisée avec succès (Vendeur payé directement à la commande).";
         found = o;
       }
     });
@@ -308,15 +321,18 @@ module.exports = async function handler(req, res) {
     if (found) {
       users.forEach(u => {
         if (u.shopName === found.vendorName || u.id === found.vendorId) {
-          u.escrowBalance = Math.max(0, (u.escrowBalance || 0) - found.vendorBankPrice);
-          u.availableBalance = (u.availableBalance || 0) + found.vendorBankPrice;
-          u.totalSales = (u.totalSales || 0) + found.vendorBankPrice;
+          u.escrowBalance = 0; // Aucun séquestre vendeur
+          // Si pour un ancien ordre ce n'était pas payé direct :
+          if (found.vendorPaymentStatus !== "PAID_DIRECT") {
+            u.availableBalance = (u.availableBalance || 0) + (found.vendorNetPrice || found.vendorBankPrice);
+            u.totalSales = (u.totalSales || 0) + (found.vendorNetPrice || found.vendorBankPrice);
+          }
         }
       });
       saveDataFile('users.json', users);
 
       logActivity("buyer", found.clientName, "CONFORMITY_CONFIRMED", `Montage validé conforme pour ${found.id}`, 0, "verified");
-      logActivity("escrow", "Plateforme Difonssé", "FUNDS_RELEASED", `Libération du séquestre : ${found.vendorBankPrice} FCFA versés au vendeur ${found.vendorName}`, found.vendorBankPrice, "payments");
+      logActivity("platform", "Plateforme Difonssé", "TRANSACTION_FINALIZED", `Transaction ${found.id} clôturée : Vendeur ${found.vendorName} rémunéré directement, retainer encaissé`, 0, "task_alt");
     }
 
     return sendJson(200, { success: true, order: found });

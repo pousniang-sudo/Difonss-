@@ -98,19 +98,20 @@ while ($listener.IsListening) {
                 $disputes = (Helper-ReadJsonFile "disputes.json") | ConvertFrom-Json
                 $payouts = (Helper-ReadJsonFile "payouts.json") | ConvertFrom-Json
 
-                $totEscrow = 0
-                $totComm = 0
+                $totRetainer = 0
+                $totVendorPayouts = 0
                 $totGmv = 0
                 $activeCount = 0
                 $totPendingRefunds = 0
 
                 foreach ($o in $orders) {
                     $totGmv += $o.totalPaid
+                    $ret = if ($null -ne $o.platformRetainer) { [int]$o.platformRetainer } elseif ($null -ne $o.commission) { [int]$o.commission } else { [int][Math]::Round($o.vendorBankPrice * 0.10) }
+                    $totRetainer += $ret
+                    $vNet = if ($null -ne $o.vendorNetPrice) { [int]$o.vendorNetPrice } elseif ($null -ne $o.vendorBankPrice) { [int]$o.vendorBankPrice } else { ($o.totalPaid - $ret) }
+                    $totVendorPayouts += $vNet
                     if ($o.step -lt 4) {
-                        $totEscrow += $o.totalPaid
                         $activeCount++
-                    } else {
-                        $totComm += $o.commission
                     }
                 }
 
@@ -129,8 +130,10 @@ while ($listener.IsListening) {
                 $openDisputesCount = if ($disputes) { ($disputes | Where-Object { $_.status -eq "OPEN" }).Count } else { 0 }
 
                 $respObj = @{
-                    totalEscrow = $totEscrow
-                    totalCommissions = $totComm
+                    totalEscrow = 0
+                    totalCommissions = $totRetainer
+                    totalRetainers = $totRetainer
+                    totalVendorPayouts = $totVendorPayouts
                     totalGMV = $totGmv
                     activeEscrowOrders = $activeCount
                     pendingRefundsAmount = $totPendingRefunds
@@ -210,7 +213,7 @@ while ($listener.IsListening) {
             elseif ($rawPath -eq "/api/orders" -and $request.HttpMethod -eq "GET") {
                 $respObj = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
             }
-            # 7. POST /api/orders (Acheteur places order with Escrow)
+            # 7. POST /api/orders (Nouveau Business Model: Prélèvement Retainer & Paiement Direct Vendeur)
             elseif ($rawPath -eq "/api/orders" -and $request.HttpMethod -eq "POST") {
                 if ($null -ne $bodyObj) {
                     $orders = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
@@ -225,6 +228,10 @@ while ($listener.IsListening) {
                     $cScore = if ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
                     $cStatus = if ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
 
+                    $vBank = if ($null -ne $bodyObj.vendorNetPrice) { [int]$bodyObj.vendorNetPrice } elseif ($null -ne $bodyObj.vendorBankPrice) { [int]$bodyObj.vendorBankPrice } else { 0 }
+                    $retainer = if ($null -ne $bodyObj.platformRetainer) { [int]$bodyObj.platformRetainer } elseif ($null -ne $bodyObj.commission) { [int]$bodyObj.commission } else { [int][Math]::Round($vBank * 0.10) }
+                    $total = $vBank + $retainer
+
                     $newO = [PSCustomObject]@{
                         id = $cmdId
                         productId = $bodyObj.productId
@@ -237,32 +244,39 @@ while ($listener.IsListening) {
                         solvencyStatus = $cStatus
                         vendorId = $bodyObj.vendorId
                         vendorName = $bodyObj.vendorName
-                        vendorBankPrice = [int]$bodyObj.vendorBankPrice
-                        commission = [int]$bodyObj.commission
-                        totalPaid = [int]$bodyObj.totalPaid
-                        provider = $bodyObj.provider
+                        vendorBankPrice = $vBank
+                        vendorNetPrice = $vBank
+                        commission = $retainer
+                        platformRetainer = $retainer
+                        totalPaid = $total
+                        provider = if ($bodyObj.provider) { $bodyObj.provider } else { "Wave" }
                         pickupCode = $pkCode
                         step = 2
-                        stepLabel = "Fonds Séquestrés · Tiak-Tiak en route vers l'échoppe"
-                        actionRequired = "Vendeur : Remettre la pièce au coursier contre le code $pkCode"
-                        timeline = "Commande créée avec succès via " + $bodyObj.provider + ". Code retrait coursier: " + $pkCode
+                        stepLabel = "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe"
+                        vendorPaymentStatus = "PAID_DIRECT"
+                        actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
+                        timeline = "Acheteur débité via " + $bodyObj.provider + ". Retainer Difonssé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
                         createdAt = [DateTime]::UtcNow.ToString("o")
                     }
 
                     $allOrders = @($newO) + @($orders)
                     Helper-WriteJsonFile "orders.json" $allOrders
 
-                    # Update seller escrow balance
+                    # Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
                     foreach ($u in $users) {
                         if ($u.shopName -eq $newO.vendorName -or $u.id -eq $newO.vendorId) {
-                            $u.escrowBalance += $newO.vendorBankPrice
+                            $u.availableBalance += $vBank
+                            $u.totalSales += $vBank
+                            $u.totalRetainerPaid += $retainer
+                            $u.escrowBalance = 0
                         }
                     }
                     Helper-WriteJsonFile "users.json" $users
 
-                    Helper-LogActivity "buyer" $newO.clientName "ORDER_PLACED" ("Achat avec séquestre: " + $newO.partName + " (" + $newO.totalPaid + " FCFA) via " + $newO.provider) $newO.totalPaid "shopping_bag"
-                    Helper-LogActivity "escrow" "Plateforme Difonssé" "FUNDS_LOCKED" ("Fonds bloqués sous séquestre pour " + $newO.id + " (Prix vendeur: " + $newO.vendorBankPrice + " | Commission: " + $newO.commission + ")") $newO.totalPaid "lock"
+                    Helper-LogActivity "buyer" $newO.clientName "ORDER_PLACED" ("Commande payée via " + $newO.provider + " : " + $newO.partName + " (" + $newO.totalPaid + " FCFA)") $newO.totalPaid "shopping_bag"
+                    Helper-LogActivity "platform" "Plateforme Difonssé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $newO.id) $retainer "savings"
+                    Helper-LogActivity "seller" $newO.vendorName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $newO.partName + " (Zéro séquestre)") $vBank "payments"
 
                     $respObj = @{ success = $true; order = $newO }
                 }
@@ -291,7 +305,7 @@ while ($listener.IsListening) {
                     $respObj = @{ success = $true; order = $found }
                 }
             }
-            # 9. POST /api/orders/confirm (Mechanic confirms conformity & releases funds)
+            # 9. POST /api/orders/confirm (Mechanic confirms conformity & transaction closes)
             elseif ($rawPath -eq "/api/orders/confirm" -and $request.HttpMethod -eq "POST") {
                 if ($null -ne $bodyObj) {
                     $orders = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
@@ -299,28 +313,29 @@ while ($listener.IsListening) {
                     foreach ($o in $orders) {
                         if ($o.id -eq $bodyObj.id) {
                             $o.step = 4
-                            $o.stepLabel = "Pièce Conforme Validée · Fonds Débloqués"
+                            $o.stepLabel = "Pièce Conforme Validée · Transaction Clôturée"
                             $o.actionRequired = "Aucune action requise (Terminé)"
-                            $o.timeline = "Validé conforme par le mécanicien au garage. Vendeur crédité."
+                            $o.timeline = "Validé conforme par le mécanicien au garage. Transaction finalisée avec succès (Vendeur payé directement à la commande)."
                             $found = $o
                         }
                     }
                     Helper-WriteJsonFile "orders.json" $orders
 
-                    # Move funds from escrow to available balance
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
                     foreach ($u in $users) {
                         if ($u.shopName -eq $found.vendorName -or $u.id -eq $found.vendorId) {
-                            $u.escrowBalance -= $found.vendorBankPrice
-                            if ($u.escrowBalance -lt 0) { $u.escrowBalance = 0 }
-                            $u.availableBalance += $found.vendorBankPrice
-                            $u.totalSales += $found.vendorBankPrice
+                            $u.escrowBalance = 0
+                            if ($found.vendorPaymentStatus -ne "PAID_DIRECT") {
+                                $vNet = if ($null -ne $found.vendorNetPrice) { [int]$found.vendorNetPrice } else { [int]$found.vendorBankPrice }
+                                $u.availableBalance += $vNet
+                                $u.totalSales += $vNet
+                            }
                         }
                     }
                     Helper-WriteJsonFile "users.json" $users
 
                     Helper-LogActivity "buyer" $found.clientName "CONFORMITY_CONFIRMED" ("Montage validé conforme pour " + $found.id) 0 "verified"
-                    Helper-LogActivity "escrow" "Plateforme Difonssé" "FUNDS_RELEASED" ("Libération du séquestre : " + $found.vendorBankPrice + " FCFA versés au vendeur " + $found.vendorName) $found.vendorBankPrice "payments"
+                    Helper-LogActivity "platform" "Plateforme Difonssé" "TRANSACTION_FINALIZED" ("Transaction " + $found.id + " clôturée : Vendeur " + $found.vendorName + " rémunéré directement, retainer encaissé") 0 "task_alt"
 
                     $respObj = @{ success = $true; order = $found }
                 }

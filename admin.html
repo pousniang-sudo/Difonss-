@@ -145,12 +145,12 @@
 
         <div class="bg-admin-card p-4 rounded-2xl border border-emerald-900/60 space-y-2">
           <div class="flex items-center justify-between text-emerald-400 text-xs font-bold">
-            <span>FONDS BLOQUÉS SOUS SÉQUESTRE</span>
-            <span class="material-symbols-outlined text-admin-emerald text-[20px]">lock</span>
+            <span>VERSEMENTS DIRECTS AUX VENDEURS</span>
+            <span class="material-symbols-outlined text-admin-emerald text-[20px]">payments</span>
           </div>
-          <div class="text-2xl font-black text-admin-emerald price-num" id="stat-escrow">0 FCFA</div>
+          <div class="text-2xl font-black text-admin-emerald price-num" id="stat-vendor-payouts">0 FCFA</div>
           <div class="text-[11px] text-slate-400 flex items-center justify-between">
-            <span>En attente de montage</span>
+            <span>Règlements immédiats</span>
             <span id="stat-active-orders-label" class="font-bold text-slate-300">0 commandes</span>
           </div>
         </div>
@@ -169,11 +169,11 @@
 
         <div class="bg-admin-card p-4 rounded-2xl border border-admin-border space-y-2">
           <div class="flex items-center justify-between text-admin-gold text-xs font-bold">
-            <span>COMMISSIONS ENCAISSÉES (10%)</span>
+            <span>RETAINERS DIFONSSÉ ENCAISSÉS (10%)</span>
             <span class="material-symbols-outlined text-admin-gold text-[20px]">savings</span>
           </div>
           <div class="text-2xl font-black text-admin-gold price-num" id="stat-commissions">0 FCFA</div>
-          <p class="text-[11px] text-slate-400">Marge brute de la plateforme</p>
+          <p class="text-[11px] text-slate-400">Retainer plateforme prélevé à la commande</p>
         </div>
 
       </div>
@@ -210,8 +210,10 @@
                 <th class="py-3 px-4">Désignation Pièce</th>
                 <th class="py-3 px-4">Acheteur &amp; Garage</th>
                 <th class="py-3 px-4">Vendeur &amp; Hub</th>
-                <th class="py-3 px-4">Montant Net</th>
-                <th class="py-3 px-4">Statut Séquestre</th>
+                <th class="py-3 px-4">Prix Client</th>
+                <th class="py-3 px-4">Retainer (10%)</th>
+                <th class="py-3 px-4">Net Vendeur Payé</th>
+                <th class="py-3 px-4">Statut</th>
                 <th class="py-3 px-4 text-right">Ce qu'il faudra faire (Action)</th>
               </tr>
             </thead>
@@ -373,8 +375,11 @@
         if (res.ok) {
           adminStats = await res.json();
           document.getElementById("stat-gmv").innerText = formatCFA(adminStats.totalGMV);
-          document.getElementById("stat-escrow").innerText = formatCFA(adminStats.totalEscrow);
-          document.getElementById("stat-commissions").innerText = formatCFA(adminStats.totalCommissions);
+          const payoutEl = document.getElementById("stat-vendor-payouts");
+          if (payoutEl) {
+            payoutEl.innerText = formatCFA(adminStats.totalVendorPayouts || (adminStats.totalGMV - (adminStats.totalRetainers || adminStats.totalCommissions || 0)));
+          }
+          document.getElementById("stat-commissions").innerText = formatCFA(adminStats.totalRetainers || adminStats.totalCommissions);
           document.getElementById("stat-disputes-amount").innerText = formatCFA(adminStats.pendingRefundsAmount);
           document.getElementById("stat-active-orders-label").innerText = `${adminStats.activeEscrowOrders} commandes`;
           document.getElementById("stat-open-disputes-label").innerText = `${adminStats.openDisputesCount} litige(s)`;
@@ -443,7 +448,7 @@
       });
 
       if (filteredOrders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-500 italic">Aucune transaction enregistrée.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-slate-500 italic">Aucune transaction enregistrée.</td></tr>`;
         return;
       }
 
@@ -451,6 +456,9 @@
         let badgeClass = "bg-amber-950 text-amber-400 border border-amber-800";
         let statusText = o.stepLabel || "En cours";
         let actionButton = "";
+
+        const retainer = o.platformRetainer != null ? o.platformRetainer : (o.commission || Math.round((o.vendorBankPrice || 0) * 0.10));
+        const netVendor = o.vendorNetPrice != null ? o.vendorNetPrice : (o.vendorBankPrice || (o.totalPaid - retainer));
 
         if (o.step === 2) {
           badgeClass = "bg-amber-950 text-amber-400 border border-amber-800";
@@ -460,13 +468,13 @@
           actionButton = `
             <div class="flex items-center justify-end gap-1.5">
               <button onclick="adminForceRelease('${o.id}')" class="px-2.5 py-1 bg-admin-emerald text-slate-900 font-black rounded hover:bg-emerald-400 transition-all text-[11px]">
-                Valider Séquestre
+                Clôturer &amp; Valider
               </button>
             </div>
           `;
         } else if (o.step === 4) {
           badgeClass = "bg-emerald-950 text-emerald-400 border border-emerald-800";
-          actionButton = `<span class="text-emerald-400 font-bold">✓ Virement Vendeur Effectué</span>`;
+          actionButton = `<span class="text-emerald-400 font-bold">✓ Transaction Clôturée</span>`;
         } else if (o.step === 5) {
           badgeClass = "bg-red-950 text-red-400 border border-red-800";
           actionButton = `
@@ -498,6 +506,8 @@
             </td>
             <td class="py-3 px-4 text-slate-400">${o.vendorName}</td>
             <td class="py-3 px-4 font-black text-white price-num">${formatCFA(o.totalPaid)}</td>
+            <td class="py-3 px-4 font-bold text-admin-gold price-num">${formatCFA(retainer)}</td>
+            <td class="py-3 px-4 font-black text-admin-emerald price-num">${formatCFA(netVendor)}</td>
             <td class="py-3 px-4">
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${badgeClass}">
                 ${statusText}
