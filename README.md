@@ -58,11 +58,13 @@ Accessible sur mobile à l'adresse locale `http://localhost:8080/` ou sur l'URL 
 * **Identification & Traçabilité Complète :**
   * Connexion séparée avec saisie obligatoire du **Nom & Prénom** pour acheteurs et vendeurs.
   * Passeport et indicateur de **Solvabilité Acheteur** (ex: *🛡️ Solvabilité 98/100 · Solvable Vérifié*) pour tracer toutes les transactions.
-* **Parcours Acheteur :**
+* **Parcours Acheteur & Panier Multi-Achats :**
   * Véhicule actif en atelier (ex: Toyota Hilux 2.5 D-4D).
-  * Catalogue interactif par filtres et recherche de pièces.
-  * Commande et paiement sécurisé via Difonssé.
-  * Suivi de commande et réception au garage.
+  * Catalogue interactif avec double option : **« + Panier »** pour regrouper ses pièces ou **« Payer Direct »**.
+  * **Onglet Panier dans la navigation du bas** avec compteur dynamique en temps réel.
+  * Gestion complète du panier : sélection/désélection individuelle par case à cocher, « Tout sélectionner », suppression ou paiement d'une pièce seule.
+  * **Achat groupé multi-pièces :** Règlement en une seule opération Wave ou Orange Money de plusieurs pièces avec ventilation automatique des retainers Difonssé et crédit direct de chaque vendeur échoppe.
+  * Suivi des commandes reçues et remises aux coursiers Tiak-Tiak avec codes de retrait individuels.
   * Bouton **« Devenir Vendeur »** pour enregistrer une échoppe.
 * **Parcours Vendeur (Nouveau BM) :**
   * Bannière informative du nouveau modèle sans séquestre.

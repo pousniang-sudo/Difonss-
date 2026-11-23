@@ -352,10 +352,17 @@
 
         <!-- Actions Acheteur -->
         <div class="flex items-center gap-1">
+          <!-- BOUTON PANIER RAPIDE HAUT -->
+          <button onclick="switchBuyerTab('cart')" title="Consulter mon panier" class="relative w-8 h-8 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-brand-emerald flex items-center justify-center transition-all">
+            <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+            <span id="buyer-header-cart-badge" class="hidden absolute -top-1 -right-1 bg-brand-emerald text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </button>
+
           <!-- BOUTON CAPITAL : « DEVENIR VENDEUR » -->
-          <button onclick="openBecomeSellerModal()" class="px-2.5 py-1.5 bg-brand-gold hover:bg-brand-goldHover text-brand-primary font-black text-[11px] rounded-lg shadow-sm flex items-center gap-1 transition-all active:scale-95">
+          <button onclick="openBecomeSellerModal()" class="px-2 py-1.5 bg-brand-gold hover:bg-brand-goldHover text-brand-primary font-black text-[11px] rounded-lg shadow-sm flex items-center gap-1 transition-all active:scale-95">
             <span class="material-symbols-outlined text-[15px]">store</span>
-            <span>Devenir Vendeur</span>
+            <span class="hidden sm:inline">Devenir Vendeur</span>
+            <span class="sm:hidden">Vendre</span>
           </button>
 
           <button onclick="playWolofAudio('buyer')" title="Aide vocale Wolof" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700">
@@ -371,139 +378,253 @@
       <!-- Contenu Déroulant Acheteur -->
       <div class="p-3.5 space-y-4 flex-1 overflow-y-auto">
 
-        <!-- 1. CARTE VÉHICULE ACTIF (MON GARAGE) -->
-        <div class="bg-brand-primary text-white p-3.5 rounded-2xl shadow-sm border border-slate-700 space-y-2">
-          <div class="flex justify-between items-center text-[11px]">
-            <span class="text-slate-400 font-bold">🚗 Véhicule Actif en Réparation :</span>
-            <span class="bg-emerald-950 text-brand-emerald border border-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">
-              100% Compatible Garanti
-            </span>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl">
-              🚙
-            </div>
-            <div>
-              <h3 class="font-extrabold text-sm text-white" id="buyer-active-vehicle">Toyota Hilux Vigo 2.5 D-4D</h3>
-              <p class="text-[10px] text-slate-400">Moteur 2KD-FTV · Plaque DK-8492-BC</p>
-            </div>
-          </div>
-        </div>
+        <!-- ========================================================== -->
+        <!-- SOUS-VUE 1 : CATALOGUE DES PIÈCES & RECHERCHE               -->
+        <!-- ========================================================== -->
+        <div id="buyer-tabview-catalog" class="space-y-4">
 
-        <!-- 2. BOUTONS SOS PIÈCE (VOCAL & PHOTO) -->
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="openSosModal('voice')" class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left flex items-center gap-2 hover:bg-amber-100 transition-all">
-            <div class="w-8 h-8 rounded-lg bg-brand-gold text-slate-900 flex items-center justify-center shrink-0">
-              <span class="material-symbols-outlined text-[18px]">mic</span>
-            </div>
-            <div>
-              <div class="font-black text-xs text-amber-950">Vocal en Wolof</div>
-              <div class="text-[9px] text-amber-800">Waxal ci micro bi</div>
-            </div>
-          </button>
-
-          <button onclick="openSosModal('photo')" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-left flex items-center gap-2 hover:bg-emerald-100 transition-all">
-            <div class="w-8 h-8 rounded-lg bg-brand-emerald text-white flex items-center justify-center shrink-0">
-              <span class="material-symbols-outlined text-[18px]">photo_camera</span>
-            </div>
-            <div>
-              <div class="font-black text-xs text-emerald-950">Photo Pièce (SOS)</div>
-              <div class="text-[9px] text-emerald-800">Scan référence OEM</div>
-            </div>
-          </button>
-        </div>
-
-        <!-- 3. BARRE DE RECHERCHE & FILTRES RAPIDES -->
-        <div class="bg-white p-3 rounded-xl border border-brand-border shadow-sm space-y-2">
-          <div class="relative">
-            <span class="absolute left-3 top-2.5 material-symbols-outlined text-[18px] text-slate-400">search</span>
-            <input type="text" id="buyer-search" onkeyup="filterBuyerProducts()" placeholder="Chercher plaquette, alternateur, turbo..." class="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-brand-border text-xs font-bold text-slate-900 outline-none focus:bg-white" />
-          </div>
-
-          <div class="flex items-center gap-1.5 overflow-x-auto text-[10px] font-bold text-slate-600 pt-1">
-            <button onclick="setCategoryFilter('all')" id="cat-btn-all" class="px-2.5 py-1 rounded-full bg-brand-primary text-white shrink-0">Toutes</button>
-            <button onclick="setCategoryFilter('Freinage')" id="cat-btn-Freinage" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Freinage</button>
-            <button onclick="setCategoryFilter('Électricité')" id="cat-btn-Électricité" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Électricité</button>
-            <button onclick="setCategoryFilter('Moteur')" id="cat-btn-Moteur" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Moteur</button>
-            <button onclick="setCategoryFilter('Suspension')" id="cat-btn-Suspension" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Suspension</button>
-          </div>
-        </div>
-
-        <!-- 4. CATALOGUE DES PIÈCES SÉQUESTRE -->
-        <div class="space-y-2.5">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xs font-black text-brand-primary uppercase tracking-wider">Pièces Disponibles</h2>
-            <span class="text-[10px] text-slate-500 font-bold" id="buyer-items-count">6 pièces</span>
-          </div>
-
-          <div id="buyer-products-list" class="space-y-3">
-            <!-- Injecté par renderBuyerProducts() -->
-          </div>
-        </div>
-
-        <!-- 5. SUIVI DE COMMANDES & ESSAI EN ATELIER 48H -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
-          <div class="flex items-center justify-between border-b border-brand-border pb-2">
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[18px] text-brand-emerald">verified</span>
-              <h3 class="font-extrabold text-xs text-brand-primary">Vos Commandes sous Séquestre (Essai 48h)</h3>
-            </div>
-            <button onclick="loadBuyerData()" class="text-[10px] text-slate-500 hover:text-slate-900 font-bold">Actualiser</button>
-          </div>
-
-          <div id="buyer-orders-list" class="space-y-2.5">
-            <!-- Injecté dynamiquement -->
-          </div>
-        </div>
-
-        <!-- 6. PASSEPORT DE SOLVABILITÉ & TRAÇABILITÉ NOMINATIVE -->
-        <div class="bg-gradient-to-br from-slate-900 via-brand-primary to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-700 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-700 pb-2.5">
-            <div class="flex items-center gap-2">
-              <span class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-700 text-brand-emerald flex items-center justify-center">
-                <span class="material-symbols-outlined text-[18px]">verified_user</span>
+          <!-- 1. CARTE VÉHICULE ACTIF (MON GARAGE) -->
+          <div class="bg-brand-primary text-white p-3.5 rounded-2xl shadow-sm border border-slate-700 space-y-2">
+            <div class="flex justify-between items-center text-[11px]">
+              <span class="text-slate-400 font-bold">🚗 Véhicule Actif en Réparation :</span>
+              <span class="bg-emerald-950 text-brand-emerald border border-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">
+                100% Compatible Garanti
               </span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl">
+                🚙
+              </div>
               <div>
-                <h4 class="font-black text-xs text-white">Passeport de Solvabilité Client</h4>
-                <p class="text-[9px] text-slate-400">Traçabilité nominative des commandes</p>
+                <h3 class="font-extrabold text-sm text-white" id="buyer-active-vehicle">Toyota Hilux Vigo 2.5 D-4D</h3>
+                <p class="text-[10px] text-slate-400">Moteur 2KD-FTV · Plaque DK-8492-BC</p>
               </div>
             </div>
-            <button onclick="openSolvencyModal()" class="text-[10px] text-brand-gold hover:underline font-bold">Voir détails</button>
           </div>
 
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
-              <span class="text-[9px] text-slate-400 uppercase font-bold block">Score Solvable</span>
-              <span class="text-sm font-black text-brand-emerald" id="passport-score">98 / 100</span>
-              <span class="text-[8px] text-emerald-400 block font-bold">Certifié Wave</span>
+          <!-- 2. BOUTONS SOS PIÈCE (VOCAL & PHOTO) -->
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="openSosModal('voice')" class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left flex items-center gap-2 hover:bg-amber-100 transition-all">
+              <div class="w-8 h-8 rounded-lg bg-brand-gold text-slate-900 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[18px]">mic</span>
+              </div>
+              <div>
+                <div class="font-black text-xs text-amber-950">Vocal en Wolof</div>
+                <div class="text-[9px] text-amber-800">Waxal ci micro bi</div>
+              </div>
+            </button>
+
+            <button onclick="openSosModal('photo')" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-left flex items-center gap-2 hover:bg-emerald-100 transition-all">
+              <div class="w-8 h-8 rounded-lg bg-brand-emerald text-white flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+              </div>
+              <div>
+                <div class="font-black text-xs text-emerald-950">Photo Pièce (SOS)</div>
+                <div class="text-[9px] text-emerald-800">Scan référence OEM</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- 3. BARRE DE RECHERCHE & FILTRES RAPIDES -->
+          <div class="bg-white p-3 rounded-xl border border-brand-border shadow-sm space-y-2">
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 material-symbols-outlined text-[18px] text-slate-400">search</span>
+              <input type="text" id="buyer-search" onkeyup="filterBuyerProducts()" placeholder="Chercher plaquette, alternateur, turbo..." class="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-brand-border text-xs font-bold text-slate-900 outline-none focus:bg-white" />
             </div>
-            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
-              <span class="text-[9px] text-slate-400 uppercase font-bold block">Commandes</span>
-              <span class="text-sm font-black text-white" id="passport-count">4</span>
-              <span class="text-[8px] text-slate-400 block">100% Honorées</span>
-            </div>
-            <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
-              <span class="text-[9px] text-slate-400 uppercase font-bold block">Conformité</span>
-              <span class="text-sm font-black text-brand-gold">100%</span>
-              <span class="text-[8px] text-slate-400 block">Zéro litige abusif</span>
+
+            <div class="flex items-center gap-1.5 overflow-x-auto text-[10px] font-bold text-slate-600 pt-1">
+              <button onclick="setCategoryFilter('all')" id="cat-btn-all" class="px-2.5 py-1 rounded-full bg-brand-primary text-white shrink-0">Toutes</button>
+              <button onclick="setCategoryFilter('Freinage')" id="cat-btn-Freinage" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Freinage</button>
+              <button onclick="setCategoryFilter('Électricité')" id="cat-btn-Électricité" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Électricité</button>
+              <button onclick="setCategoryFilter('Moteur')" id="cat-btn-Moteur" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Moteur</button>
+              <button onclick="setCategoryFilter('Suspension')" id="cat-btn-Suspension" class="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 shrink-0">Suspension</button>
             </div>
           </div>
 
-          <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700 text-[10px] text-slate-300 flex items-start gap-2">
-            <span class="material-symbols-outlined text-[15px] text-brand-emerald shrink-0 mt-0.5">check_circle</span>
-            <p>
-              Client identifié : <strong class="text-white" id="passport-client-name">Amadou Diallo</strong>. Votre solvabilité est reconnue par les échoppes de Pikine : expédition immédiate Tiak-Tiak autorisée.
+          <!-- 4. CATALOGUE DES PIÈCES SÉQUESTRE -->
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h2 class="text-xs font-black text-brand-primary uppercase tracking-wider">Pièces Disponibles</h2>
+              <span class="text-[10px] text-slate-500 font-bold" id="buyer-items-count">6 pièces</span>
+            </div>
+
+            <div id="buyer-products-list" class="space-y-3">
+              <!-- Injecté par renderBuyerProducts() -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- SOUS-VUE 2 : PANIER MULTI-ACHATS (PRÉCOMMANDES GROUPÉES)    -->
+        <!-- ========================================================== -->
+        <div id="buyer-tabview-cart" class="hidden space-y-4">
+          
+          <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3.5 text-white shadow-sm space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/40">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Panier Multi-Achats Difonssé
+              </span>
+              <span class="text-[10px] font-bold text-amber-400" id="cart-items-count-label">0 pièce</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-snug">
+              Cochez les pièces que vous souhaitez régler. Difonssé prélève son retainer (10%) et rémunère chaque vendeur directement sans délai de séquestre.
             </p>
           </div>
+
+          <!-- BARRE DE SÉLECTION GROUPÉE -->
+          <div class="bg-white p-3 rounded-xl border border-brand-border shadow-sm flex items-center justify-between text-xs">
+            <label class="flex items-center gap-2 cursor-pointer font-bold text-slate-700">
+              <input type="checkbox" id="cart-select-all-checkbox" onchange="toggleSelectAllCart(this.checked)" checked class="w-4 h-4 rounded text-brand-emerald accent-brand-emerald cursor-pointer" />
+              <span>Tout sélectionner / désélectionner</span>
+            </label>
+            <button onclick="clearCart()" class="text-[11px] text-red-600 hover:text-red-700 font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-[15px]">delete_sweep</span>
+              <span>Vider</span>
+            </button>
+          </div>
+
+          <!-- LISTE DES PIÈCES DU PANIER -->
+          <div id="cart-items-list" class="space-y-3">
+            <!-- Injecté dynamiquement par renderCart() -->
+          </div>
+
+          <!-- PLACEHOLDER PANIER VIDE -->
+          <div id="cart-empty-placeholder" class="hidden bg-white rounded-2xl border border-brand-border p-8 text-center space-y-3 shadow-sm">
+            <div class="w-16 h-16 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+              <span class="material-symbols-outlined text-3xl">shopping_cart</span>
+            </div>
+            <div class="space-y-1">
+              <h4 class="font-extrabold text-sm text-brand-primary">Votre panier est vide</h4>
+              <p class="text-xs text-slate-500 max-w-xs mx-auto">Parcourez le catalogue pour ajouter des pièces détachées compatibles et commander en lot.</p>
+            </div>
+            <button onclick="switchBuyerTab('catalog')" class="px-4 py-2 bg-brand-primary text-white text-xs font-black rounded-xl hover:bg-slate-800 transition-all inline-flex items-center gap-1.5 shadow-sm">
+              <span class="material-symbols-outlined text-[16px] text-brand-gold">storefront</span>
+              <span>Explorer le Catalogue</span>
+            </button>
+          </div>
+
+          <!-- CARTE RÉCAPITULATIF ET PAIEMENT GROUPÉ -->
+          <div id="cart-summary-card" class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-brand-emerald text-[18px]">receipt</span>
+                <h3 class="font-black text-xs text-brand-primary">Récapitulatif Financier</h3>
+              </div>
+              <span class="text-[10px] font-bold text-slate-500" id="cart-summary-selected-count">0 sélectionnée</span>
+            </div>
+
+            <div class="space-y-1.5 text-xs">
+              <div class="flex items-center justify-between text-slate-500">
+                <span>Total Prix Net Vendeurs :</span>
+                <strong class="text-slate-800 font-bold" id="cart-summary-net">0 FCFA</strong>
+              </div>
+              <div class="flex items-center justify-between text-slate-500">
+                <span>Retainer Plateforme Difonssé (10%) :</span>
+                <strong class="text-brand-gold font-bold" id="cart-summary-retainer">0 FCFA</strong>
+              </div>
+              <div class="flex items-center justify-between border-t border-slate-200 pt-2 text-sm font-black text-slate-900">
+                <span>Total Global à Régler :</span>
+                <strong class="text-brand-emerald text-base price-num" id="cart-summary-total">0 FCFA</strong>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-[10px] text-emerald-950 flex items-start gap-1.5">
+              <span class="material-symbols-outlined text-[15px] text-brand-emerald shrink-0 mt-0.5">verified_user</span>
+              <p>
+                Règlement direct via Wave ou Orange Money. Vous pouvez régler toutes vos pièces ensemble ou individuellement.
+              </p>
+            </div>
+
+            <button id="btn-cart-pay-action" onclick="openCartCheckoutModal()" class="w-full py-3 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-[16px] text-brand-gold">payments</span>
+              <span>Payer la Sélection</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ========================================================== -->
+        <!-- SOUS-VUE 3 : SUIVI DES COMMANDES & ATELIER                  -->
+        <!-- ========================================================== -->
+        <div id="buyer-tabview-orders" class="hidden space-y-4">
+          
+          <!-- 5. SUIVI DE COMMANDES & ESSAI EN ATELIER 48H -->
+          <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
+            <div class="flex items-center justify-between border-b border-brand-border pb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[18px] text-brand-emerald">verified</span>
+                <h3 class="font-extrabold text-xs text-brand-primary">Vos Commandes en Atelier (Essai 48h)</h3>
+              </div>
+              <button onclick="loadBuyerData()" class="text-[10px] text-slate-500 hover:text-slate-900 font-bold">Actualiser</button>
+            </div>
+
+            <div id="buyer-orders-list" class="space-y-2.5">
+              <!-- Injecté dynamiquement -->
+            </div>
+          </div>
+
+          <!-- 6. PASSEPORT DE SOLVABILITÉ & TRAÇABILITÉ NOMINATIVE -->
+          <div class="bg-gradient-to-br from-slate-900 via-brand-primary to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-700 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-700 text-brand-emerald flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                </span>
+                <div>
+                  <h4 class="font-black text-xs text-white">Passeport de Solvabilité Client</h4>
+                  <p class="text-[9px] text-slate-400">Traçabilité nominative des commandes</p>
+                </div>
+              </div>
+              <button onclick="openSolvencyModal()" class="text-[10px] text-brand-gold hover:underline font-bold">Voir détails</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                <span class="text-[9px] text-slate-400 uppercase font-bold block">Score Solvable</span>
+                <span class="text-sm font-black text-brand-emerald" id="passport-score">98 / 100</span>
+                <span class="text-[8px] text-emerald-400 block font-bold">Certifié Wave</span>
+              </div>
+              <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                <span class="text-[9px] text-slate-400 uppercase font-bold block">Commandes</span>
+                <span class="text-sm font-black text-white" id="passport-count">4</span>
+                <span class="text-[8px] text-slate-400 block">100% Honorées</span>
+              </div>
+              <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                <span class="text-[9px] text-slate-400 uppercase font-bold block">Conformité</span>
+                <span class="text-sm font-black text-brand-gold">100%</span>
+                <span class="text-[8px] text-slate-400 block">Zéro litige abusif</span>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700 text-[10px] text-slate-300 flex items-start gap-2">
+              <span class="material-symbols-outlined text-[15px] text-brand-emerald shrink-0 mt-0.5">check_circle</span>
+              <p>
+                Client identifié : <strong class="text-white" id="passport-client-name">Amadou Diallo</strong>. Votre solvabilité est reconnue par les échoppes de Pikine : expédition immédiate Tiak-Tiak autorisée.
+              </p>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
       <!-- Navigation Fixe Bas Mobile Acheteur -->
-      <nav class="fixed bottom-0 max-w-[480px] w-full bg-white border-t border-brand-border px-4 py-2 flex items-center justify-around z-40 text-[10px] font-bold text-slate-500">
-        <button class="flex flex-col items-center gap-0.5 text-brand-primary">
-          <span class="material-symbols-outlined text-[20px] text-brand-primary">storefront</span>
+      <nav class="fixed bottom-0 max-w-[480px] w-full bg-white border-t border-brand-border px-3 py-1.5 flex items-center justify-around z-40 text-[10px] font-bold text-slate-500 shadow-lg">
+        <button onclick="switchBuyerTab('catalog')" id="buyer-nav-catalog" class="flex flex-col items-center gap-0.5 text-brand-primary font-black">
+          <span class="material-symbols-outlined text-[20px]">storefront</span>
           <span>Pièces</span>
+        </button>
+        <button onclick="switchBuyerTab('cart')" id="buyer-nav-cart" class="relative flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary">
+          <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+          <span id="buyer-bottom-cart-badge" class="hidden absolute -top-1 right-2 bg-brand-emerald text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          <span>Panier</span>
+        </button>
+        <button onclick="switchBuyerTab('orders')" id="buyer-nav-orders" class="relative flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary">
+          <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          <span id="buyer-bottom-orders-badge" class="hidden absolute -top-1 right-3 bg-amber-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          <span>Commandes</span>
         </button>
         <button onclick="openSosModal('voice')" class="flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary">
           <span class="material-symbols-outlined text-[20px]">mic</span>
@@ -511,11 +632,7 @@
         </button>
         <button onclick="openBecomeSellerModal()" class="flex flex-col items-center gap-0.5 text-brand-gold font-black">
           <span class="material-symbols-outlined text-[20px]">store</span>
-          <span>Devenir Vendeur</span>
-        </button>
-        <button onclick="logoutToLogin()" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700">
-          <span class="material-symbols-outlined text-[20px]">logout</span>
-          <span>Quitter</span>
+          <span>Vendre</span>
         </button>
       </nav>
 
@@ -806,6 +923,77 @@
     </div>
   </div>
 
+  <!-- ================= MODALE : PAIEMENT GROUPÉ DU PANIER ================= -->
+  <div id="cart-checkout-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-brand-border">
+      <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-lg bg-emerald-100 text-brand-emerald flex items-center justify-center font-black">
+            <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+          </span>
+          <div>
+            <h3 class="font-black text-sm text-brand-primary">Paiement Panier Difonssé</h3>
+            <p class="text-[10px] text-slate-400">Règlement direct de plusieurs pièces</p>
+          </div>
+        </div>
+        <button onclick="closeCartCheckoutModal()" class="text-slate-400 hover:text-slate-600">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <!-- Liste des pièces sélectionnées -->
+        <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1" id="cart-checkout-items-list">
+          <!-- Injecté dynamiquement -->
+        </div>
+
+        <!-- Moyen de paiement -->
+        <div>
+          <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Moyen de Paiement :</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="selectCartPayProvider('Wave')" id="btn-cart-pay-wave" class="p-2 rounded-xl border-2 border-brand-wave bg-sky-50 text-sky-950 font-bold text-xs flex items-center justify-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-brand-wave"></span>
+              <span>Wave (0%)</span>
+            </button>
+            <button type="button" onclick="selectCartPayProvider('Orange Money')" id="btn-cart-pay-om" class="p-2 rounded-xl border border-brand-border bg-white text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-brand-om"></span>
+              <span>Orange Money</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Récapitulatif financier -->
+        <div class="p-2.5 bg-slate-50 border border-brand-border rounded-xl space-y-1 text-[11px]">
+          <div class="flex justify-between text-slate-500">
+            <span>Nombre de pièces :</span>
+            <strong class="text-slate-800" id="cart-checkout-count">0</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Total Net Vendeurs :</span>
+            <strong class="text-slate-800" id="cart-checkout-net">0 FCFA</strong>
+          </div>
+          <div class="flex justify-between text-slate-500">
+            <span>Retainer Plateforme (10%) :</span>
+            <strong class="text-brand-gold" id="cart-checkout-retainer">0 FCFA</strong>
+          </div>
+          <div class="flex justify-between text-slate-900 font-black border-t border-slate-200 pt-1 text-xs">
+            <span>Total Débité Acheteur :</span>
+            <strong class="text-brand-emerald price-num" id="cart-checkout-total">0 FCFA</strong>
+          </div>
+        </div>
+
+        <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-lg text-[10px] text-emerald-950">
+          ⚡ <strong>Règlement immédiat :</strong> Difonssé encaisse, prélève son retainer global et rémunère directement chaque vendeur. Chaque pièce génère son code de retrait Tiak-Tiak dédié.
+        </div>
+
+        <button onclick="executeBatchCartCheckout()" id="btn-confirm-cart-pay" class="w-full py-2.5 bg-brand-primary text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px] text-brand-emerald">check_circle</span>
+          <span id="btn-confirm-cart-pay-text">Confirmer le Règlement Groupé</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= MODALE : SIGNALER UN LITIGE ================= -->
   <div id="dispute-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-red-300">
@@ -1046,7 +1234,9 @@
         const el = document.getElementById('screen-buyer');
         if (el) el.classList.remove('hidden');
         syncBuyerHeader();
+        initCart();
         loadBuyerData();
+        switchBuyerTab(activeBuyerTab || 'catalog');
       } else if (screenId === 'seller') {
         const el = document.getElementById('screen-seller');
         if (el) el.classList.remove('hidden');
@@ -1228,8 +1418,451 @@
     }
 
     // -------------------------------------------------------------
-    // LOGIQUE DU PARCOURS ACHETEUR
+    // LOGIQUE DU PARCOURS ACHETEUR & GESTION DU PANIER MULTI-ACHATS
     // -------------------------------------------------------------
+    let buyerCart = [];
+    let selectedCartPay = "Wave";
+    let activeBuyerTab = "catalog"; // "catalog" | "cart" | "orders"
+
+    function initCart() {
+      try {
+        const stored = localStorage.getItem("difonsse_cart");
+        if (stored) {
+          buyerCart = JSON.parse(stored);
+        } else {
+          // Panier pré-initialisé avec 1 pièce démo pour immédiate prise en main
+          buyerCart = [
+            {
+              id: "p1",
+              productId: "p1",
+              name: "Plaquettes de Frein Avant Céramique Brembo",
+              partName: "Plaquettes de Frein Avant Céramique Brembo",
+              oem: "04465-05240",
+              vehicle: "Toyota Hilux Vigo 2.5 D-4D",
+              category: "Freinage",
+              conditionLabel: "Neuf d'Origine OEM",
+              bankPrice: 45000,
+              vendorBankPrice: 45000,
+              vendorNetPrice: 45000,
+              commission: 4500,
+              platformRetainer: 4500,
+              publicPrice: 49500,
+              totalPaid: 49500,
+              vendor: "Échoppe Modou",
+              vendorName: "Échoppe Modou",
+              vendorId: "usr_seller_1",
+              hub: "Pikine",
+              image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80",
+              selected: true
+            }
+          ];
+          saveCart();
+        }
+      } catch (e) {
+        buyerCart = [];
+      }
+      updateCartBadges();
+    }
+
+    function saveCart() {
+      try {
+        localStorage.setItem("difonsse_cart", JSON.stringify(buyerCart));
+      } catch (e) {}
+      updateCartBadges();
+    }
+
+    function updateCartBadges() {
+      const count = buyerCart.length;
+      const hBadge = document.getElementById("buyer-header-cart-badge");
+      const bBadge = document.getElementById("buyer-bottom-cart-badge");
+      if (hBadge) {
+        hBadge.innerText = count;
+        if (count > 0) hBadge.classList.remove("hidden");
+        else hBadge.classList.add("hidden");
+      }
+      if (bBadge) {
+        bBadge.innerText = count;
+        if (count > 0) bBadge.classList.remove("hidden");
+        else bBadge.classList.add("hidden");
+      }
+      const oCount = (buyerOrders || []).filter(o => o.step < 4).length;
+      const oBadge = document.getElementById("buyer-bottom-orders-badge");
+      if (oBadge) {
+        oBadge.innerText = oCount;
+        if (oCount > 0) oBadge.classList.remove("hidden");
+        else oBadge.classList.add("hidden");
+      }
+    }
+
+    function switchBuyerTab(tab) {
+      activeBuyerTab = tab;
+      const viewCat = document.getElementById("buyer-tabview-catalog");
+      const viewCart = document.getElementById("buyer-tabview-cart");
+      const viewOrders = document.getElementById("buyer-tabview-orders");
+
+      const navCat = document.getElementById("buyer-nav-catalog");
+      const navCart = document.getElementById("buyer-nav-cart");
+      const navOrders = document.getElementById("buyer-nav-orders");
+
+      if (viewCat) viewCat.classList.add("hidden");
+      if (viewCart) viewCart.classList.add("hidden");
+      if (viewOrders) viewOrders.classList.add("hidden");
+
+      if (navCat) navCat.className = "flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary";
+      if (navCart) navCart.className = "relative flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary";
+      if (navOrders) navOrders.className = "relative flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary";
+
+      if (tab === "catalog") {
+        if (viewCat) viewCat.classList.remove("hidden");
+        if (navCat) navCat.className = "flex flex-col items-center gap-0.5 text-brand-primary font-black";
+        renderBuyerProducts();
+      } else if (tab === "cart") {
+        if (viewCart) viewCart.classList.remove("hidden");
+        if (navCart) navCart.className = "relative flex flex-col items-center gap-0.5 text-brand-emerald font-black";
+        renderCart();
+      } else if (tab === "orders") {
+        if (viewOrders) viewOrders.classList.remove("hidden");
+        if (navOrders) navOrders.className = "relative flex flex-col items-center gap-0.5 text-brand-primary font-black";
+        renderBuyerOrders();
+      }
+      window.scrollTo(0, 0);
+    }
+
+    function addToCart(productId) {
+      const prod = buyerProducts.find(p => p.id === productId);
+      if (!prod) return;
+
+      const existingIndex = buyerCart.findIndex(item => item.id === productId);
+      if (existingIndex >= 0) {
+        alert(`ℹ️ La pièce « ${prod.name} » est déjà dans votre panier.`);
+        switchBuyerTab('cart');
+        return;
+      }
+
+      const cartItem = {
+        id: prod.id,
+        productId: prod.id,
+        name: prod.name,
+        partName: prod.name,
+        oem: prod.oem,
+        vehicle: prod.vehicle,
+        category: prod.category,
+        conditionLabel: prod.conditionLabel,
+        bankPrice: prod.bankPrice,
+        vendorBankPrice: prod.bankPrice,
+        vendorNetPrice: prod.bankPrice,
+        commission: prod.commission,
+        platformRetainer: prod.commission,
+        publicPrice: prod.publicPrice,
+        totalPaid: prod.publicPrice,
+        vendor: prod.vendor,
+        vendorName: prod.vendor,
+        vendorId: prod.vendorId || "usr_seller_1",
+        hub: prod.hub,
+        image: prod.image,
+        selected: true
+      };
+
+      buyerCart.push(cartItem);
+      saveCart();
+      renderBuyerProducts();
+
+      if (confirm(`✅ « ${prod.name} » ajoutée au panier !\n\nVoulez-vous ouvrir votre panier maintenant pour finaliser votre commande ?`)) {
+        switchBuyerTab('cart');
+      }
+    }
+
+    function removeFromCart(productId) {
+      buyerCart = buyerCart.filter(item => item.id !== productId);
+      saveCart();
+      renderCart();
+      renderBuyerProducts();
+    }
+
+    function toggleCartItemSelection(productId) {
+      const item = buyerCart.find(i => i.id === productId);
+      if (item) {
+        item.selected = !item.selected;
+        saveCart();
+        renderCart();
+      }
+    }
+
+    function toggleSelectAllCart(checked) {
+      buyerCart.forEach(item => { item.selected = checked; });
+      saveCart();
+      renderCart();
+    }
+
+    function clearCart() {
+      if (buyerCart.length === 0) return;
+      if (confirm("Voulez-vous vider toutes les pièces de votre panier ?")) {
+        buyerCart = [];
+        saveCart();
+        renderCart();
+        renderBuyerProducts();
+      }
+    }
+
+    function renderCart() {
+      const container = document.getElementById("cart-items-list");
+      const emptyBox = document.getElementById("cart-empty-placeholder");
+      const summaryCard = document.getElementById("cart-summary-card");
+      const masterCheckbox = document.getElementById("cart-select-all-checkbox");
+      const countLabel = document.getElementById("cart-items-count-label");
+
+      if (!container) return;
+
+      if (countLabel) countLabel.innerText = `${buyerCart.length} pièce${buyerCart.length > 1 ? 's' : ''}`;
+
+      if (buyerCart.length === 0) {
+        container.innerHTML = "";
+        if (emptyBox) emptyBox.classList.remove("hidden");
+        if (summaryCard) summaryCard.classList.add("hidden");
+        return;
+      }
+
+      if (emptyBox) emptyBox.classList.add("hidden");
+      if (summaryCard) summaryCard.classList.remove("hidden");
+
+      const allSelected = buyerCart.length > 0 && buyerCart.every(i => i.selected);
+      if (masterCheckbox) masterCheckbox.checked = allSelected;
+
+      const selectedItems = buyerCart.filter(i => i.selected);
+      const selectedCount = selectedItems.length;
+
+      let totNet = 0;
+      let totRet = 0;
+      let totGrand = 0;
+
+      selectedItems.forEach(i => {
+        const net = i.vendorNetPrice || i.vendorBankPrice || i.bankPrice || 0;
+        const ret = i.platformRetainer || i.commission || Math.round(net * 0.10);
+        totNet += net;
+        totRet += ret;
+        totGrand += (i.totalPaid || (net + ret));
+      });
+
+      const selCountEl = document.getElementById("cart-summary-selected-count");
+      const netEl = document.getElementById("cart-summary-net");
+      const retEl = document.getElementById("cart-summary-retainer");
+      const grandEl = document.getElementById("cart-summary-total");
+      const payBtn = document.getElementById("btn-cart-pay-action");
+
+      if (selCountEl) selCountEl.innerText = `${selectedCount} / ${buyerCart.length} sélectionnée${selectedCount > 1 ? 's' : ''}`;
+      if (netEl) netEl.innerText = formatCFA(totNet);
+      if (retEl) retEl.innerText = "+" + formatCFA(totRet);
+      if (grandEl) grandEl.innerText = formatCFA(totGrand);
+
+      if (payBtn) {
+        if (selectedCount === 0) {
+          payBtn.disabled = true;
+          payBtn.className = "w-full py-3 bg-slate-300 text-slate-500 font-extrabold text-xs rounded-xl shadow-none cursor-not-allowed flex items-center justify-center gap-1.5";
+          payBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[16px]">check_box_outline_blank</span>
+            <span>Sélectionnez au moins 1 pièce</span>
+          `;
+        } else {
+          payBtn.disabled = false;
+          payBtn.className = "w-full py-3 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-1.5 cursor-pointer";
+          payBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[16px] text-brand-gold">payments</span>
+            <span>Payer ${selectedCount} pièce${selectedCount > 1 ? 's' : ''} (${formatCFA(totGrand)})</span>
+          `;
+        }
+      }
+
+      container.innerHTML = buyerCart.map(i => {
+        const net = i.vendorNetPrice || i.vendorBankPrice || i.bankPrice || 0;
+        const ret = i.platformRetainer || i.commission || Math.round(net * 0.10);
+        const total = i.totalPaid || (net + ret);
+
+        return `
+          <div class="bg-white rounded-2xl border ${i.selected ? 'border-brand-emerald shadow-sm' : 'border-brand-border opacity-70'} p-3 space-y-2.5 transition-all">
+            <div class="flex items-start gap-2.5">
+              
+              <!-- Checkbox de sélection -->
+              <div class="pt-1">
+                <input type="checkbox" ${i.selected ? 'checked' : ''} onchange="toggleCartItemSelection('${i.id}')" class="w-4 h-4 rounded text-brand-emerald accent-brand-emerald focus:ring-0 cursor-pointer" />
+              </div>
+
+              <!-- Vignette Image -->
+              <div class="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                <img src="${i.image || 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'}" alt="${i.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
+              </div>
+
+              <!-- Détails de la Pièce -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-1">
+                  <h4 class="font-black text-xs text-brand-primary leading-tight line-clamp-2">${i.name}</h4>
+                  <button onclick="removeFromCart('${i.id}')" title="Supprimer du panier" class="text-slate-400 hover:text-red-600 transition-colors shrink-0 p-0.5">
+                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                  </button>
+                </div>
+                
+                <div class="text-[10px] text-slate-500 mt-0.5">
+                  <span class="font-mono font-bold text-slate-600">OEM: ${i.oem || 'Standard'}</span> · <span>${i.vehicle || 'Compatible'}</span>
+                </div>
+
+                <div class="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                  <span class="material-symbols-outlined text-[12px] text-brand-gold">store</span>
+                  <span class="font-bold text-slate-700">${i.vendorName || i.vendor || 'Échoppe'} (${i.hub || 'Pikine'})</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ventilation Financière Directe -->
+            <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 text-[10px] space-y-1">
+              <div class="flex items-center justify-between text-slate-500">
+                <span>Prix Vendeur Net :</span>
+                <span class="font-bold text-slate-800">${formatCFA(net)}</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-500">
+                <span>Retainer Difonssé (10%) :</span>
+                <span class="font-bold text-brand-gold">+${formatCFA(ret)}</span>
+              </div>
+              <div class="flex items-center justify-between border-t border-slate-200/80 pt-1 font-black text-slate-900 text-xs">
+                <span>Total TTC :</span>
+                <span class="text-brand-primary price-num">${formatCFA(total)}</span>
+              </div>
+            </div>
+
+            <!-- Action individuelle : Payer cette pièce seule -->
+            <div class="flex items-center justify-end gap-2 pt-0.5">
+              <button onclick="openCheckoutModalForItem('${i.id}')" class="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-brand-emerald font-extrabold text-[10px] flex items-center gap-1 transition-all cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">bolt</span>
+                <span>Payer cette pièce seule</span>
+              </button>
+            </div>
+
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openCartCheckoutModal() {
+      const selectedItems = buyerCart.filter(i => i.selected);
+      if (selectedItems.length === 0) {
+        alert("Veuillez cocher au moins une pièce à payer.");
+        return;
+      }
+
+      const listContainer = document.getElementById("cart-checkout-items-list");
+      let totNet = 0;
+      let totRet = 0;
+      let totGrand = 0;
+
+      if (listContainer) {
+        listContainer.innerHTML = selectedItems.map(i => {
+          const net = i.vendorNetPrice || i.vendorBankPrice || i.bankPrice || 0;
+          const ret = i.platformRetainer || i.commission || Math.round(net * 0.10);
+          const total = i.totalPaid || (net + ret);
+          totNet += net;
+          totRet += ret;
+          totGrand += total;
+
+          return `
+            <div class="p-2 bg-slate-50 rounded-lg border border-brand-border flex items-center justify-between text-xs">
+              <div class="min-w-0 pr-2">
+                <div class="font-bold text-slate-900 truncate">${i.name}</div>
+                <div class="text-[10px] text-slate-500">${i.vendorName || i.vendor} (${i.hub})</div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="font-black text-slate-900 text-xs price-num">${formatCFA(total)}</div>
+                <div class="text-[9px] text-brand-emerald">Net ${formatCFA(net)} + Ret ${formatCFA(ret)}</div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      document.getElementById("cart-checkout-count").innerText = `${selectedItems.length} pièce${selectedItems.length > 1 ? 's' : ''}`;
+      document.getElementById("cart-checkout-net").innerText = formatCFA(totNet);
+      document.getElementById("cart-checkout-retainer").innerText = "+" + formatCFA(totRet);
+      document.getElementById("cart-checkout-total").innerText = formatCFA(totGrand);
+      document.getElementById("btn-confirm-cart-pay-text").innerText = `Confirmer le Règlement (${formatCFA(totGrand)})`;
+
+      document.getElementById("cart-checkout-modal").classList.remove("hidden");
+    }
+
+    function closeCartCheckoutModal() {
+      document.getElementById("cart-checkout-modal").classList.add("hidden");
+    }
+
+    function selectCartPayProvider(prov) {
+      selectedCartPay = prov;
+      const wBtn = document.getElementById("btn-cart-pay-wave");
+      const omBtn = document.getElementById("btn-cart-pay-om");
+      if (prov === 'Wave') {
+        wBtn.className = "p-2 rounded-xl border-2 border-brand-wave bg-sky-50 text-sky-950 font-bold text-xs flex items-center justify-center gap-1.5";
+        omBtn.className = "p-2 rounded-xl border border-brand-border bg-white text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5";
+      } else {
+        omBtn.className = "p-2 rounded-xl border-2 border-brand-om bg-orange-50 text-orange-950 font-bold text-xs flex items-center justify-center gap-1.5";
+        wBtn.className = "p-2 rounded-xl border border-brand-border bg-white text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5";
+      }
+    }
+
+    async function executeBatchCartCheckout() {
+      const selectedItems = buyerCart.filter(i => i.selected);
+      if (selectedItems.length === 0) return;
+
+      const itemsPayload = selectedItems.map(item => ({
+        productId: item.productId || item.id,
+        partName: item.name || item.partName,
+        clientFirstName: currentBuyer.firstName,
+        clientLastName: currentBuyer.lastName,
+        clientName: `${currentBuyer.fullName} (${currentBuyer.garageName})`,
+        clientPhone: currentBuyer.phone,
+        solvencyScore: currentBuyer.solvencyScore,
+        solvencyStatus: currentBuyer.solvencyStatus,
+        vendorId: item.vendorId || "usr_seller_1",
+        vendorName: item.vendorName || item.vendor || "Échoppe Modou",
+        vendorBankPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
+        vendorNetPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
+        commission: item.platformRetainer || item.commission || Math.round((item.bankPrice || 0) * 0.10),
+        platformRetainer: item.platformRetainer || item.commission || Math.round((item.bankPrice || 0) * 0.10),
+        totalPaid: item.publicPrice || item.totalPaid,
+        provider: selectedCartPay + " Sénégal"
+      }));
+
+      try {
+        const res = await fetch(`${API_BASE}/orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: itemsPayload,
+            provider: selectedCartPay + " Sénégal",
+            clientName: currentBuyer.fullName,
+            clientFirstName: currentBuyer.firstName,
+            clientLastName: currentBuyer.lastName,
+            clientPhone: currentBuyer.phone,
+            solvencyScore: currentBuyer.solvencyScore,
+            solvencyStatus: currentBuyer.solvencyStatus
+          })
+        });
+
+        if (res.ok) {
+          closeCartCheckoutModal();
+          const paidIds = new Set(selectedItems.map(i => i.id));
+          buyerCart = buyerCart.filter(i => !paidIds.has(i.id));
+          saveCart();
+
+          alert(`🎉 Paiement groupé validé via ${selectedCartPay} !\n${itemsPayload.length} commande(s) créée(s) avec succès.\nDifonssé a prélevé son retainer et rémunéré chaque vendeur directement.`);
+          await loadBuyerData();
+          switchBuyerTab('orders');
+          return;
+        }
+      } catch (err) {}
+
+      closeCartCheckoutModal();
+      const paidIds = new Set(selectedItems.map(i => i.id));
+      buyerCart = buyerCart.filter(i => !paidIds.has(i.id));
+      saveCart();
+      alert(`🎉 Paiement groupé de ${itemsPayload.length} pièces validé via ${selectedCartPay} !`);
+      await loadBuyerData();
+      switchBuyerTab('orders');
+    }
+
     async function loadBuyerData() {
       try {
         const [pRes, oRes] = await Promise.all([
@@ -1250,6 +1883,8 @@
       }
       renderBuyerProducts();
       renderBuyerOrders();
+      renderCart();
+      updateCartBadges();
     }
 
     function setCategoryFilter(cat) {
@@ -1288,32 +1923,42 @@
         return;
       }
 
-      container.innerHTML = filtered.map(p => `
-        <div class="bg-white rounded-xl border border-brand-border p-3 shadow-sm flex gap-3">
-          <div class="w-20 h-20 rounded-lg bg-slate-100 overflow-hidden shrink-0">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
-          </div>
+      container.innerHTML = filtered.map(p => {
+        const isInCart = buyerCart.some(i => i.id === p.id);
 
-          <div class="flex-1 flex flex-col justify-between">
-            <div class="space-y-0.5">
-              <div class="flex items-center justify-between text-[9px] text-slate-400 font-bold">
-                <span>OEM: ${p.oem || 'N/A'}</span>
-                <span class="text-brand-emeraldDark">✓ 100% Compatible</span>
+        return `
+          <div class="bg-white rounded-xl border border-brand-border p-3 shadow-sm flex gap-3">
+            <div class="w-20 h-20 rounded-lg bg-slate-100 overflow-hidden shrink-0">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
+            </div>
+
+            <div class="flex-1 flex flex-col justify-between">
+              <div class="space-y-0.5">
+                <div class="flex items-center justify-between text-[9px] text-slate-400 font-bold">
+                  <span>OEM: ${p.oem || 'N/A'}</span>
+                  <span class="text-brand-emeraldDark">✓ 100% Compatible</span>
+                </div>
+                <h3 class="font-bold text-xs text-brand-primary leading-tight line-clamp-1">${p.name}</h3>
+                <p class="text-[10px] text-slate-500">${p.hub} · ${p.vendor}</p>
               </div>
-              <h3 class="font-bold text-xs text-brand-primary leading-tight line-clamp-1">${p.name}</h3>
-              <p class="text-[10px] text-slate-500">${p.hub} · ${p.conditionLabel || 'Occasion testée'}</p>
-            </div>
 
-            <div class="pt-1.5 flex items-center justify-between border-t border-brand-border/60">
-              <span class="font-black text-xs text-brand-primary price-num">${formatCFA(p.publicPrice)}</span>
-              <button onclick="openCheckoutModalForItem('${p.id}')" class="px-2.5 py-1 bg-brand-primary hover:bg-slate-800 text-white font-black text-[10px] rounded-lg flex items-center gap-1 transition-all active:scale-95">
-                <span class="material-symbols-outlined text-[13px] text-brand-gold">shopping_bag</span>
-                <span>Commander &amp; Payer</span>
-              </button>
+              <div class="pt-2 flex items-center justify-between border-t border-brand-border/60 gap-1.5">
+                <span class="font-black text-xs text-brand-primary price-num">${formatCFA(p.publicPrice)}</span>
+                <div class="flex items-center gap-1">
+                  <button onclick="addToCart('${p.id}')" title="Ajouter au Panier" class="px-2 py-1 rounded-lg border ${isInCart ? 'border-brand-emerald bg-emerald-50 text-emerald-800' : 'border-brand-border bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700'} font-bold text-[10px] flex items-center gap-1 transition-all active:scale-95 cursor-pointer">
+                    <span class="material-symbols-outlined text-[13px] ${isInCart ? 'text-brand-emerald font-black' : 'text-slate-500'}">${isInCart ? 'check' : 'add_shopping_cart'}</span>
+                    <span>${isInCart ? 'Au Panier' : '+ Panier'}</span>
+                  </button>
+                  <button onclick="openCheckoutModalForItem('${p.id}')" title="Payer directement cette pièce" class="px-2 py-1 bg-brand-primary hover:bg-slate-800 text-white font-black text-[10px] rounded-lg flex items-center gap-1 transition-all active:scale-95 cursor-pointer">
+                    <span class="material-symbols-outlined text-[13px] text-brand-gold">bolt</span>
+                    <span>Payer Direct</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
     function renderBuyerOrders() {

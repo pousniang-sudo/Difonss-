@@ -223,61 +223,85 @@ module.exports = async function handler(req, res) {
     return sendJson(200, orders);
   }
 
-  // ROUTE 7: POST /api/orders (Nouveau Business Model: Prélèvement Retainer & Paiement Direct Vendeur)
+  // ROUTE 7: POST /api/orders (Paiement Direct Vendeur & Retainer Plateforme - Unitaire ou Panier Multi-pièces)
   if (route === '/orders' && req.method === 'POST') {
     const body = await parseBody();
-    const cmdId = "CMD-" + Math.floor(1000 + Math.random() * 9000);
-    const pkCode = "PK-" + Math.floor(100 + Math.random() * 900);
-    const vBank = Number(body.vendorBankPrice) || Number(body.vendorNetPrice) || 0;
-    const retainer = Number(body.platformRetainer) || Number(body.commission) || Math.round(vBank * 0.10);
-    const total = vBank + retainer;
 
-    const newO = {
-      id: cmdId,
-      productId: body.productId,
-      partName: body.partName,
-      clientFirstName: body.clientFirstName || (body.clientName ? body.clientName.split(' ')[0] : 'Amadou'),
-      clientLastName: body.clientLastName || (body.clientName ? body.clientName.split(' ').slice(1).join(' ') : 'Diallo'),
-      clientName: body.clientName || 'Amadou Diallo',
-      clientPhone: body.clientPhone || '+221 77 450 12 34',
-      solvencyScore: body.solvencyScore || 98,
-      solvencyStatus: body.solvencyStatus || 'Solvable Vérifié',
-      vendorId: body.vendorId,
-      vendorName: body.vendorName,
-      vendorBankPrice: vBank,
-      vendorNetPrice: vBank,
-      commission: retainer,
-      platformRetainer: retainer,
-      totalPaid: total,
-      provider: body.provider || "Wave",
-      pickupCode: pkCode,
-      step: 2,
-      stepLabel: "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe",
-      vendorPaymentStatus: "PAID_DIRECT",
-      actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
-      timeline: `Acheteur débité via ${body.provider}. Retainer Difonssé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
-      createdAt: new Date().toISOString()
-    };
+    const rawItems = (body.items && Array.isArray(body.items) && body.items.length > 0)
+      ? body.items
+      : [body];
 
-    orders.unshift(newO);
-    saveDataFile('orders.json', orders);
+    const createdOrders = [];
 
-    // Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
-    users.forEach(u => {
-      if (u.shopName === newO.vendorName || u.id === newO.vendorId) {
-        u.availableBalance = (u.availableBalance || 0) + vBank;
-        u.totalSales = (u.totalSales || 0) + vBank;
-        u.totalRetainerPaid = (u.totalRetainerPaid || 0) + retainer;
-        u.escrowBalance = 0; // Aucun séquestre vendeur
-      }
+    rawItems.forEach(item => {
+      const cmdId = "CMD-" + Math.floor(1000 + Math.random() * 9000);
+      const pkCode = "PK-" + Math.floor(100 + Math.random() * 900);
+      const vBank = Number(item.vendorBankPrice) || Number(item.vendorNetPrice) || Number(item.bankPrice) || 0;
+      const retainer = Number(item.platformRetainer) || Number(item.commission) || Math.round(vBank * 0.10);
+      const total = Number(item.totalPaid) || (vBank + retainer);
+
+      const clientFirstName = item.clientFirstName || body.clientFirstName || (body.clientName ? body.clientName.split(' ')[0] : 'Amadou');
+      const clientLastName = item.clientLastName || body.clientLastName || (body.clientName ? body.clientName.split(' ').slice(1).join(' ') : 'Diallo');
+      const clientFullName = item.clientName || body.clientName || `${clientFirstName} ${clientLastName}`;
+      const clientPhone = item.clientPhone || body.clientPhone || '+221 77 450 12 34';
+      const solvencyScore = Number(item.solvencyScore || body.solvencyScore || 98);
+      const solvencyStatus = item.solvencyStatus || body.solvencyStatus || 'Solvable Vérifié';
+      const provider = item.provider || body.provider || "Wave";
+
+      const newO = {
+        id: cmdId,
+        productId: item.productId || item.id,
+        partName: item.partName || item.name,
+        clientFirstName: clientFirstName,
+        clientLastName: clientLastName,
+        clientName: clientFullName,
+        clientPhone: clientPhone,
+        solvencyScore: solvencyScore,
+        solvencyStatus: solvencyStatus,
+        vendorId: item.vendorId || "usr_seller_1",
+        vendorName: item.vendorName || item.vendor || "Échoppe Modou",
+        vendorBankPrice: vBank,
+        vendorNetPrice: vBank,
+        commission: retainer,
+        platformRetainer: retainer,
+        totalPaid: total,
+        provider: provider,
+        pickupCode: pkCode,
+        step: 2,
+        stepLabel: "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe",
+        vendorPaymentStatus: "PAID_DIRECT",
+        actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
+        timeline: `Acheteur débité via ${provider}. Retainer Difonssé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
+        createdAt: new Date().toISOString()
+      };
+
+      orders.unshift(newO);
+      createdOrders.push(newO);
+
+      // Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
+      users.forEach(u => {
+        if (u.shopName === newO.vendorName || u.id === newO.vendorId) {
+          u.availableBalance = (u.availableBalance || 0) + vBank;
+          u.totalSales = (u.totalSales || 0) + vBank;
+          u.totalRetainerPaid = (u.totalRetainerPaid || 0) + retainer;
+          u.escrowBalance = 0; // Aucun séquestre vendeur
+        }
+      });
+
+      logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
+      logActivity("platform", "Plateforme Difonssé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
+      logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName} (Zéro séquestre)`, vBank, "payments");
     });
+
+    saveDataFile('orders.json', orders);
     saveDataFile('users.json', users);
 
-    logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${newO.provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
-    logActivity("platform", "Plateforme Difonssé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
-    logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName} (Zéro séquestre)`, vBank, "payments");
-
-    return sendJson(200, { success: true, order: newO });
+    return sendJson(200, {
+      success: true,
+      count: createdOrders.length,
+      order: createdOrders[0],
+      orders: createdOrders
+    });
   }
 
   // ROUTE 8: POST /api/orders/advance

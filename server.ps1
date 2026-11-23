@@ -213,72 +213,98 @@ while ($listener.IsListening) {
             elseif ($rawPath -eq "/api/orders" -and $request.HttpMethod -eq "GET") {
                 $respObj = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
             }
-            # 7. POST /api/orders (Nouveau Business Model: Prélèvement Retainer & Paiement Direct Vendeur)
+            # 7. POST /api/orders (Paiement Direct Vendeur & Retainer Plateforme - Unitaire ou Panier Multi-pièces)
             elseif ($rawPath -eq "/api/orders" -and $request.HttpMethod -eq "POST") {
                 if ($null -ne $bodyObj) {
                     $orders = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
                     if ($null -eq $orders) { $orders = @() }
-
-                    $cmdId = "CMD-" + (Get-Random -Minimum 1000 -Maximum 9999)
-                    $pkCode = "PK-" + (Get-Random -Minimum 100 -Maximum 999)
-
-                    $cFirst = if ($bodyObj.clientFirstName) { $bodyObj.clientFirstName } else { "Amadou" }
-                    $cLast = if ($bodyObj.clientLastName) { $bodyObj.clientLastName } else { "Diallo" }
-                    $cFull = if ($bodyObj.clientName) { $bodyObj.clientName } else { "$cFirst $cLast" }
-                    $cScore = if ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
-                    $cStatus = if ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
-
-                    $vBank = if ($null -ne $bodyObj.vendorNetPrice) { [int]$bodyObj.vendorNetPrice } elseif ($null -ne $bodyObj.vendorBankPrice) { [int]$bodyObj.vendorBankPrice } else { 0 }
-                    $retainer = if ($null -ne $bodyObj.platformRetainer) { [int]$bodyObj.platformRetainer } elseif ($null -ne $bodyObj.commission) { [int]$bodyObj.commission } else { [int][Math]::Round($vBank * 0.10) }
-                    $total = $vBank + $retainer
-
-                    $newO = [PSCustomObject]@{
-                        id = $cmdId
-                        productId = $bodyObj.productId
-                        partName = $bodyObj.partName
-                        clientFirstName = $cFirst
-                        clientLastName = $cLast
-                        clientName = $cFull
-                        clientPhone = $bodyObj.clientPhone
-                        solvencyScore = $cScore
-                        solvencyStatus = $cStatus
-                        vendorId = $bodyObj.vendorId
-                        vendorName = $bodyObj.vendorName
-                        vendorBankPrice = $vBank
-                        vendorNetPrice = $vBank
-                        commission = $retainer
-                        platformRetainer = $retainer
-                        totalPaid = $total
-                        provider = if ($bodyObj.provider) { $bodyObj.provider } else { "Wave" }
-                        pickupCode = $pkCode
-                        step = 2
-                        stepLabel = "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe"
-                        vendorPaymentStatus = "PAID_DIRECT"
-                        actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
-                        timeline = "Acheteur débité via " + $bodyObj.provider + ". Retainer Difonssé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
-                        createdAt = [DateTime]::UtcNow.ToString("o")
-                    }
-
-                    $allOrders = @($newO) + @($orders)
-                    Helper-WriteJsonFile "orders.json" $allOrders
-
-                    # Nouveau BM : Paiement direct du vendeur (crédit instantané du solde disponible)
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
-                    foreach ($u in $users) {
-                        if ($u.shopName -eq $newO.vendorName -or $u.id -eq $newO.vendorId) {
-                            $u.availableBalance += $vBank
-                            $u.totalSales += $vBank
-                            $u.totalRetainerPaid += $retainer
-                            $u.escrowBalance = 0
-                        }
+                    if ($null -eq $users) { $users = @() }
+
+                    $itemsToProcess = @()
+                    if ($null -ne $bodyObj.items -and $bodyObj.items.Count -gt 0) {
+                        $itemsToProcess = @($bodyObj.items)
+                    } else {
+                        $itemsToProcess = @($bodyObj)
                     }
+
+                    $createdOrders = @()
+
+                    foreach ($item in $itemsToProcess) {
+                        $cmdId = "CMD-" + (Get-Random -Minimum 1000 -Maximum 9999)
+                        $pkCode = "PK-" + (Get-Random -Minimum 100 -Maximum 999)
+
+                        $cFirst = if ($item.clientFirstName) { $item.clientFirstName } elseif ($bodyObj.clientFirstName) { $bodyObj.clientFirstName } else { "Amadou" }
+                        $cLast = if ($item.clientLastName) { $item.clientLastName } elseif ($bodyObj.clientLastName) { $bodyObj.clientLastName } else { "Diallo" }
+                        $cFull = if ($item.clientName) { $item.clientName } elseif ($bodyObj.clientName) { $bodyObj.clientName } else { "$cFirst $cLast" }
+                        $cPhone = if ($item.clientPhone) { $item.clientPhone } elseif ($bodyObj.clientPhone) { $bodyObj.clientPhone } else { "+221 77 450 12 34" }
+                        $cScore = if ($item.solvencyScore) { [int]$item.solvencyScore } elseif ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
+                        $cStatus = if ($item.solvencyStatus) { $item.solvencyStatus } elseif ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
+
+                        $vBank = if ($null -ne $item.vendorNetPrice) { [int]$item.vendorNetPrice } elseif ($null -ne $item.vendorBankPrice) { [int]$item.vendorBankPrice } elseif ($null -ne $item.bankPrice) { [int]$item.bankPrice } else { 0 }
+                        $retainer = if ($null -ne $item.platformRetainer) { [int]$item.platformRetainer } elseif ($null -ne $item.commission) { [int]$item.commission } else { [int][Math]::Round($vBank * 0.10) }
+                        $total = if ($null -ne $item.totalPaid) { [int]$item.totalPaid } else { ($vBank + $retainer) }
+                        $prov = if ($item.provider) { $item.provider } elseif ($bodyObj.provider) { $bodyObj.provider } else { "Wave" }
+
+                        $vId = if ($item.vendorId) { $item.vendorId } else { "usr_seller_1" }
+                        $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Échoppe Modou" }
+                        $pName = if ($item.partName) { $item.partName } elseif ($item.name) { $item.name } else { "Pièce" }
+                        $pId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
+
+                        $newO = [PSCustomObject]@{
+                            id = $cmdId
+                            productId = $pId
+                            partName = $pName
+                            clientFirstName = $cFirst
+                            clientLastName = $cLast
+                            clientName = $cFull
+                            clientPhone = $cPhone
+                            solvencyScore = $cScore
+                            solvencyStatus = $cStatus
+                            vendorId = $vId
+                            vendorName = $vName
+                            vendorBankPrice = $vBank
+                            vendorNetPrice = $vBank
+                            commission = $retainer
+                            platformRetainer = $retainer
+                            totalPaid = $total
+                            provider = $prov
+                            pickupCode = $pkCode
+                            step = 2
+                            stepLabel = "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe"
+                            vendorPaymentStatus = "PAID_DIRECT"
+                            actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
+                            timeline = "Acheteur débité via " + $prov + ". Retainer Difonssé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
+                            createdAt = [DateTime]::UtcNow.ToString("o")
+                        }
+
+                        $orders = @($newO) + @($orders)
+                        $createdOrders += @($newO)
+
+                        # Update seller available balance directly
+                        foreach ($u in $users) {
+                            if ($u.shopName -eq $vName -or $u.id -eq $vId) {
+                                $u.availableBalance += $vBank
+                                $u.totalSales += $vBank
+                                $u.totalRetainerPaid += $retainer
+                                $u.escrowBalance = 0
+                            }
+                        }
+
+                        Helper-LogActivity "buyer" $cFull "ORDER_PLACED" ("Commande payée via " + $prov + " : " + $pName + " (" + $total + " FCFA)") $total "shopping_bag"
+                        Helper-LogActivity "platform" "Plateforme Difonssé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $cmdId) $retainer "savings"
+                        Helper-LogActivity "seller" $vName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $pName + " (Zéro séquestre)") $vBank "payments"
+                    }
+
+                    Helper-WriteJsonFile "orders.json" $orders
                     Helper-WriteJsonFile "users.json" $users
 
-                    Helper-LogActivity "buyer" $newO.clientName "ORDER_PLACED" ("Commande payée via " + $newO.provider + " : " + $newO.partName + " (" + $newO.totalPaid + " FCFA)") $newO.totalPaid "shopping_bag"
-                    Helper-LogActivity "platform" "Plateforme Difonssé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $newO.id) $retainer "savings"
-                    Helper-LogActivity "seller" $newO.vendorName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $newO.partName + " (Zéro séquestre)") $vBank "payments"
-
-                    $respObj = @{ success = $true; order = $newO }
+                    $respObj = @{
+                        success = $true
+                        count = $createdOrders.Count
+                        order = $createdOrders[0]
+                        orders = $createdOrders
+                    }
                 }
             }
             # 8. POST /api/orders/advance (Vendor hands over to courier)
