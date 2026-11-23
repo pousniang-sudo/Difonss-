@@ -1,4 +1,4 @@
-﻿// api/index.js — API REST & Serverless Handler pour Vercel & Node.js
+// api/index.js — API REST & Serverless Handler pour Vercel & Node.js
 // Plateforme Difonsé — Pièces Détachées, Paiement Direct & Retainer Plateforme (Sénégal)
 
 const fs = require('fs');
