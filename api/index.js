@@ -346,7 +346,6 @@ module.exports = async function handler(req, res) {
       users.forEach(u => {
         if (u.shopName === found.vendorName || u.id === found.vendorId) {
           u.escrowBalance = 0; // Aucun séquestre vendeur
-          // Si pour un ancien ordre ce n'était pas payé direct :
           if (found.vendorPaymentStatus !== "PAID_DIRECT") {
             u.availableBalance = (u.availableBalance || 0) + (found.vendorNetPrice || found.vendorBankPrice);
             u.totalSales = (u.totalSales || 0) + (found.vendorNetPrice || found.vendorBankPrice);
@@ -357,6 +356,48 @@ module.exports = async function handler(req, res) {
 
       logActivity("buyer", found.clientName, "CONFORMITY_CONFIRMED", `Montage validé conforme pour ${found.id}`, 0, "verified");
       logActivity("platform", "Plateforme Difonssé", "TRANSACTION_FINALIZED", `Transaction ${found.id} clôturée : Vendeur ${found.vendorName} rémunéré directement, retainer encaissé`, 0, "task_alt");
+    }
+
+    return sendJson(200, { success: true, order: found });
+  }
+
+  // ROUTE 9b: POST /api/orders/return (Garantie conformité 2 jours max : Retour pièce non conforme & Remboursement)
+  if (route === '/orders/return' && req.method === 'POST') {
+    const body = await parseBody();
+    const orderId = body.id || body.orderId;
+    let found = null;
+    orders.forEach(o => {
+      if (o.id === orderId) {
+        o.step = 5;
+        o.status = "RETURNED_REFUNDED";
+        o.stepLabel = "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)";
+        o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce à l'échoppe · Acheteur remboursé via Wave/OM";
+        o.timeline = `Garantie conformité 2 jours invoquée : ${body.reason || "Pièce non conforme retournée"}. Remboursement intégral de ${o.totalPaid} FCFA exécuté vers l'acheteur via ${o.provider}.`;
+        found = o;
+      }
+    });
+    saveDataFile('orders.json', orders);
+
+    if (found) {
+      // Enregistrer le remboursement acheteur dans payouts.json
+      const refundRecord = {
+        id: "PAY-REF-" + Math.floor(1000 + Math.random() * 9000),
+        vendor: found.clientName,
+        phone: found.clientPhone || "+221 77 450 12 34",
+        amount: found.totalPaid,
+        provider: found.provider || "Wave",
+        status: "COMPLETED",
+        statusLabel: "Remboursement Exécuté (Garantie 2 Jours)",
+        type: "REFUND_NON_COMPLIANT_PART",
+        orderId: found.id,
+        createdAt: new Date().toISOString()
+      };
+      payouts.unshift(refundRecord);
+      saveDataFile('payouts.json', payouts);
+
+      logActivity("buyer", found.clientName, "PART_RETURN_REQUESTED", `Retour pièce non conforme sous garantie 2 jours pour ${found.id} (${found.partName})`, found.totalPaid, "replay");
+      logActivity("platform", "Plateforme Difonssé", "BUYER_REFUNDED", `Remboursement intégral effectué : ${found.totalPaid} FCFA à ${found.clientName} via ${found.provider} (Garantie 48h conformité)`, found.totalPaid, "payments");
+      logActivity("seller", found.vendorName, "RETURN_DISPATCHED", `Coursier Tiak-Tiak mandaté pour restitution de ${found.partName} à l'échoppe`, 0, "local_shipping");
     }
 
     return sendJson(200, { success: true, order: found });

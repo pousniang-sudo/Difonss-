@@ -366,6 +366,53 @@ while ($listener.IsListening) {
                     $respObj = @{ success = $true; order = $found }
                 }
             }
+            # 9b. POST /api/orders/return (Garantie de conformité 2 jours max : Retour pièce non conforme & Remboursement)
+            elseif ($rawPath -eq "/api/orders/return" -and $request.HttpMethod -eq "POST") {
+                if ($null -ne $bodyObj) {
+                    $orders = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
+                    $orderId = if ($bodyObj.id) { $bodyObj.id } else { $bodyObj.orderId }
+                    $found = $null
+                    foreach ($o in $orders) {
+                        if ($o.id -eq $orderId) {
+                            $o.step = 5
+                            $o.status = "RETURNED_REFUNDED"
+                            $o.stepLabel = "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)"
+                            $o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce à l'échoppe · Acheteur remboursé via Wave/OM"
+                            $reasonText = if ($bodyObj.reason) { $bodyObj.reason } else { "Pièce non conforme retournée" }
+                            $o.timeline = "Garantie conformité 2 jours invoquée : " + $reasonText + ". Remboursement intégral de " + $o.totalPaid + " FCFA exécuté vers l'acheteur via " + $o.provider + "."
+                            $found = $o
+                        }
+                    }
+                    Helper-WriteJsonFile "orders.json" $orders
+
+                    if ($null -ne $found) {
+                        $payouts = (Helper-ReadJsonFile "payouts.json") | ConvertFrom-Json
+                        if ($null -eq $payouts) { $payouts = @() }
+
+                        $newRefund = [PSCustomObject]@{
+                            id = "PAY-REF-" + (Get-Random -Minimum 1000 -Maximum 9999)
+                            vendor = $found.clientName
+                            phone = if ($found.clientPhone) { $found.clientPhone } else { "+221 77 450 12 34" }
+                            amount = [int]$found.totalPaid
+                            provider = if ($found.provider) { $found.provider } else { "Wave" }
+                            status = "COMPLETED"
+                            statusLabel = "Remboursement Exécuté (Garantie 2 Jours)"
+                            type = "REFUND_NON_COMPLIANT_PART"
+                            orderId = $found.id
+                            createdAt = [DateTime]::UtcNow.ToString("o")
+                        }
+
+                        $allPayouts = @($newRefund) + @($payouts)
+                        Helper-WriteJsonFile "payouts.json" $allPayouts
+
+                        Helper-LogActivity "buyer" $found.clientName "PART_RETURN_REQUESTED" ("Retour pièce non conforme sous garantie 2 jours pour " + $found.id + " (" + $found.partName + ")") $found.totalPaid "replay"
+                        Helper-LogActivity "platform" "Plateforme Difonssé" "BUYER_REFUNDED" ("Remboursement intégral effectué : " + $found.totalPaid + " FCFA à " + $found.clientName + " via " + $found.provider + " (Garantie 48h conformité)") $found.totalPaid "payments"
+                        Helper-LogActivity "seller" $found.vendorName "RETURN_DISPATCHED" ("Coursier Tiak-Tiak mandaté pour restitution de " + $found.partName + " à l'échoppe") 0 "local_shipping"
+                    }
+
+                    $respObj = @{ success = $true; order = $found }
+                }
+            }
             # 10. POST /api/orders/dispute (Buyer raises dispute on an order)
             elseif ($rawPath -eq "/api/orders/dispute" -and $request.HttpMethod -eq "POST") {
                 if ($null -ne $bodyObj) {
