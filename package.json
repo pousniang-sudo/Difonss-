@@ -1,18 +1,18 @@
-{
-  "name": "difonsse",
+﻿{
+  "name": "difonse",
   "version": "1.0.0",
-  "description": "Difonssé — Marketplace de pièces détachées automobiles avec paiement sécurisé et garantie 2 jours",
+  "description": "Difonsé — Marketplace de pièces détachées automobiles avec paiement sécurisé et garantie 2 jours",
   "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js"
   },
   "keywords": [
-    "difonsse",
+    "difonse",
     "marketplace",
     "senegal",
     "auto-parts",
     "escrow"
   ],
-  "author": "Difonssé Team",
+  "author": "Difonsé Team",
   "license": "ISC"
 }

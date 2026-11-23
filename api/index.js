@@ -1,5 +1,5 @@
-// api/index.js — API REST & Serverless Handler pour Vercel & Node.js
-// Plateforme Difonssé — Pièces Détachées, Paiement Direct & Retainer Plateforme (Sénégal)
+﻿// api/index.js — API REST & Serverless Handler pour Vercel & Node.js
+// Plateforme Difonsé — Pièces Détachées, Paiement Direct & Retainer Plateforme (Sénégal)
 
 const fs = require('fs');
 const path = require('path');
@@ -14,7 +14,7 @@ function loadDataFile(filename, fallback = []) {
       return JSON.parse(fs.readFileSync(fullPath, 'utf8'));
     }
   } catch (e) {
-    console.warn(`[Difonssé API] Erreur lecture ${filename}:`, e.message);
+    console.warn(`[Difonsé API] Erreur lecture ${filename}:`, e.message);
   }
   return fallback;
 }
@@ -37,7 +37,7 @@ let products = loadDataFile('products.json', [
 ]);
 
 let orders = loadDataFile('orders.json', [
-  { id: "CMD-9281", productId: "p1", partName: "Plaquettes de Frein Avant Céramique Brembo", clientName: "Ousmane Niang", clientPhone: "+221 77 123 45 67", vendorId: "usr_seller_1", vendorName: "Échoppe Modou", vendorBankPrice: 45000, commission: 4500, totalPaid: 49500, provider: "Wave", pickupCode: "PK-482", step: 3, stepLabel: "Pièce livrée au Garage · Montage & Essai en cours (48h)", actionRequired: "Mécanicien : Tester la pièce sur le véhicule et valider conformité", timeline: "Fonds sécurisés Kooru Difonssé. Livré au garage de Ouakam.", createdAt: new Date().toISOString() }
+  { id: "CMD-9281", productId: "p1", partName: "Plaquettes de Frein Avant Céramique Brembo", clientName: "Ousmane Niang", clientPhone: "+221 77 123 45 67", vendorId: "usr_seller_1", vendorName: "Échoppe Modou", vendorBankPrice: 45000, commission: 4500, totalPaid: 49500, provider: "Wave", pickupCode: "PK-482", step: 3, stepLabel: "Pièce livrée au Garage · Montage & Essai en cours (48h)", actionRequired: "Mécanicien : Tester la pièce sur le véhicule et valider conformité", timeline: "Fonds sécurisés Kooru Difonsé. Livré au garage de Ouakam.", createdAt: new Date().toISOString() }
 ]);
 
 let users = loadDataFile('users.json', [
@@ -54,7 +54,7 @@ let payouts = loadDataFile('payouts.json', [
 ]);
 
 let activities = loadDataFile('activities.json', [
-  { id: "act_1", section: "orders", actor: "Plateforme Difonssé", action: "ORDER_PAID", details: "Paiement direct reçu pour CMD-9281 (49 500 FCFA)", amount: 49500, icon: "payments", timestamp: new Date().toISOString() }
+  { id: "act_1", section: "orders", actor: "Plateforme Difonsé", action: "ORDER_PAID", details: "Paiement direct reçu pour CMD-9281 (49 500 FCFA)", amount: 49500, icon: "payments", timestamp: new Date().toISOString() }
 ]);
 
 function logActivity(section, actor, action, details, amount = 0, icon = "info") {
@@ -268,10 +268,10 @@ module.exports = async function handler(req, res) {
         provider: provider,
         pickupCode: pkCode,
         step: 2,
-        stepLabel: "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe",
+        stepLabel: "Payé par Difonsé · Tiak-Tiak en route vers l'échoppe",
         vendorPaymentStatus: "PAID_DIRECT",
         actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
-        timeline: `Acheteur débité via ${provider}. Retainer Difonssé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
+        timeline: `Acheteur débité via ${provider}. Retainer Difonsé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
         createdAt: new Date().toISOString()
       };
 
@@ -289,7 +289,7 @@ module.exports = async function handler(req, res) {
       });
 
       logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
-      logActivity("platform", "Plateforme Difonssé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
+      logActivity("platform", "Plateforme Difonsé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
       logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName}`, vBank, "payments");
     });
 
@@ -321,7 +321,7 @@ module.exports = async function handler(req, res) {
 
     if (found) {
       logActivity("seller", found.vendorName, "COURIER_PICKUP", `Pièce remise au coursier pour ${found.id} contre code ${found.pickupCode}`, 0, "local_shipping");
-      logActivity("platform", "Plateforme Difonssé", "TEST_PERIOD_STARTED", `Délai d'essai 48h démarré pour ${found.id}`, 0, "timer");
+      logActivity("platform", "Plateforme Difonsé", "TEST_PERIOD_STARTED", `Délai d'essai 48h démarré pour ${found.id}`, 0, "timer");
     }
 
     return sendJson(200, { success: true, order: found });
@@ -355,7 +355,7 @@ module.exports = async function handler(req, res) {
       saveDataFile('users.json', users);
 
       logActivity("buyer", found.clientName, "CONFORMITY_CONFIRMED", `Montage validé conforme pour ${found.id}`, 0, "verified");
-      logActivity("platform", "Plateforme Difonssé", "TRANSACTION_FINALIZED", `Transaction ${found.id} clôturée : Vendeur ${found.vendorName} rémunéré directement, retainer encaissé`, 0, "task_alt");
+      logActivity("platform", "Plateforme Difonsé", "TRANSACTION_FINALIZED", `Transaction ${found.id} clôturée : Vendeur ${found.vendorName} rémunéré directement, retainer encaissé`, 0, "task_alt");
     }
 
     return sendJson(200, { success: true, order: found });
@@ -396,7 +396,7 @@ module.exports = async function handler(req, res) {
       saveDataFile('payouts.json', payouts);
 
       logActivity("buyer", found.clientName, "PART_RETURN_REQUESTED", `Retour pièce non conforme sous garantie 2 jours pour ${found.id} (${found.partName})`, found.totalPaid, "replay");
-      logActivity("platform", "Plateforme Difonssé", "BUYER_REFUNDED", `Remboursement intégral effectué : ${found.totalPaid} FCFA à ${found.clientName} via ${found.provider} (Garantie 48h conformité)`, found.totalPaid, "payments");
+      logActivity("platform", "Plateforme Difonsé", "BUYER_REFUNDED", `Remboursement intégral effectué : ${found.totalPaid} FCFA à ${found.clientName} via ${found.provider} (Garantie 48h conformité)`, found.totalPaid, "payments");
       logActivity("seller", found.vendorName, "RETURN_DISPATCHED", `Coursier Tiak-Tiak mandaté pour restitution de ${found.partName} à l'échoppe`, 0, "local_shipping");
     }
 
@@ -441,7 +441,7 @@ module.exports = async function handler(req, res) {
     saveDataFile('disputes.json', disputes);
 
     logActivity("buyer", newDisp.buyerName, "DISPUTE_OPENED", `Litige ouvert ${newDisp.id} pour commande ${newDisp.orderId} (${newDisp.reason})`, newDisp.amount, "report_problem");
-    logActivity("arbitration", "Plateforme Difonssé", "DISPUTE_OPENED", `Dossier litige ouvert ${newDisp.id} (${newDisp.amount} FCFA)`, newDisp.amount, "gavel");
+    logActivity("arbitration", "Plateforme Difonsé", "DISPUTE_OPENED", `Dossier litige ouvert ${newDisp.id} (${newDisp.amount} FCFA)`, newDisp.amount, "gavel");
 
     return sendJson(200, { success: true, dispute: newDisp });
   }
@@ -472,7 +472,7 @@ module.exports = async function handler(req, res) {
     const nowStr = new Date().toISOString();
     const amt = targetDisp ? targetDisp.amount : 49500;
     const recip = targetDisp ? targetDisp.buyerName : "Acheteur";
-    const rawSign = `${dId}_${amt}_${recip}_${nowStr}_DIFONSSE_ARBITRATION_FINAL`;
+    const rawSign = `${dId}_${amt}_${recip}_${nowStr}_DIFONSE_ARBITRATION_FINAL`;
     const sha256Seal = crypto.createHash('sha256').update(rawSign, 'utf8').digest('hex');
 
     if (targetDisp) {
@@ -487,7 +487,7 @@ module.exports = async function handler(req, res) {
       saveDataFile('orders.json', orders);
     }
 
-    logActivity("arbitration", "Comité d'Arbitrage Difonssé", "ARBITRATION_RESOLVED", `Litige ${dId} scellé SHA-256 (${sha256Seal.substring(0, 16)}...). Remboursement intégral de ${amt} FCFA via Wave.`, amt, "verified_user");
+    logActivity("arbitration", "Comité d'Arbitrage Difonsé", "ARBITRATION_RESOLVED", `Litige ${dId} scellé SHA-256 (${sha256Seal.substring(0, 16)}...). Remboursement intégral de ${amt} FCFA via Wave.`, amt, "verified_user");
 
     return sendJson(200, {
       success: true,

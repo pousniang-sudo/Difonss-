@@ -271,10 +271,10 @@ while ($listener.IsListening) {
                             provider = $prov
                             pickupCode = $pkCode
                             step = 2
-                            stepLabel = "Payé par Difonssé · Tiak-Tiak en route vers l'échoppe"
+                            stepLabel = "Payé par Difonsé · Tiak-Tiak en route vers l'échoppe"
                             vendorPaymentStatus = "PAID_DIRECT"
                             actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
-                            timeline = "Acheteur débité via " + $prov + ". Retainer Difonssé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
+                            timeline = "Acheteur débité via " + $prov + ". Retainer Difonsé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
                             createdAt = [DateTime]::UtcNow.ToString("o")
                         }
 
@@ -291,7 +291,7 @@ while ($listener.IsListening) {
                         }
 
                         Helper-LogActivity "buyer" $cFull "ORDER_PLACED" ("Commande payée via " + $prov + " : " + $pName + " (" + $total + " FCFA)") $total "shopping_bag"
-                        Helper-LogActivity "platform" "Plateforme Difonssé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $cmdId) $retainer "savings"
+                        Helper-LogActivity "platform" "Plateforme Difonsé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $cmdId) $retainer "savings"
                         Helper-LogActivity "seller" $vName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $pName) $vBank "payments"
                     }
 
@@ -324,7 +324,7 @@ while ($listener.IsListening) {
 
                     if ($null -ne $found) {
                         Helper-LogActivity "seller" $found.vendorName "COURIER_PICKUP" ("Pièce remise au coursier pour " + $found.id + " contre code " + $found.pickupCode) 0 "local_shipping"
-                        Helper-LogActivity "platform" "Plateforme Difonssé" "TEST_PERIOD_STARTED" ("Délai d'essai 48h démarré pour " + $found.id) 0 "timer"
+                        Helper-LogActivity "platform" "Plateforme Difonsé" "TEST_PERIOD_STARTED" ("Délai d'essai 48h démarré pour " + $found.id) 0 "timer"
                     }
 
                     $respObj = @{ success = $true; order = $found }
@@ -359,7 +359,7 @@ while ($listener.IsListening) {
                     Helper-WriteJsonFile "users.json" $users
 
                     Helper-LogActivity "buyer" $found.clientName "CONFORMITY_CONFIRMED" ("Montage validé conforme pour " + $found.id) 0 "verified"
-                    Helper-LogActivity "platform" "Plateforme Difonssé" "TRANSACTION_FINALIZED" ("Transaction " + $found.id + " clôturée : Vendeur " + $found.vendorName + " rémunéré directement, retainer encaissé") 0 "task_alt"
+                    Helper-LogActivity "platform" "Plateforme Difonsé" "TRANSACTION_FINALIZED" ("Transaction " + $found.id + " clôturée : Vendeur " + $found.vendorName + " rémunéré directement, retainer encaissé") 0 "task_alt"
 
                     $respObj = @{ success = $true; order = $found }
                 }
@@ -404,7 +404,7 @@ while ($listener.IsListening) {
                         Helper-WriteJsonFile "payouts.json" $allPayouts
 
                         Helper-LogActivity "buyer" $found.clientName "PART_RETURN_REQUESTED" ("Retour pièce non conforme sous garantie 2 jours pour " + $found.id + " (" + $found.partName + ")") $found.totalPaid "replay"
-                        Helper-LogActivity "platform" "Plateforme Difonssé" "BUYER_REFUNDED" ("Remboursement intégral effectué : " + $found.totalPaid + " FCFA à " + $found.clientName + " via " + $found.provider + " (Garantie 48h conformité)") $found.totalPaid "payments"
+                        Helper-LogActivity "platform" "Plateforme Difonsé" "BUYER_REFUNDED" ("Remboursement intégral effectué : " + $found.totalPaid + " FCFA à " + $found.clientName + " via " + $found.provider + " (Garantie 48h conformité)") $found.totalPaid "payments"
                         Helper-LogActivity "seller" $found.vendorName "RETURN_DISPATCHED" ("Coursier Tiak-Tiak mandaté pour restitution de " + $found.partName + " à l'échoppe") 0 "local_shipping"
                     }
 
@@ -454,7 +454,7 @@ while ($listener.IsListening) {
                     Helper-WriteJsonFile "disputes.json" $allDisps
 
                     Helper-LogActivity "buyer" $newDisp.buyerName "DISPUTE_OPENED" ("Litige ouvert " + $newDisp.id + " pour commande " + $newDisp.orderId + " (" + $newDisp.reason + ")") $newDisp.amount "report_problem"
-                    Helper-LogActivity "arbitration" "Plateforme Difonssé" "DISPUTE_OPENED" ("Dossier litige ouvert " + $newDisp.id + " (" + $newDisp.amount + " FCFA)") $newDisp.amount "gavel"
+                    Helper-LogActivity "arbitration" "Plateforme Difonsé" "DISPUTE_OPENED" ("Dossier litige ouvert " + $newDisp.id + " (" + $newDisp.amount + " FCFA)") $newDisp.amount "gavel"
 
                     $respObj = @{ success = $true; dispute = $newDisp }
                 }
@@ -485,7 +485,7 @@ while ($listener.IsListening) {
                     $nowStr = [DateTime]::UtcNow.ToString("o")
                     $amt = if ($targetDisp) { $targetDisp.amount } else { 49500 }
                     $recip = if ($targetDisp) { $targetDisp.buyerName } else { "Acheteur" }
-                    $rawSign = "${dId}_${amt}_${recip}_${nowStr}_DIFONSSE_ARBITRATION_FINAL"
+                    $rawSign = "${dId}_${amt}_${recip}_${nowStr}_DIFONSE_ARBITRATION_FINAL"
                     $sha = [System.Security.Cryptography.SHA256]::Create()
                     $hashBytes = $sha.ComputeHash([System.Text.Encoding]::UTF8.GetBytes($rawSign))
                     $sha256Seal = [BitConverter]::ToString($hashBytes).Replace("-","").ToLower()
@@ -504,7 +504,7 @@ while ($listener.IsListening) {
                         Helper-WriteJsonFile "orders.json" $orders
                     }
 
-                    Helper-LogActivity "arbitration" "Comité d'Arbitrage Difonssé" "ARBITRATION_RESOLVED" ("Litige " + $dId + " scellé SHA-256 (" + $sha256Seal.Substring(0, 16) + "...). Remboursement intégral de " + $amt + " FCFA via Wave.") $amt "verified_user"
+                    Helper-LogActivity "arbitration" "Comité d'Arbitrage Difonsé" "ARBITRATION_RESOLVED" ("Litige " + $dId + " scellé SHA-256 (" + $sha256Seal.Substring(0, 16) + "...). Remboursement intégral de " + $amt + " FCFA via Wave.") $amt "verified_user"
 
                     $respObj = @{
                         success = $true

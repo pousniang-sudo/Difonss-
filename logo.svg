@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 80" width="340" height="80">
+  <defs>
+    <linearGradient id="hlBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="hlOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A00"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <linearGradient id="hlSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <filter id="hlGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#EA580C" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Left Icon Emblem (68x68 scaled) -->
+  <g transform="translate(6, 6)">
+    <!-- Container Squircle -->
+    <rect x="0" y="0" width="68" height="68" rx="18" fill="url(#hlBg)" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Subtle Gear Teeth Accent -->
+    <g fill="#334155" opacity="0.8">
+      <rect x="46" y="14" width="5" height="4" rx="1.5" transform="rotate(25 48 16)"/>
+      <rect x="54" y="27" width="5" height="4" rx="1.5" transform="rotate(65 56 29)"/>
+      <rect x="54" y="42" width="5" height="4" rx="1.5" transform="rotate(115 56 44)"/>
+      <rect x="46" y="54" width="5" height="4" rx="1.5" transform="rotate(155 48 56)"/>
+    </g>
+
+    <!-- D Pillar (Vertical) -->
+    <rect x="16" y="16" width="8" height="40" rx="4" fill="url(#hlSilver)"/>
+    <rect x="18" y="20" width="4" height="24" rx="2" fill="url(#hlOrange)" filter="url(#hlGlow)"/>
+
+    <!-- D Arc -->
+    <path d="M 22 16 
+             C 42 16, 58 24, 58 37 
+             C 58 50, 42 56, 22 56 
+             L 28 48 
+             C 44 48, 50 42, 50 37 
+             C 50 32, 44 24, 28 24 
+             Z" 
+          fill="url(#hlSilver)"/>
+
+    <!-- Shopping Cart Basket -->
+    <path d="M 26 29 L 46 29 L 42 41 L 30 41 Z" fill="url(#hlOrange)"/>
+    <line x1="25" y1="26" x2="29" y2="41" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <line x1="29" y1="41" x2="44" y2="41" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Wheels -->
+    <circle cx="32" cy="46" r="2.5" fill="#FFFFFF"/>
+    <circle cx="32" cy="46" r="1.2" fill="#EA580C"/>
+    <circle cx="41" cy="46" r="2.5" fill="#FFFFFF"/>
+    <circle cx="41" cy="46" r="1.2" fill="#EA580C"/>
+
+    <!-- Dynamic Speed Lines -->
+    <line x1="8" y1="27" x2="13" y2="27" stroke="#EA580C" stroke-width="2" stroke-linecap="round"/>
+    <line x1="5" y1="36" x2="12" y2="36" stroke="#FF7A00" stroke-width="2" stroke-linecap="round"/>
+    <line x1="8" y1="45" x2="13" y2="45" stroke="#EA580C" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typographic Wordmark -->
+  <text x="88" y="47" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" letter-spacing="-0.5px">
+    <tspan fill="#FFFFFF">Difon</tspan><tspan fill="url(#hlOrange)">sé</tspan>
+  </text>
+
+  <!-- Tagline / Subtitle -->
+  <text x="90" y="64" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="9.5" font-weight="700" fill="#94A3B8" letter-spacing="1.8px">
+    PIÈCES AUTO <tspan fill="#EA580C">·</tspan> DAKAR
+  </text>
+</svg>

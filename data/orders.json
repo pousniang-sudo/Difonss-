@@ -22,7 +22,7 @@
     "stepLabel": "Payé par la Plateforme · Tiak-Tiak en route vers l'échoppe",
     "vendorPaymentStatus": "PAID_DIRECT",
     "actionRequired": "Vendeur : Remettre la pièce payée au coursier contre le code PK-941",
-    "timeline": "Acheteur débité via Wave. Retainer Difonssé prélevé (4 500 FCFA). Vendeur payé directement (45 000 FCFA). Code retrait coursier: PK-941",
+    "timeline": "Acheteur débité via Wave. Retainer Difonsé prélevé (4 500 FCFA). Vendeur payé directement (45 000 FCFA). Code retrait coursier: PK-941",
     "createdAt": "2026-11-21T10:30:00.000Z"
   },
   {
@@ -74,7 +74,7 @@
     "stepLabel": "Commande Finalisée · Paiement Vendeur Réglé",
     "vendorPaymentStatus": "PAID_DIRECT",
     "actionRequired": "Aucune action requise (Terminé)",
-    "timeline": "Commande livrée. Retainer Difonssé perçu (3 200 FCFA), Vendeur rémunéré directement (32 000 FCFA).",
+    "timeline": "Commande livrée. Retainer Difonsé perçu (3 200 FCFA), Vendeur rémunéré directement (32 000 FCFA).",
     "createdAt": "2026-11-19T09:15:00.000Z"
   },
   {
