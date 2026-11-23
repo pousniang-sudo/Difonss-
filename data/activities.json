@@ -2,10 +2,10 @@
     {
         "id":  "act_1794613793114",
         "timestamp":  "2026-11-13T23:49:53.1148340Z",
-        "section":  "escrow",
+        "section":  "payment",
         "actor":  "Plateforme Difonsse",
-        "action":  "FUNDS_LOCKED",
-        "details":  "Fonds bloques sous sequestre pour CMD-5878 (Prix vendeur: 45000 | Commission: 4500)",
+        "action":  "DIRECT_PAYOUT",
+        "details":  "Paiement direct vendeur pour CMD-5878 (Net vendeur: 45000 | Retainer Difonsse: 4500)",
         "amount":  49500,
         "icon":  "lock"
     },
@@ -15,7 +15,7 @@
         "section":  "buyer",
         "actor":  "Amadou Diallo (Garage Castors)",
         "action":  "ORDER_PLACED",
-        "details":  "Achat avec sequestre: Alternateur 150A Original (49500 FCFA) via Wave SÃ©nÃ©gal",
+        "details":  "Achat avec garantie 2 jours: Alternateur 150A Original (49500 FCFA) via Wave Sénégal",
         "amount":  49500,
         "icon":  "shopping_bag"
     },
