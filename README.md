@@ -2,9 +2,9 @@
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpousniang-sudo%2FDifonss-)
 
-Plateforme sénégalaise innovante dédiée au commerce de pièces détachées automobiles neuves et d'occasion (Pikine, Dakar). **Difonsé** connecte les acheteurs (propriétaires de véhicules, mécaniciens, flottes) et les échoppes marchandes de Dakar.
+Plateforme sénégalaise innovante dédiée au commerce de pièces détachées automobiles neuves et d'occasion (Pikine, Dakar). **Difonsé** connecte les acheteurs (propriétaires de véhicules, mécaniciens, flottes) et les boutiques marchandes de Dakar.
 
-Dans le **Business Model**, l'acheteur paye via la plateforme (Wave ou Orange Money). La plateforme **prélève son retainer de service (10%) et rémunère directement le vendeur**. Le coursier Tiak-Tiak récupère la pièce payée à l'échoppe grâce à un code de retrait pour livraison au garage. Chaque pièce bénéficie d'une **garantie de conformité de 2 jours maximum** : si la pièce s'avère non conforme lors du montage au garage, le client peut demander son retour et obtenir un **remboursement intégral**.
+Dans le **Business Model**, l'acheteur paye via la plateforme (Wave ou Orange Money). La plateforme **prélève son retainer de service (10%) et rémunère directement le vendeur**. Le coursier Tiak-Tiak récupère la pièce payée chez le vendeur grâce à un code de retrait pour livraison au garage. Chaque pièce bénéficie d'une **garantie de conformité de 2 jours maximum** : si la pièce s'avère non conforme lors du montage au garage, le client peut demander son retour et obtenir un **remboursement intégral**.
 
 ---
 
@@ -47,10 +47,10 @@ Difonsé/
 2. **Paiement via Difonsé :** L'acheteur règle le montant total (Prix Vendeur Net + Retainer Plateforme 10%) via Wave ou Orange Money.
 3. **Prélèvement du Retainer :** Difonsé conserve son retainer (10%) pour la mise en relation, la logistique et l'assurance conformité.
 4. **Paiement Direct du Vendeur :** Le vendeur perçoit son montant net sans délai (crédit direct sur son solde disponible).
-5. **Livraison Tiak-Tiak :** Le coursier récupère la pièce à l'échoppe avec le code de retrait (`PK-XXX`) et la remet au garage.
+5. **Livraison Tiak-Tiak :** Le coursier récupère la pièce chez le vendeur avec le code de retrait (`PK-XXX`) et la remet au garage.
 6. **Garantie de Conformité 2 Jours (48h max) :**
    * **Pièce conforme :** Le client valide la conformité et clôt la commande.
-   * **Pièce non conforme :** Le client clique sur « Retourner Pièce (Remboursement) ». Un coursier est dépêché pour restituer la pièce à l'échoppe et un remboursement intégral immédiat est émis vers le compte Wave/Orange Money de l'acheteur.
+   * **Pièce non conforme :** Le client clique sur « Retourner Pièce (Remboursement) ». Un coursier est dépêché pour restituer la pièce au vendeur et un remboursement intégral immédiat est émis vers le compte Wave/Orange Money de l'acheteur.
 
 ---
 
@@ -66,9 +66,9 @@ Accessible sur mobile à l'adresse locale `http://localhost:8080/` ou sur l'URL 
   * Catalogue interactif avec double option : **« + Panier »** pour regrouper ses pièces ou **« Payer Direct »**.
   * **Onglet Panier dans la navigation du bas** avec compteur dynamique en temps réel.
   * Gestion complète du panier : sélection/désélection individuelle par case à cocher, « Tout sélectionner », suppression ou paiement d'une pièce seule.
-  * **Achat groupé multi-pièces :** Règlement en une seule opération Wave ou Orange Money de plusieurs pièces avec ventilation automatique des retainers Difonsé et crédit direct de chaque vendeur échoppe.
+  * **Achat groupé multi-pièces :** Règlement en une seule opération Wave ou Orange Money de plusieurs pièces avec ventilation automatique des retainers Difonsé et crédit direct de chaque vendeur.
   * **Suivi des Commandes & Garantie 2 Jours :** Compte à rebours 48h affiché sur chaque commande livrée avec bouton de validation conforme ou bouton de demande de retour immédiat avec remboursement.
-  * Bouton **« Devenir Vendeur »** pour enregistrer une échoppe.
+  * Bouton **« Devenir Vendeur »** pour enregistrer une boutique.
 * **Parcours Vendeur :**
   * Cartes de solde : **Solde Disponible Encaissé** vs **Retainers Difonsé Déduits (10%)**.
   * Formulaire de mise en vente avec calculateur en direct : *Prix Vendeur Net* + *Retainer Plateforme* = *Prix Affiché Client*.

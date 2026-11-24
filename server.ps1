@@ -195,7 +195,7 @@ while ($listener.IsListening) {
                         commission = $comm
                         publicPrice = $pubPrice
                         vendorId = if ($bodyObj.vendorId) { $bodyObj.vendorId } else { "usr_seller_1" }
-                        vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Échoppe Modou" }
+                        vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Boutique Modou" }
                         hub = if ($bodyObj.hub) { $bodyObj.hub } else { "Pikine" }
                         image = if ($bodyObj.image) { $bodyObj.image } else { "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" }
                         stock = if ($bodyObj.stock) { [int]$bodyObj.stock } else { 1 }
@@ -299,7 +299,7 @@ while ($listener.IsListening) {
                         $prov = if ($item.provider) { $item.provider } elseif ($bodyObj.provider) { $bodyObj.provider } else { "Wave" }
 
                         $vId = if ($item.vendorId) { $item.vendorId } else { "usr_seller_1" }
-                        $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Échoppe Modou" }
+                        $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Boutique Modou" }
                         $pName = if ($item.partName) { $item.partName } elseif ($item.name) { $item.name } else { "Pièce" }
                         $pId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
 
@@ -323,7 +323,7 @@ while ($listener.IsListening) {
                             provider = $prov
                             pickupCode = $pkCode
                             step = 2
-                            stepLabel = "Payé par Difonsé · Tiak-Tiak en route vers l'échoppe"
+                            stepLabel = "Payé par Difonsé · Tiak-Tiak en route vers le vendeur"
                             vendorPaymentStatus = "PAID_DIRECT"
                             actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
                             timeline = "Acheteur débité via " + $prov + ". Retainer Difonsé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
@@ -427,7 +427,7 @@ while ($listener.IsListening) {
                             $o.step = 5
                             $o.status = "RETURNED_REFUNDED"
                             $o.stepLabel = "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)"
-                            $o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce à l'échoppe · Acheteur remboursé via Wave/OM"
+                            $o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce au vendeur · Acheteur remboursé via Wave/OM"
                             $reasonText = if ($bodyObj.reason) { $bodyObj.reason } else { "Pièce non conforme retournée" }
                             $o.timeline = "Garantie conformité 2 jours invoquée : " + $reasonText + ". Remboursement intégral de " + $o.totalPaid + " FCFA exécuté vers l'acheteur via " + $o.provider + "."
                             $found = $o
@@ -457,7 +457,7 @@ while ($listener.IsListening) {
 
                         Helper-LogActivity "buyer" $found.clientName "PART_RETURN_REQUESTED" ("Retour pièce non conforme sous garantie 2 jours pour " + $found.id + " (" + $found.partName + ")") $found.totalPaid "replay"
                         Helper-LogActivity "platform" "Plateforme Difonsé" "BUYER_REFUNDED" ("Remboursement intégral effectué : " + $found.totalPaid + " FCFA à " + $found.clientName + " via " + $found.provider + " (Garantie 48h conformité)") $found.totalPaid "payments"
-                        Helper-LogActivity "seller" $found.vendorName "RETURN_DISPATCHED" ("Coursier Tiak-Tiak mandaté pour restitution de " + $found.partName + " à l'échoppe") 0 "local_shipping"
+                        Helper-LogActivity "seller" $found.vendorName "RETURN_DISPATCHED" ("Coursier Tiak-Tiak mandaté pour restitution de " + $found.partName + " au vendeur") 0 "local_shipping"
                     }
 
                     $respObj = @{ success = $true; order = $found }
@@ -599,7 +599,7 @@ while ($listener.IsListening) {
                     $newPay = [PSCustomObject]@{
                         id = "pay_" + (Get-Random -Minimum 100 -Maximum 999)
                         vendorId = if ($vUser) { $vUser.id } else { "usr_seller_1" }
-                        vendorName = if ($vUser) { $vUser.shopName } else { "Échoppe Modou" }
+                        vendorName = if ($vUser) { $vUser.shopName } else { "Boutique Modou" }
                         amount = $amt
                         provider = $prov
                         recipientPhone = $phone
@@ -644,7 +644,7 @@ while ($listener.IsListening) {
                     $allUsers = @($newSeller) + @($users)
                     Helper-WriteJsonFile "users.json" $allUsers
 
-                    Helper-LogActivity "seller" $newSeller.shopName "SELLER_REGISTERED" ("Nouvelle échoppe créée : " + $newSeller.shopName + " au hub " + $newSeller.hub) 0 "store"
+                    Helper-LogActivity "seller" $newSeller.shopName "SELLER_REGISTERED" ("Nouvelle boutique créée : " + $newSeller.shopName + " au hub " + $newSeller.hub) 0 "store"
                     $respObj = @{ success = $true; seller = $newSeller }
                 }
             }
@@ -667,7 +667,7 @@ while ($listener.IsListening) {
                         name = $fullN
                         phone = $ph
                         garageName = if ($bodyObj.garageName) { $bodyObj.garageName } elseif ($matched -and $matched.garageName) { $matched.garageName } else { "Garage Castors Dakar" }
-                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Échoppe Modou Pikine" }
+                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Boutique Modou Pikine" }
                         hub = if ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Pikine" }
                         activeCar = if ($matched -and $matched.activeCar) { $matched.activeCar } else { "Toyota Hilux Vigo 2.5 D-4D" }
                         solvencyScore = if ($matched -and $matched.solvencyScore) { $matched.solvencyScore } else { 98 }

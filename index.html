@@ -135,7 +135,7 @@
                 <span class="material-symbols-outlined text-[22px]">storefront</span>
               </div>
               <div class="space-y-0.5">
-                <div class="font-black text-sm text-slate-900 group-hover:text-amber-950">Espace Vendeur &amp; Échoppes</div>
+                <div class="font-black text-sm text-slate-900 group-hover:text-amber-950">Espace Vendeur</div>
                 <p class="text-[11px] text-slate-500 leading-tight">
                   Commerçants de Pikine &amp; Colobane : publiez vos pièces et recevez vos paiements directs.
                 </p>
@@ -227,7 +227,7 @@
             <div>
               <strong class="font-black text-emerald-900">Solvabilité Garantie Difonsé :</strong>
               <p class="text-emerald-800">
-                L'identification nominative permet le déblocage instantané des pièces auprès des échoppes avec essai de 48h au garage.
+                L'identification nominative permet le déblocage instantané des pièces auprès des vendeurs avec essai de 48h au garage.
               </p>
             </div>
           </div>
@@ -274,7 +274,7 @@
         <div>
           <h2 class="text-xl font-black text-slate-900">Identification du Vendeur</h2>
           <p class="text-xs text-slate-500 mt-1">
-            Renseignez votre <strong>Nom et Prénom</strong> ainsi que votre échoppe pour gérer vos stocks et percevoir les paiements directs de vos ventes.
+            Renseignez votre <strong>Nom et Prénom</strong> ainsi que votre boutique pour gérer vos stocks et percevoir les paiements directs de vos ventes.
           </p>
         </div>
 
@@ -292,8 +292,8 @@
           </div>
 
           <div>
-            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de l'Échoppe / Boutique :</label>
-            <input type="text" id="login-seller-shop" required value="Échoppe Modou Pikine" placeholder="Ex: Échoppe Modou" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
+            <label class="block text-[10px] font-black text-slate-600 uppercase mb-1">Nom de la Boutique / Vendeur :</label>
+            <input type="text" id="login-seller-shop" required value="Boutique Modou Pikine" placeholder="Ex: Boutique Modou" class="w-full px-3 py-2 rounded-lg bg-white border border-brand-border text-xs font-black text-slate-900 outline-none focus:border-brand-gold" />
           </div>
 
           <div>
@@ -636,7 +636,7 @@
             <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700 text-[10px] text-slate-300 flex items-start gap-2">
               <span class="material-symbols-outlined text-[15px] text-brand-emerald shrink-0 mt-0.5">check_circle</span>
               <p>
-                Client identifié : <strong class="text-white" id="passport-client-name">Amadou Diallo</strong>. Votre solvabilité est reconnue par les échoppes de Pikine : expédition immédiate Tiak-Tiak autorisée.
+                Client identifié : <strong class="text-white" id="passport-client-name">Amadou Diallo</strong>. Votre solvabilité est reconnue par les vendeurs de Pikine : expédition immédiate Tiak-Tiak autorisée.
               </p>
             </div>
           </div>
@@ -691,7 +691,7 @@
             </div>
             <p class="text-[10px] text-slate-500 flex items-center gap-1">
               <span class="material-symbols-outlined text-[12px] text-brand-gold">storefront</span>
-              <span id="seller-shop-title">Échoppe Modou Pikine</span>
+              <span id="seller-shop-title">Boutique Modou Pikine</span>
               <span class="text-slate-300">·</span>
               <span id="seller-hub-badge" class="font-bold text-slate-600">Pikine</span>
             </p>
@@ -1226,7 +1226,7 @@
     </div>
   </div>
 
-  <!-- ================= MODALE : DEVENIR VENDEUR (INSCRIPTION ÉCHOPPE) ================= -->
+  <!-- ================= MODALE : DEVENIR VENDEUR (INSCRIPTION BOUTIQUE) ================= -->
   <div id="become-seller-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-brand-border">
       <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
@@ -1235,7 +1235,7 @@
             🏪
           </span>
           <div>
-            <h3 class="font-black text-sm text-brand-primary">Créer votre Échoppe Vendeur</h3>
+            <h3 class="font-black text-sm text-brand-primary">Créer votre Boutique Vendeur</h3>
             <p class="text-[10px] text-slate-400">Vendez vos pièces à Pikine ou Colobane</p>
           </div>
         </div>
@@ -1246,8 +1246,8 @@
 
       <form onsubmit="handleBecomeSellerSubmit(event)" class="space-y-3 text-xs">
         <div>
-          <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Nom de votre échoppe :</label>
-          <input type="text" id="upgrade-shop-name" required placeholder="Ex: Échoppe Diallo" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-bold text-slate-900 outline-none" />
+          <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Nom de votre boutique :</label>
+          <input type="text" id="upgrade-shop-name" required placeholder="Ex: Boutique Diallo" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-bold text-slate-900 outline-none" />
         </div>
 
         <div>
@@ -1585,7 +1585,7 @@
         <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-[10px] text-amber-950 space-y-1">
           <strong class="font-bold text-amber-900">Pourquoi ce suivi nominatif ?</strong>
           <p class="leading-relaxed">
-            Chaque transaction initiée sur Difonsé est tracée de manière sécurisée. Ce score de solvabilité protège la communauté et garantit aux échoppes que vos commandes sont honorées avec solvabilité certifiée.
+            Chaque transaction initiée sur Difonsé est tracée de manière sécurisée. Ce score de solvabilité protège la communauté et garantit aux vendeurs que vos commandes sont honorées avec solvabilité certifiée.
           </p>
         </div>
 
@@ -1660,7 +1660,7 @@
       firstName: "Modou",
       lastName: "Ndiaye",
       fullName: "Modou Ndiaye",
-      shopName: "Échoppe Modou Pikine",
+      shopName: "Boutique Modou Pikine",
       phone: "+221 77 890 45 12",
       hub: "Pikine",
       availableBalance: 340000,
@@ -1783,7 +1783,7 @@
 
       const fn = (fnInput ? fnInput.value : "").trim() || "Modou";
       const ln = (lnInput ? lnInput.value : "").trim() || "Ndiaye";
-      const shop = (shopInput ? shopInput.value : "").trim() || "Échoppe Modou Pikine";
+      const shop = (shopInput ? shopInput.value : "").trim() || "Boutique Modou Pikine";
       const ph = (phInput ? phInput.value : "").trim() || "77 890 45 12";
       const hub = hubInput ? hubInput.value : "Pikine";
 
@@ -1841,7 +1841,7 @@
         const hub = document.getElementById("login-seller-hub");
         if (fn) fn.value = "Modou";
         if (ln) ln.value = "Ndiaye";
-        if (shop) shop.value = "Échoppe Modou Pikine";
+        if (shop) shop.value = "Boutique Modou Pikine";
         if (ph) ph.value = "77 890 45 12";
         if (hub) hub.value = "Pikine";
         handleSellerLogin();
@@ -1940,8 +1940,8 @@
               platformRetainer: 4500,
               publicPrice: 49500,
               totalPaid: 49500,
-              vendor: "Échoppe Modou",
-              vendorName: "Échoppe Modou",
+              vendor: "Boutique Modou",
+              vendorName: "Boutique Modou",
               vendorId: "usr_seller_1",
               hub: "Pikine",
               image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80",
@@ -2198,7 +2198,7 @@
 
                 <div class="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
                   <span class="material-symbols-outlined text-[12px] text-brand-gold">store</span>
-                  <span class="font-bold text-slate-700">${i.vendorName || i.vendor || 'Échoppe'} (${i.hub || 'Pikine'})</span>
+                  <span class="font-bold text-slate-700">${i.vendorName || i.vendor || 'Boutique'} (${i.hub || 'Pikine'})</span>
                 </div>
               </div>
             </div>
@@ -2319,7 +2319,7 @@
         solvencyScore: currentBuyer.solvencyScore || 98,
         solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié",
         vendorId: item.vendorId || "usr_seller_1",
-        vendorName: item.vendorName || item.vendor || "Échoppe Modou",
+        vendorName: item.vendorName || item.vendor || "Boutique Modou",
         vendorBankPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
         vendorNetPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
         commission: item.platformRetainer || item.commission || Math.round((item.bankPrice || 0) * 0.10),
@@ -2378,9 +2378,9 @@
         // Fallback local si offline
         if (buyerProducts.length === 0) {
           buyerProducts = [
-            { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", conditionLabel: "Neuf d'Origine OEM", publicPrice: 49500, bankPrice: 45000, commission: 4500, vendor: "Échoppe Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
+            { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", conditionLabel: "Neuf d'Origine OEM", publicPrice: 49500, bankPrice: 45000, commission: 4500, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
             { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", conditionLabel: "Occasion Testée", publicPrice: 55000, bankPrice: 50000, commission: 5000, vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" },
-            { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", conditionLabel: "Neuf d'Origine OEM", publicPrice: 88000, bankPrice: 80000, commission: 8000, vendor: "Échoppe Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" }
+            { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", conditionLabel: "Neuf d'Origine OEM", publicPrice: 88000, bankPrice: 80000, commission: 8000, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" }
           ];
         }
       }
@@ -2523,7 +2523,7 @@
                 <span class="material-symbols-outlined text-[14px]">replay</span>
                 <span>Pièce Retournée · Remboursement Effectué</span>
               </div>
-              <p class="text-slate-600 leading-tight">Garantie 2 jours exécutée : remboursement de <strong>${formatCFA(o.totalPaid)}</strong> émis. Le coursier restitue la pièce à l'échoppe.</p>
+              <p class="text-slate-600 leading-tight">Garantie 2 jours exécutée : remboursement de <strong>${formatCFA(o.totalPaid)}</strong> émis. Le coursier restitue la pièce au vendeur.</p>
             </div>
           ` : ''}
         </div>
@@ -2931,7 +2931,7 @@
         condition,
         stock: 1,
         bankPrice,
-        vendor: currentSeller.shopName || "Échoppe Modou Pikine",
+        vendor: currentSeller.shopName || "Boutique Modou Pikine",
         vendorId: "usr_seller_1",
         hub: currentSeller.hub || "Pikine",
         image: image
@@ -3260,7 +3260,7 @@
         });
         if (res.ok) {
           closeBecomeSellerModal();
-          alert(`🎉 Félicitations ! Votre échoppe « ${shopName} » est désormais active au hub ${hub}.\nVous basculez maintenant dans votre Espace Vendeur.`);
+          alert(`🎉 Félicitations ! Votre boutique « ${shopName} » est désormais active au hub ${hub}.\nVous basculez maintenant dans votre Espace Vendeur.`);
           document.getElementById("seller-shop-title").innerText = shopName;
           trackUserConnection({
             firstName: currentBuyer.firstName || "Amadou",
@@ -3277,7 +3277,7 @@
       } catch (err) {}
 
       closeBecomeSellerModal();
-      alert(`🎉 Félicitations ! Votre échoppe « ${shopName} » est créée.`);
+      alert(`🎉 Félicitations ! Votre boutique « ${shopName} » est créée.`);
       trackUserConnection({
         firstName: currentBuyer.firstName || "Amadou",
         lastName: currentBuyer.lastName || "Diallo",
@@ -3361,7 +3361,7 @@
         });
         if (res.ok) {
           closeCheckoutModal();
-          alert(`🎉 Paiement validé via ${selectedPay} !\nRetainer Difonsé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak se rend à l'échoppe.`);
+          alert(`🎉 Paiement validé via ${selectedPay} !\nRetainer Difonsé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak se rend chez le vendeur.`);
           await loadBuyerData();
         }
       } catch (e) {

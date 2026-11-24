@@ -391,7 +391,7 @@
                 <th class="py-3 px-4">Utilisateur</th>
                 <th class="py-3 px-4">Téléphone (Wave / OM)</th>
                 <th class="py-3 px-4">Rôle</th>
-                <th class="py-3 px-4">Garage / Échoppe</th>
+                <th class="py-3 px-4">Garage / Boutique</th>
                 <th class="py-3 px-4">Hub</th>
                 <th class="py-3 px-4">Indice Solvabilité</th>
               </tr>
@@ -748,7 +748,7 @@
           });
           if (res.ok) {
             await loadAllAdminData();
-            alert(`✅ Pièce enregistrée en retour sous garantie 2 jours !\nRemboursement intégral exécuté vers l'acheteur via Wave/OM.\nLe coursier Tiak-Tiak est mandaté pour restituer la pièce à l'échoppe.`);
+            alert(`✅ Pièce enregistrée en retour sous garantie 2 jours !\nRemboursement intégral exécuté vers l'acheteur via Wave/OM.\nLe coursier Tiak-Tiak est mandaté pour restituer la pièce au vendeur.`);
           }
         } catch (e) {
           alert("Erreur lors de la communication avec le serveur.");

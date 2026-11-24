@@ -31,18 +31,18 @@ function saveDataFile(filename, data) {
 
 // État en mémoire initialisé
 let products = loadDataFile('products.json', [
-  { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 45000, commission: 4500, publicPrice: 49500, vendorId: "usr_seller_1", vendor: "Échoppe Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80", stock: 4, compatibleCar: "Toyota Hilux 2KD / Vigo" },
+  { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 45000, commission: 4500, publicPrice: 49500, vendorId: "usr_seller_1", vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80", stock: 4, compatibleCar: "Toyota Hilux 2KD / Vigo" },
   { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", condition: "occasion", conditionLabel: "Occasion Testée", bankPrice: 50000, commission: 5000, publicPrice: 55000, vendorId: "usr_seller_2", vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80", stock: 2, compatibleCar: "Toyota Hilux / Hiace / Fortuner" },
-  { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 80000, commission: 8000, publicPrice: 88000, vendorId: "usr_seller_1", vendor: "Échoppe Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80", stock: 6, compatibleCar: "Toyota Hilux 2.5 D-4D 2005-2015" }
+  { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 80000, commission: 8000, publicPrice: 88000, vendorId: "usr_seller_1", vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80", stock: 6, compatibleCar: "Toyota Hilux 2.5 D-4D 2005-2015" }
 ]);
 
 let orders = loadDataFile('orders.json', [
-  { id: "CMD-9281", productId: "p1", partName: "Plaquettes de Frein Avant Céramique Brembo", clientName: "Ousmane Niang", clientPhone: "+221 77 123 45 67", vendorId: "usr_seller_1", vendorName: "Échoppe Modou", vendorBankPrice: 45000, commission: 4500, totalPaid: 49500, provider: "Wave", pickupCode: "PK-482", step: 3, stepLabel: "Pièce livrée au Garage · Montage & Essai en cours (48h)", actionRequired: "Mécanicien : Tester la pièce sur le véhicule et valider conformité", timeline: "Fonds sécurisés Kooru Difonsé. Livré au garage de Ouakam.", createdAt: new Date().toISOString() }
+  { id: "CMD-9281", productId: "p1", partName: "Plaquettes de Frein Avant Céramique Brembo", clientName: "Ousmane Niang", clientPhone: "+221 77 123 45 67", vendorId: "usr_seller_1", vendorName: "Boutique Modou", vendorBankPrice: 45000, commission: 4500, totalPaid: 49500, provider: "Wave", pickupCode: "PK-482", step: 3, stepLabel: "Pièce livrée au Garage · Montage & Essai en cours (48h)", actionRequired: "Mécanicien : Tester la pièce sur le véhicule et valider conformité", timeline: "Fonds sécurisés Kooru Difonsé. Livré au garage de Ouakam.", createdAt: new Date().toISOString() }
 ]);
 
 let users = loadDataFile('users.json', [
   { id: "usr_buyer_1", role: "buyer", name: "Ousmane Niang", phone: "+221 77 123 45 67", currentVehicle: "Toyota Hilux 2.5 D-4D 2KD", garage: "Garage Expert Ouakam" },
-  { id: "usr_seller_1", role: "seller", name: "Modou Fall", shopName: "Échoppe Modou", ninea: "00458921-2K", boxNumber: "Box #42", phone: "+221 77 890 45 12", hub: "Pikine", availableBalance: 125000, totalSales: 850000, rating: 4.9, isOpen: true }
+  { id: "usr_seller_1", role: "seller", name: "Modou Fall", shopName: "Boutique Modou", ninea: "00458921-2K", boxNumber: "Box #42", phone: "+221 77 890 45 12", hub: "Pikine", availableBalance: 125000, totalSales: 850000, rating: 4.9, isOpen: true }
 ]);
 
 let disputes = loadDataFile('disputes.json', [
@@ -50,7 +50,7 @@ let disputes = loadDataFile('disputes.json', [
 ]);
 
 let payouts = loadDataFile('payouts.json', [
-  { id: "pay_101", vendorId: "usr_seller_1", vendorName: "Échoppe Modou", amount: 75000, provider: "Wave", recipientPhone: "+221 77 890 45 12", status: "COMPLETED", actionRequired: "Aucune (Virement automatique exécuté)", timestamp: new Date().toISOString() }
+  { id: "pay_101", vendorId: "usr_seller_1", vendorName: "Boutique Modou", amount: 75000, provider: "Wave", recipientPhone: "+221 77 890 45 12", status: "COMPLETED", actionRequired: "Aucune (Virement automatique exécuté)", timestamp: new Date().toISOString() }
 ]);
 
 let activities = loadDataFile('activities.json', [
@@ -205,7 +205,7 @@ module.exports = async function handler(req, res) {
       commission: comm,
       publicPrice: pubPrice,
       vendorId: body.vendorId || "usr_seller_1",
-      vendor: body.vendor || "Échoppe Modou",
+      vendor: body.vendor || "Boutique Modou",
       hub: body.hub || "Pikine",
       image: body.image || "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80",
       stock: Number(body.stock) || 1,
@@ -303,7 +303,7 @@ module.exports = async function handler(req, res) {
         solvencyScore: solvencyScore,
         solvencyStatus: solvencyStatus,
         vendorId: item.vendorId || "usr_seller_1",
-        vendorName: item.vendorName || item.vendor || "Échoppe Modou",
+        vendorName: item.vendorName || item.vendor || "Boutique Modou",
         vendorBankPrice: vBank,
         vendorNetPrice: vBank,
         commission: retainer,
@@ -312,7 +312,7 @@ module.exports = async function handler(req, res) {
         provider: provider,
         pickupCode: pkCode,
         step: 2,
-        stepLabel: "Payé par Difonsé · Tiak-Tiak en route vers l'échoppe",
+        stepLabel: "Payé par Difonsé · Tiak-Tiak en route vers le vendeur",
         vendorPaymentStatus: "PAID_DIRECT",
         actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
         timeline: `Acheteur débité via ${provider}. Retainer Difonsé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
@@ -415,7 +415,7 @@ module.exports = async function handler(req, res) {
         o.step = 5;
         o.status = "RETURNED_REFUNDED";
         o.stepLabel = "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)";
-        o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce à l'échoppe · Acheteur remboursé via Wave/OM";
+        o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce au vendeur · Acheteur remboursé via Wave/OM";
         o.timeline = `Garantie conformité 2 jours invoquée : ${body.reason || "Pièce non conforme retournée"}. Remboursement intégral de ${o.totalPaid} FCFA exécuté vers l'acheteur via ${o.provider}.`;
         found = o;
       }
@@ -441,7 +441,7 @@ module.exports = async function handler(req, res) {
 
       logActivity("buyer", found.clientName, "PART_RETURN_REQUESTED", `Retour pièce non conforme sous garantie 2 jours pour ${found.id} (${found.partName})`, found.totalPaid, "replay");
       logActivity("platform", "Plateforme Difonsé", "BUYER_REFUNDED", `Remboursement intégral effectué : ${found.totalPaid} FCFA à ${found.clientName} via ${found.provider} (Garantie 48h conformité)`, found.totalPaid, "payments");
-      logActivity("seller", found.vendorName, "RETURN_DISPATCHED", `Coursier Tiak-Tiak mandaté pour restitution de ${found.partName} à l'échoppe`, 0, "local_shipping");
+      logActivity("seller", found.vendorName, "RETURN_DISPATCHED", `Coursier Tiak-Tiak mandaté pour restitution de ${found.partName} au vendeur`, 0, "local_shipping");
     }
 
     return sendJson(200, { success: true, order: found });
@@ -565,7 +565,7 @@ module.exports = async function handler(req, res) {
     const newPay = {
       id: "pay_" + Math.floor(100 + Math.random() * 900),
       vendorId: vUser ? vUser.id : "usr_seller_1",
-      vendorName: vUser ? vUser.shopName : "Échoppe Modou",
+      vendorName: vUser ? vUser.shopName : "Boutique Modou",
       amount: amt,
       provider: prov,
       recipientPhone: phone,
@@ -613,7 +613,7 @@ module.exports = async function handler(req, res) {
     users.unshift(newSeller);
     saveDataFile('users.json', users);
 
-    logActivity("seller", newSeller.shopName, "SELLER_REGISTERED", `Nouvelle échoppe créée : ${newSeller.shopName} au hub ${newSeller.hub}`, 0, "store");
+    logActivity("seller", newSeller.shopName, "SELLER_REGISTERED", `Nouvelle boutique créée : ${newSeller.shopName} au hub ${newSeller.hub}`, 0, "store");
 
     return sendJson(200, { success: true, seller: newSeller });
   }
@@ -643,7 +643,7 @@ module.exports = async function handler(req, res) {
       name: fullName,
       phone: phone || (matched ? matched.phone : (role === 'buyer' ? '+221 77 450 12 34' : '+221 77 890 45 12')),
       garageName: body.garageName || (matched && matched.garageName) || 'Garage Castors Dakar',
-      shopName: body.shopName || (matched && matched.shopName) || 'Échoppe Modou Pikine',
+      shopName: body.shopName || (matched && matched.shopName) || 'Boutique Modou Pikine',
       hub: body.hub || (matched && matched.hub) || 'Pikine',
       activeCar: body.activeCar || (matched && matched.activeCar) || 'Toyota Hilux Vigo 2.5 D-4D',
       solvencyScore: (matched && matched.solvencyScore) || (role === 'buyer' ? 98 : 95),
