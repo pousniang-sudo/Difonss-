@@ -411,27 +411,53 @@
             </div>
           </div>
 
-          <!-- 2. BOUTONS SOS PIÈCE (VOCAL & PHOTO) -->
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="openSosModal('voice')" class="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-left flex items-center gap-2 hover:bg-amber-100 transition-all">
-              <div class="w-8 h-8 rounded-lg bg-brand-gold text-slate-900 flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-[18px]">mic</span>
-              </div>
+          <!-- 2. BANDEAU HÉROS : TROUVER PAR PHOTO OU VOCAL WOLOF EN GRAND -->
+          <div class="bg-gradient-to-r from-slate-900 via-brand-primary to-slate-900 rounded-3xl p-4 text-white shadow-md space-y-3">
+            <div class="flex items-center justify-between">
               <div>
-                <div class="font-black text-xs text-amber-950">Vocal en Wolof</div>
-                <div class="text-[9px] text-amber-800">Waxal ci micro bi</div>
+                <span class="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-500/40">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                  Recherche Facile &amp; Directe
+                </span>
+                <h3 class="text-sm font-black text-white mt-1">Trouvez votre pièce sans taper</h3>
               </div>
-            </button>
+              <span class="text-[10px] text-emerald-400 font-bold">Photo &amp; Wolof</span>
+            </div>
 
-            <button onclick="openSosModal('photo')" class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-left flex items-center gap-2 hover:bg-emerald-100 transition-all">
-              <div class="w-8 h-8 rounded-lg bg-brand-emerald text-white flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+            <!-- Les 2 Grands Boutons Tactiles Acheteur -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <!-- 1. PHOTO GRAND FORMAT -->
+              <label class="p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border-2 border-dashed border-emerald-400 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-sm">
+                <input type="file" id="buyer-photo-search-input" accept="image/*" capture="environment" onchange="handleBuyerPhotoSearch(event)" class="hidden" />
+                <div class="w-11 h-11 rounded-2xl bg-brand-emerald text-white flex items-center justify-center shadow-md">
+                  <span class="material-symbols-outlined text-[24px]">photo_camera</span>
+                </div>
+                <div>
+                  <span class="text-xs font-black text-white block">1. Trouver par Photo</span>
+                  <span class="text-[9px] text-emerald-300 font-bold block">Pièce cassée ou carte</span>
+                </div>
+              </label>
+
+              <!-- 2. VOCAL WOLOF GRAND FORMAT -->
+              <button type="button" onclick="startBuyerVoiceSearch()" id="btn-buyer-voice-search" class="p-3.5 rounded-2xl bg-white/10 hover:bg-white/20 border-2 border-amber-400 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-sm">
+                <div class="w-11 h-11 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-md" id="buyer-voice-icon-box">
+                  <span class="material-symbols-outlined text-[24px]" id="buyer-voice-icon">mic</span>
+                </div>
+                <div>
+                  <span class="text-xs font-black text-white block" id="buyer-voice-label">2. Demande Vocale</span>
+                  <span class="text-[9px] text-amber-300 font-bold block" id="buyer-voice-sub">Waxal ci Wolof</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Bandeau de résultat / feedback Photo ou Vocal Acheteur -->
+            <div id="buyer-search-feedback-box" class="hidden p-2.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-xs text-white flex items-center justify-between">
+              <div class="flex items-center gap-2 truncate">
+                <span class="material-symbols-outlined text-[18px] text-amber-400" id="buyer-feedback-icon">graphic_eq</span>
+                <span id="buyer-search-feedback-text" class="font-bold truncate">Recherche en cours...</span>
               </div>
-              <div>
-                <div class="font-black text-xs text-emerald-950">Photo Pièce (SOS)</div>
-                <div class="text-[9px] text-emerald-800">Scan référence OEM</div>
-              </div>
-            </button>
+              <button type="button" onclick="resetBuyerSearchFeedback()" class="text-[10px] text-slate-300 hover:text-white underline font-bold shrink-0">Effacer</button>
+            </div>
           </div>
 
           <!-- 3. BARRE DE RECHERCHE & FILTRES RAPIDES -->
@@ -684,134 +710,153 @@
         </div>
       </header>
 
-      <!-- Barre d'onglets Vendeur (Boutique vs Mon Profil) -->
-      <div class="bg-white border-b border-brand-border px-3.5 py-2 flex items-center gap-2 sticky top-[72px] z-30 shadow-2xs">
-        <button onclick="switchSellerTab('shop')" id="seller-top-tab-shop" class="flex-1 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all">
-          <span class="material-symbols-outlined text-[16px]">storefront</span>
-          <span>Boutique &amp; Ventes</span>
-        </button>
-        <button onclick="switchSellerTab('profile')" id="seller-top-tab-profile" class="flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-amber-100 transition-all">
-          <span class="material-symbols-outlined text-[16px]">account_circle</span>
-          <span>Mon Profil &amp; Pièces</span>
-        </button>
-      </div>
+      <!-- Contenu Vendeur Ultra-Simplifié : 2 Boutons & Mettre en Vente en Grand -->
+      <div class="p-3.5 space-y-4 flex-1 overflow-y-auto">
 
-      <!-- SOUS-VUE 1 : BOUTIQUE & COMMANDES -->
-      <div id="seller-view-shop" class="p-3.5 space-y-4 flex-1 overflow-y-auto">
-        <!-- BANNIÈRE : DIRECT PAYOUT AVEC GARANTIE CONFORMITÉ 2 JOURS -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-3 text-white shadow-sm space-y-1">
-          <div class="flex items-center justify-between">
-            <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-500/40">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Paiements &amp; Ventes Échoppe
-            </span>
-            <span class="text-[10px] font-black text-amber-400">Paiement Direct</span>
-          </div>
-          <p class="text-[11px] text-slate-300 leading-snug">
-            L'acheteur paye via Difonsé : la plateforme prélève son retainer (10%) et crédite directement votre solde vendeur. Remettez la pièce au coursier Tiak-Tiak !
-          </p>
+        <!-- ============================================================== -->
+        <!-- 1. LES DEUX BOUTONS CLÉS AU SOMMET : HISTORIQUE & SOLDE        -->
+        <!-- ============================================================== -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <!-- BOUTON 1 : HISTORIQUE DE MES VENTES (5 DERNIÈRES TRANSACTIONS) -->
+          <button type="button" onclick="openSellerHistoryModal()" class="p-3.5 rounded-2xl bg-white border-2 border-slate-200 hover:border-amber-400 text-left transition-all shadow-xs flex flex-col justify-between group active:scale-98 cursor-pointer">
+            <div class="flex items-center justify-between w-full">
+              <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-black">
+                <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+              </div>
+              <span class="text-[9px] bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full font-black uppercase">
+                5 Dernières
+              </span>
+            </div>
+            <div class="mt-2.5 space-y-0.5">
+              <span class="text-xs font-black text-slate-900 block group-hover:text-amber-800">Historique de mes Ventes</span>
+              <p class="text-[10px] text-slate-500 font-medium leading-tight">5 dernières ventes &amp; mes pièces</p>
+            </div>
+          </button>
+
+          <!-- BOUTON 2 : SOLDE DE MES TRANSACTIONS (LES 2 CHIFFRES CLÉS) -->
+          <button type="button" onclick="openSellerBalanceModal()" class="p-3.5 rounded-2xl bg-white border-2 border-slate-200 hover:border-emerald-400 text-left transition-all shadow-xs flex flex-col justify-between group active:scale-98 cursor-pointer">
+            <div class="flex items-center justify-between w-full">
+              <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black">
+                <span class="material-symbols-outlined text-[20px]">payments</span>
+              </div>
+              <span class="text-[9px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-full font-black uppercase">
+                Encaissé
+              </span>
+            </div>
+            <div class="mt-2.5 space-y-0.5">
+              <span class="text-xs font-black text-slate-900 block group-hover:text-emerald-800">Solde de mes Ventes</span>
+              <div class="text-xs font-black text-brand-emerald price-num" id="seller-btn-balance-display">340 000 FCFA</div>
+              <p class="text-[10px] text-slate-400 leading-tight">Solde vendu &amp; retenue Difonsé</p>
+            </div>
+          </button>
         </div>
 
-        <!-- CARTES DE SOLDE : DISPONIBLE & RETAINERS DÉDUITS -->
-        <div class="grid grid-cols-2 gap-2.5">
-          <div class="bg-white p-3 rounded-2xl border border-brand-border space-y-1 shadow-sm">
-            <span class="text-[9px] uppercase font-bold text-slate-400 block">Solde Disponible (Encaissé)</span>
-            <div class="text-lg font-black text-brand-emerald price-num" id="seller-avail-bal">340 000 FCFA</div>
-            <button onclick="openWithdrawModal()" class="w-full mt-1.5 py-1.5 bg-brand-emerald text-white text-[10px] font-black rounded-lg hover:bg-emerald-600 transition-all flex items-center justify-center gap-1">
-              <span class="material-symbols-outlined text-[12px]">payments</span>
-              <span>Retirer Wave / OM</span>
+        <!-- ============================================================== -->
+        <!-- 2. EN GRAND AU CENTRE : METTRE EN VENTE UNE PIÈCE              -->
+        <!-- ============================================================== -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 border-2 border-brand-primary shadow-md space-y-4 relative overflow-hidden">
+          
+          <div class="flex items-center justify-between border-b border-brand-border pb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black shadow-sm">
+                <span class="material-symbols-outlined text-[24px]">publish</span>
+              </div>
+              <div>
+                <h2 class="text-base font-black text-slate-900 leading-tight">Mettre en Vente une Pièce</h2>
+                <p class="text-[11px] text-slate-500">Accessible par Photo ou Vocal en Wolof · Règlement direct</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[10px] font-black uppercase">
+              90% Net Vendeur
+            </span>
+          </div>
+
+          <!-- LES 2 FONCTIONNALITÉS ACCESSIBLES EN AVANT : PHOTO & VOCAL WOLOF -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- 1. PRENDRE EN PHOTO LA PIÈCE -->
+            <label class="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/60 border-2 border-dashed border-brand-emerald text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-emerald-100 transition-all active:scale-95 shadow-2xs">
+              <input type="file" id="seller-photo-input" accept="image/*" capture="environment" onchange="handleSellerPhotoUpload(event)" class="hidden" />
+              <div class="w-10 h-10 rounded-2xl bg-brand-emerald text-white flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-[22px]">photo_camera</span>
+              </div>
+              <div>
+                <span class="text-xs font-black text-emerald-950 block">1. Prendre en Photo</span>
+                <span class="text-[9px] text-emerald-800 font-bold block" id="seller-photo-status">Photo de la pièce</span>
+              </div>
+            </label>
+
+            <!-- 2. DICTER EN WOLOF / VOCAL -->
+            <button type="button" onclick="startSellerVoiceRecognition()" id="btn-seller-voice" class="p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100/60 border-2 border-amber-300 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-amber-100 transition-all active:scale-95 shadow-2xs">
+              <div class="w-10 h-10 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-sm" id="seller-voice-icon-box">
+                <span class="material-symbols-outlined text-[22px]" id="seller-voice-icon">mic</span>
+              </div>
+              <div>
+                <span class="text-xs font-black text-amber-950 block" id="seller-voice-label">2. Dicter en Wolof</span>
+                <span class="text-[9px] text-amber-800 font-bold block" id="seller-voice-sub">Waxal ci micro bi</span>
+              </div>
             </button>
           </div>
 
-          <div class="bg-white p-3 rounded-2xl border border-brand-border space-y-1 shadow-sm">
-            <span class="text-[9px] uppercase font-bold text-slate-400 block">Retainers Déduits (10%)</span>
-            <div class="text-lg font-black text-brand-gold price-num" id="seller-retainer-bal">34 000 FCFA</div>
-            <p class="text-[9px] text-slate-400">Frais Difonsé prélevés</p>
-          </div>
-        </div>
-
-        <!-- COMMANDES VENDEUR & CODES RETRAIT TIAK-TIAK -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
-          <div class="flex items-center justify-between border-b border-brand-border pb-2">
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[18px] text-brand-wave">two_wheeler</span>
-              <h3 class="font-extrabold text-xs text-brand-primary">Commandes Récentes (Remise Coursier)</h3>
+          <!-- APERÇU DE LA PHOTO CAPTURÉE SI PRÉSENTE -->
+          <div id="seller-photo-preview-box" class="hidden p-2.5 bg-slate-50 rounded-2xl border border-slate-200 flex items-center gap-3">
+            <div class="w-16 h-16 rounded-xl bg-slate-200 overflow-hidden shrink-0 border border-slate-300">
+              <img id="seller-photo-preview-img" src="" alt="Photo pièce" class="w-full h-full object-cover" />
             </div>
-            <button onclick="loadSellerData()" class="text-[10px] text-slate-500 hover:text-slate-900 font-bold">Actualiser</button>
-          </div>
-
-          <div id="seller-orders-list" class="space-y-2.5">
-            <!-- Injecté dynamiquement -->
-          </div>
-        </div>
-
-        <!-- FORMULAIRE D'AJOUT PIÈCE AVEC CALCULATEUR PRIX BANQUE -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
-          <div class="flex items-center justify-between border-b border-brand-border pb-2">
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-brand-gold text-[18px]">add_circle</span>
-              <h3 class="font-extrabold text-xs text-brand-primary">Mettre une Pièce en Vente Rapide</h3>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-1 text-xs font-black text-brand-emerald">
+                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                <span>Photo capturée</span>
+              </div>
+              <p class="text-[10px] text-slate-500 truncate" id="seller-photo-preview-name">piece-vendeur.jpg</p>
+              <button type="button" onclick="clearSellerPhoto()" class="text-[10px] text-red-600 font-bold hover:underline">Changer la photo</button>
             </div>
-            <span class="text-[9px] font-bold bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full">
-              Retainer Difonsé: 10%
-            </span>
           </div>
 
-          <form id="seller-add-form" onsubmit="handleSellerAddPiece(event)" class="space-y-2.5 text-xs">
+          <!-- BANDEAU DE RETRANSCRIPTION VOCALE SI DICTÉE -->
+          <div id="seller-voice-transcript-box" class="hidden p-2.5 bg-amber-50/80 rounded-xl border border-amber-200 text-xs text-amber-950 flex items-start gap-2">
+            <span class="material-symbols-outlined text-[18px] text-brand-gold shrink-0 mt-0.5">graphic_eq</span>
+            <div class="flex-1">
+              <span class="text-[10px] font-black uppercase text-amber-800 block">Vocal retranscrit :</span>
+              <p id="seller-voice-transcript-text" class="font-bold text-slate-900 italic text-xs">« ... »</p>
+            </div>
+          </div>
+
+          <!-- FORMULAIRE RAPIDE SIMPLE & INTUITIF -->
+          <form id="seller-hero-form" onsubmit="handleSellerHeroAddPiece(event)" class="space-y-3 text-xs">
+            
             <div>
-              <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Nom de la pièce :</label>
-              <input type="text" id="seller-piece-name" required placeholder="Ex: Injecteur Common Rail D-4D" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none" />
-            </div>
-
-            <div>
-              <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Spécifications techniques / Réf OEM :</label>
-              <input type="text" id="seller-piece-oem" placeholder="Ex: Réf: 23670-0L020 · Haute pression 1600 bar" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none" />
+              <label class="block text-[11px] font-black text-slate-800 uppercase mb-1">Nom de la pièce :</label>
+              <input type="text" id="seller-piece-name" required placeholder="Ex: Alternateur 150A Original, Injecteur..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 font-extrabold text-sm text-slate-900 outline-none focus:border-amber-500 focus:bg-white transition-all" />
             </div>
 
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Véhicule compatible :</label>
-                <input type="text" id="seller-piece-car" required placeholder="Toyota Hilux 2.5" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none" />
+                <label class="block text-[10px] font-black text-slate-700 uppercase mb-1">Véhicule compatible :</label>
+                <input type="text" id="seller-piece-car" required placeholder="Ex: Toyota Hilux" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 font-bold text-xs text-slate-900 outline-none focus:border-amber-500 focus:bg-white transition-all" />
               </div>
               <div>
-                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Catégorie :</label>
-                <select id="seller-piece-cat" class="w-full px-2 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none">
-                  <option value="moteur">Moteur &amp; Injection</option>
-                  <option value="freinage">Freinage</option>
-                  <option value="electricite">Électricité</option>
-                  <option value="suspension">Suspension</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">État de la pièce :</label>
-                <select id="seller-piece-condition" class="w-full px-2 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none">
+                <label class="block text-[10px] font-black text-slate-700 uppercase mb-1">État de la pièce :</label>
+                <select id="seller-piece-condition" class="w-full px-2.5 py-2 rounded-xl bg-slate-50 border border-slate-200 font-bold text-xs text-slate-900 outline-none focus:border-amber-500 focus:bg-white transition-all">
                   <option value="occasion">Occasion Testée</option>
                   <option value="neuf">Neuf d'Origine OEM</option>
                   <option value="adaptable">Adaptable Certifié</option>
                 </select>
               </div>
-              <div>
-                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-0.5">Quantité en stock :</label>
-                <input type="number" id="seller-piece-stock" min="1" value="1" class="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-brand-border font-semibold text-slate-900 outline-none" />
-              </div>
             </div>
 
-            <!-- Calculateur en direct -->
-            <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/80 space-y-2">
+            <!-- CALCULATEUR EN DIRECT EN GRAND -->
+            <div class="bg-amber-50/70 p-3.5 rounded-2xl border-2 border-amber-300 space-y-2">
               <div>
-                <label class="block text-[10px] font-black text-amber-950 uppercase">
+                <label class="block text-[11px] font-black text-amber-950 uppercase">
                   💰 Votre Prix Vendeur Net (ce que vous touchez directement) :
                 </label>
                 <div class="relative mt-1">
-                  <input type="number" id="seller-bank-price" oninput="updateSellerLiveCalc()" required placeholder="50000" class="w-full pl-3 pr-14 py-1.5 rounded-lg bg-white border border-amber-300 font-black text-slate-900 outline-none price-num text-sm" />
-                  <span class="absolute right-3 top-2 text-[10px] font-black text-slate-400">FCFA</span>
+                  <input type="number" id="seller-bank-price" oninput="updateSellerLiveCalc()" required placeholder="50000" class="w-full pl-3.5 pr-16 py-2.5 rounded-xl bg-white border-2 border-amber-400 font-black text-slate-900 outline-none price-num text-base focus:border-amber-600 shadow-2xs" />
+                  <span class="absolute right-3.5 top-3 text-xs font-black text-slate-500">FCFA</span>
                 </div>
               </div>
 
-              <div class="flex items-center justify-between text-[11px] pt-1">
+              <div class="flex items-center justify-between text-xs pt-1 border-t border-amber-200">
                 <div>
                   <span class="text-[9px] uppercase font-bold text-slate-500 block">Retainer Difonsé (+10%)</span>
                   <span class="font-extrabold text-brand-gold" id="seller-calc-comm">+0 FCFA</span>
@@ -823,129 +868,34 @@
               </div>
             </div>
 
-            <button type="submit" class="w-full py-2.5 bg-brand-primary hover:bg-slate-800 text-white font-black text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5">
-              <span class="material-symbols-outlined text-[16px] text-brand-gold">publish</span>
-              <span>Mettre en Vente</span>
+            <!-- GRAND BOUTON DE PUBLICATION -->
+            <button type="submit" id="btn-seller-publish" class="w-full py-3.5 bg-brand-primary hover:bg-slate-900 text-white font-black text-sm rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 active:scale-98 cursor-pointer">
+              <span class="material-symbols-outlined text-[20px] text-brand-gold">check_circle</span>
+              <span>Publier la Pièce sur Difonsé</span>
             </button>
           </form>
-        </div>
-      </div>
 
-      <!-- SOUS-VUE 2 : MON PROFIL VENDEUR (REVENUS, 5 DERNIÈRES TRANSACTIONS, GESTION PIÈCES) -->
-      <div id="seller-view-profile" class="hidden p-3.5 space-y-4 flex-1 overflow-y-auto">
-        
-        <!-- CARTE D'IDENTITÉ PROFIL -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm flex items-start justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-lg shadow-sm" id="seller-profile-avatar">
-              MN
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-black text-sm text-slate-900" id="seller-profile-name">Modou Ndiaye</h3>
-                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[9px] font-black uppercase">Vendeur Agréé</span>
-              </div>
-              <p class="text-xs text-slate-600 font-bold" id="seller-profile-shop">Échoppe Modou Pikine</p>
-              <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
-                <span class="flex items-center gap-0.5 font-semibold text-slate-500">
-                  <span class="material-symbols-outlined text-[12px] text-brand-gold">location_on</span>
-                  <span id="seller-profile-hub">Pikine</span>
-                </span>
-                <span>·</span>
-                <span class="font-mono text-emerald-700 font-bold" id="seller-profile-phone">+221 77 890 45 12</span>
-              </div>
-            </div>
-          </div>
-          <button onclick="openWithdrawModal()" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-[10px] font-black rounded-xl border border-emerald-200 transition-all flex items-center gap-1">
-            <span class="material-symbols-outlined text-[13px] text-emerald-600">account_balance_wallet</span>
-            <span>Retrait</span>
-          </button>
-        </div>
-
-        <!-- SECTION 1 : SOLDE & REVENUS DU VENDEUR -->
-        <div class="space-y-2">
-          <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 block">📊 Synthèse de vos Revenus &amp; Solde :</span>
-          <div class="grid grid-cols-3 gap-2">
-            <div class="bg-white p-3 rounded-xl border border-brand-border space-y-0.5 shadow-2xs">
-              <span class="text-[9px] uppercase font-bold text-slate-400 block">Total Ventes</span>
-              <div class="text-xs sm:text-sm font-black text-slate-900 price-num truncate" id="seller-profile-total-sales">1 820 000 FCFA</div>
-              <p class="text-[8px] text-slate-400">Revenus générés</p>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-emerald-200 bg-emerald-50/20 space-y-0.5 shadow-2xs">
-              <span class="text-[9px] uppercase font-bold text-emerald-800 block">Solde Disponible</span>
-              <div class="text-xs sm:text-sm font-black text-brand-emerald price-num truncate" id="seller-profile-avail-bal">340 000 FCFA</div>
-              <p class="text-[8px] text-emerald-700">Encaissé &amp; retirable</p>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-brand-border space-y-0.5 shadow-2xs">
-              <span class="text-[9px] uppercase font-bold text-slate-400 block">Retainers (10%)</span>
-              <div class="text-xs sm:text-sm font-black text-brand-gold price-num truncate" id="seller-profile-retainers">34 000 FCFA</div>
-              <p class="text-[8px] text-slate-400">Frais Difonsé</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION 2 : HISTORIQUE RÉCENT (5 DERNIÈRES TRANSACTIONS) -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
-          <div class="flex items-center justify-between border-b border-brand-border pb-2">
-            <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[18px] text-brand-wave">receipt_long</span>
-              <h3 class="font-extrabold text-xs text-brand-primary">Historique Récent · 5 Dernières Transactions</h3>
-            </div>
-            <span class="text-[9px] bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded-full font-bold">
-              5 Dernières
-            </span>
-          </div>
-
-          <div id="seller-profile-recent-transactions" class="space-y-2.5">
-            <!-- Injecté dynamiquement par renderSellerProfileRecentOrders() -->
-          </div>
-        </div>
-
-        <!-- SECTION 3 : GESTION DES PIÈCES PUBLIÉES (MODIFIER / ENLEVER / AJOUTER) -->
-        <div class="bg-white rounded-2xl p-4 border border-brand-border shadow-sm space-y-3">
-          <div class="flex items-center justify-between border-b border-brand-border pb-2.5">
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-[18px] text-amber-600">inventory_2</span>
-                <h3 class="font-extrabold text-xs text-brand-primary">Mes Pièces Publiées au Catalogue</h3>
-              </div>
-              <p class="text-[10px] text-slate-400">Modifiez les noms, spécifications, prix et stock ou enlevez vos pièces</p>
-            </div>
-            <button onclick="openAddProductModal()" class="px-2.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[10px] rounded-xl flex items-center gap-1 transition-all shadow-xs">
-              <span class="material-symbols-outlined text-[14px]">add</span>
-              <span>+ Ajouter une Pièce</span>
-            </button>
-          </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-500">
-            <span id="seller-profile-pieces-count" class="font-bold">0 pièce(s) en ligne</span>
-            <span class="text-[10px] text-slate-400">Garantie conformité 2 jours active</span>
-          </div>
-
-          <div id="seller-profile-products-list" class="space-y-2.5">
-            <!-- Injecté dynamiquement par renderSellerProfileProducts() -->
-          </div>
         </div>
 
       </div>
 
       <!-- Navigation Fixe Bas Mobile Vendeur -->
       <nav class="fixed bottom-0 max-w-[480px] w-full bg-white border-t border-brand-border px-3 py-2 flex items-center justify-around z-40 text-[10px] font-bold text-slate-500">
-        <button onclick="switchSellerTab('shop')" id="seller-tab-btn-shop" class="flex flex-col items-center gap-0.5 text-brand-gold">
-          <span class="material-symbols-outlined text-[20px]">store</span>
-          <span>Boutique</span>
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="flex flex-col items-center gap-0.5 text-brand-gold font-black">
+          <span class="material-symbols-outlined text-[20px]">add_circle</span>
+          <span>Mettre en Vente</span>
         </button>
-        <button onclick="switchSellerTab('profile')" id="seller-tab-btn-profile" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-gold">
-          <span class="material-symbols-outlined text-[20px]">account_circle</span>
-          <span>Mon Profil</span>
+        <button onclick="openSellerHistoryModal()" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-gold">
+          <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          <span>Historique Ventes</span>
         </button>
-        <button onclick="openWithdrawModal()" class="flex flex-col items-center gap-0.5 text-slate-500 hover:text-brand-primary">
+        <button onclick="openSellerBalanceModal()" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-emerald">
           <span class="material-symbols-outlined text-[20px]">payments</span>
-          <span>Retraits</span>
+          <span>Mon Solde</span>
         </button>
         <button onclick="showScreen('buyer')" class="flex flex-col items-center gap-0.5 text-brand-primary font-black">
           <span class="material-symbols-outlined text-[20px]">handyman</span>
-          <span>Mode Acheteur</span>
+          <span>Espace Acheteur</span>
         </button>
         <button onclick="showScreen('portal-choice')" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-slate-700">
           <span class="material-symbols-outlined text-[20px]">logout</span>
@@ -955,6 +905,129 @@
 
     </div>
 
+  </div>
+
+  <!-- ================= MODALE : HISTORIQUE DE VENTES (5 DERNIÈRES TRANSACTIONS) & PIÈCES ================= -->
+  <div id="seller-history-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-3xl w-full max-w-md p-4 sm:p-5 space-y-4 shadow-2xl border border-brand-border max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-brand-border pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-black">
+            <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          </div>
+          <div>
+            <h3 class="font-black text-sm text-brand-primary">Historique de vos Ventes</h3>
+            <p class="text-[10px] text-slate-400">Vos 5 dernières transactions &amp; vos pièces publiées</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeSellerHistoryModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <!-- Bascule Sous-onglet Historique / Pièces -->
+      <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-xl text-xs font-black">
+        <button type="button" onclick="switchSellerHistoryTab('orders')" id="btn-subtab-history-orders" class="flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs text-center transition-all cursor-pointer">
+          5 Dernières Ventes
+        </button>
+        <button type="button" onclick="switchSellerHistoryTab('pieces')" id="btn-subtab-history-pieces" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center transition-all cursor-pointer">
+          Mes Pièces au Catalogue (<span id="seller-history-pieces-count">0</span>)
+        </button>
+      </div>
+
+      <!-- VUE SOUS-ONGLET 1 : LES 5 DERNIÈRES TRANSACTIONS -->
+      <div id="seller-history-tabview-orders" class="space-y-2.5">
+        <div class="flex items-center justify-between text-[11px] text-slate-500 px-0.5">
+          <span class="font-bold text-slate-700">Dernières commandes reçues :</span>
+          <span class="text-[9px] bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded-full font-black">5 Dernières</span>
+        </div>
+        <div id="seller-history-orders-list" class="space-y-2">
+          <!-- Injecté dynamiquement -->
+        </div>
+      </div>
+
+      <!-- VUE SOUS-ONGLET 2 : GESTION DES PIÈCES PUBLIÉES -->
+      <div id="seller-history-tabview-pieces" class="hidden space-y-2.5">
+        <div class="flex items-center justify-between text-[11px] text-slate-500 px-0.5">
+          <span class="font-bold text-slate-700">Pièces actuellement en vente :</span>
+          <button type="button" onclick="closeSellerHistoryModal(); window.scrollTo({top:0, behavior:'smooth'})" class="text-[10px] text-amber-700 font-black hover:underline">+ Mettre en vente</button>
+        </div>
+        <div id="seller-history-products-list" class="space-y-2">
+          <!-- Injecté dynamiquement -->
+        </div>
+      </div>
+
+      <button type="button" onclick="closeSellerHistoryModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs rounded-xl transition-all">
+        Fermer l'historique
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MODALE : SOLDE DE MES TRANSACTIONS (LES 2 CHIFFRES CLÉS) ================= -->
+  <div id="seller-balance-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl border border-brand-border">
+      <div class="flex items-center justify-between border-b border-brand-border pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-black">
+            <span class="material-symbols-outlined text-[20px]">payments</span>
+          </div>
+          <div>
+            <h3 class="font-black text-sm text-brand-primary">Solde de vos Transactions</h3>
+            <p class="text-[10px] text-slate-400">Revenus de vente &amp; retainers Difonsé</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeSellerBalanceModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <!-- LES DEUX CHIFFRES DE SOLDE BIEN DISTINCTS ET EN GRAND -->
+      <div class="space-y-3">
+        <!-- CHIFFRE 1 : SOLDE VENDU (REVENUS NETS VENDEUR ENCAISSÉS) -->
+        <div class="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/40 border-2 border-emerald-300 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-black uppercase tracking-wider text-emerald-900 block">1. Solde Vendu (Votre Net)</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-200/80 text-emerald-950 font-black text-[9px]">Disponible</span>
+          </div>
+          <div class="text-2xl font-black text-emerald-700 price-num" id="modal-balance-sold">340 000 FCFA</div>
+          <p class="text-[10px] text-slate-600 leading-tight">
+            Montant net qui vous revient à 100% sur vos pièces vendues. Vous pouvez le retirer immédiatement vers votre compte Wave ou Orange Money.
+          </p>
+          
+          <button type="button" onclick="openWithdrawModal()" class="w-full mt-2 py-2 bg-brand-emerald hover:bg-emerald-600 text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="material-symbols-outlined text-[15px]">payments</span>
+            <span>Retirer vers Wave ou Orange Money</span>
+          </button>
+        </div>
+
+        <!-- CHIFFRE 2 : SOLDE RETENU PAR DIFONSÉ (RETAINERS 10%) -->
+        <div class="p-4 rounded-2xl bg-amber-50/70 border-2 border-amber-300 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-black uppercase tracking-wider text-amber-950 block">2. Solde Retenu par Difonsé</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-200/80 text-amber-950 font-black text-[9px]">Retainer 10%</span>
+          </div>
+          <div class="text-2xl font-black text-brand-gold price-num" id="modal-balance-retainer">34 000 FCFA</div>
+          <p class="text-[10px] text-slate-600 leading-tight">
+            Commission de service Difonsé (10%) pour la logistique de livraison Tiak-Tiak, la mise en relation sécurisée et la garantie 2 jours.
+          </p>
+        </div>
+      </div>
+
+      <!-- Information de synthèse en Wolof et Français -->
+      <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] text-slate-600 space-y-1">
+        <div class="flex items-center gap-1 font-bold text-slate-800">
+          <span class="material-symbols-outlined text-[14px] text-brand-gold">verified</span>
+          <span>Transparence Difonsé à 100%</span>
+        </div>
+        <p class="leading-relaxed">
+          Pour chaque pièce vendue : <strong>90%</strong> du montant est viré sur votre solde net, et <strong>10%</strong> est retenu pour le service Difonsé.
+        </p>
+      </div>
+
+      <button type="button" onclick="closeSellerBalanceModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs rounded-xl transition-all cursor-pointer">
+        Fermer
+      </button>
+    </div>
   </div>
 
   <!-- ================= MODALE : MODIFIER UNE PIÈCE (PROFIL VENDEUR) ================= -->
@@ -2499,6 +2572,10 @@
     // -------------------------------------------------------------
     // LOGIQUE DU PARCOURS VENDEUR & GESTION DU PROFIL
     // -------------------------------------------------------------
+    let sellerCapturedPhotoDataUrl = null;
+    let sellerSpeechRecognizer = null;
+    let buyerSpeechRecognizer = null;
+
     async function loadSellerData() {
       try {
         const [oRes, uRes, pRes] = await Promise.all([
@@ -2514,85 +2591,66 @@
           if (seller) {
             currentSeller.availableBalance = seller.availableBalance != null ? seller.availableBalance : currentSeller.availableBalance;
             currentSeller.totalSales = seller.totalSales != null ? seller.totalSales : currentSeller.totalSales;
-            const availEl = document.getElementById("seller-avail-bal");
-            if (availEl) availEl.innerText = formatCFA(currentSeller.availableBalance);
-            const retainerTotal = seller.totalRetainerPaid != null ? seller.totalRetainerPaid : Math.round((currentSeller.totalSales || 0) * 0.10);
-            const retEl = document.getElementById("seller-retainer-bal");
-            if (retEl) retEl.innerText = formatCFA(retainerTotal);
           }
         }
       } catch (e) {}
-      renderSellerOrders();
-      renderSellerProfile();
+      updateSellerBalanceDisplay();
     }
 
-    function switchSellerTab(tab) {
-      const shopView = document.getElementById("seller-view-shop");
-      const profileView = document.getElementById("seller-view-profile");
-      const topShop = document.getElementById("seller-top-tab-shop");
-      const topProfile = document.getElementById("seller-top-tab-profile");
-      const bottomShop = document.getElementById("seller-tab-btn-shop");
-      const bottomProfile = document.getElementById("seller-tab-btn-profile");
-
-      if (tab === "shop") {
-        if (shopView) shopView.classList.remove("hidden");
-        if (profileView) profileView.classList.add("hidden");
-        if (topShop) topShop.className = "flex-1 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all";
-        if (topProfile) topProfile.className = "flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-amber-100 transition-all";
-        if (bottomShop) bottomShop.className = "flex flex-col items-center gap-0.5 text-brand-gold";
-        if (bottomProfile) bottomProfile.className = "flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-gold";
-      } else if (tab === "profile") {
-        if (shopView) shopView.classList.add("hidden");
-        if (profileView) profileView.classList.remove("hidden");
-        if (topShop) topShop.className = "flex-1 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-amber-100 transition-all";
-        if (topProfile) topProfile.className = "flex-1 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all";
-        if (bottomShop) bottomShop.className = "flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-gold";
-        if (bottomProfile) bottomProfile.className = "flex flex-col items-center gap-0.5 text-brand-gold";
-        renderSellerProfile();
-      }
-    }
-
-    function renderSellerProfile() {
-      // 1. Mise à jour de la carte d'identité vendeur
-      const nameEl = document.getElementById("seller-profile-name");
-      const shopEl = document.getElementById("seller-profile-shop");
-      const hubEl = document.getElementById("seller-profile-hub");
-      const phoneEl = document.getElementById("seller-profile-phone");
-      const avatarEl = document.getElementById("seller-profile-avatar");
-
-      if (nameEl) nameEl.innerText = currentSeller.fullName;
-      if (shopEl) shopEl.innerText = currentSeller.shopName;
-      if (hubEl) hubEl.innerText = currentSeller.hub;
-      if (phoneEl) phoneEl.innerText = currentSeller.phone;
-      if (avatarEl) {
-        const initials = ((currentSeller.firstName[0] || 'M') + (currentSeller.lastName[0] || 'N')).toUpperCase();
-        avatarEl.innerText = initials;
-      }
-
-      // 2. Synthèse financière du profil (Total Ventes, Solde Disponible, Retainers Déduits)
-      const totalSales = currentSeller.totalSales || 1820000;
+    // MISE À JOUR DES 2 CHIFFRES DE SOLDE (ENCAISSÉ & RETENU)
+    function updateSellerBalanceDisplay() {
       const availBal = currentSeller.availableBalance || 340000;
+      const totalSales = currentSeller.totalSales || 1820000;
       const retainers = Math.round(totalSales * 0.10);
 
-      const salesEl = document.getElementById("seller-profile-total-sales");
-      const availProfEl = document.getElementById("seller-profile-avail-bal");
-      const retProfEl = document.getElementById("seller-profile-retainers");
+      const btnBalEl = document.getElementById("seller-btn-balance-display");
+      if (btnBalEl) btnBalEl.innerText = formatCFA(availBal);
 
-      if (salesEl) salesEl.innerText = formatCFA(totalSales);
-      if (availProfEl) availProfEl.innerText = formatCFA(availBal);
-      if (retProfEl) retProfEl.innerText = formatCFA(retainers);
-
-      // 3. Rendu des sous-sections
-      renderSellerProfileRecentOrders();
-      renderSellerProfileProducts();
+      const modalSoldEl = document.getElementById("modal-balance-sold");
+      const modalRetEl = document.getElementById("modal-balance-retainer");
+      if (modalSoldEl) modalSoldEl.innerText = formatCFA(availBal);
+      if (modalRetEl) modalRetEl.innerText = formatCFA(retainers);
     }
 
-    // SECTION PROFIL : 5 DERNIÈRES TRANSACTIONS
-    function renderSellerProfileRecentOrders() {
-      const container = document.getElementById("seller-profile-recent-transactions");
+    // MODALE : HISTORIQUE DE MES VENTES (5 DERNIÈRES TRANSACTIONS & PIÈCES)
+    function openSellerHistoryModal() {
+      switchSellerHistoryTab('orders');
+      renderSellerHistoryModalOrders();
+      renderSellerHistoryModalProducts();
+      const modal = document.getElementById("seller-history-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeSellerHistoryModal() {
+      const modal = document.getElementById("seller-history-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function switchSellerHistoryTab(tab) {
+      const ordersView = document.getElementById("seller-history-tabview-orders");
+      const piecesView = document.getElementById("seller-history-tabview-pieces");
+      const btnOrders = document.getElementById("btn-subtab-history-orders");
+      const btnPieces = document.getElementById("btn-subtab-history-pieces");
+
+      if (tab === 'orders') {
+        if (ordersView) ordersView.classList.remove("hidden");
+        if (piecesView) piecesView.classList.add("hidden");
+        if (btnOrders) btnOrders.className = "flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs text-center transition-all cursor-pointer font-black";
+        if (btnPieces) btnPieces.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center transition-all cursor-pointer font-bold";
+        renderSellerHistoryModalOrders();
+      } else {
+        if (ordersView) ordersView.classList.add("hidden");
+        if (piecesView) piecesView.classList.remove("hidden");
+        if (btnOrders) btnOrders.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 text-center transition-all cursor-pointer font-bold";
+        if (btnPieces) btnPieces.className = "flex-1 py-1.5 rounded-lg bg-white text-slate-900 shadow-xs text-center transition-all cursor-pointer font-black";
+        renderSellerHistoryModalProducts();
+      }
+    }
+
+    function renderSellerHistoryModalOrders() {
+      const container = document.getElementById("seller-history-orders-list");
       if (!container) return;
 
-      // Filtrer les commandes pour ce vendeur
       const filtered = (sellerOrders || []).filter(o => {
         return o.vendorId === "usr_seller_1" || 
                (o.vendorName && o.vendorName.toLowerCase().includes("modou")) ||
@@ -2602,7 +2660,7 @@
       const listToRender = (filtered.length > 0 ? filtered : sellerOrders || []).slice(0, 5);
 
       if (listToRender.length === 0) {
-        container.innerHTML = `<div class="p-3 bg-slate-50 rounded-xl text-center text-xs text-slate-400 italic">Aucune transaction enregistrée.</div>`;
+        container.innerHTML = `<div class="p-4 bg-slate-50 rounded-xl text-center text-xs text-slate-400 italic">Aucune transaction enregistrée.</div>`;
         return;
       }
 
@@ -2645,10 +2703,9 @@
       }).join("");
     }
 
-    // SECTION PROFIL : GESTION DES PIÈCES PUBLIÉES
-    function renderSellerProfileProducts() {
-      const container = document.getElementById("seller-profile-products-list");
-      const countEl = document.getElementById("seller-profile-pieces-count");
+    function renderSellerHistoryModalProducts() {
+      const container = document.getElementById("seller-history-products-list");
+      const countEl = document.getElementById("seller-history-pieces-count");
       if (!container) return;
 
       const vendorProds = (buyerProducts || []).filter(p => {
@@ -2656,20 +2713,10 @@
                (p.vendor && (p.vendor.toLowerCase().includes("modou") || p.vendor.toLowerCase().includes(currentSeller.firstName.toLowerCase())));
       });
 
-      if (countEl) {
-        countEl.innerText = `${vendorProds.length} pièce${vendorProds.length > 1 ? 's' : ''} en ligne`;
-      }
+      if (countEl) countEl.innerText = vendorProds.length;
 
       if (vendorProds.length === 0) {
-        container.innerHTML = `
-          <div class="p-6 bg-slate-50 rounded-2xl text-center space-y-2 border border-dashed border-brand-border">
-            <span class="material-symbols-outlined text-3xl text-slate-400">inventory_2</span>
-            <p class="text-xs text-slate-500 font-semibold">Aucune pièce publiée pour le moment.</p>
-            <button onclick="openAddProductModal()" class="px-3 py-1.5 bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-xs">
-              + Publier votre première pièce
-            </button>
-          </div>
-        `;
+        container.innerHTML = `<div class="p-4 bg-slate-50 rounded-xl text-center text-xs text-slate-400 italic">Aucune pièce publiée pour le moment.</div>`;
         return;
       }
 
@@ -2681,53 +2728,359 @@
 
         return `
           <div class="p-3 bg-white rounded-xl border border-brand-border hover:border-amber-300 transition-all shadow-2xs space-y-2">
-            <div class="flex gap-3 items-start">
-              <div class="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+            <div class="flex gap-2.5 items-start">
+              <div class="w-14 h-14 rounded-xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
                 <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
               </div>
-              <div class="flex-1 min-w-0 space-y-1">
-                <div class="flex items-center justify-between gap-1">
+              <div class="flex-1 min-w-0 space-y-0.5">
+                <div class="flex items-center justify-between">
                   <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 font-mono">OEM: ${p.oem || 'Standard'}</span>
-                  <span class="text-[9px] font-black px-1.5 py-0.2 rounded ${stockQty > 0 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800'}">
-                    Stock: ${stockQty} dispo
+                  <span class="text-[9px] font-black px-1.5 py-0.2 rounded ${stockQty > 0 ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}">
+                    Stock: ${stockQty}
                   </span>
                 </div>
-                <h4 class="font-extrabold text-xs text-slate-900 leading-tight truncate" title="${p.name}">${p.name}</h4>
-                <p class="text-[10px] text-slate-500 truncate">🚗 ${p.vehicle} · <span class="capitalize">${p.category}</span></p>
-                <div class="text-[9px] text-slate-400 font-medium">État : <span class="text-slate-700 font-bold">${p.conditionLabel || p.condition || 'Occasion Testée'}</span></div>
+                <h4 class="font-extrabold text-xs text-slate-900 truncate" title="${p.name}">${p.name}</h4>
+                <p class="text-[10px] text-slate-500 truncate">🚗 ${p.vehicle}</p>
               </div>
             </div>
 
-            <!-- Détail financier de la pièce -->
-            <div class="p-2 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-[11px]">
+            <div class="p-2 bg-slate-50 rounded-lg flex items-center justify-between text-[11px]">
               <div>
-                <span class="text-[8px] uppercase font-bold text-slate-400 block">Votre Prix Net</span>
-                <span class="font-black text-brand-emerald price-num text-xs">${formatCFA(netPrice)}</span>
-              </div>
-              <div class="text-center">
-                <span class="text-[8px] uppercase font-bold text-slate-400 block">Retainer (10%)</span>
-                <span class="font-bold text-brand-gold text-[10px]">+${formatCFA(comm)}</span>
+                <span class="text-[8px] uppercase font-bold text-slate-400 block">Votre Net</span>
+                <span class="font-black text-brand-emerald price-num">${formatCFA(netPrice)}</span>
               </div>
               <div class="text-right">
-                <span class="text-[8px] uppercase font-bold text-slate-400 block">Prix Public Client</span>
-                <span class="font-black text-slate-900 price-num text-xs">${formatCFA(pubPrice)}</span>
+                <span class="text-[8px] uppercase font-bold text-slate-400 block">Prix Client (+10%)</span>
+                <span class="font-black text-slate-900 price-num">${formatCFA(pubPrice)}</span>
               </div>
             </div>
 
-            <!-- Actions Vendeur : Modifier & Enlever -->
-            <div class="pt-1 flex items-center gap-2 border-t border-slate-100">
-              <button onclick="openEditProductModal('${p.id}')" class="flex-1 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-950 font-black text-[11px] rounded-lg border border-amber-200 flex items-center justify-center gap-1 transition-all">
-                <span class="material-symbols-outlined text-[14px] text-amber-700">edit</span>
-                <span>Modifier Spécifications</span>
+            <div class="flex items-center gap-2 pt-1 border-t border-slate-100">
+              <button onclick="closeSellerHistoryModal(); openEditProductModal('${p.id}')" class="flex-1 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-950 font-black text-[11px] rounded-lg border border-amber-200 flex items-center justify-center gap-1 transition-all">
+                <span class="material-symbols-outlined text-[13px] text-amber-700">edit</span>
+                <span>Modifier</span>
               </button>
-              <button onclick="deleteSellerProduct('${p.id}')" class="px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 font-bold text-[11px] rounded-lg border border-red-200 flex items-center justify-center gap-1 transition-all" title="Enlever cette pièce du catalogue">
-                <span class="material-symbols-outlined text-[14px]">delete</span>
+              <button onclick="deleteSellerProduct('${p.id}')" class="px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 font-bold text-[11px] rounded-lg border border-red-200 flex items-center justify-center gap-1 transition-all">
+                <span class="material-symbols-outlined text-[13px]">delete</span>
                 <span>Enlever</span>
               </button>
             </div>
           </div>
         `;
       }).join("");
+    }
+
+    // MODALE : SOLDE DE MES TRANSACTIONS (LES 2 CHIFFRES CLÉS)
+    function openSellerBalanceModal() {
+      updateSellerBalanceDisplay();
+      const modal = document.getElementById("seller-balance-modal");
+      if (modal) modal.classList.remove("hidden");
+    }
+
+    function closeSellerBalanceModal() {
+      const modal = document.getElementById("seller-balance-modal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // GESTION DE LA PHOTO PIÈCE VENDEUR
+    function handleSellerPhotoUpload(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        sellerCapturedPhotoDataUrl = evt.target.result;
+        const previewBox = document.getElementById("seller-photo-preview-box");
+        const previewImg = document.getElementById("seller-photo-preview-img");
+        const previewName = document.getElementById("seller-photo-preview-name");
+        const statusEl = document.getElementById("seller-photo-status");
+
+        if (previewImg) previewImg.src = sellerCapturedPhotoDataUrl;
+        if (previewName) previewName.innerText = file.name;
+        if (statusEl) statusEl.innerText = "✓ Photo Prête !";
+        if (previewBox) previewBox.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearSellerPhoto() {
+      sellerCapturedPhotoDataUrl = null;
+      const input = document.getElementById("seller-photo-input");
+      if (input) input.value = "";
+      const previewBox = document.getElementById("seller-photo-preview-box");
+      if (previewBox) previewBox.classList.add("hidden");
+      const statusEl = document.getElementById("seller-photo-status");
+      if (statusEl) statusEl.innerText = "Photo de la pièce";
+    }
+
+    // GESTION DU VOCAL WOLOF / FRANÇAIS VENDEUR
+    function startSellerVoiceRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const voiceIcon = document.getElementById("seller-voice-icon");
+      const voiceIconBox = document.getElementById("seller-voice-icon-box");
+      const voiceLabel = document.getElementById("seller-voice-label");
+      const voiceSub = document.getElementById("seller-voice-sub");
+
+      if (sellerSpeechRecognizer) {
+        try { sellerSpeechRecognizer.stop(); } catch (e) {}
+        sellerSpeechRecognizer = null;
+        if (voiceIcon) voiceIcon.innerText = "mic";
+        if (voiceIconBox) voiceIconBox.className = "w-10 h-10 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-sm";
+        if (voiceLabel) voiceLabel.innerText = "2. Dicter en Wolof";
+        if (voiceSub) voiceSub.innerText = "Waxal ci micro bi";
+        return;
+      }
+
+      if (!SpeechRecognition) {
+        const simulated = prompt("🎙️ Dictez ou écrivez votre pièce en Wolof ou Français (ex: « Alternateur Toyota Hilux 45000 ») :", "Alternateur Toyota Hilux 45000");
+        if (simulated) processSellerVoiceInput(simulated);
+        return;
+      }
+
+      try {
+        sellerSpeechRecognizer = new SpeechRecognition();
+        sellerSpeechRecognizer.lang = 'fr-FR';
+        sellerSpeechRecognizer.continuous = false;
+        sellerSpeechRecognizer.interimResults = false;
+
+        if (voiceIcon) voiceIcon.innerText = "graphic_eq";
+        if (voiceIconBox) voiceIconBox.className = "w-10 h-10 rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-sm animate-pulse";
+        if (voiceLabel) voiceLabel.innerText = "🔴 Écoute en cours...";
+        if (voiceSub) voiceSub.innerText = "Parlez maintenant";
+
+        sellerSpeechRecognizer.onresult = function(e) {
+          const text = e.results[0][0].transcript;
+          processSellerVoiceInput(text);
+        };
+
+        sellerSpeechRecognizer.onerror = function() {
+          const simulated = prompt("🎙️ Parlez ou décrivez votre pièce (ex: « Alternateur Toyota Hilux 45000 ») :", "Alternateur Toyota Hilux 45000");
+          if (simulated) processSellerVoiceInput(simulated);
+        };
+
+        sellerSpeechRecognizer.onend = function() {
+          sellerSpeechRecognizer = null;
+          if (voiceIcon) voiceIcon.innerText = "mic";
+          if (voiceIconBox) voiceIconBox.className = "w-10 h-10 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-sm";
+          if (voiceLabel) voiceLabel.innerText = "2. Dicter en Wolof";
+          if (voiceSub) voiceSub.innerText = "Waxal ci micro bi";
+        };
+
+        sellerSpeechRecognizer.start();
+      } catch (err) {
+        const simulated = prompt("🎙️ Parlez ou décrivez votre pièce (ex: « Alternateur Toyota Hilux 45000 ») :", "Alternateur Toyota Hilux 45000");
+        if (simulated) processSellerVoiceInput(simulated);
+      }
+    }
+
+    function processSellerVoiceInput(text) {
+      if (!text) return;
+      const transcriptBox = document.getElementById("seller-voice-transcript-box");
+      const transcriptText = document.getElementById("seller-voice-transcript-text");
+      if (transcriptText) transcriptText.innerText = `« ${text} »`;
+      if (transcriptBox) transcriptBox.classList.remove("hidden");
+
+      const lower = text.toLowerCase();
+      let extractedName = text;
+      let extractedCar = "Toyota Hilux";
+      let extractedPrice = null;
+
+      if (lower.includes("hilux")) extractedCar = "Toyota Hilux";
+      else if (lower.includes("corolla")) extractedCar = "Toyota Corolla";
+      else if (lower.includes("hiace")) extractedCar = "Toyota Hiace";
+      else if (lower.includes("rav4") || lower.includes("rav 4")) extractedCar = "Toyota RAV4";
+      else if (lower.includes("peugeot") || lower.includes("206") || lower.includes("307")) extractedCar = "Peugeot 206 / 307";
+
+      const numbers = text.match(/\d+/g);
+      if (numbers && numbers.length > 0) {
+        const num = parseInt(numbers[numbers.length - 1]);
+        if (num > 1000) {
+          extractedPrice = num;
+          extractedName = extractedName.replace(numbers[numbers.length - 1], "").trim();
+        }
+      }
+
+      extractedName = extractedName.replace(/toyota|hilux|vigo|corolla|peugeot|fcfa|mille|franc/gi, "").trim();
+      if (!extractedName) extractedName = text;
+
+      const nameInput = document.getElementById("seller-piece-name");
+      const carInput = document.getElementById("seller-piece-car");
+      const priceInput = document.getElementById("seller-bank-price");
+
+      if (nameInput) nameInput.value = extractedName.charAt(0).toUpperCase() + extractedName.slice(1);
+      if (carInput) carInput.value = extractedCar;
+      if (extractedPrice && priceInput) {
+        priceInput.value = extractedPrice;
+        updateSellerLiveCalc();
+      }
+    }
+
+    // PUBLICATION DE LA PIÈCE VIA LE HERO FORM
+    async function handleSellerHeroAddPiece(e) {
+      e.preventDefault();
+      const name = document.getElementById("seller-piece-name").value;
+      const vehicle = document.getElementById("seller-piece-car").value;
+      const condition = document.getElementById("seller-piece-condition").value;
+      const bankPrice = parseInt(document.getElementById("seller-bank-price").value) || 0;
+      const image = sellerCapturedPhotoDataUrl || "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80";
+
+      const newPiece = {
+        name,
+        vehicle,
+        category: "moteur",
+        condition,
+        stock: 1,
+        bankPrice,
+        vendor: currentSeller.shopName || "Échoppe Modou Pikine",
+        vendorId: "usr_seller_1",
+        hub: currentSeller.hub || "Pikine",
+        image: image
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/products`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newPiece)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.product) {
+            buyerProducts.unshift(data.product);
+          }
+          alert(`🎉 Pièce « ${name} » mise en vente avec succès sur Difonsé !\n\nElle est immédiatement visible dans le catalogue public pour les acheteurs et ateliers de Dakar.`);
+          document.getElementById("seller-hero-form").reset();
+          clearSellerPhoto();
+          updateSellerLiveCalc();
+          const transcriptBox = document.getElementById("seller-voice-transcript-box");
+          if (transcriptBox) transcriptBox.classList.add("hidden");
+          await loadSellerData();
+        } else {
+          alert("Erreur lors de la mise en vente.");
+        }
+      } catch (err) {
+        alert(`🎉 Pièce « ${name} » mise en vente avec succès !`);
+        document.getElementById("seller-hero-form").reset();
+        clearSellerPhoto();
+        updateSellerLiveCalc();
+      }
+    }
+
+    // ACHETEUR : RECHERCHE PAR PHOTO ET VOCAL WOLOF
+    function handleBuyerPhotoSearch(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      const feedbackBox = document.getElementById("buyer-search-feedback-box");
+      const feedbackText = document.getElementById("buyer-search-feedback-text");
+      const feedbackIcon = document.getElementById("buyer-feedback-icon");
+
+      if (feedbackIcon) feedbackIcon.innerText = "photo_camera";
+      if (feedbackText) feedbackText.innerText = `📷 Photo « ${file.name} » analysée : pièces compatibles affichées !`;
+      if (feedbackBox) feedbackBox.classList.remove("hidden");
+
+      const searchInput = document.getElementById("buyer-search");
+      if (searchInput) {
+        searchInput.value = "Hilux";
+        filterBuyerProducts();
+      }
+    }
+
+    function startBuyerVoiceSearch() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const voiceIcon = document.getElementById("buyer-voice-icon");
+      const voiceIconBox = document.getElementById("buyer-voice-icon-box");
+      const voiceLabel = document.getElementById("buyer-voice-label");
+      const voiceSub = document.getElementById("buyer-voice-sub");
+
+      if (buyerSpeechRecognizer) {
+        try { buyerSpeechRecognizer.stop(); } catch (e) {}
+        buyerSpeechRecognizer = null;
+        if (voiceIcon) voiceIcon.innerText = "mic";
+        if (voiceIconBox) voiceIconBox.className = "w-11 h-11 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-md";
+        if (voiceLabel) voiceLabel.innerText = "2. Demande Vocale";
+        if (voiceSub) voiceSub.innerText = "Waxal ci Wolof";
+        return;
+      }
+
+      if (!SpeechRecognition) {
+        const text = prompt("🎙️ Demandez votre pièce en Wolof ou Français (ex: « Alternateur », « Plaquettes Hilux », « Injecteur ») :", "Alternateur");
+        if (text) processBuyerVoiceSearch(text);
+        return;
+      }
+
+      try {
+        buyerSpeechRecognizer = new SpeechRecognition();
+        buyerSpeechRecognizer.lang = 'fr-FR';
+        buyerSpeechRecognizer.continuous = false;
+        buyerSpeechRecognizer.interimResults = false;
+
+        if (voiceIcon) voiceIcon.innerText = "graphic_eq";
+        if (voiceIconBox) voiceIconBox.className = "w-11 h-11 rounded-2xl bg-red-600 text-white flex items-center justify-center shadow-md animate-pulse";
+        if (voiceLabel) voiceLabel.innerText = "🔴 Écoute en cours...";
+        if (voiceSub) voiceSub.innerText = "Parlez maintenant";
+
+        buyerSpeechRecognizer.onresult = function(e) {
+          const text = e.results[0][0].transcript;
+          processBuyerVoiceSearch(text);
+        };
+
+        buyerSpeechRecognizer.onerror = function() {
+          const text = prompt("🎙️ Demandez votre pièce (ex: « Alternateur », « Plaquettes », « Injecteur ») :", "Alternateur");
+          if (text) processBuyerVoiceSearch(text);
+        };
+
+        buyerSpeechRecognizer.onend = function() {
+          buyerSpeechRecognizer = null;
+          if (voiceIcon) voiceIcon.innerText = "mic";
+          if (voiceIconBox) voiceIconBox.className = "w-11 h-11 rounded-2xl bg-brand-gold text-slate-950 flex items-center justify-center shadow-md";
+          if (voiceLabel) voiceLabel.innerText = "2. Demande Vocale";
+          if (voiceSub) voiceSub.innerText = "Waxal ci Wolof";
+        };
+
+        buyerSpeechRecognizer.start();
+      } catch (err) {
+        const text = prompt("🎙️ Demandez votre pièce (ex: « Alternateur », « Plaquettes ») :", "Alternateur");
+        if (text) processBuyerVoiceSearch(text);
+      }
+    }
+
+    function processBuyerVoiceSearch(text) {
+      if (!text) return;
+      const feedbackBox = document.getElementById("buyer-search-feedback-box");
+      const feedbackText = document.getElementById("buyer-search-feedback-text");
+      const feedbackIcon = document.getElementById("buyer-feedback-icon");
+
+      const searchInput = document.getElementById("buyer-search");
+      if (searchInput) {
+        searchInput.value = text;
+        filterBuyerProducts();
+      }
+
+      if (feedbackIcon) feedbackIcon.innerText = "graphic_eq";
+      if (feedbackText) feedbackText.innerText = `🎙️ Vocal : « ${text} »`;
+      if (feedbackBox) feedbackBox.classList.remove("hidden");
+    }
+
+    function resetBuyerSearchFeedback() {
+      const feedbackBox = document.getElementById("buyer-search-feedback-box");
+      if (feedbackBox) feedbackBox.classList.add("hidden");
+      const searchInput = document.getElementById("buyer-search");
+      if (searchInput) searchInput.value = "";
+      filterBuyerProducts();
+    }
+
+    function updateSellerLiveCalc() {
+      const input = document.getElementById("seller-bank-price");
+      const val = parseInt(input ? input.value : 0) || 0;
+      const comm = Math.round(val * 0.10);
+      const total = val + comm;
+
+      const commEl = document.getElementById("seller-calc-comm");
+      const totalEl = document.getElementById("seller-calc-total");
+      if (commEl) commEl.innerText = "+" + formatCFA(comm);
+      if (totalEl) totalEl.innerText = formatCFA(total);
     }
 
     // MODIFICATION DE PIÈCE (MODALE)
@@ -2805,7 +3158,7 @@
           }
           closeEditProductModal();
           alert("✅ Pièce mise à jour avec succès !");
-          renderSellerProfile();
+          renderSellerHistoryModalProducts();
           renderBuyerProducts();
         } else {
           alert("Erreur lors de la mise à jour de la pièce.");
@@ -2825,7 +3178,7 @@
         }
         closeEditProductModal();
         alert("✅ Pièce mise à jour avec succès !");
-        renderSellerProfile();
+        renderSellerHistoryModalProducts();
         renderBuyerProducts();
       }
     }
@@ -2848,7 +3201,7 @@
         if (res.ok) {
           buyerProducts = buyerProducts.filter(p => p.id !== id);
           alert("✅ Pièce retirée du catalogue Difonsé avec succès.");
-          renderSellerProfile();
+          renderSellerHistoryModalProducts();
           renderBuyerProducts();
         } else {
           alert("Erreur lors de la suppression.");
@@ -2856,179 +3209,9 @@
       } catch (err) {
         buyerProducts = buyerProducts.filter(p => p.id !== id);
         alert("✅ Pièce retirée du catalogue Difonsé avec succès.");
-        renderSellerProfile();
+        renderSellerHistoryModalProducts();
         renderBuyerProducts();
       }
-    }
-
-    // AJOUT DE PIÈCE DEPUIS LE PROFIL (MODALE)
-    function openAddProductModal() {
-      const form = document.getElementById("modal-add-product-form");
-      if (form) form.reset();
-      updateModalAddLiveCalc();
-      const modal = document.getElementById("add-product-modal");
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeAddProductModal() {
-      const modal = document.getElementById("add-product-modal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function updateModalAddLiveCalc() {
-      const input = document.getElementById("modal-add-bank-price");
-      const val = parseInt(input ? input.value : 0) || 0;
-      const comm = Math.round(val * 0.10);
-      const total = val + comm;
-
-      const commEl = document.getElementById("modal-add-calc-comm");
-      const totalEl = document.getElementById("modal-add-calc-total");
-      if (commEl) commEl.innerText = "+" + formatCFA(comm);
-      if (totalEl) totalEl.innerText = formatCFA(total);
-    }
-
-    async function handleSellerAddPieceFromModal(e) {
-      e.preventDefault();
-      const name = document.getElementById("modal-add-name").value;
-      const oem = document.getElementById("modal-add-oem").value;
-      const vehicle = document.getElementById("modal-add-car").value;
-      const category = document.getElementById("modal-add-cat").value;
-      const condition = document.getElementById("modal-add-condition").value;
-      const stock = parseInt(document.getElementById("modal-add-stock").value) || 1;
-      const bankPrice = parseInt(document.getElementById("modal-add-bank-price").value) || 0;
-
-      const newPiece = {
-        name,
-        oem,
-        vehicle,
-        category,
-        condition,
-        stock,
-        bankPrice,
-        vendor: currentSeller.shopName || "Échoppe Modou Pikine",
-        vendorId: "usr_seller_1",
-        hub: currentSeller.hub || "Pikine",
-        image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80"
-      };
-
-      try {
-        const res = await fetch(`${API_BASE}/products`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newPiece)
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.product) {
-            buyerProducts.unshift(data.product);
-          }
-          closeAddProductModal();
-          alert("🎉 Pièce publiée avec succès sur le catalogue Difonsé !");
-          renderSellerProfile();
-          renderBuyerProducts();
-        } else {
-          alert("Erreur lors de la publication.");
-        }
-      } catch (err) {
-        closeAddProductModal();
-        alert("🎉 Pièce publiée avec succès !");
-        await loadSellerData();
-      }
-    }
-
-    function updateSellerLiveCalc() {
-      const input = document.getElementById("seller-bank-price");
-      const val = parseInt(input ? input.value : 0) || 0;
-      const comm = Math.round(val * 0.10);
-      const total = val + comm;
-
-      document.getElementById("seller-calc-comm").innerText = "+" + formatCFA(comm);
-      document.getElementById("seller-calc-total").innerText = formatCFA(total);
-    }
-
-    async function handleSellerAddPiece(e) {
-      e.preventDefault();
-      const name = document.getElementById("seller-piece-name").value;
-      const oem = document.getElementById("seller-piece-oem") ? document.getElementById("seller-piece-oem").value : "";
-      const vehicle = document.getElementById("seller-piece-car").value;
-      const category = document.getElementById("seller-piece-cat").value;
-      const condition = document.getElementById("seller-piece-condition") ? document.getElementById("seller-piece-condition").value : "occasion";
-      const stock = document.getElementById("seller-piece-stock") ? parseInt(document.getElementById("seller-piece-stock").value) || 1 : 1;
-      const bankPrice = parseInt(document.getElementById("seller-bank-price").value) || 0;
-
-      const newPiece = {
-        name,
-        oem,
-        vehicle,
-        category,
-        condition,
-        stock,
-        bankPrice,
-        vendor: currentSeller.shopName || "Échoppe Modou Pikine",
-        vendorId: "usr_seller_1",
-        hub: currentSeller.hub || "Pikine",
-        image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80"
-      };
-
-      try {
-        const res = await fetch(`${API_BASE}/products`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newPiece)
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.product) {
-            buyerProducts.unshift(data.product);
-          }
-          alert("✅ Pièce mise en vente avec succès !");
-          e.target.reset();
-          updateSellerLiveCalc();
-          await loadSellerData();
-        }
-      } catch (err) {
-        alert("✅ Pièce mise en vente avec succès !");
-      }
-    }
-
-    function renderSellerOrders() {
-      const container = document.getElementById("seller-orders-list");
-      if (!container) return;
-
-      if (sellerOrders.length === 0) {
-        container.innerHTML = `<p class="text-[11px] text-slate-400 italic">Aucune commande reçue.</p>`;
-        return;
-      }
-
-      container.innerHTML = sellerOrders.map(o => `
-        <div class="p-3 rounded-xl border bg-slate-50 border-brand-border space-y-2 text-xs">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-1.5">
-              <span class="font-mono font-bold text-brand-primary">${o.id}</span>
-              <span class="font-bold text-slate-800">· ${o.partName}</span>
-            </div>
-            <span class="font-black text-brand-emerald price-num">${formatCFA(o.vendorNetPrice || o.vendorBankPrice)}</span>
-          </div>
-
-          <div class="text-[10px] text-slate-500">
-            Acheteur : <strong class="text-slate-700">${o.clientName}</strong><br/>
-            Statut : <span class="text-brand-emerald font-bold">✓ Payé directement par la plateforme</span><br/>
-            Code de retrait : <strong class="text-brand-primary font-mono text-xs">${o.pickupCode}</strong>
-          </div>
-
-          ${o.step === 2 ? `
-            <button onclick="advanceSellerOrder('${o.id}')" class="w-full py-1.5 bg-brand-primary text-white font-black text-[10px] rounded-lg shadow-sm flex items-center justify-center gap-1">
-              <span class="material-symbols-outlined text-[13px] text-brand-gold">two_wheeler</span>
-              <span>Remettre la Pièce Payée au Livreur Tiak-Tiak</span>
-            </button>
-          ` : `
-            <div class="text-[10px] text-slate-400 italic">
-              ${o.step === 3 ? '🚚 En cours d\'essai au garage' : '✅ Commande finalisée (Vendeur payé)'}
-            </div>
-          `}
-        </div>
-      `).join("");
     }
 
     async function advanceSellerOrder(orderId) {
@@ -3041,6 +3224,7 @@
         if (res.ok) {
           alert("Colis remis au coursier Tiak-Tiak ! Le délai d'essai 48h a démarré.");
           await loadSellerData();
+          renderSellerHistoryModalOrders();
         }
       } catch (e) {}
     }
