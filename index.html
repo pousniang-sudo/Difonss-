@@ -171,8 +171,8 @@
             </div>
           </div>
 
-          <!-- PORTAIL VENDEUR -->
-          <div onclick="showScreen('login-seller')" class="auto-card hover:auto-card-glow transition-all cursor-pointer p-4 rounded-3xl relative group active:scale-[0.99]">
+          <!-- PORTAIL VENDEUR (ACCÈS DIRECT ESPACE VENDEUR) -->
+          <div onclick="showScreen('seller')" class="auto-card hover:auto-card-glow transition-all cursor-pointer p-4 rounded-3xl relative group active:scale-[0.99]">
             <div class="flex items-start gap-3.5">
               <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#ff4500] to-amber-600 text-white flex items-center justify-center shrink-0 shadow-md">
                 <span class="material-symbols-outlined text-[24px]">storefront</span>
@@ -183,10 +183,10 @@
                   <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 border border-orange-500/40 text-[9px] font-black rounded-full uppercase tracking-wider">Commerçants</span>
                 </div>
                 <p class="text-[11px] text-slate-400 leading-tight">
-                  Commerçants de Pikine &amp; Colobane : publiez vos pièces et recevez vos paiements directs.
+                  Commerçants de Pikine &amp; Colobane : publiez vos pièces, suivez vos ventes et encaissez votre solde.
                 </p>
                 <div class="pt-1.5 flex items-center gap-1.5 text-[11px] font-extrabold text-[#ff5722]">
-                  <span>Accéder à la connexion Vendeur</span>
+                  <span>Entrer dans l'Espace Vendeur</span>
                   <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </div>
               </div>
@@ -196,13 +196,13 @@
 
         <!-- Accès Rapides Démo 1-clic -->
         <div class="pt-2 text-center space-y-2">
-          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Démonstrations instantanées :</span>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Accès instantané aux 2 espaces :</span>
           <div class="flex items-center justify-center gap-2">
-            <button onclick="showScreen('buyer')" class="text-xs font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-emerald-500/40 transition-all shadow-sm">
-              ⚡ Accès Libre Acheteur
+            <button onclick="showScreen('buyer')" class="text-xs font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-emerald-500/40 transition-all shadow-sm cursor-pointer">
+              ⚡ Espace Acheteur (Catalogue)
             </button>
-            <button onclick="demoLogin('seller')" class="text-xs font-bold text-amber-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-amber-500/40 transition-all shadow-sm">
-              ⚡ Connexion Vendeur (Modou Ndiaye)
+            <button onclick="showScreen('seller')" class="text-xs font-bold text-amber-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-amber-500/40 transition-all shadow-sm cursor-pointer">
+              ⚡ Espace Vendeur (Mettre en Vente)
             </button>
           </div>
         </div>
@@ -417,10 +417,10 @@
             <span id="buyer-header-cart-badge" class="hidden absolute -top-1 -right-1 bg-[#ff4500] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">0</span>
           </button>
 
-          <!-- BOUTON CAPITAL : « DEVENIR VENDEUR » -->
-          <button onclick="openBecomeSellerModal()" class="px-2.5 py-1.5 racing-btn text-white font-black text-[11px] rounded-xl shadow-sm flex items-center gap-1 transition-all active:scale-95">
+          <!-- BOUTON CAPITAL : « ESPACE VENDEUR » -->
+          <button onclick="showScreen('seller')" class="px-2.5 py-1.5 racing-btn text-white font-black text-[11px] rounded-xl shadow-sm flex items-center gap-1 transition-all active:scale-95 cursor-pointer">
             <span class="material-symbols-outlined text-[15px]">store</span>
-            <span class="hidden sm:inline">Devenir Vendeur</span>
+            <span class="hidden sm:inline">Espace Vendeur</span>
             <span class="sm:hidden">Vendre</span>
           </button>
 
@@ -723,9 +723,9 @@
           <span class="material-symbols-outlined text-[20px]">mic</span>
           <span>SOS Wolof</span>
         </button>
-        <button onclick="openBecomeSellerModal()" class="flex flex-col items-center gap-0.5 text-orange-400 hover:text-orange-300 font-black transition-colors">
+        <button onclick="showScreen('seller')" class="flex flex-col items-center gap-0.5 text-orange-400 hover:text-orange-300 font-black transition-colors cursor-pointer">
           <span class="material-symbols-outlined text-[20px]">store</span>
-          <span>Vendre</span>
+          <span>Vendeur</span>
         </button>
       </nav>
 
