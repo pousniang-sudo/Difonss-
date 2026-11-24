@@ -218,6 +218,50 @@ module.exports = async function handler(req, res) {
     return sendJson(200, { success: true, product: newP });
   }
 
+  // ROUTE 5-B: POST /api/products/update (Modifier nom, spécifications, prix, stock d'une pièce)
+  if (route === '/products/update' && req.method === 'POST') {
+    const body = await parseBody();
+    const found = products.find(p => p.id === body.id);
+    if (!found) return sendJson(404, { error: "Pièce introuvable" });
+
+    if (body.name) found.name = body.name;
+    if (body.oem != null) found.oem = body.oem;
+    if (body.vehicle) {
+      found.vehicle = body.vehicle;
+      found.compatibleCar = body.vehicle;
+    }
+    if (body.category) found.category = body.category;
+    if (body.condition) {
+      found.condition = body.condition;
+      found.conditionLabel = body.condition === "neuf" ? "Neuf d'Origine OEM" : (body.condition === "occasion" ? "Occasion Testée" : "Adaptable Certifié");
+    }
+    if (body.bankPrice != null) {
+      const bPrice = Number(body.bankPrice) || 0;
+      const comm = Math.round(bPrice * 0.10);
+      found.bankPrice = bPrice;
+      found.commission = comm;
+      found.publicPrice = bPrice + comm;
+    }
+    if (body.stock != null) found.stock = Number(body.stock);
+    if (body.image) found.image = body.image;
+
+    saveDataFile('products.json', products);
+    logActivity("seller", found.vendor, "UPDATE_PRODUCT", `Modification pièce: ${found.name} (Prix net: ${found.bankPrice} FCFA, Stock: ${found.stock})`, found.bankPrice, "edit");
+    return sendJson(200, { success: true, product: found });
+  }
+
+  // ROUTE 5-C: POST /api/products/delete (Enlever une pièce du catalogue)
+  if (route === '/products/delete' && req.method === 'POST') {
+    const body = await parseBody();
+    const idx = products.findIndex(p => p.id === body.id);
+    if (idx === -1) return sendJson(404, { error: "Pièce introuvable" });
+
+    const removed = products.splice(idx, 1)[0];
+    saveDataFile('products.json', products);
+    logActivity("seller", removed.vendor, "DELETE_PRODUCT", `Pièce retirée du catalogue: ${removed.name}`, 0, "delete");
+    return sendJson(200, { success: true, id: body.id });
+  }
+
   // ROUTE 6: GET /api/orders
   if (route === '/orders' && req.method === 'GET') {
     return sendJson(200, orders);

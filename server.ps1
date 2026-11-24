@@ -1,4 +1,4 @@
-﻿$listener = New-Object System.Net.HttpListener
+$listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:8080/")
 $listener.Start()
 Write-Output "Backend REST API & Web Server listening on http://localhost:8080/"
@@ -207,6 +207,58 @@ while ($listener.IsListening) {
 
                     Helper-LogActivity "seller" $newP.vendor "ADD_PRODUCT" ("Mise en vente: " + $newP.name + " (Prix banque: " + $newP.bankPrice + " FCFA | Prix client: " + $newP.publicPrice + " FCFA)") $newP.bankPrice "add_circle"
                     $respObj = @{ success = $true; product = $newP }
+                }
+            }
+            # 5-B. POST /api/products/update
+            elseif ($rawPath -eq "/api/products/update" -and $request.HttpMethod -eq "POST") {
+                if ($null -ne $bodyObj) {
+                    $prods = @((Helper-ReadJsonFile "products.json") | ConvertFrom-Json)
+                    $found = $prods | Where-Object { $_.id -eq $bodyObj.id } | Select-Object -First 1
+                    if ($found) {
+                        if ($bodyObj.name) { $found.name = $bodyObj.name }
+                        if ($bodyObj.oem) { $found.oem = $bodyObj.oem }
+                        if ($bodyObj.vehicle) {
+                            $found.vehicle = $bodyObj.vehicle
+                            $found.compatibleCar = $bodyObj.vehicle
+                        }
+                        if ($bodyObj.category) { $found.category = $bodyObj.category }
+                        if ($bodyObj.condition) {
+                            $found.condition = $bodyObj.condition
+                            $found.conditionLabel = if ($bodyObj.condition -eq "neuf") { "Neuf d'Origine OEM" } elseif ($bodyObj.condition -eq "occasion") { "Occasion Testée" } else { "Adaptable Certifié" }
+                        }
+                        if ($null -ne $bodyObj.bankPrice) {
+                            $bPrice = [int]$bodyObj.bankPrice
+                            $comm = [Math]::Round($bPrice * 0.10)
+                            $found.bankPrice = $bPrice
+                            $found.commission = $comm
+                            $found.publicPrice = $bPrice + $comm
+                        }
+                        if ($null -ne $bodyObj.stock) { $found.stock = [int]$bodyObj.stock }
+                        if ($bodyObj.image) { $found.image = $bodyObj.image }
+
+                        Helper-WriteJsonFile "products.json" $prods
+                        Helper-LogActivity "seller" $found.vendor "UPDATE_PRODUCT" ("Modification pièce: " + $found.name + " (Prix net: " + $found.bankPrice + " FCFA, Stock: " + $found.stock + ")") $found.bankPrice "edit"
+                        $respObj = @{ success = $true; product = $found }
+                    } else {
+                        $response.StatusCode = 404
+                        $respObj = @{ error = "Pièce introuvable" }
+                    }
+                }
+            }
+            # 5-C. POST /api/products/delete
+            elseif ($rawPath -eq "/api/products/delete" -and $request.HttpMethod -eq "POST") {
+                if ($null -ne $bodyObj) {
+                    $prods = @((Helper-ReadJsonFile "products.json") | ConvertFrom-Json)
+                    $found = $prods | Where-Object { $_.id -eq $bodyObj.id } | Select-Object -First 1
+                    if ($found) {
+                        $newProds = @($prods | Where-Object { $_.id -ne $bodyObj.id })
+                        Helper-WriteJsonFile "products.json" $newProds
+                        Helper-LogActivity "seller" $found.vendor "DELETE_PRODUCT" ("Pièce retirée du catalogue: " + $found.name) 0 "delete"
+                        $respObj = @{ success = $true; id = $bodyObj.id }
+                    } else {
+                        $response.StatusCode = 404
+                        $respObj = @{ error = "Pièce introuvable" }
+                    }
                 }
             }
             # 6. GET /api/orders
