@@ -13,7 +13,25 @@
     "vendorId": "usr_seller_1",
     "vendor": "Boutique Modou Pikine",
     "hub": "Pikine",
-    "image": "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Alternateur d'origine Valéo 150A révisé et testé sur banc d'essai à Dakar. Spécialement adapté pour les Toyota Hilux Vigo circulant en conditions sévères (climatisation permanente, circulation Dakar, feux additionnels). Bobinage en cuivre haute température et régulateur électronique neuf.",
+    "specs": {
+      "oem": "27060-0L020",
+      "brand": "Valéo OEM (Fournisseur Première Monte)",
+      "vehicle": "Toyota Hilux Vigo, Fortuner, HiAce",
+      "engine": "2.5 D-4D (2KD-FTV) & 3.0 D-4D (1KD-FTV)",
+      "years": "2005 - 2016",
+      "position": "Compartiment moteur avant droit, courroie striée",
+      "power": "12 Volts · 150 Ampères réels",
+      "testing": "Testé sur banc électrique 14.4V sous charge continue",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 3,
     "compatibleCar": "Toyota Hilux"
   },
@@ -31,7 +49,24 @@
     "vendorId": "usr_seller_2",
     "vendor": "Dakar Pièces Express",
     "hub": "Castors",
-    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Kit complet de freinage avant comprenant 2 disques ventilés haute teneur en carbone et 4 plaquettes céramique anti-sifflement. Traitement anticorrosion spécial environnement maritime et sableux de Dakar.",
+    "specs": {
+      "oem": "43512-0K060 / 04465-0K090",
+      "brand": "Brembo Racing / Toyota Genuine",
+      "vehicle": "Toyota Hilux Vigo 4x2 et 4x4",
+      "engine": "2.5 D-4D & 3.0 D-4D",
+      "years": "2006 - 2016",
+      "position": "Essieu avant gauche et droit (disques ventilés 297mm)",
+      "power": "Épaisseur nominale 28mm (mini 26mm)",
+      "testing": "Contrôlé au micromètre optique, voile résiduel 0.01mm",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 5,
     "compatibleCar": "Toyota Hilux"
   },
@@ -49,7 +84,24 @@
     "vendorId": "usr_seller_1",
     "vendor": "Boutique Modou Pikine",
     "hub": "Pikine",
-    "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Paire de 2 amortisseurs bitubes hydrauliques renforcés pour suspension arrière à lames. Conçus pour les pistes dégradées et les fortes charges utiles (transport marchandise Dakar-régions).",
+    "specs": {
+      "oem": "48531-0K080",
+      "brand": "Monroe Magnum Heavy Duty",
+      "vehicle": "Toyota Hilux Simple & Double Cabine",
+      "engine": "Toutes motorisations Diesel / Essence",
+      "years": "2005 - 2018",
+      "position": "Pont arrière (gauche et droite)",
+      "power": "Tige chromée renforcée 16mm, corps 45mm",
+      "testing": "Testé compression/détente sous banc dynamique",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 2,
     "compatibleCar": "Toyota Hilux"
   },
@@ -67,7 +119,24 @@
     "vendorId": "usr_seller_1",
     "vendor": "Boutique Modou Pikine",
     "hub": "Pikine",
-    "image": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pack de 4 injecteurs haute pression Common Rail Denso Japon d'origine. Nettoyés aux ultrasons, étalonnés sur banc Hartridge et livrés avec joints cuivre pare-feu neufs.",
+    "specs": {
+      "oem": "23670-0L050 / 095000-8290",
+      "brand": "Denso Japan OEM",
+      "vehicle": "Toyota Hilux, Land Cruiser Prado 120/150, HiAce",
+      "engine": "2.5 D-4D (2KD-FTV) & 3.0 D-4D (1KD-FTV)",
+      "years": "2006 - 2017",
+      "position": "Rampe commune / Culasse moteur",
+      "power": "Pression de service 1 600 bars",
+      "testing": "Rapport débit injection & retour de fuite 100% validé",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 1,
     "compatibleCar": "Toyota Hilux"
   },
@@ -85,7 +154,24 @@
     "vendorId": "usr_seller_1",
     "vendor": "Boutique Modou Pikine",
     "hub": "Pikine",
-    "image": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Bloc optique avant droit chromé d'origine avec moteur de réglage de hauteur électrique intégré. Verre en polycarbonate anti-UV traité contre le jaunissement causé par l'exposition solaire dakaroise.",
+    "specs": {
+      "oem": "81110-0K170",
+      "brand": "Koito / Toyota Original",
+      "vehicle": "Toyota Hilux Phase 2 & 3",
+      "engine": "Compatible toutes motorisations",
+      "years": "2011 - 2016",
+      "position": "Avant droit (côté passager)",
+      "power": "Ampoule H4 halogène + veilleuse T10 + clignotant PY21W",
+      "testing": "Étanchéité testée sous aspersion d'eau haute pression",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 4,
     "compatibleCar": "Toyota Hilux"
   },
@@ -103,7 +189,24 @@
     "vendorId": "usr_seller_2",
     "vendor": "Dakar Pièces Express",
     "hub": "Castors",
-    "image": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pack complet d'entretien moteur : 1 filtre à huile avec clapet anti-retour, 1 filtre à air haute filtration poussière et sable latérite, 1 filtre à gazole avec bague décanteur d'eau.",
+    "specs": {
+      "oem": "KIT-TOY-HLX (90915-YZZD2 / 17801-0C010 / 23390-0L010)",
+      "brand": "Mann Filter / Toyota Genuine Parts",
+      "vehicle": "Toyota Hilux, Fortuner, HiAce D-4D",
+      "engine": "2.5 D-4D & 3.0 D-4D",
+      "years": "2005 - 2020",
+      "position": "Compartiment moteur",
+      "power": "Filtration 99.8% des particules > 5 microns",
+      "testing": "Conforme aux normes constructeur Toyota Japon",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 12,
     "compatibleCar": "Toyota Hilux"
   },
@@ -121,7 +224,24 @@
     "vendorId": "usr_seller_2",
     "vendor": "Dakar Pièces Express",
     "hub": "Castors",
-    "image": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Démarreur version renforcée 2.2kW avec réducteur planétaire pour moteur Diesel à forte compression. Démarrage franc et instantané, solénoïde et charbons vérifiés.",
+    "specs": {
+      "oem": "28100-0L040",
+      "brand": "Denso Heavy Duty",
+      "vehicle": "Toyota Hilux Vigo 2.5 & 3.0 D-4D",
+      "engine": "2KD-FTV & 1KD-FTV Diesel",
+      "years": "2005 - 2016",
+      "position": "Cloche de boîte de vitesses / volant moteur",
+      "power": "12 Volts · 2.2 Kilowatts (pignon 10 dents)",
+      "testing": "Testé sur banc de démarrage en charge 200A",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 2,
     "compatibleCar": "Toyota Hilux"
   },
@@ -139,7 +259,24 @@
     "vendorId": "usr_seller_1",
     "vendor": "Boutique Modou Pikine",
     "hub": "Pikine",
-    "image": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=600&q=80",
+    "image": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Radiateur de refroidissement tout aluminium à faisceau large spécial climat tropical. Épaisseur supérieure 36mm pour éviter les surchauffes moteur dans les embouteillages dakarois et sur piste sablonneuse.",
+    "specs": {
+      "oem": "16400-0L160",
+      "brand": "Nissens Heavy Cooling",
+      "vehicle": "Toyota Hilux 2.5 & 3.0 D-4D",
+      "engine": "2KD-FTV & 1KD-FTV",
+      "years": "2005 - 2016",
+      "position": "Face avant compartiment moteur",
+      "power": "Faisceau aluminium brasé 650 x 528 x 36 mm",
+      "testing": "Épreuve sous pression hydraulique 2.5 bars zéro fuite",
+      "warranty": "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
     "stock": 3,
     "compatibleCar": "Toyota Hilux"
   }

@@ -732,6 +732,216 @@
     </div>
 
     <!-- ============================================================== -->
+    <!-- ÉCRAN 2-B : FICHE TECHNIQUE & MULTI-PHOTOS DE LA PIÈCE          -->
+    <!-- Style Automotive Racing inspiré Car Steering / Rivet Auto       -->
+    <!-- ============================================================== -->
+    <div id="screen-product-detail" class="hidden flex-1 flex flex-col bg-[#090d16] text-white pb-32">
+      
+      <!-- Top App Bar Produit avec bouton Retour -->
+      <header class="bg-[#0c0f17]/95 backdrop-blur-md border-b border-[#1c2436] px-3.5 py-2.5 sticky top-7 z-40 shadow-md flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="showScreen('buyer')" class="w-9 h-9 rounded-2xl bg-[#141825] hover:bg-[#1f2638] text-white flex items-center justify-center border border-[#222a3d] transition-all active:scale-95 cursor-pointer" title="Retour au catalogue">
+            <span class="material-symbols-outlined text-[20px] text-orange-400">arrow_back</span>
+          </button>
+          <div>
+            <div class="text-xs font-black text-white flex items-center gap-1.5 truncate max-w-[200px] sm:max-w-xs" id="detail-header-title">
+              Fiche Technique Pièce
+            </div>
+            <p class="text-[10px] text-slate-400 flex items-center gap-1" id="detail-header-sub">
+              <span class="material-symbols-outlined text-[12px] text-emerald-400">verified</span>
+              <span>Garantie Conformité 2 Jours</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <!-- Panier rapide avec badge -->
+          <button type="button" onclick="showScreen('buyer'); switchBuyerTab('cart');" title="Voir le Panier" class="relative w-8 h-8 rounded-xl bg-[#141825] hover:bg-[#1a2030] border border-[#222a3d] text-emerald-400 flex items-center justify-center transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+            <span id="detail-cart-badge" class="hidden absolute -top-1 -right-1 bg-[#ff4500] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">0</span>
+          </button>
+          <!-- Bouton SOS Wolof -->
+          <button type="button" onclick="openSosModal('voice')" title="Assistance vocale Wolof" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-[#1a2030] border border-[#222a3d] flex items-center justify-center text-amber-400 transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-[17px]">volume_up</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Contenu Fiche Produit -->
+      <div class="p-4 space-y-4 max-w-xl mx-auto w-full">
+
+        <!-- 1. GRANDE GALERIE MULTI-PHOTOS AVEC VIGNETTES -->
+        <div class="auto-card rounded-3xl p-3 border border-[#20273a] bg-[#0c0f17] space-y-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <!-- Image Principale Grande Définition -->
+          <div class="relative w-full h-64 sm:h-72 rounded-2xl bg-[#080b12] overflow-hidden border border-[#1e2538] flex items-center justify-center group">
+            <img id="detail-hero-image" src="" alt="Pièce Auto" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80'" />
+            
+            <!-- Badges flottants sur la photo -->
+            <div class="absolute top-3 left-3 flex flex-col gap-1.5">
+              <span id="detail-badge-oem" class="px-2.5 py-1 rounded-full bg-[#0c0f17]/90 backdrop-blur-md border border-emerald-500/40 text-emerald-400 font-black text-[10px] flex items-center gap-1 shadow-sm">
+                <span class="material-symbols-outlined text-[12px]">verified</span>
+                <span>OEM 100% Conforme</span>
+              </span>
+              <span id="detail-badge-condition" class="px-2.5 py-0.5 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700 text-slate-300 font-bold text-[9px] w-fit">
+                Occasion Testée
+              </span>
+            </div>
+
+            <div class="absolute top-3 right-3">
+              <span class="px-2.5 py-1 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-amber-300 font-black text-[10px] flex items-center gap-1 shadow-sm">
+                <span class="material-symbols-outlined text-[12px]">shield</span>
+                <span>Garantie 2 Jours</span>
+              </span>
+            </div>
+
+            <div class="absolute bottom-2.5 left-3">
+              <span id="detail-badge-hub" class="px-2.5 py-0.5 rounded-lg bg-[#0c0f17]/90 backdrop-blur-md border border-[#20273a] text-slate-300 font-bold text-[10px] flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-[#ff5722]">location_on</span>
+                <span>Disponible à Pikine</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Carrousel des vignettes multi-photos -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between px-1 text-[10px] text-slate-400 font-bold">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px] text-orange-400">photo_library</span>
+                <span>Photos sous plusieurs angles :</span>
+              </span>
+              <span class="text-[9px] text-slate-500 font-normal">Cliquez pour afficher</span>
+            </div>
+            <div id="detail-thumbnails-container" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              <!-- Rempli dynamiquement en JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. IDENTIFICATION & PRIX -->
+        <div class="auto-card rounded-2xl p-4 border border-[#20273a] bg-[#121624] space-y-2">
+          <div class="flex items-center justify-between text-[10px]">
+            <span id="detail-category" class="font-extrabold uppercase tracking-wider text-orange-400 px-2 py-0.5 rounded bg-orange-950/40 border border-orange-500/30">Freinage</span>
+            <span class="font-mono text-slate-400 font-bold text-xs" id="detail-oem-code">OEM: 04465-05240</span>
+          </div>
+
+          <h1 id="detail-title" class="text-base sm:text-lg font-black text-white leading-tight">
+            Plaquettes de Frein Avant Céramique Brembo
+          </h1>
+
+          <div class="flex items-center gap-1.5 text-xs text-slate-300 font-bold bg-[#0c0f17] p-2 rounded-xl border border-[#1e2538]">
+            <span class="material-symbols-outlined text-[16px] text-amber-400">directions_car</span>
+            <span id="detail-vehicle">Toyota Hilux Vigo 2.5 D-4D (2011-2016)</span>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <div class="text-[11px] text-slate-400 flex items-center gap-1" id="detail-vendor-info">
+              <span class="material-symbols-outlined text-[14px] text-slate-500">store</span>
+              <span>Boutique Modou Pikine · Hub Pikine</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[8px] uppercase text-slate-400 font-bold block">Prix Direct Client</span>
+              <span id="detail-price-display" class="font-black text-base sm:text-lg text-white price-num text-orange-400">49 500 FCFA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. ONGLETS DESCRIPTION & SPÉCIFICATIONS TECHNIQUES (Style Car Steering / Rivet Auto) -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 p-1 bg-[#101420] rounded-2xl border border-[#1e2538]">
+            <button type="button" id="btn-detail-tab-desc" onclick="switchDetailTab('desc')" class="flex-1 py-2 px-3 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] text-white shadow-sm cursor-pointer">
+              <span class="material-symbols-outlined text-[15px]">description</span>
+              <span>Description</span>
+            </button>
+            <button type="button" id="btn-detail-tab-specs" onclick="switchDetailTab('specs')" class="flex-1 py-2 px-3 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-[15px]">tune</span>
+              <span>Spécifications</span>
+            </button>
+          </div>
+
+          <!-- CONTENU ONGLET 1 : DESCRIPTION -->
+          <div id="detail-view-desc" class="space-y-3">
+            <div class="auto-card rounded-2xl p-4 border border-[#20273a] bg-[#121624] space-y-3 text-xs">
+              <h3 class="font-black text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-orange-400">
+                <span class="material-symbols-outlined text-[16px]">info</span>
+                <span>Présentation de la Pièce</span>
+              </h3>
+              <p id="detail-desc-text" class="text-slate-300 leading-relaxed text-xs">
+                <!-- Texte de description -->
+              </p>
+            </div>
+
+            <!-- ENCART SÉCURITÉ GARANTIE DIFONSÉ 2 JOURS -->
+            <div class="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-950/40 to-[#0e1622] border border-emerald-500/40 space-y-2">
+              <div class="flex items-center gap-2 text-emerald-400 font-black text-xs">
+                <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                <span>Garantie Conformité 2 Jours Difonsé</span>
+              </div>
+              <p class="text-[11px] text-slate-300 leading-tight">
+                Votre paiement reste <strong class="text-white">sécurisé sous séquestre</strong>. À la livraison à Dakar ou Pikine, vous disposez de <strong>48 heures</strong> pour faire tester et monter la pièce par votre mécanicien. En cas de non-conformité, remboursement intégral via Wave ou Orange Money.
+              </p>
+            </div>
+
+            <!-- BOUTON VOCAL D'AIDE SUR CETTE PIÈCE -->
+            <div class="p-3 rounded-2xl bg-[#141825] border border-[#222a3d] flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[18px]">mic</span>
+                </div>
+                <div>
+                  <div class="font-extrabold text-white text-[11px]">Un doute sur la compatibilité ?</div>
+                  <div class="text-[10px] text-slate-400">Posez votre question en Wolof ou Français</div>
+                </div>
+              </div>
+              <button type="button" onclick="openSosModal('voice')" class="px-3 py-1.5 bg-[#20273a] hover:bg-[#2b354e] text-orange-300 font-bold text-[10px] rounded-xl border border-orange-500/30 transition-all cursor-pointer shrink-0">
+                Vocal SOS
+              </button>
+            </div>
+          </div>
+
+          <!-- CONTENU ONGLET 2 : SPÉCIFICATIONS TECHNIQUES -->
+          <div id="detail-view-specs" class="hidden space-y-3">
+            <div class="auto-card rounded-2xl p-4 border border-[#20273a] bg-[#121624] space-y-3">
+              <h3 class="font-black text-white text-xs uppercase tracking-wider flex items-center gap-1.5 text-orange-400">
+                <span class="material-symbols-outlined text-[16px]">build</span>
+                <span>Caractéristiques Techniques Détaillées</span>
+              </h3>
+              
+              <!-- Tableau / Grille de Caractéristiques -->
+              <div class="space-y-2 text-xs" id="detail-specs-table">
+                <!-- Rempli dynamiquement en JS -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- STICKY BOTTOM ACTION BAR (Style Car Steering) -->
+      <div class="fixed bottom-0 left-0 right-0 max-w-lg mx-auto bg-[#0a0d15]/95 backdrop-blur-md border-t border-[#1c2436] p-3 px-4 z-50 flex items-center justify-between gap-3 shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+        <div class="flex flex-col">
+          <span class="text-[8px] uppercase tracking-wider text-slate-400 font-bold">Prix Total Garanti</span>
+          <span id="detail-sticky-price" class="font-black text-sm sm:text-base text-white price-num text-orange-400">49 500 FCFA</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Bouton Ajouter au Panier -->
+          <button type="button" id="detail-btn-cart" onclick="addCurrentDetailToCart()" class="px-3 py-2.5 rounded-xl border border-[#263147] bg-[#161c2a] hover:bg-[#1e273a] text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer">
+            <span class="material-symbols-outlined text-[16px] text-emerald-400">add_shopping_cart</span>
+            <span>+ Panier</span>
+          </button>
+
+          <!-- Bouton Payer Directement -->
+          <button type="button" id="detail-btn-buy" onclick="buyCurrentDetailNow()" class="px-4 py-2.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] hover:from-[#ff5722] hover:to-[#ff4500] text-white font-black text-xs rounded-xl flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-[0_4px_16px_rgba(255,69,0,0.4)]">
+            <span class="material-symbols-outlined text-[15px] text-amber-200">bolt</span>
+            <span>Acheter (Wave/OM)</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
     <!-- ÉCRAN 3 : APPLICATION VENDEUR                                  -->
     <!-- ============================================================== -->
     <div id="screen-seller" class="hidden flex-1 flex flex-col bg-[#090d16] text-white pb-20">
@@ -1746,7 +1956,8 @@
         'screen-login-buyer',
         'screen-login-seller',
         'screen-buyer',
-        'screen-seller'
+        'screen-seller',
+        'screen-product-detail'
       ];
       screens.forEach(id => {
         const el = document.getElementById(id);
@@ -1774,6 +1985,10 @@
         if (el) el.classList.remove('hidden');
         syncSellerHeader();
         loadSellerData();
+      } else if (screenId === 'product-detail') {
+        const el = document.getElementById('screen-product-detail');
+        if (el) el.classList.remove('hidden');
+        updateCartBadges();
       }
       window.scrollTo(0, 0);
     }
@@ -2025,6 +2240,7 @@
       const count = buyerCart.length;
       const hBadge = document.getElementById("buyer-header-cart-badge");
       const bBadge = document.getElementById("buyer-bottom-cart-badge");
+      const dBadge = document.getElementById("detail-cart-badge");
       if (hBadge) {
         hBadge.innerText = count;
         if (count > 0) hBadge.classList.remove("hidden");
@@ -2034,6 +2250,11 @@
         bBadge.innerText = count;
         if (count > 0) bBadge.classList.remove("hidden");
         else bBadge.classList.add("hidden");
+      }
+      if (dBadge) {
+        dBadge.innerText = count;
+        if (count > 0) dBadge.classList.remove("hidden");
+        else dBadge.classList.add("hidden");
       }
       const oCount = (buyerOrders || []).filter(o => o.step < 4).length;
       const oBadge = document.getElementById("buyer-bottom-orders-badge");
@@ -2239,7 +2460,7 @@
 
               <!-- Vignette Image -->
               <div class="w-16 h-16 rounded-xl bg-[#0c0f17] overflow-hidden shrink-0 border border-[#20273a] p-1 flex items-center justify-center">
-                <img src="${i.image || 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'}" alt="${i.name}" class="w-full h-full object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
+                <img src="${i.image || 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80'}" alt="${i.name}" class="w-full h-full object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80'" />
               </div>
 
               <!-- Détails de la Pièce -->
@@ -2438,7 +2659,7 @@
         if (buyerProducts.length === 0) {
           buyerProducts = [
             { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", conditionLabel: "Neuf d'Origine OEM", publicPrice: 49500, bankPrice: 45000, commission: 4500, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
-            { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", conditionLabel: "Occasion Testée", publicPrice: 55000, bankPrice: 50000, commission: 5000, vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" },
+            { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", conditionLabel: "Occasion Testée", publicPrice: 55000, bankPrice: 50000, commission: 5000, vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" },
             { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", conditionLabel: "Neuf d'Origine OEM", publicPrice: 88000, bankPrice: 80000, commission: 8000, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" }
           ];
         }
@@ -2489,9 +2710,9 @@
         const isInCart = buyerCart.some(i => i.id === p.id);
 
         return `
-          <div class="auto-card rounded-2xl border border-[#20273a] p-3 flex gap-3 group transition-all duration-200 hover:border-[#ff4500]/50 hover:shadow-[0_4px_20px_rgba(255,69,0,0.15)]">
+          <div onclick="openProductDetail('${p.id}')" class="auto-card rounded-2xl border border-[#20273a] p-3 flex gap-3 group transition-all duration-200 hover:border-[#ff4500]/50 hover:shadow-[0_4px_20px_rgba(255,69,0,0.15)] cursor-pointer">
             <div class="w-20 h-20 rounded-xl bg-[#0c0f17] border border-[#20273a] overflow-hidden shrink-0 flex items-center justify-center p-1 relative">
-              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80'" />
               <span class="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
             </div>
 
@@ -2509,19 +2730,23 @@
                   <span class="material-symbols-outlined text-[11px] text-[#ff5714]">location_on</span>
                   <span>${p.hub} · ${p.vendor}</span>
                 </p>
+                <div class="text-[9px] text-orange-400 font-bold flex items-center gap-0.5 pt-0.5">
+                  <span class="material-symbols-outlined text-[12px]">visibility</span>
+                  <span>Détails techniques &amp; photos</span>
+                </div>
               </div>
 
-              <div class="pt-2 flex items-center justify-between border-t border-[#1c2436] gap-1.5 mt-1">
+              <div class="pt-2 flex items-center justify-between border-t border-[#1c2436] gap-1.5 mt-1" onclick="event.stopPropagation()">
                 <div class="flex flex-col">
                   <span class="text-[8px] text-slate-400 uppercase font-bold tracking-wider">Prix Direct</span>
                   <span class="font-black text-xs text-white price-num">${formatCFA(p.publicPrice)}</span>
                 </div>
                 <div class="flex items-center gap-1.5">
-                  <button onclick="addToCart('${p.id}')" title="Ajouter au Panier" class="px-2.5 py-1.5 rounded-xl border ${isInCart ? 'border-emerald-500 bg-emerald-950/60 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]' : 'border-[#263147] bg-[#1a2030] hover:bg-[#222b40] text-slate-200'} font-bold text-[10px] flex items-center gap-1 transition-all active:scale-95 cursor-pointer">
+                  <button type="button" onclick="event.stopPropagation(); addToCart('${p.id}')" title="Ajouter au Panier" class="px-2.5 py-1.5 rounded-xl border ${isInCart ? 'border-emerald-500 bg-emerald-950/60 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]' : 'border-[#263147] bg-[#1a2030] hover:bg-[#222b40] text-slate-200'} font-bold text-[10px] flex items-center gap-1 transition-all active:scale-95 cursor-pointer">
                     <span class="material-symbols-outlined text-[14px] ${isInCart ? 'text-emerald-400 font-black' : 'text-slate-400'}">${isInCart ? 'check' : 'add_shopping_cart'}</span>
                     <span>${isInCart ? 'Au Panier' : '+ Panier'}</span>
                   </button>
-                  <button onclick="openCheckoutModalForItem('${p.id}')" title="Payer directement cette pièce" class="px-2.5 py-1.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] hover:from-[#ff5714] hover:to-[#ff4500] text-white font-black text-[10px] rounded-xl flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-[0_2px_12px_rgba(255,69,0,0.35)]">
+                  <button type="button" onclick="event.stopPropagation(); openCheckoutModalForItem('${p.id}')" title="Payer directement cette pièce" class="px-2.5 py-1.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] hover:from-[#ff5714] hover:to-[#ff4500] text-white font-black text-[10px] rounded-xl flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-[0_2px_12px_rgba(255,69,0,0.35)]">
                     <span class="material-symbols-outlined text-[13px] text-amber-200">bolt</span>
                     <span>Payer</span>
                   </button>
@@ -2531,6 +2756,203 @@
           </div>
         `;
       }).join("");
+    }
+
+    // -------------------------------------------------------------
+    // LOGIQUE DE LA FICHE PRODUIT : DÉTAILS TECHNIQUES & MULTI-PHOTOS
+    // -------------------------------------------------------------
+    let activeDetailProduct = null;
+    let activeDetailTab = 'desc';
+
+    function openProductDetail(productId) {
+      const prod = buyerProducts.find(p => p.id === productId);
+      if (!prod) return;
+      activeDetailProduct = prod;
+
+      // Top bar title
+      const hTitle = document.getElementById("detail-header-title");
+      if (hTitle) hTitle.innerText = prod.name;
+
+      // Hero image & badges
+      const heroImg = document.getElementById("detail-hero-image");
+      if (heroImg) {
+        heroImg.src = prod.image;
+        heroImg.alt = prod.name;
+      }
+
+      const oemBadge = document.getElementById("detail-badge-oem");
+      if (oemBadge) {
+        oemBadge.innerHTML = `<span class="material-symbols-outlined text-[12px]">verified</span><span>OEM ${prod.oem || '100% Conforme'}</span>`;
+      }
+
+      const condBadge = document.getElementById("detail-badge-condition");
+      if (condBadge) {
+        condBadge.innerText = prod.conditionLabel || (prod.condition === 'neuf' ? "Neuf d'Origine OEM" : "Occasion Testée");
+      }
+
+      const hubBadge = document.getElementById("detail-badge-hub");
+      if (hubBadge) {
+        hubBadge.innerHTML = `<span class="material-symbols-outlined text-[11px] text-[#ff5722]">location_on</span><span>Disponible à ${prod.hub || 'Pikine'}</span>`;
+      }
+
+      // Photos Gallery (Thumbnails)
+      const thumbsContainer = document.getElementById("detail-thumbnails-container");
+      if (thumbsContainer) {
+        const photos = (prod.gallery && prod.gallery.length > 0) ? prod.gallery : [
+          prod.image,
+          "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        thumbsContainer.innerHTML = photos.map((photoUrl, idx) => {
+          const isFirst = idx === 0;
+          return `
+            <button type="button" onclick="selectHeroThumbnail('${photoUrl}', this)" class="detail-thumb-btn w-16 h-16 rounded-xl bg-[#080b12] overflow-hidden border ${isFirst ? 'border-[#ff4500] ring-2 ring-[#ff4500]' : 'border-[#1e2538] hover:border-slate-500'} p-0.5 shrink-0 transition-all cursor-pointer">
+              <img src="${photoUrl}" alt="Photo angle ${idx + 1}" class="w-full h-full object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80'" />
+            </button>
+          `;
+        }).join("");
+      }
+
+      // Title & identifiers
+      const catEl = document.getElementById("detail-category");
+      if (catEl) catEl.innerText = (prod.category || "Pièce").toUpperCase();
+
+      const oemCodeEl = document.getElementById("detail-oem-code");
+      if (oemCodeEl) oemCodeEl.innerText = `OEM: ${prod.oem || 'N/A'}`;
+
+      const titleEl = document.getElementById("detail-title");
+      if (titleEl) titleEl.innerText = prod.name;
+
+      const vehEl = document.getElementById("detail-vehicle");
+      if (vehEl) vehEl.innerText = prod.vehicle || "Toyota Hilux Vigo 2.5 D-4D";
+
+      const vendEl = document.getElementById("detail-vendor-info");
+      if (vendEl) vendEl.innerHTML = `<span class="material-symbols-outlined text-[14px] text-slate-500">store</span><span>${prod.vendor || 'Boutique Certifiée'} · Hub ${prod.hub || 'Pikine'}</span>`;
+
+      // Price displays
+      const priceFormatted = formatCFA(prod.publicPrice);
+      const pDisp = document.getElementById("detail-price-display");
+      if (pDisp) pDisp.innerText = priceFormatted;
+
+      const pSticky = document.getElementById("detail-sticky-price");
+      if (pSticky) pSticky.innerText = priceFormatted;
+
+      // Description text
+      const descText = document.getElementById("detail-desc-text");
+      if (descText) {
+        descText.innerText = prod.description || `Pièce certifiée pour ${prod.vehicle}. Contrôlée et testée sur banc d'essai à Dakar avant mise en stock. Conforme aux spécifications constructeur avec garantie conformité Difonsé de 2 jours après livraison.`;
+      }
+
+      // Specifications Table
+      const specsTable = document.getElementById("detail-specs-table");
+      if (specsTable) {
+        const specs = prod.specs || {
+          "oem": prod.oem || "N/A",
+          "brand": "OEM Constructeur",
+          "vehicle": prod.vehicle || "Toyota Hilux",
+          "engine": "2.5 D-4D (2KD-FTV) Diesel",
+          "years": "2005 - 2016",
+          "position": "Compartiment Moteur / Châssis",
+          "power": "Standard OEM",
+          "testing": "Testé et certifié opérationnel 100%",
+          "warranty": "Garantie Difonsé 2 jours (48h pour montage mécanicien)"
+        };
+
+        const labels = {
+          "oem": { label: "Référence OEM", icon: "qr_code_2" },
+          "brand": { label: "Marque / Fabricant", icon: "verified" },
+          "vehicle": { label: "Modèles Compatibles", icon: "directions_car" },
+          "engine": { label: "Motorisation", icon: "engineering" },
+          "years": { label: "Années Compatibles", icon: "calendar_month" },
+          "position": { label: "Position Véhicule", icon: "navigation" },
+          "power": { label: "Caractéristiques & Mesures", icon: "speed" },
+          "testing": { label: "Contrôle & Banc d'Essai", icon: "fact_check" },
+          "warranty": { label: "Garantie Difonsé", icon: "shield" }
+        };
+
+        specsTable.innerHTML = Object.entries(specs).map(([key, val]) => {
+          const meta = labels[key] || { label: key, icon: "check_circle" };
+          const isHighlight = key === "oem" || key === "testing" || key === "warranty";
+          return `
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-xl ${isHighlight ? 'bg-[#0f1422] border border-[#26334d]' : 'bg-[#0a0d15] border border-[#1b2233]'} gap-1">
+              <span class="text-[11px] text-slate-400 font-bold flex items-center gap-1.5 shrink-0">
+                <span class="material-symbols-outlined text-[15px] ${isHighlight ? 'text-orange-400' : 'text-slate-500'}">${meta.icon}</span>
+                <span>${meta.label}</span>
+              </span>
+              <span class="text-xs font-black ${isHighlight ? 'text-white' : 'text-slate-200'} text-left sm:text-right font-mono">${val}</span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Sync Cart Button state
+      syncDetailCartButton();
+
+      // Show screen
+      switchDetailTab('desc');
+      showScreen('product-detail');
+    }
+
+    function selectHeroThumbnail(imgSrc, btnElement) {
+      const hero = document.getElementById("detail-hero-image");
+      if (hero) hero.src = imgSrc;
+
+      // Update active ring
+      const allThumbs = document.querySelectorAll(".detail-thumb-btn");
+      allThumbs.forEach(t => {
+        t.className = "detail-thumb-btn w-16 h-16 rounded-xl bg-[#080b12] overflow-hidden border border-[#1e2538] hover:border-slate-500 p-0.5 shrink-0 transition-all cursor-pointer";
+      });
+      if (btnElement) {
+        btnElement.className = "detail-thumb-btn w-16 h-16 rounded-xl bg-[#080b12] overflow-hidden border border-[#ff4500] ring-2 ring-[#ff4500] p-0.5 shrink-0 transition-all cursor-pointer";
+      }
+    }
+
+    function switchDetailTab(tab) {
+      activeDetailTab = tab;
+      const btnDesc = document.getElementById("btn-detail-tab-desc");
+      const btnSpecs = document.getElementById("btn-detail-tab-specs");
+      const viewDesc = document.getElementById("detail-view-desc");
+      const viewSpecs = document.getElementById("detail-view-specs");
+
+      if (tab === 'desc') {
+        if (btnDesc) btnDesc.className = "flex-1 py-2 px-3 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] text-white shadow-sm cursor-pointer";
+        if (btnSpecs) btnSpecs.className = "flex-1 py-2 px-3 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer";
+        if (viewDesc) viewDesc.classList.remove("hidden");
+        if (viewSpecs) viewSpecs.classList.add("hidden");
+      } else {
+        if (btnSpecs) btnSpecs.className = "flex-1 py-2 px-3 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#ff4500] to-[#e63900] text-white shadow-sm cursor-pointer";
+        if (btnDesc) btnDesc.className = "flex-1 py-2 px-3 rounded-xl font-bold text-xs text-slate-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer";
+        if (viewSpecs) viewSpecs.classList.remove("hidden");
+        if (viewDesc) viewDesc.classList.add("hidden");
+      }
+    }
+
+    function syncDetailCartButton() {
+      if (!activeDetailProduct) return;
+      const isInCart = buyerCart.some(i => i.id === activeDetailProduct.id);
+      const btn = document.getElementById("detail-btn-cart");
+      if (btn) {
+        if (isInCart) {
+          btn.className = "px-3 py-2.5 rounded-xl border border-emerald-500 bg-emerald-950/60 text-emerald-300 font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)] cursor-pointer";
+          btn.innerHTML = `<span class="material-symbols-outlined text-[16px] text-emerald-400 font-black">check</span><span>Au Panier</span>`;
+        } else {
+          btn.className = "px-3 py-2.5 rounded-xl border border-[#263147] bg-[#161c2a] hover:bg-[#1e273a] text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer";
+          btn.innerHTML = `<span class="material-symbols-outlined text-[16px] text-emerald-400">add_shopping_cart</span><span>+ Panier</span>`;
+        }
+      }
+    }
+
+    function addCurrentDetailToCart() {
+      if (!activeDetailProduct) return;
+      addToCart(activeDetailProduct.id);
+      syncDetailCartButton();
+    }
+
+    function buyCurrentDetailNow() {
+      if (!activeDetailProduct) return;
+      openCheckoutModalForItem(activeDetailProduct.id);
     }
 
     function renderBuyerOrders() {
@@ -2799,7 +3221,7 @@
           <div class="p-3 auto-card rounded-2xl border border-[#20273a] hover:border-[#ff4500]/50 transition-all space-y-2">
             <div class="flex gap-2.5 items-start">
               <div class="w-14 h-14 rounded-xl bg-[#0c0f17] overflow-hidden shrink-0 border border-[#20273a] p-1 flex items-center justify-center">
-                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80'" />
+                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80'" />
               </div>
               <div class="flex-1 min-w-0 space-y-0.5">
                 <div class="flex items-center justify-between">
@@ -2991,7 +3413,7 @@
       const vehicle = document.getElementById("seller-piece-car").value;
       const condition = document.getElementById("seller-piece-condition").value;
       const bankPrice = parseInt(document.getElementById("seller-bank-price").value) || 0;
-      const image = sellerCapturedPhotoDataUrl || "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80";
+      const image = sellerCapturedPhotoDataUrl || "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80";
 
       const newPiece = {
         name,
