@@ -1,5 +1,15 @@
 ﻿[
     {
+        "id":  "act_1795635686527",
+        "timestamp":  "2026-11-25T19:41:26.5666722Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion réussie : Modou Ndiaye (seller - Solvabilité: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
         "id":  "act_1795627374721",
         "timestamp":  "2026-11-25T17:22:54.7212261Z",
         "section":  "seller",

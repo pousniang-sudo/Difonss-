@@ -8,3 +8,4 @@ node_modules
 .env.*.local
 Créer un logo Difonssé*
 *.pdf
+scratch/

@@ -718,8 +718,9 @@ while ($listener.IsListening) {
                         name = $fullN
                         phone = $ph
                         garageName = if ($bodyObj.garageName) { $bodyObj.garageName } elseif ($matched -and $matched.garageName) { $matched.garageName } else { "Garage Castors Dakar" }
-                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Boutique Modou Pikine" }
-                        hub = if ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Pikine" }
+                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Boutique Modou Pièces Auto" }
+                        location = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.location) { $matched.location } else { "Pikine - Marché Tilène" }
+                        hub = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Pikine" }
                         activeCar = if ($matched -and $matched.activeCar) { $matched.activeCar } else { "Toyota Hilux Vigo 2.5 D-4D" }
                         solvencyScore = if ($matched -and $matched.solvencyScore) { $matched.solvencyScore } else { 98 }
                         solvencyStatus = if ($matched -and $matched.solvencyStatus) { $matched.solvencyStatus } else { "Solvable Vérifié" }
