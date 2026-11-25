@@ -14,6 +14,8 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client (Tracking des connexions & Profils) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       darkMode: "class",
@@ -1875,6 +1877,7 @@
     try {
       if (window.supabase && window.supabase.createClient) {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log("⚡ Supabase connecté avec succès au projet Difonsé (qqhgxnizhxfqanswjpmg)");
       }
     } catch (e) {
       console.warn("Supabase init:", e);
@@ -1980,11 +1983,29 @@
         initCart();
         loadBuyerData();
         switchBuyerTab(activeBuyerTab || 'catalog');
+        trackUserConnection({
+          firstName: currentBuyer.firstName,
+          lastName: currentBuyer.lastName,
+          phone: currentBuyer.phone,
+          role: "buyer",
+          organization: currentBuyer.garageName,
+          hub: "Castors",
+          solvencyScore: currentBuyer.solvencyScore || 98
+        });
       } else if (screenId === 'seller') {
         const el = document.getElementById('screen-seller');
         if (el) el.classList.remove('hidden');
         syncSellerHeader();
         loadSellerData();
+        trackUserConnection({
+          firstName: currentSeller.firstName,
+          lastName: currentSeller.lastName,
+          phone: currentSeller.phone,
+          role: "seller",
+          organization: currentSeller.shopName,
+          hub: currentSeller.hub || "Pikine",
+          solvencyScore: 100
+        });
       } else if (screenId === 'product-detail') {
         const el = document.getElementById('screen-product-detail');
         if (el) el.classList.remove('hidden');
