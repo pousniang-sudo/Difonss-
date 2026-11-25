@@ -31,9 +31,42 @@ function saveDataFile(filename, data) {
 
 // État en mémoire initialisé
 let products = loadDataFile('products.json', [
-  { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 45000, commission: 4500, publicPrice: 49500, vendorId: "usr_seller_1", vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80", stock: 4, compatibleCar: "Toyota Hilux 2KD / Vigo" },
-  { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", condition: "occasion", conditionLabel: "Occasion Testée", bankPrice: 50000, commission: 5000, publicPrice: 55000, vendorId: "usr_seller_2", vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80", stock: 2, compatibleCar: "Toyota Hilux / Hiace / Fortuner" },
-  { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", condition: "neuf", conditionLabel: "Neuf d'Origine OEM", bankPrice: 80000, commission: 8000, publicPrice: 88000, vendorId: "usr_seller_1", vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80", stock: 6, compatibleCar: "Toyota Hilux 2.5 D-4D 2005-2015" }
+  {
+    id: "p1",
+    name: "Alternateur 150A Original Valéo",
+    oem: "27060-0L020",
+    vehicle: "Toyota Hilux Vigo 2.5 D-4D (2011-2016)",
+    category: "electricite",
+    condition: "occasion",
+    conditionLabel: "Occasion Testée",
+    bankPrice: 45000,
+    commission: 4500,
+    publicPrice: 49500,
+    vendorId: "usr_seller_1",
+    vendor: "Boutique Modou Pikine",
+    hub: "Pikine",
+    image: "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+    ],
+    description: "Alternateur d'origine Valéo 150A révisé et testé sur banc d'essai à Dakar. Spécialement adapté pour les Toyota Hilux Vigo circulant en conditions sévères.",
+    specs: {
+      oem: "27060-0L020",
+      brand: "Valéo OEM (Fournisseur Première Monte)",
+      vehicle: "Toyota Hilux Vigo, Fortuner, HiAce",
+      engine: "2.5 D-4D (2KD-FTV) & 3.0 D-4D (1KD-FTV)",
+      years: "2005 - 2016",
+      position: "Compartiment moteur avant droit, courroie striée",
+      power: "12 Volts · 150 Ampères réels",
+      testing: "Testé sur banc électrique 14.4V sous charge continue",
+      warranty: "Garantie Difonsé 2 jours pour vérification et montage avec votre mécanicien"
+    },
+    stock: 3,
+    compatibleCar: "Toyota Hilux"
+  }
 ]);
 
 let orders = loadDataFile('orders.json', [
@@ -193,23 +226,52 @@ module.exports = async function handler(req, res) {
     const comm = Math.round(bPrice * 0.10);
     const pubPrice = bPrice + comm;
 
+    const img = body.image || "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80";
+    const gallery = Array.isArray(body.gallery) && body.gallery.length > 0 ? body.gallery : [
+      img,
+      "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+    ];
+
+    const condLabel = body.conditionLabel || (body.condition === "neuf" ? "Neuf d'Origine OEM" : (body.condition === "occasion" ? "Occasion Testée" : "Adaptable Certifié"));
+    const oemCode = body.oem || "OEM-" + Math.floor(1000 + Math.random() * 9000);
+    const veh = body.vehicle || "Toyota Hilux Vigo 2.5 D-4D";
+
+    const desc = body.description || `Pièce ${body.name || 'détachée'} (${condLabel}) certifiée compatible pour ${veh}. Contrôlée et testée sur banc d'essai à Dakar avant mise en stock. Conforme aux spécifications constructeur avec garantie conformité Difonsé de 2 jours après livraison.`;
+
+    const specs = (body.specs && typeof body.specs === 'object') ? body.specs : {
+      oem: oemCode,
+      brand: body.brand || "OEM Constructeur",
+      vehicle: veh,
+      engine: body.engine || "2.5 D-4D / 3.0 D-4D Diesel",
+      years: body.years || "2005 - 2016",
+      position: body.position || "Compartiment Moteur / Châssis",
+      power: body.power || "Standard OEM vérifié",
+      testing: "Testé et certifié opérationnel 100% sur banc d'essai",
+      warranty: "Garantie Difonsé 2 jours (48h pour montage mécanicien)"
+    };
+
     const newP = {
       id: "p_" + Date.now(),
       name: body.name,
-      oem: body.oem || "OEM-" + Math.floor(1000 + Math.random() * 9000),
-      vehicle: body.vehicle,
+      oem: oemCode,
+      vehicle: veh,
       category: body.category,
       condition: body.condition,
-      conditionLabel: body.condition === "neuf" ? "Neuf d'Origine OEM" : (body.condition === "occasion" ? "Occasion Testée" : "Adaptable Certifié"),
+      conditionLabel: condLabel,
       bankPrice: bPrice,
       commission: comm,
       publicPrice: pubPrice,
       vendorId: body.vendorId || "usr_seller_1",
-      vendor: body.vendor || "Boutique Modou",
+      vendor: body.vendor || "Boutique Modou Pikine",
       hub: body.hub || "Pikine",
-      image: body.image || "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80",
+      image: img,
+      gallery: gallery,
+      description: desc,
+      specs: specs,
       stock: Number(body.stock) || 1,
-      compatibleCar: body.compatibleCar || body.vehicle
+      compatibleCar: body.compatibleCar || veh
     };
 
     products.unshift(newP);
@@ -225,10 +287,14 @@ module.exports = async function handler(req, res) {
     if (!found) return sendJson(404, { error: "Pièce introuvable" });
 
     if (body.name) found.name = body.name;
-    if (body.oem != null) found.oem = body.oem;
+    if (body.oem != null) {
+      found.oem = body.oem;
+      if (found.specs) found.specs.oem = body.oem;
+    }
     if (body.vehicle) {
       found.vehicle = body.vehicle;
       found.compatibleCar = body.vehicle;
+      if (found.specs) found.specs.vehicle = body.vehicle;
     }
     if (body.category) found.category = body.category;
     if (body.condition) {
@@ -243,7 +309,23 @@ module.exports = async function handler(req, res) {
       found.publicPrice = bPrice + comm;
     }
     if (body.stock != null) found.stock = Number(body.stock);
-    if (body.image) found.image = body.image;
+    if (body.image) {
+      found.image = body.image;
+      if (!found.gallery || found.gallery.length === 0) {
+        found.gallery = [body.image];
+      } else {
+        found.gallery[0] = body.image;
+      }
+    }
+    if (Array.isArray(body.gallery) && body.gallery.length > 0) {
+      found.gallery = body.gallery;
+    }
+    if (body.description) {
+      found.description = body.description;
+    }
+    if (body.specs && typeof body.specs === 'object') {
+      found.specs = Object.assign({}, found.specs || {}, body.specs);
+    }
 
     saveDataFile('products.json', products);
     logActivity("seller", found.vendor, "UPDATE_PRODUCT", `Modification pièce: ${found.name} (Prix net: ${found.bankPrice} FCFA, Stock: ${found.stock})`, found.bankPrice, "edit");

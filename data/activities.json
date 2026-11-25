@@ -1,102 +1,132 @@
-[
-  {
-    "id": "act_1794613793114",
-    "timestamp": "2026-11-13T23:49:53.114Z",
-    "section": "platform",
-    "actor": "Plateforme Difonsé",
-    "action": "DIRECT_PAYOUT",
-    "details": "Paiement direct vendeur pour CMD-5878 (Net vendeur: 45 000 FCFA | Retainer: 4 500 FCFA)",
-    "amount": 49500,
-    "icon": "payments"
-  },
-  {
-    "id": "act_1794613793058",
-    "timestamp": "2026-11-13T23:49:53.070Z",
-    "section": "buyer",
-    "actor": "Amadou Diallo (Garage Castors)",
-    "action": "ORDER_PLACED",
-    "details": "Achat avec garantie conformité 2 jours : Alternateur 150A Original via Wave Sénégal",
-    "amount": 49500,
-    "icon": "shopping_bag"
-  },
-  {
-    "id": "act_101",
-    "timestamp": "2026-11-12T14:30:15Z",
-    "section": "platform",
-    "actor": "Superviseur Difonsé",
-    "action": "TRANSACTIONS_AUDIT",
-    "details": "Vérification globale des transactions actives avec garantie conformité 2 jours",
-    "amount": 1425000,
-    "icon": "verified"
-  },
-  {
-    "id": "act_102",
-    "timestamp": "2026-11-12T13:45:00Z",
-    "section": "buyer",
-    "actor": "Amadou Diallo (Garage Castors)",
-    "action": "ORDER_PLACED",
-    "details": "Commande validée avec garantie 2 jours : Alternateur 150A Original via Wave Sénégal",
-    "amount": 49500,
-    "icon": "shopping_bag"
-  },
-  {
-    "id": "act_103",
-    "timestamp": "2026-11-12T13:46:20Z",
-    "section": "platform",
-    "actor": "Système Difonsé",
-    "action": "DIRECT_PAYMENT_PROCESSED",
-    "details": "Paiement direct effectué pour la commande CMD-8021 (Vendeur: 45 000 FCFA | Retainer: 4 500 FCFA)",
-    "amount": 49500,
-    "icon": "payments"
-  },
-  {
-    "id": "act_104",
-    "timestamp": "2026-11-12T12:15:10Z",
-    "section": "seller",
-    "actor": "Modou Ndiaye (Boutique Pikine)",
-    "action": "COURIER_PICKUP",
-    "details": "Pièce remise au coursier Tiak-Tiak avec le code PK-891",
-    "amount": 0,
-    "icon": "local_shipping"
-  },
-  {
-    "id": "act_105",
-    "timestamp": "2026-11-12T11:05:40Z",
-    "section": "buyer",
-    "actor": "Ibrahima Sall (Particulier)",
-    "action": "SEARCH_SOS",
-    "details": "Recherche par photo SOS pour étrier de frein avant gauche",
-    "amount": 0,
-    "icon": "search"
-  },
-  {
-    "id": "act_106",
-    "timestamp": "2026-11-12T10:20:00Z",
-    "section": "seller",
-    "actor": "Modou Ndiaye (Boutique Pikine)",
-    "action": "ADD_PRODUCT",
-    "details": "Ajout produit : Paire Amortisseurs Renforcés Arrière (Prix Vendeur: 58 000 | Prix Client: 63 800)",
-    "amount": 58000,
-    "icon": "add_circle"
-  },
-  {
-    "id": "act_107",
-    "timestamp": "2026-11-11T16:50:00Z",
-    "section": "seller",
-    "actor": "Modou Ndiaye (Boutique Pikine)",
-    "action": "WITHDRAWAL_WAVE",
-    "details": "Virement Wave Sénégal réalisé vers le 77 890 45 12",
-    "amount": 100000,
-    "icon": "payments"
-  },
-  {
-    "id": "act_108",
-    "timestamp": "2026-11-11T15:10:00Z",
-    "section": "platform",
-    "actor": "Amadou Diallo (Garage)",
-    "action": "CONFORMITY_VALIDATED",
-    "details": "Conformité de montage validée sur CMD-7712 sous 48h -> Commande clôturée avec succès",
-    "amount": 180000,
-    "icon": "verified"
-  }
+﻿[
+    {
+        "id":  "act_1795627374721",
+        "timestamp":  "2026-11-25T17:22:54.7212261Z",
+        "section":  "seller",
+        "actor":  [
+                      "Boutique Modou Pikine",
+                      "Boutique Modou Pikine",
+                      "Dakar Pièces Express",
+                      "Boutique Modou Pikine",
+                      "Boutique Modou Pikine",
+                      "Boutique Modou Pikine",
+                      "Dakar Pièces Express",
+                      "Dakar Pièces Express",
+                      "Boutique Modou Pikine"
+                  ],
+        "action":  "DELETE_PRODUCT",
+        "details":  "Pièce retirée du catalogue: Compresseur Climatisation Sanden Denso Alternateur 150A Original Valéo Kit Disques \u0026 Plaquettes Frein Avant Paire Amortisseurs Renforcés Arrière Jeu 4 Injecteurs Common Rail Denso Optique Phare Avant Droit Chromé Kit Filtres Vidange Complet (Huile+Air+Gazole) Démarreur 12V 2.2kW Renforcé Radiateur Moteur Aluminium Haute Dissipation",
+        "amount":  0,
+        "icon":  "delete"
+    },
+    {
+        "id":  "act_1795627374388",
+        "timestamp":  "2026-11-25T17:22:54.3886655Z",
+        "section":  "seller",
+        "actor":  "Boutique Modou Pikine",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente: Compresseur Climatisation Sanden Denso (Prix banque: 75000 FCFA | Prix client: 82500 FCFA)",
+        "amount":  75000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1794613793114",
+        "timestamp":  "2026-11-13T23:49:53.114Z",
+        "section":  "platform",
+        "actor":  "Plateforme Difonsé",
+        "action":  "DIRECT_PAYOUT",
+        "details":  "Paiement direct vendeur pour CMD-5878 (Net vendeur: 45 000 FCFA | Retainer: 4 500 FCFA)",
+        "amount":  49500,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1794613793058",
+        "timestamp":  "2026-11-13T23:49:53.070Z",
+        "section":  "buyer",
+        "actor":  "Amadou Diallo (Garage Castors)",
+        "action":  "ORDER_PLACED",
+        "details":  "Achat avec garantie conformité 2 jours : Alternateur 150A Original via Wave Sénégal",
+        "amount":  49500,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_101",
+        "timestamp":  "2026-11-12T14:30:15Z",
+        "section":  "platform",
+        "actor":  "Superviseur Difonsé",
+        "action":  "TRANSACTIONS_AUDIT",
+        "details":  "Vérification globale des transactions actives avec garantie conformité 2 jours",
+        "amount":  1425000,
+        "icon":  "verified"
+    },
+    {
+        "id":  "act_102",
+        "timestamp":  "2026-11-12T13:45:00Z",
+        "section":  "buyer",
+        "actor":  "Amadou Diallo (Garage Castors)",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande validée avec garantie 2 jours : Alternateur 150A Original via Wave Sénégal",
+        "amount":  49500,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_103",
+        "timestamp":  "2026-11-12T13:46:20Z",
+        "section":  "platform",
+        "actor":  "Système Difonsé",
+        "action":  "DIRECT_PAYMENT_PROCESSED",
+        "details":  "Paiement direct effectué pour la commande CMD-8021 (Vendeur: 45 000 FCFA | Retainer: 4 500 FCFA)",
+        "amount":  49500,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_104",
+        "timestamp":  "2026-11-12T12:15:10Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (Boutique Pikine)",
+        "action":  "COURIER_PICKUP",
+        "details":  "Pièce remise au coursier Tiak-Tiak avec le code PK-891",
+        "amount":  0,
+        "icon":  "local_shipping"
+    },
+    {
+        "id":  "act_105",
+        "timestamp":  "2026-11-12T11:05:40Z",
+        "section":  "buyer",
+        "actor":  "Ibrahima Sall (Particulier)",
+        "action":  "SEARCH_SOS",
+        "details":  "Recherche par photo SOS pour étrier de frein avant gauche",
+        "amount":  0,
+        "icon":  "search"
+    },
+    {
+        "id":  "act_106",
+        "timestamp":  "2026-11-12T10:20:00Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (Boutique Pikine)",
+        "action":  "ADD_PRODUCT",
+        "details":  "Ajout produit : Paire Amortisseurs Renforcés Arrière (Prix Vendeur: 58 000 | Prix Client: 63 800)",
+        "amount":  58000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_107",
+        "timestamp":  "2026-11-11T16:50:00Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye (Boutique Pikine)",
+        "action":  "WITHDRAWAL_WAVE",
+        "details":  "Virement Wave Sénégal réalisé vers le 77 890 45 12",
+        "amount":  100000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_108",
+        "timestamp":  "2026-11-11T15:10:00Z",
+        "section":  "platform",
+        "actor":  "Amadou Diallo (Garage)",
+        "action":  "CONFORMITY_VALIDATED",
+        "details":  "Conformité de montage validée sur CMD-7712 sous 48h -\u003e Commande clôturée avec succès",
+        "amount":  180000,
+        "icon":  "verified"
+    }
 ]

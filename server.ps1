@@ -1,4 +1,4 @@
-$listener = New-Object System.Net.HttpListener
+﻿$listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:8080/")
 $listener.Start()
 Write-Output "Backend REST API & Web Server listening on http://localhost:8080/"
@@ -182,24 +182,55 @@ while ($listener.IsListening) {
                     $bPrice = [int]$bodyObj.bankPrice
                     $comm = [Math]::Round($bPrice * 0.10)
                     $pubPrice = $bPrice + $comm
+                    $oemCode = if ($bodyObj.oem) { $bodyObj.oem } else { "OEM-" + (Get-Random -Minimum 1000 -Maximum 9999) }
+                    $veh = if ($bodyObj.vehicle) { $bodyObj.vehicle } else { "Toyota Hilux Vigo 2.5 D-4D" }
+                    $condLabel = if ($bodyObj.conditionLabel) { $bodyObj.conditionLabel } elseif ($bodyObj.condition -eq "neuf") { "Neuf d'Origine OEM" } elseif ($bodyObj.condition -eq "occasion") { "Occasion Testée" } else { "Adaptable Certifié" }
+                    $mainImg = if ($bodyObj.image) { $bodyObj.image } else { "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=800&q=80" }
+
+                    $gallery = if ($null -ne $bodyObj.gallery -and $bodyObj.gallery.Count -gt 0) {
+                        @($bodyObj.gallery)
+                    } else {
+                        @($mainImg, "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80")
+                    }
+
+                    $desc = if ($bodyObj.description) { $bodyObj.description } else { "Pièce " + $bodyObj.name + " (" + $condLabel + ") certifiée compatible pour " + $veh + ". Contrôlée et testée sur banc d'essai à Dakar avant mise en stock avec garantie conformité Difonsé de 2 jours." }
+
+                    $specs = if ($null -ne $bodyObj.specs) {
+                        $bodyObj.specs
+                    } else {
+                        [PSCustomObject]@{
+                            oem = $oemCode
+                            brand = if ($bodyObj.brand) { $bodyObj.brand } else { "OEM Constructeur" }
+                            vehicle = $veh
+                            engine = if ($bodyObj.engine) { $bodyObj.engine } else { "2.5 D-4D / 3.0 D-4D Diesel" }
+                            years = if ($bodyObj.years) { $bodyObj.years } else { "2005 - 2016" }
+                            position = if ($bodyObj.position) { $bodyObj.position } else { "Compartiment Moteur / Châssis" }
+                            power = "Standard OEM certifié"
+                            testing = "Testé et certifié opérationnel 100% sur banc d'essai"
+                            warranty = "Garantie Difonsé 2 jours (48h pour montage mécanicien)"
+                        }
+                    }
 
                     $newP = [PSCustomObject]@{
                         id = "p_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
                         name = $bodyObj.name
-                        oem = if ($bodyObj.oem) { $bodyObj.oem } else { "OEM-" + (Get-Random -Minimum 1000 -Maximum 9999) }
-                        vehicle = $bodyObj.vehicle
+                        oem = $oemCode
+                        vehicle = $veh
                         category = $bodyObj.category
                         condition = $bodyObj.condition
-                        conditionLabel = if ($bodyObj.condition -eq "neuf") { "Neuf d'Origine OEM" } elseif ($bodyObj.condition -eq "occasion") { "Occasion Testée" } else { "Adaptable Certifié" }
+                        conditionLabel = $condLabel
                         bankPrice = $bPrice
                         commission = $comm
                         publicPrice = $pubPrice
                         vendorId = if ($bodyObj.vendorId) { $bodyObj.vendorId } else { "usr_seller_1" }
-                        vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Boutique Modou" }
+                        vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Boutique Modou Pikine" }
                         hub = if ($bodyObj.hub) { $bodyObj.hub } else { "Pikine" }
-                        image = if ($bodyObj.image) { $bodyObj.image } else { "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" }
+                        image = $mainImg
+                        gallery = $gallery
+                        description = $desc
+                        specs = $specs
                         stock = if ($bodyObj.stock) { [int]$bodyObj.stock } else { 1 }
-                        compatibleCar = if ($bodyObj.compatibleCar) { $bodyObj.compatibleCar } else { $bodyObj.vehicle }
+                        compatibleCar = if ($bodyObj.compatibleCar) { $bodyObj.compatibleCar } else { $veh }
                     }
 
                     $allProds = @($newP) + @($prods)
@@ -216,10 +247,14 @@ while ($listener.IsListening) {
                     $found = $prods | Where-Object { $_.id -eq $bodyObj.id } | Select-Object -First 1
                     if ($found) {
                         if ($bodyObj.name) { $found.name = $bodyObj.name }
-                        if ($bodyObj.oem) { $found.oem = $bodyObj.oem }
+                        if ($bodyObj.oem) {
+                            $found.oem = $bodyObj.oem
+                            if ($found.specs) { $found.specs.oem = $bodyObj.oem }
+                        }
                         if ($bodyObj.vehicle) {
                             $found.vehicle = $bodyObj.vehicle
                             $found.compatibleCar = $bodyObj.vehicle
+                            if ($found.specs) { $found.specs.vehicle = $bodyObj.vehicle }
                         }
                         if ($bodyObj.category) { $found.category = $bodyObj.category }
                         if ($bodyObj.condition) {
@@ -234,7 +269,23 @@ while ($listener.IsListening) {
                             $found.publicPrice = $bPrice + $comm
                         }
                         if ($null -ne $bodyObj.stock) { $found.stock = [int]$bodyObj.stock }
-                        if ($bodyObj.image) { $found.image = $bodyObj.image }
+                        if ($bodyObj.image) {
+                            $found.image = $bodyObj.image
+                            if ($null -eq $found.gallery -or $found.gallery.Count -eq 0) {
+                                $found.gallery = @($bodyObj.image)
+                            } else {
+                                $found.gallery[0] = $bodyObj.image
+                            }
+                        }
+                        if ($null -ne $bodyObj.gallery -and $bodyObj.gallery.Count -gt 0) {
+                            $found.gallery = @($bodyObj.gallery)
+                        }
+                        if ($bodyObj.description) {
+                            $found.description = $bodyObj.description
+                        }
+                        if ($null -ne $bodyObj.specs) {
+                            $found.specs = $bodyObj.specs
+                        }
 
                         Helper-WriteJsonFile "products.json" $prods
                         Helper-LogActivity "seller" $found.vendor "UPDATE_PRODUCT" ("Modification pièce: " + $found.name + " (Prix net: " + $found.bankPrice + " FCFA, Stock: " + $found.stock + ")") $found.bankPrice "edit"
