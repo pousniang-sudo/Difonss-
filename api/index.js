@@ -6,6 +6,21 @@ const path = require('path');
 const crypto = require('crypto');
 const url = require('url');
 
+// Supabase Server Configuration
+const SUPABASE_URL = process.env.SUPABASE_URL || "https://qqhgxnizhxfqanswjpmg.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_Ae2cpdJhhmU15DUD4-iiTA_BX09Wf-a";
+const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY || "";
+const SUPABASE_JWKS_URL = process.env.SUPABASE_JWKS_URL || `${SUPABASE_URL}/auth/v1/.well-known/jwks.json`;
+
+let supabaseServerClient = null;
+try {
+  const { createClient } = require('@supabase/supabase-js');
+  const activeKey = (SUPABASE_SECRET_KEY && !SUPABASE_SECRET_KEY.includes('••')) ? SUPABASE_SECRET_KEY : SUPABASE_PUBLISHABLE_KEY;
+  supabaseServerClient = createClient(SUPABASE_URL, activeKey);
+} catch (e) {
+  // Optional in environments where @supabase/supabase-js is not pre-installed
+}
+
 // Chargement des données JSON avec fallback
 function loadDataFile(filename, fallback = []) {
   try {
@@ -148,6 +163,17 @@ module.exports = async function handler(req, res) {
     res.statusCode = statusCode;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(data));
+  }
+
+  // ROUTE 0: GET /api/supabase/health
+  if (route === '/supabase/health' && req.method === 'GET') {
+    return sendJson(200, {
+      status: "connected",
+      supabaseUrl: SUPABASE_URL,
+      publishableKey: SUPABASE_PUBLISHABLE_KEY,
+      jwksUrl: SUPABASE_JWKS_URL,
+      serverClientReady: !!supabaseServerClient
+    });
   }
 
   // ROUTE 1: GET /api/stats (Nouveau BM: Retainers collectés & Paiements directs vendeurs)

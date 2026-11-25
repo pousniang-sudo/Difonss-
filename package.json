@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node api/index.js"
   },
+  "dependencies": {
+    "@supabase/server": "^0.1.0",
+    "@supabase/supabase-js": "^2.49.1"
+  },
   "keywords": [
     "difonse",
     "marketplace",

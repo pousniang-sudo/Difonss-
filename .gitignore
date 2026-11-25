@@ -3,5 +3,8 @@
 *.log
 .vercel
 node_modules
+.env
+.env.local
+.env.*.local
 Créer un logo Difonssé*
 *.pdf
