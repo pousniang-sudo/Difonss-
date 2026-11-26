@@ -1044,9 +1044,10 @@
           <div onclick="showScreen('login-seller')" title="Cliquez pour modifier votre profil vendeur" class="cursor-pointer group">
             <div class="text-xs font-black text-white flex items-center gap-1.5">
               <span id="seller-header-name">Espace Vendeur</span>
+              <span id="seller-code-badge" class="font-mono font-bold bg-[#1e130c] text-orange-400 border border-[#ff4500]/40 px-2 py-0.5 rounded-lg text-[10px]">N° VND-PRO</span>
               <span class="text-[9px] bg-red-950/60 text-red-400 border border-red-500/40 font-extrabold px-1.5 py-0.2 rounded-full flex items-center gap-1">
                 <span class="w-1 h-1 rounded-full bg-red-400 animate-pulse"></span>
-                <span>Vendeur Certifié</span>
+                <span>Certifié</span>
               </span>
             </div>
             <p class="text-[10px] text-slate-400 flex items-center gap-1 group-hover:text-slate-200 transition-colors">
@@ -2197,11 +2198,12 @@
     
     // Profils de session nominatifs pour identification et solvabilité
     let currentBuyer = {
-      firstName: "Amadou",
-      lastName: "Diallo",
-      fullName: "Amadou Diallo",
-      phone: "+221 77 450 12 34",
-      garageName: "Garage Castors Dakar",
+      isGuest: true,
+      firstName: "",
+      lastName: "",
+      fullName: "Acheteur Difonsé",
+      phone: "",
+      garageName: "",
       solvencyScore: 98,
       solvencyStatus: "Solvable Vérifié",
       solvencyDetails: "Client vérifié par Wave / Orange Money sans défaut de paiement."
@@ -2210,6 +2212,7 @@
     let currentSeller = {
       isIdentified: false,
       id: "",
+      vendorCode: "",
       firstName: "",
       lastName: "",
       fullName: "",
@@ -2436,9 +2439,11 @@
       const cleanDigits = ph.replace(/[^0-9]/g, '');
       const isDemoModou = (cleanDigits.endsWith("778904512") && fn.trim().toLowerCase() === "modou" && ln.trim().toLowerCase() === "ndiaye");
       const vendorId = isDemoModou ? "usr_seller_1" : `usr_seller_${cleanDigits || Date.now()}`;
+      const vendorCode = isDemoModou ? "VND-4512" : (cleanDigits ? `VND-${cleanDigits.slice(-6)}` : `VND-${Math.floor(100000 + Math.random() * 900000)}`);
 
       currentSeller.isIdentified = true;
       currentSeller.id = vendorId;
+      currentSeller.vendorCode = vendorCode;
       currentSeller.lastName = ln;
       currentSeller.firstName = fn;
       currentSeller.fullName = `${fn} ${ln}`;
@@ -2460,6 +2465,7 @@
         localStorage.setItem("difonse_seller_profile", JSON.stringify({
           isIdentified: true,
           id: vendorId,
+          vendorCode: vendorCode,
           firstName: fn,
           lastName: ln,
           fullName: `${fn} ${ln}`,
@@ -2481,6 +2487,7 @@
           body: JSON.stringify({
             role: "seller",
             id: vendorId,
+            vendorCode: vendorCode,
             firstName: fn,
             lastName: ln,
             shopName: shop,
@@ -2493,6 +2500,7 @@
           const data = await res.json();
           if (data.user) {
             currentSeller.id = data.user.id || currentSeller.id;
+            currentSeller.vendorCode = data.user.vendorCode || currentSeller.vendorCode;
             currentSeller.availableBalance = Number(data.user.availableBalance) || 0;
             currentSeller.totalSales = Number(data.user.totalSales) || 0;
             currentSeller.escrowBalance = Number(data.user.escrowBalance) || 0;
@@ -2508,6 +2516,7 @@
         role: "seller",
         organization: shop,
         hub: loc,
+        vendorCode: vendorCode,
         solvencyScore: 100
       });
       logAction("seller", shop, "LOGIN", `Connexion Vendeur : ${shop} (${fn} ${ln}) - ${loc}`, 0, "storefront");
@@ -2548,12 +2557,23 @@
       const nameEl = document.getElementById("buyer-header-name");
       const garageEl = document.getElementById("buyer-header-garage");
       const scoreEl = document.getElementById("buyer-header-score");
+      const scoreBtn = scoreEl ? scoreEl.parentElement : null;
       const initialsEl = document.getElementById("buyer-avatar-initials");
       const passScoreEl = document.getElementById("passport-score");
       const passNameEl = document.getElementById("passport-client-name");
 
+      if (currentBuyer.isGuest || !currentBuyer.firstName) {
+        if (nameEl) nameEl.innerText = "Catalogue Difonsé";
+        if (garageEl) garageEl.innerText = "Pièces Certifiées Dakar · Garantie 2 jours";
+        if (scoreBtn) scoreBtn.classList.add("hidden");
+        if (initialsEl) initialsEl.innerHTML = '<span class="material-symbols-outlined text-[17px]">handyman</span>';
+        if (passNameEl) passNameEl.innerText = "Acheteur Difonsé";
+        return;
+      }
+
+      if (scoreBtn) scoreBtn.classList.remove("hidden");
       if (nameEl) nameEl.innerText = currentBuyer.fullName;
-      if (garageEl) garageEl.innerText = currentBuyer.garageName;
+      if (garageEl) garageEl.innerText = currentBuyer.garageName || "Dakar";
       if (scoreEl) scoreEl.innerText = `Solvabilité : ${currentBuyer.solvencyScore}/100`;
       
       const initials = ((currentBuyer.firstName[0] || 'A') + (currentBuyer.lastName[0] || 'D')).toUpperCase();
@@ -2569,10 +2589,12 @@
       const shopEl = document.getElementById("seller-shop-title");
       const hubEl = document.getElementById("seller-hub-badge");
       const initialsEl = document.getElementById("seller-avatar-initials");
+      const codeEl = document.getElementById("seller-code-badge");
 
       if (nameEl) nameEl.innerText = currentSeller.fullName || "Espace Vendeur";
       if (shopEl) shopEl.innerText = currentSeller.shopName || "Boutique";
       if (hubEl) hubEl.innerText = currentSeller.location || currentSeller.hub || "Dakar";
+      if (codeEl) codeEl.innerText = currentSeller.vendorCode ? `N° ${currentSeller.vendorCode}` : "N° VND-PRO";
 
       const fnInit = (currentSeller.firstName && currentSeller.firstName[0]) || 'V';
       const lnInit = (currentSeller.lastName && currentSeller.lastName[0]) || 'D';
@@ -2982,10 +3004,10 @@
       const fnInput = document.getElementById("cart-buyer-firstname");
       const phInput = document.getElementById("cart-buyer-phone");
       const addrInput = document.getElementById("cart-buyer-address");
-      if (lnInput && !lnInput.value) lnInput.value = currentBuyer.lastName || "Diallo";
-      if (fnInput && !fnInput.value) fnInput.value = currentBuyer.firstName || "Amadou";
-      if (phInput && !phInput.value) phInput.value = (currentBuyer.phone || "77 450 12 34").replace("+221", "").trim();
-      if (addrInput && !addrInput.value) addrInput.value = currentBuyer.garageName || "Garage Castors Dakar";
+      if (lnInput) lnInput.value = currentBuyer.isGuest ? "" : (currentBuyer.lastName || "");
+      if (fnInput) fnInput.value = currentBuyer.isGuest ? "" : (currentBuyer.firstName || "");
+      if (phInput) phInput.value = currentBuyer.isGuest ? "" : (currentBuyer.phone || "").replace("+221", "").trim();
+      if (addrInput) addrInput.value = currentBuyer.isGuest ? "" : (currentBuyer.garageName || "");
 
       document.getElementById("cart-checkout-modal").classList.remove("hidden");
     }
@@ -3016,13 +3038,13 @@
       const phoneInput = document.getElementById("cart-buyer-phone");
       const addrInput = document.getElementById("cart-buyer-address");
 
-      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.lastName || "Diallo");
-      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.firstName || "Amadou");
-      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "77 450 12 34");
-      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
+      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.lastName);
+      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.firstName);
+      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.phone);
+      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.garageName);
 
       if (!ln || !fn) {
-        alert("Veuillez renseigner le Nom et Prénom du destinataire pour la livraison.");
+        alert("Veuillez renseigner votre Nom et Prénom pour la livraison.");
         return;
       }
       if (!ph) {
@@ -3033,14 +3055,15 @@
         ph = `+221 ${ph.replace("+221", "").trim()}`;
       }
       if (!addr) {
-        alert("Veuillez indiquer l'adresse ou partager votre localisation GPS pour la livraison.");
+        alert("Veuillez indiquer l'adresse exacte ou partager votre localisation GPS pour la livraison.");
         return;
       }
 
       const cFullName = `${fn} ${ln}`;
       const gps = currentCapturedGps['cart'];
 
-      // Mise à jour de l'identité acheteur courante et synchronisation Supabase immédiate
+      // Enregistrement identité acheteur
+      currentBuyer.isGuest = false;
       currentBuyer.firstName = fn;
       currentBuyer.lastName = ln;
       currentBuyer.fullName = cFullName;
@@ -3072,7 +3095,10 @@
         solvencyScore: currentBuyer.solvencyScore || 98,
         solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié",
         vendorId: item.vendorId || "usr_seller_1",
-        vendorName: item.vendorName || item.vendor || "Boutique Modou",
+        vendorName: item.vendorName || item.vendor || "Boutique Vendeur",
+        vendorCode: item.vendorCode || "",
+        vendorPhone: item.vendorPhone || "",
+        vendorShopLocation: item.hub || "Dakar",
         vendorBankPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
         vendorNetPrice: item.vendorNetPrice || item.vendorBankPrice || item.bankPrice,
         commission: item.platformRetainer || item.commission || Math.round((item.bankPrice || 0) * 0.10),
@@ -3080,6 +3106,46 @@
         totalPaid: item.publicPrice || item.totalPaid,
         provider: selectedCartPay + " Sénégal"
       }));
+
+      // Insertion directe Supabase
+      if (supabaseClient) {
+        for (const item of itemsPayload) {
+          try {
+            const cmdId = "CMD-" + Math.floor(1000 + Math.random() * 9000);
+            const pkCode = "PK-" + Math.floor(100 + Math.random() * 900);
+            await supabaseClient.from('orders').insert([{
+              id: cmdId,
+              product_id: item.productId,
+              part_name: item.partName,
+              client_first_name: fn,
+              client_last_name: ln,
+              client_name: cFullName,
+              client_phone: ph,
+              delivery_address: addr,
+              delivery_gps: gps,
+              solvency_score: 98,
+              solvency_status: "Solvable Vérifié",
+              vendor_id: item.vendorId,
+              vendor_name: item.vendorName,
+              vendor_code: item.vendorCode,
+              vendor_phone: item.vendorPhone,
+              vendor_shop_location: item.vendorShopLocation,
+              payment_provider: item.provider,
+              vendor_bank_price: item.vendorBankPrice,
+              vendor_net_price: item.vendorNetPrice,
+              commission: item.commission,
+              platform_retainer: item.platformRetainer,
+              total_paid: item.totalPaid,
+              pickup_code: pkCode,
+              step: 2,
+              step_label: "Payé par Difonsé · Tiak-Tiak en route vers le vendeur",
+              vendor_payment_status: "PAID_DIRECT",
+              action_required: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
+              timeline: `Acheteur débité via ${item.provider}. Retainer Difonsé prélevé (${item.platformRetainer} FCFA). Vendeur payé directement (${item.vendorBankPrice} FCFA). Livraison : ${addr}`
+            }]);
+          } catch(e) {}
+        }
+      }
 
       try {
         const res = await fetch(`${API_BASE}/orders`, {
@@ -3692,7 +3758,8 @@
           return o.vendorId === "usr_seller_1";
         }
         const oPhone = (o.vendorPhone || "").replace(/[^0-9]/g, "").slice(-9);
-        return (currentSeller.id && o.vendorId === currentSeller.id) ||
+        return (currentSeller.vendorCode && o.vendorCode === currentSeller.vendorCode) ||
+               (currentSeller.id && o.vendorId === currentSeller.id) ||
                (cleanSellerPhone && oPhone && oPhone === cleanSellerPhone);
       });
 
@@ -3776,7 +3843,8 @@
           return p.vendorId === "usr_seller_1";
         }
         const pPhone = (p.vendorPhone || "").replace(/[^0-9]/g, "").slice(-9);
-        return (currentSeller.id && p.vendorId === currentSeller.id) ||
+        return (currentSeller.vendorCode && p.vendorCode === currentSeller.vendorCode) ||
+               (currentSeller.id && p.vendorId === currentSeller.id) ||
                (cleanSellerPhone && pPhone && pPhone === cleanSellerPhone);
       });
 
@@ -3982,61 +4050,166 @@
       }
     }
 
+    function compressImageDataUrl(dataUrl, maxWidth = 500, maxHeight = 500, quality = 0.75) {
+      return new Promise((resolve) => {
+        if (!dataUrl || !dataUrl.startsWith("data:image")) return resolve(dataUrl);
+        const img = new Image();
+        img.onload = () => {
+          let w = img.width;
+          let h = img.height;
+          if (w > maxWidth || h > maxHeight) {
+            if (w > h) {
+              h = Math.round((h * maxWidth) / w);
+              w = maxWidth;
+            } else {
+              w = Math.round((w * maxHeight) / h);
+              h = maxHeight;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+      });
+    }
+
     // PUBLICATION DE LA PIÈCE VIA LE HERO FORM
     async function handleSellerHeroAddPiece(e) {
-      e.preventDefault();
-      const name = document.getElementById("seller-piece-name").value;
-      const vehicle = document.getElementById("seller-piece-car").value;
+      if (e) e.preventDefault();
+      const name = (document.getElementById("seller-piece-name").value || "").trim();
+      const vehicle = (document.getElementById("seller-piece-car").value || "").trim();
       const condition = document.getElementById("seller-piece-condition").value;
       const bankPrice = parseInt(document.getElementById("seller-bank-price").value) || 0;
-      const image = sellerCapturedPhotoDataUrl || "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80";
+
+      if (!name) {
+        alert("Veuillez indiquer le nom de la pièce.");
+        return;
+      }
+      if (!vehicle) {
+        alert("Veuillez indiquer le véhicule compatible.");
+        return;
+      }
+      if (bankPrice <= 500) {
+        alert("Veuillez saisir un prix vendeur valide (supérieur à 500 FCFA).");
+        return;
+      }
+
+      const publishBtn = document.getElementById("btn-seller-publish");
+      if (publishBtn) {
+        publishBtn.disabled = true;
+        publishBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Publication en cours...</span>';
+      }
+
+      let image = "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80";
+      if (sellerCapturedPhotoDataUrl) {
+        image = await compressImageDataUrl(sellerCapturedPhotoDataUrl, 500, 500, 0.75);
+      }
 
       const cleanDigits = (currentSeller.phone || "").replace(/[^0-9]/g, "");
       const vendorId = currentSeller.id || (cleanDigits ? `usr_seller_${cleanDigits}` : `usr_seller_${Date.now()}`);
+      const vendorCode = currentSeller.vendorCode || (cleanDigits ? `VND-${cleanDigits.slice(-6)}` : `VND-${Math.floor(100000 + Math.random() * 900000)}`);
+      currentSeller.vendorCode = vendorCode;
       const vendorName = currentSeller.shopName || (currentSeller.fullName ? `Boutique ${currentSeller.fullName}` : "Boutique Vendeur");
+      const comm = Math.round(bankPrice * 0.10);
+      const pubPrice = bankPrice + comm;
+      const condLabel = condition === 'neuf' ? "Neuf d'Origine OEM" : (condition === 'occasion' ? "Occasion Testée" : "Adaptable Certifié");
+      const oemCode = "OEM-" + Math.floor(1000 + Math.random() * 9000);
 
       const newPiece = {
+        id: "p_" + Date.now(),
         name,
+        oem: oemCode,
         vehicle,
         category: "moteur",
         condition,
+        conditionLabel: condLabel,
         stock: 1,
         bankPrice,
+        commission: comm,
+        publicPrice: pubPrice,
         vendor: vendorName,
         vendorId: vendorId,
+        vendorCode: vendorCode,
         vendorPhone: currentSeller.phone || "",
         hub: currentSeller.hub || currentSeller.location || "Dakar",
-        image: image
+        image: image,
+        compatibleCar: vehicle
       };
 
+      // 1. Ajout direct et immédiat en mémoire locale
+      buyerProducts.unshift(newPiece);
+
+      // 2. Persistance dans le cache local vendeur
+      try {
+        const custom = JSON.parse(localStorage.getItem('difonse_seller_custom_pieces') || '[]');
+        custom.unshift(newPiece);
+        localStorage.setItem('difonse_seller_custom_pieces', JSON.stringify(custom.slice(0, 30)));
+      } catch (err) {}
+
+      // 3. Insertion Supabase en direct si client initialisé
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('products').insert([{
+            id: newPiece.id,
+            name: newPiece.name,
+            oem: newPiece.oem,
+            vehicle: newPiece.vehicle,
+            category: newPiece.category,
+            condition: newPiece.condition,
+            condition_label: newPiece.conditionLabel,
+            bank_price: newPiece.bankPrice,
+            commission: newPiece.commission,
+            public_price: newPiece.publicPrice,
+            vendor: newPiece.vendor,
+            vendor_id: newPiece.vendorId,
+            vendor_code: newPiece.vendorCode,
+            vendor_phone: newPiece.vendorPhone,
+            hub: newPiece.hub,
+            stock: newPiece.stock,
+            image: newPiece.image,
+            compatible_car: newPiece.compatibleCar
+          }]);
+        } catch (e) {}
+      }
+
+      // 4. Synchronisation avec l'API Backend
       try {
         const res = await fetch(`${API_BASE}/products`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newPiece)
         });
-
         if (res.ok) {
           const data = await res.json();
           if (data.product) {
-            buyerProducts.unshift(data.product);
+            const idx = buyerProducts.findIndex(p => p.id === newPiece.id);
+            if (idx >= 0) buyerProducts[idx] = data.product;
           }
-          alert(`🎉 Pièce « ${name} » mise en vente avec succès sur Difonsé !\n\nElle est immédiatement visible dans le catalogue public pour les acheteurs et ateliers de Dakar.`);
-          document.getElementById("seller-hero-form").reset();
-          clearSellerPhoto();
-          updateSellerLiveCalc();
-          const transcriptBox = document.getElementById("seller-voice-transcript-box");
-          if (transcriptBox) transcriptBox.classList.add("hidden");
-          await loadSellerData();
-        } else {
-          alert("Erreur lors de la mise en vente.");
         }
-      } catch (err) {
-        alert(`🎉 Pièce « ${name} » mise en vente avec succès !`);
-        document.getElementById("seller-hero-form").reset();
-        clearSellerPhoto();
-        updateSellerLiveCalc();
+      } catch (err) {}
+
+      // Réinitialisation du formulaire
+      document.getElementById("seller-hero-form").reset();
+      clearSellerPhoto();
+      updateSellerLiveCalc();
+      const transcriptBox = document.getElementById("seller-voice-transcript-box");
+      if (transcriptBox) transcriptBox.classList.add("hidden");
+
+      if (publishBtn) {
+        publishBtn.disabled = false;
+        publishBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>Publier la Pièce sur Difonsé</span>';
       }
+
+      alert(`🎉 Pièce « ${name} » mise en vente avec succès sur Difonsé !\n\nCode Vendeur : ${vendorCode}\nPrix net vendeur : ${formatCFA(bankPrice)}\nPrix affiché client : ${formatCFA(pubPrice)}\n\nVotre pièce est immédiatement ajoutée à votre catalogue et visible par les acheteurs.`);
+
+      // Ouverture directe de la modale sur l'onglet "Mes Pièces" pour que le vendeur la voie immédiatement !
+      openSellerHistoryModal();
+      switchSellerHistoryTab('pieces');
     }
 
     // ACHETEUR : RECHERCHE PAR PHOTO ET VOCAL WOLOF
@@ -4444,10 +4617,10 @@
       const fnInput = document.getElementById("checkout-buyer-firstname");
       const phInput = document.getElementById("checkout-buyer-phone");
       const addrInput = document.getElementById("checkout-buyer-address");
-      if (lnInput && !lnInput.value) lnInput.value = currentBuyer.lastName || "Diallo";
-      if (fnInput && !fnInput.value) fnInput.value = currentBuyer.firstName || "Amadou";
-      if (phInput && !phInput.value) phInput.value = (currentBuyer.phone || "77 450 12 34").replace("+221", "").trim();
-      if (addrInput && !addrInput.value) addrInput.value = currentBuyer.garageName || "Garage Castors Dakar";
+      if (lnInput) lnInput.value = currentBuyer.isGuest ? "" : (currentBuyer.lastName || "");
+      if (fnInput) fnInput.value = currentBuyer.isGuest ? "" : (currentBuyer.firstName || "");
+      if (phInput) phInput.value = currentBuyer.isGuest ? "" : (currentBuyer.phone || "").replace("+221", "").trim();
+      if (addrInput) addrInput.value = currentBuyer.isGuest ? "" : (currentBuyer.garageName || "");
 
       document.getElementById("checkout-modal").classList.remove("hidden");
     }
@@ -4477,31 +4650,32 @@
       const phoneInput = document.getElementById("checkout-buyer-phone");
       const addrInput = document.getElementById("checkout-buyer-address");
 
-      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.lastName || "Diallo");
-      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.firstName || "Amadou");
-      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "77 450 12 34");
-      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
+      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.lastName);
+      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.firstName);
+      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.phone);
+      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.isGuest ? "" : currentBuyer.garageName);
 
       if (!ln || !fn) {
-        alert("Veuillez renseigner le Nom et Prénom du destinataire pour la livraison.");
+        alert("Veuillez renseigner votre Nom et Prénom pour la livraison de la pièce.");
         return;
       }
       if (!ph) {
-        alert("Veuillez renseigner le Numéro de téléphone de livraison pour coordonner le coursier.");
+        alert("Veuillez renseigner votre Numéro de Téléphone (Wave / Orange Money) pour coordonner la livraison.");
         return;
       }
       if (!ph.startsWith("+221")) {
         ph = `+221 ${ph.replace("+221", "").trim()}`;
       }
       if (!addr) {
-        alert("Veuillez indiquer l'adresse ou partager votre localisation GPS pour la livraison.");
+        alert("Veuillez indiquer l'adresse exacte ou partager votre localisation GPS pour la livraison.");
         return;
       }
 
       const cFullName = `${fn} ${ln}`;
       const gps = currentCapturedGps['single'];
 
-      // Mise à jour de l'identité acheteur courante et synchronisation Supabase immédiate
+      // Enregistrement de l'identité de l'acheteur pour la session
+      currentBuyer.isGuest = false;
       currentBuyer.firstName = fn;
       currentBuyer.lastName = ln;
       currentBuyer.fullName = cFullName;
@@ -4534,6 +4708,9 @@
         solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié",
         vendorId: activeCheckoutItem.vendorId || "usr_seller_1",
         vendorName: activeCheckoutItem.vendor,
+        vendorCode: activeCheckoutItem.vendorCode || "",
+        vendorPhone: activeCheckoutItem.vendorPhone || "",
+        vendorShopLocation: activeCheckoutItem.hub || "Dakar",
         vendorBankPrice: activeCheckoutItem.bankPrice,
         vendorNetPrice: activeCheckoutItem.bankPrice,
         commission: activeCheckoutItem.commission,
@@ -4541,6 +4718,44 @@
         totalPaid: activeCheckoutItem.publicPrice,
         provider: selectedPay + " Sénégal"
       };
+
+      // Insertion directe Supabase
+      if (supabaseClient) {
+        try {
+          const cmdId = "CMD-" + Math.floor(1000 + Math.random() * 9000);
+          const pkCode = "PK-" + Math.floor(100 + Math.random() * 900);
+          await supabaseClient.from('orders').insert([{
+            id: cmdId,
+            product_id: orderData.productId,
+            part_name: orderData.partName,
+            client_first_name: fn,
+            client_last_name: ln,
+            client_name: cFullName,
+            client_phone: ph,
+            delivery_address: addr,
+            delivery_gps: gps,
+            solvency_score: 98,
+            solvency_status: "Solvable Vérifié",
+            vendor_id: orderData.vendorId,
+            vendor_name: orderData.vendorName,
+            vendor_code: orderData.vendorCode,
+            vendor_phone: orderData.vendorPhone,
+            vendor_shop_location: orderData.vendorShopLocation,
+            payment_provider: orderData.provider,
+            vendor_bank_price: orderData.vendorBankPrice,
+            vendor_net_price: orderData.vendorNetPrice,
+            commission: orderData.commission,
+            platform_retainer: orderData.platformRetainer,
+            total_paid: orderData.totalPaid,
+            pickup_code: pkCode,
+            step: 2,
+            step_label: "Payé par Difonsé · Tiak-Tiak en route vers le vendeur",
+            vendor_payment_status: "PAID_DIRECT",
+            action_required: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
+            timeline: `Acheteur débité via ${orderData.provider}. Retainer Difonsé prélevé (${orderData.platformRetainer} FCFA). Vendeur payé directement (${orderData.vendorBankPrice} FCFA). Livraison : ${addr}`
+          }]);
+        } catch (e) {}
+      }
 
       try {
         const res = await fetch(`${API_BASE}/orders`, {
@@ -4550,14 +4765,14 @@
         });
         if (res.ok) {
           closeCheckoutModal();
-          logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
-          alert(`🎉 Paiement validé via ${selectedPay} !\nRetainer Difonsé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak se rend chez le vendeur.`);
+          logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Destinataire : ${cFullName} (${ph}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
+          alert(`🎉 Paiement validé via ${selectedPay} !\n\nDestinataire : ${cFullName}\nTéléphone : ${ph}\nLivraison : ${addr}\n\nRetainer Difonsé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak est alerté.`);
           await loadBuyerData();
         }
       } catch (e) {
         closeCheckoutModal();
-        logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
-        alert(`🎉 Paiement validé via ${selectedPay} !`);
+        logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Destinataire : ${cFullName} (${ph}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
+        alert(`🎉 Paiement validé via ${selectedPay} !\nDestinataire : ${cFullName} (${ph})\nLivraison : ${addr}`);
       }
     }
 

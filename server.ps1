@@ -71,6 +71,10 @@ function Helper-SyncUserProfileToSupabase($u) {
         $score = if ($u.solvencyScore) { [int]$u.solvencyScore } else { 98 }
         $status = if ($u.solvencyStatus) { $u.solvencyStatus } elseif ($role -eq "seller") { "Vendeur Certifié" } else { "Solvable Vérifié" }
 
+        $vCode = if ($u.vendorCode) { $u.vendorCode } elseif ($u.vendor_code) { $u.vendor_code } else { $null }
+        $availBal = if ($null -ne $u.availableBalance) { [int]$u.availableBalance } else { 0 }
+        $totSales = if ($null -ne $u.totalSales) { [int]$u.totalSales } else { 0 }
+
         Helper-SupabasePost "profiles?on_conflict=phone" @{
             phone = $ph
             first_name = $fn
@@ -82,6 +86,9 @@ function Helper-SyncUserProfileToSupabase($u) {
             gps = $gpsVal
             solvency_score = $score
             solvency_status = $status
+            vendor_code = $vCode
+            available_balance = $availBal
+            total_sales = $totSales
             last_login = [DateTime]::UtcNow.ToString("o")
         }
 
@@ -294,6 +301,9 @@ while ($listener.IsListening) {
                         }
                     }
 
+                    $vCode = if ($bodyObj.vendorCode) { $bodyObj.vendorCode } elseif ($bodyObj.vendor_code) { $bodyObj.vendor_code } else { "VND-" + (Get-Random -Minimum 100000 -Maximum 999999) }
+                    $vPhone = if ($bodyObj.vendorPhone) { $bodyObj.vendorPhone } elseif ($bodyObj.vendor_phone) { $bodyObj.vendor_phone } else { "" }
+
                     $newP = [PSCustomObject]@{
                         id = "p_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
                         name = $bodyObj.name
@@ -307,7 +317,8 @@ while ($listener.IsListening) {
                         publicPrice = $pubPrice
                         vendorId = if ($bodyObj.vendorId) { $bodyObj.vendorId } else { "usr_seller_1" }
                         vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Boutique Modou Pikine" }
-                        vendorPhone = if ($bodyObj.vendorPhone) { $bodyObj.vendorPhone } else { "" }
+                        vendorCode = $vCode
+                        vendorPhone = $vPhone
                         hub = if ($bodyObj.hub) { $bodyObj.hub } else { "Pikine" }
                         image = $mainImg
                         gallery = $gallery
@@ -321,6 +332,29 @@ while ($listener.IsListening) {
                     Helper-WriteJsonFile "products.json" $allProds
 
                     Helper-LogActivity "seller" $newP.vendor "ADD_PRODUCT" ("Mise en vente: " + $newP.name + " (Prix banque: " + $newP.bankPrice + " FCFA | Prix client: " + $newP.publicPrice + " FCFA)") $newP.bankPrice "add_circle"
+
+                    # Synchronisation instantanée Supabase
+                    Helper-SupabasePost "products" @{
+                        id = $newP.id
+                        name = $newP.name
+                        oem = $newP.oem
+                        vehicle = $newP.vehicle
+                        category = $newP.category
+                        condition = $newP.condition
+                        condition_label = $newP.conditionLabel
+                        bank_price = $newP.bankPrice
+                        commission = $newP.commission
+                        public_price = $newP.publicPrice
+                        vendor = $newP.vendor
+                        vendor_id = $newP.vendorId
+                        vendor_code = $newP.vendorCode
+                        vendor_phone = $newP.vendorPhone
+                        hub = $newP.hub
+                        stock = $newP.stock
+                        image = $newP.image
+                        compatible_car = $newP.compatibleCar
+                    }
+
                     $respObj = @{ success = $true; product = $newP }
                 }
             }
@@ -421,10 +455,10 @@ while ($listener.IsListening) {
                         $cmdId = "CMD-" + (Get-Random -Minimum 1000 -Maximum 9999)
                         $pkCode = "PK-" + (Get-Random -Minimum 100 -Maximum 999)
 
-                        $cFirst = if ($item.clientFirstName) { $item.clientFirstName } elseif ($bodyObj.clientFirstName) { $bodyObj.clientFirstName } else { "Amadou" }
-                        $cLast = if ($item.clientLastName) { $item.clientLastName } elseif ($bodyObj.clientLastName) { $bodyObj.clientLastName } else { "Diallo" }
-                        $cFull = if ($item.clientName) { $item.clientName } elseif ($bodyObj.clientName) { $bodyObj.clientName } else { "$cFirst $cLast" }
-                        $cPhone = if ($item.clientPhone) { $item.clientPhone } elseif ($bodyObj.clientPhone) { $bodyObj.clientPhone } else { "+221 77 450 12 34" }
+                        $cFirst = if ($item.clientFirstName) { $item.clientFirstName } elseif ($bodyObj.clientFirstName) { $bodyObj.clientFirstName } else { "Acheteur" }
+                        $cLast = if ($item.clientLastName) { $item.clientLastName } elseif ($bodyObj.clientLastName) { $bodyObj.clientLastName } else { "Difonsé" }
+                        $cFull = if ($item.clientName) { $item.clientName } elseif ($bodyObj.clientName) { $bodyObj.clientName } else { "$cFirst $cLast".Trim() }
+                        $cPhone = if ($item.clientPhone) { $item.clientPhone } elseif ($bodyObj.clientPhone) { $bodyObj.clientPhone } else { "" }
                         $cScore = if ($item.solvencyScore) { [int]$item.solvencyScore } elseif ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
                         $cStatus = if ($item.solvencyStatus) { $item.solvencyStatus } elseif ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
 
@@ -434,7 +468,10 @@ while ($listener.IsListening) {
                         $prov = if ($item.provider) { $item.provider } elseif ($bodyObj.provider) { $bodyObj.provider } else { "Wave" }
 
                         $vId = if ($item.vendorId) { $item.vendorId } else { "usr_seller_1" }
-                        $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Boutique Modou" }
+                        $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Boutique Vendeur" }
+                        $vCode = if ($item.vendorCode) { $item.vendorCode } elseif ($bodyObj.vendorCode) { $bodyObj.vendorCode } else { "" }
+                        $vPhone = if ($item.vendorPhone) { $item.vendorPhone } elseif ($bodyObj.vendorPhone) { $bodyObj.vendorPhone } else { "" }
+                        $vHub = if ($item.vendorShopLocation) { $item.vendorShopLocation } elseif ($item.hub) { $item.hub } else { "Dakar" }
                         $pName = if ($item.partName) { $item.partName } elseif ($item.name) { $item.name } else { "Pièce" }
                         $prodId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
 
@@ -453,6 +490,9 @@ while ($listener.IsListening) {
                             solvencyStatus = $cStatus
                             vendorId = $vId
                             vendorName = $vName
+                            vendorCode = $vCode
+                            vendorPhone = $vPhone
+                            vendorShopLocation = $vHub
                             vendorBankPrice = $vBank
                             vendorNetPrice = $vBank
                             commission = $retainer
@@ -464,7 +504,7 @@ while ($listener.IsListening) {
                             stepLabel = "Payé par Difonsé · Tiak-Tiak en route vers le vendeur"
                             vendorPaymentStatus = "PAID_DIRECT"
                             actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
-                            timeline = "Acheteur débité via " + $prov + ". Retainer Difonsé prélevé (" + $retainer + " FCFA). Vendeur payé directement (" + $vBank + " FCFA)."
+                            timeline = "Acheteur débité via $prov. Retainer Difonsé prélevé ($retainer FCFA). Vendeur payé directement ($vBank FCFA). Livraison : " + (if ($item.deliveryAddress) { $item.deliveryAddress } else { 'Dakar' })
                             createdAt = [DateTime]::UtcNow.ToString("o")
                         }
 
@@ -473,10 +513,10 @@ while ($listener.IsListening) {
 
                         # Update seller available balance directly
                         foreach ($u in $users) {
-                            if ($u.shopName -eq $vName -or $u.id -eq $vId) {
-                                $u.availableBalance += $vBank
-                                $u.totalSales += $vBank
-                                $u.totalRetainerPaid += $retainer
+                            if ($u.id -eq $vId -or $u.shopName -eq $vName -or ($vPhone -and $u.phone -and ($u.phone -replace '[^0-9]').EndsWith(($vPhone -replace '[^0-9]')))) {
+                                $u.availableBalance = [int]$u.availableBalance + $vBank
+                                $u.totalSales = [int]$u.totalSales + $vBank
+                                $u.totalRetainerPaid = [int]$u.totalRetainerPaid + $retainer
                             }
                         }
 
@@ -498,9 +538,10 @@ while ($listener.IsListening) {
                             solvency_score = $newO.solvencyScore
                             solvency_status = $newO.solvencyStatus
                             vendor_id = $newO.vendorId
+                            vendor_code = $newO.vendorCode
                             vendor_name = $newO.vendorName
-                            vendor_shop_location = "Pikine"
-                            vendor_phone = "+221 77 890 45 12"
+                            vendor_shop_location = $newO.vendorShopLocation
+                            vendor_phone = $newO.vendorPhone
                             payment_provider = $newO.provider
                             vendor_bank_price = $newO.vendorBankPrice
                             vendor_net_price = $newO.vendorNetPrice
@@ -840,10 +881,14 @@ while ($listener.IsListening) {
 
                     $cleanPh = if ($bodyObj.phone) { ($bodyObj.phone -replace '[^0-9]', '') } else { '' }
                     $matched = $null
-                    if ($cleanPh) {
+                    if ($bodyObj.id) {
+                        $matched = $users | Where-Object { $_.id -eq $bodyObj.id } | Select-Object -First 1
+                    }
+                    if (-not $matched -and $cleanPh) {
+                        $phSuffix = $cleanPh.Substring([Math]::Max(0, $cleanPh.Length - 9))
                         $matched = $users | Where-Object { 
                             $uClean = ($_.phone -replace '[^0-9]', '')
-                            $uClean -eq $cleanPh -and $_.role -eq $bodyObj.role
+                            $uClean.EndsWith($phSuffix) -and $_.role -eq $bodyObj.role
                         } | Select-Object -First 1
                     }
 
@@ -857,9 +902,11 @@ while ($listener.IsListening) {
 
                     $uniqueSuffix = if ($cleanPh) { $cleanPh } else { [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }
                     $userId = if ($matched) { $matched.id } elseif ($isDemoModou) { "usr_seller_1" } elseif ($isDemoAmadou) { "usr_buyer_1" } elseif ($bodyObj.id) { $bodyObj.id } else { "usr_" + $bodyObj.role + "_" + $uniqueSuffix }
+                    $vCode = if ($matched -and $matched.vendorCode) { $matched.vendorCode } elseif ($bodyObj.vendorCode) { $bodyObj.vendorCode } elseif ($cleanPh) { "VND-" + $cleanPh.Substring([Math]::Max(0, $cleanPh.Length - 6)) } else { "VND-" + (Get-Random -Minimum 100000 -Maximum 999999) }
 
                     $sessUser = [PSCustomObject]@{
                         id = $userId
+                        vendorCode = if ($bodyObj.role -eq 'seller') { $vCode } else { $null }
                         role = $bodyObj.role
                         firstName = $fn
                         lastName = $ln

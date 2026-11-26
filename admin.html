@@ -428,19 +428,20 @@
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-admin-bg/80 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-admin-border">
               <tr>
-                <th class="py-3 px-4">Identité &amp; Profil</th>
+                <th class="py-3 px-4">Identité &amp; Code</th>
                 <th class="py-3 px-4">Téléphone (Wave / OM)</th>
                 <th class="py-3 px-4">Rôle</th>
                 <th class="py-3 px-4">Boutique / Garage</th>
                 <th class="py-3 px-4">Hub / Localisation</th>
                 <th class="py-3 px-4">Adresse &amp; GPS Livraison</th>
                 <th class="py-3 px-4">Solvabilité</th>
-                <th class="py-3 px-4">Inscription / Dernière Activité</th>
+                <th class="py-3 px-4">Inscription / Activité</th>
+                <th class="py-3 px-4 text-center">Fiche Vendeur</th>
               </tr>
             </thead>
             <tbody id="supabase-profiles-table-body" class="divide-y divide-admin-border/60">
               <tr>
-                <td colspan="8" class="py-8 text-center text-slate-500">Chargement des profils Supabase...</td>
+                <td colspan="9" class="py-8 text-center text-slate-500">Chargement des profils Supabase...</td>
               </tr>
             </tbody>
           </table>
@@ -696,7 +697,7 @@
       if (counterEl) counterEl.innerText = `${filtered.length} profil(s)`;
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-500">Aucun profil ne correspond aux critères de recherche.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" class="py-8 text-center text-slate-500">Aucun profil ne correspond aux critères de recherche.</td></tr>`;
         return;
       }
 
@@ -711,6 +712,8 @@
         const phone = p.phone || 'Non renseigné';
         const score = p.solvency_score || p.solvencyScore || 98;
         const status = p.solvency_status || p.solvencyStatus || (isSeller ? 'Vendeur Certifié' : 'Solvable Vérifié');
+        const cleanPhDigits = phone.replace(/[^0-9]/g, '');
+        const vCode = p.vendor_code || p.vendorCode || (isSeller ? (`VND-${cleanPhDigits ? cleanPhDigits.slice(-6) : 'PRO'}`) : null);
         
         let gpsHtml = '<span class="text-slate-500 text-[11px]">N/A</span>';
         if (p.gps) {
@@ -735,19 +738,21 @@
           ? new Date(p.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" })
           : (p.registeredAt ? new Date(p.registeredAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }) : "Récemment");
 
+        const targetId = p.phone || p.id;
+
         return `
-          <tr class="hover:bg-slate-800/40 transition-colors">
+          <tr onclick="openAdminVendorModal('${targetId}')" class="hover:bg-slate-800/60 transition-colors cursor-pointer group">
             <td class="py-3 px-4">
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br ${avatarBg} font-black text-xs flex items-center justify-center shrink-0 shadow-sm">${initials}</div>
                 <div>
-                  <div class="font-extrabold text-white text-xs">${fullName}</div>
-                  <span class="text-[10px] text-slate-400">ID: ${p.id ? String(p.id).substring(0, 8) + '...' : 'Local'}</span>
+                  <div class="font-extrabold text-white text-xs group-hover:text-orange-400 transition-colors">${fullName}</div>
+                  ${isSeller && vCode ? `<span class="inline-block mt-0.5 px-1.5 py-0.2 rounded bg-amber-950/80 text-orange-400 border border-amber-500/40 text-[10px] font-mono font-black">N° ${vCode}</span>` : `<span class="text-[10px] text-slate-400 font-mono">ID: ${p.id ? String(p.id).substring(0, 8) + '...' : 'Client'}</span>`}
                 </div>
               </div>
             </td>
             <td class="py-3 px-4">
-              <a href="tel:${phone.replace(/\s+/g, '')}" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+              <a href="tel:${phone.replace(/\s+/g, '')}" onclick="event.stopPropagation()" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
                 <span class="material-symbols-outlined text-[13px] text-emerald-500">phone</span>
                 <span>${phone}</span>
               </a>
@@ -768,6 +773,12 @@
               </div>
             </td>
             <td class="py-3 px-4 text-[11px] text-slate-400 font-mono">${dateStr}</td>
+            <td class="py-3 px-4 text-center">
+              ${isSeller 
+                ? `<button onclick="event.stopPropagation(); openAdminVendorModal('${targetId}')" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-black text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all group-hover:scale-105 cursor-pointer mx-auto"><span class="material-symbols-outlined text-[14px]">storefront</span><span>Fiche</span></button>`
+                : `<button onclick="event.stopPropagation(); openAdminVendorModal('${targetId}')" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[10px] flex items-center justify-center gap-1 transition-all cursor-pointer mx-auto"><span class="material-symbols-outlined text-[13px]">visibility</span><span>Voir</span></button>`
+              }
+            </td>
           </tr>
         `;
       }).join("");
@@ -870,6 +881,7 @@
       await Promise.all([
         loadStats(),
         loadOrders(),
+        loadAdminProducts(),
         loadDisputes(),
         loadPayouts(),
         loadActivities()
@@ -910,48 +922,103 @@
         }
       } catch (e) {}
 
-      if (supabaseClient && ords.length === 0) {
+      if (supabaseClient) {
         try {
           const { data } = await supabaseClient
             .from('orders')
             .select('*')
             .order('created_at', { ascending: false });
           if (data && data.length > 0) {
-            ords = data.map(o => ({
-              id: o.id,
-              productId: o.product_id,
-              partName: o.part_name,
-              clientFirstName: o.client_first_name,
-              clientLastName: o.client_last_name,
-              clientName: o.client_name,
-              clientPhone: o.client_phone,
-              deliveryAddress: o.delivery_address,
-              deliveryNotes: o.delivery_notes,
-              deliveryGps: o.delivery_gps,
-              solvencyScore: o.solvency_score,
-              solvencyStatus: o.solvency_status,
-              vendorId: o.vendor_id,
-              vendorName: o.vendor_name,
-              vendorShopLocation: o.vendor_shop_location,
-              vendorPhone: o.vendor_phone,
-              provider: o.payment_provider,
-              vendorBankPrice: o.vendor_bank_price,
-              vendorNetPrice: o.vendor_net_price,
-              commission: o.commission,
-              platformRetainer: o.platform_retainer,
-              totalPaid: o.total_paid,
-              pickupCode: o.pickup_code,
-              step: o.step,
-              stepLabel: o.step_label,
-              vendorPaymentStatus: o.vendor_payment_status,
-              actionRequired: o.action_required,
-              timeline: o.timeline,
-              createdAt: o.created_at
-            }));
+            const ordMap = new Map();
+            ords.forEach(o => ordMap.set(o.id, o));
+            data.forEach(o => {
+              ordMap.set(o.id, {
+                id: o.id,
+                productId: o.product_id,
+                partName: o.part_name,
+                clientFirstName: o.client_first_name,
+                clientLastName: o.client_last_name,
+                clientName: o.client_name,
+                clientPhone: o.client_phone,
+                deliveryAddress: o.delivery_address,
+                deliveryNotes: o.delivery_notes,
+                deliveryGps: o.delivery_gps,
+                solvencyScore: o.solvency_score,
+                solvencyStatus: o.solvency_status,
+                vendorId: o.vendor_id,
+                vendorName: o.vendor_name,
+                vendorCode: o.vendor_code,
+                vendorShopLocation: o.vendor_shop_location,
+                vendorPhone: o.vendor_phone,
+                provider: o.payment_provider,
+                vendorBankPrice: Number(o.vendor_bank_price) || 0,
+                vendorNetPrice: Number(o.vendor_net_price) || 0,
+                commission: Number(o.commission) || 0,
+                platformRetainer: Number(o.platform_retainer) || 0,
+                totalPaid: Number(o.total_paid) || 0,
+                pickupCode: o.pickup_code,
+                step: o.step,
+                stepLabel: o.step_label,
+                vendorPaymentStatus: o.vendor_payment_status,
+                actionRequired: o.action_required,
+                timeline: o.timeline,
+                createdAt: o.created_at
+              });
+            });
+            ords = Array.from(ordMap.values()).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
           }
         } catch (err) {}
       }
       adminOrders = ords;
+    }
+
+    let adminProducts = [];
+    async function loadAdminProducts() {
+      let prods = [];
+      try {
+        const res = await fetch(`${API_BASE}/products`);
+        if (res.ok) {
+          prods = await res.json();
+        }
+      } catch (e) {}
+
+      if (supabaseClient) {
+        try {
+          const { data } = await supabaseClient
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (data && data.length > 0) {
+            const pMap = new Map();
+            prods.forEach(p => pMap.set(p.id, p));
+            data.forEach(dbP => {
+              pMap.set(dbP.id, {
+                id: dbP.id,
+                name: dbP.name,
+                oem: dbP.oem,
+                vehicle: dbP.vehicle,
+                category: dbP.category,
+                condition: dbP.condition,
+                conditionLabel: dbP.condition_label,
+                bankPrice: Number(dbP.bank_price) || 0,
+                commission: Number(dbP.commission) || 0,
+                publicPrice: Number(dbP.public_price) || 0,
+                vendor: dbP.vendor,
+                vendorId: dbP.vendor_id,
+                vendorCode: dbP.vendor_code,
+                vendorPhone: dbP.vendor_phone,
+                hub: dbP.hub,
+                stock: Number(dbP.stock) || 1,
+                image: dbP.image,
+                compatibleCar: dbP.compatible_car,
+                createdAt: dbP.created_at
+              });
+            });
+            prods = Array.from(pMap.values());
+          }
+        } catch (err) {}
+      }
+      adminProducts = prods;
     }
 
     async function loadDisputes() {
@@ -1372,6 +1439,366 @@
         </div>
       `).join("");
     }
+    // -------------------------------------------------------------
+    // MODALE FICHE DÉTAILLÉE DU VENDEUR (SUPER ADMIN)
+    // -------------------------------------------------------------
+    let currentAdminVendorModalData = null;
+
+    function openAdminVendorModal(vendorIdOrPhone) {
+      if (!vendorIdOrPhone) return;
+      const cleanTargetPhone = String(vendorIdOrPhone).replace(/[^0-9]/g, '');
+
+      // 1. Chercher le profil dans allProfilesList
+      let vendor = allProfilesList.find(p => {
+        if (p.id && String(p.id) === String(vendorIdOrPhone)) return true;
+        if (p.phone) {
+          const ph = String(p.phone).replace(/[^0-9]/g, '');
+          if (cleanTargetPhone && (ph === cleanTargetPhone || ph.endsWith(cleanTargetPhone.slice(-9)))) return true;
+        }
+        return false;
+      });
+
+      // Si pas trouvé dans les profils, chercher dans les commandes ou produits
+      if (!vendor) {
+        const ord = adminOrders.find(o => (o.vendorId === vendorIdOrPhone) || (o.vendorPhone && String(o.vendorPhone).replace(/\D/g, '').endsWith(cleanTargetPhone.slice(-9))));
+        if (ord) {
+          vendor = {
+            id: ord.vendorId,
+            vendor_code: ord.vendorCode,
+            first_name: ord.vendorName ? ord.vendorName.split(' ')[0] : 'Vendeur',
+            last_name: ord.vendorName ? ord.vendorName.split(' ').slice(1).join(' ') : 'Difonsé',
+            phone: ord.vendorPhone || vendorIdOrPhone,
+            role: 'seller',
+            organization: ord.vendorName,
+            hub: ord.vendorShopLocation || 'Dakar',
+            solvency_score: 95,
+            solvency_status: 'Vendeur Certifié'
+          };
+        }
+      }
+
+      if (!vendor) {
+        alert("Profil introuvable.");
+        return;
+      }
+
+      currentAdminVendorModalData = vendor;
+      const vFn = vendor.first_name || vendor.firstName || '';
+      const vLn = vendor.last_name || vendor.lastName || '';
+      const vFullName = `${vFn} ${vLn}`.trim() || vendor.name || vendor.organization || 'Utilisateur Difonsé';
+      const vPhone = vendor.phone || '';
+      const vCleanPhone = vPhone.replace(/[^0-9]/g, '');
+      const vCode = vendor.vendor_code || vendor.vendorCode || (`VND-${vCleanPhone ? vCleanPhone.slice(-6) : 'PRO'}`);
+      const vShop = vendor.organization || vendor.shopName || vendor.garageName || 'Boutique Indépendante';
+      const vHub = vendor.hub || vendor.location || 'Dakar';
+      const vScore = vendor.solvency_score || vendor.solvencyScore || 95;
+      const vStatus = vendor.solvency_status || vendor.solvencyStatus || (vendor.role === 'seller' ? 'Vendeur Certifié' : 'Solvable Vérifié');
+
+      // Filtrer les pièces de ce vendeur
+      const vendorProds = adminProducts.filter(p => {
+        if (vendor.id && p.vendorId === vendor.id) return true;
+        if (vCode && p.vendorCode && p.vendorCode === vCode) return true;
+        if (vCleanPhone && p.vendorPhone) {
+          const pPh = String(p.vendorPhone).replace(/[^0-9]/g, '');
+          if (pPh.endsWith(vCleanPhone.slice(-9))) return true;
+        }
+        return false;
+      });
+
+      // Filtrer les commandes de ce vendeur
+      const vendorOrds = adminOrders.filter(o => {
+        if (vendor.id && o.vendorId === vendor.id) return true;
+        if (vCode && o.vendorCode && o.vendorCode === vCode) return true;
+        if (vCleanPhone && o.vendorPhone) {
+          const oPh = String(o.vendorPhone).replace(/[^0-9]/g, '');
+          if (oPh.endsWith(vCleanPhone.slice(-9))) return true;
+        }
+        return false;
+      });
+
+      // Calculs financiers
+      let totalSales = vendor.total_sales || vendor.totalSales || 0;
+      let totalRetainers = 0;
+      let netBalance = vendor.available_balance || vendor.availableBalance || 0;
+
+      if (vendorOrds.length > 0) {
+        totalSales = vendorOrds.reduce((sum, o) => sum + (Number(o.totalPaid) || Number(o.vendorNetPrice) || 0), 0);
+        totalRetainers = vendorOrds.reduce((sum, o) => sum + (Number(o.platformRetainer) || Number(o.commission) || 0), 0);
+        netBalance = totalSales - totalRetainers;
+      }
+
+      // Remplissage DOM
+      const initials = ((vFn[0] || 'V') + (vLn[0] || 'D')).toUpperCase();
+      document.getElementById("modal-vendor-avatar").innerText = initials;
+      document.getElementById("modal-vendor-fullname").innerText = vFullName;
+      document.getElementById("modal-vendor-code-badge").innerText = `N° ${vCode}`;
+      document.getElementById("modal-vendor-role-badge").innerText = vendor.role === 'seller' ? 'Vendeur Certifié' : 'Acheteur Vérifié';
+      document.getElementById("modal-vendor-shop-name").innerText = vShop;
+      document.getElementById("modal-vendor-hub").innerText = vHub;
+
+      const phoneLink = document.getElementById("modal-vendor-phone-link");
+      const phoneText = document.getElementById("modal-vendor-phone");
+      if (phoneLink) phoneLink.href = `tel:${vPhone.replace(/\s+/g, '')}`;
+      if (phoneText) phoneText.innerText = vPhone || 'Non renseigné';
+
+      document.getElementById("modal-vendor-shop-detail").innerText = vShop;
+      document.getElementById("modal-vendor-location-detail").innerText = vHub;
+      document.getElementById("modal-vendor-solvency-score").innerText = `${vScore}/100`;
+      document.getElementById("modal-vendor-solvency-status").innerText = vStatus;
+
+      document.getElementById("modal-vendor-kpi-sales").innerText = formatCFA(totalSales);
+      document.getElementById("modal-vendor-kpi-balance").innerText = formatCFA(netBalance);
+      document.getElementById("modal-vendor-kpi-retainers").innerText = formatCFA(totalRetainers);
+      document.getElementById("modal-vendor-kpi-counts").innerText = `${vendorProds.length} pièce(s) · ${vendorOrds.length} vente(s)`;
+
+      document.getElementById("badge-modal-vendor-pieces-count").innerText = vendorProds.length;
+      document.getElementById("badge-modal-vendor-orders-count").innerText = vendorOrds.length;
+
+      // Rendu du tableau des pièces
+      const piecesTbody = document.getElementById("modal-vendor-pieces-tbody");
+      if (vendorProds.length === 0) {
+        piecesTbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500 italic">Aucune pièce publiée par ce vendeur au catalogue.</td></tr>`;
+      } else {
+        piecesTbody.innerHTML = vendorProds.map(p => {
+          const net = p.bankPrice || Math.round((p.publicPrice || 0) / 1.10);
+          const pub = p.publicPrice || (net + Math.round(net * 0.10));
+          const cond = p.conditionLabel || (p.condition === 'neuf' ? "Neuf OEM" : "Occasion Testée");
+          return `
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-2.5 px-3">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-[#0e121d] border border-[#20273a] overflow-hidden shrink-0">
+                    <img src="${p.image || ''}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80'" />
+                  </div>
+                  <div>
+                    <span class="font-extrabold text-white block truncate max-w-[200px]">${p.name}</span>
+                    <span class="text-[10px] text-slate-400">🚗 ${p.vehicle || 'Standard'}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="py-2.5 px-3 font-mono text-slate-400 text-[11px]">${p.oem || 'Standard'}</td>
+              <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[9px] font-bold">${cond}</span></td>
+              <td class="py-2.5 px-3 text-right font-black text-emerald-400 price-num">${formatCFA(net)}</td>
+              <td class="py-2.5 px-3 text-right font-black text-white price-num">${formatCFA(pub)}</td>
+              <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded font-black text-[10px] ${p.stock > 0 ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-red-950 text-red-300 border border-red-800'}">${p.stock || 1}</span></td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      // Rendu du tableau des commandes
+      const ordersTbody = document.getElementById("modal-vendor-orders-tbody");
+      if (vendorOrds.length === 0) {
+        ordersTbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-500 italic">Aucune commande enregistrée pour ce vendeur.</td></tr>`;
+      } else {
+        ordersTbody.innerHTML = vendorOrds.map(o => {
+          const net = o.vendorNetPrice || o.vendorBankPrice || (o.totalPaid - (o.platformRetainer || 0));
+          const ret = o.platformRetainer || o.commission || Math.round((o.totalPaid || 0) * 0.10);
+          return `
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-2.5 px-3 font-mono font-bold text-orange-400">${o.id}</td>
+              <td class="py-2.5 px-3 font-bold text-white">${o.partName}</td>
+              <td class="py-2.5 px-3">
+                <span class="font-bold text-slate-200 block">${o.clientName || `${o.clientFirstName || ''} ${o.clientLastName || ''}`}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${o.clientPhone || ''} · ${o.deliveryAddress || 'Dakar'}</span>
+              </td>
+              <td class="py-2.5 px-3 text-right font-black text-emerald-400 price-num">+${formatCFA(net)}</td>
+              <td class="py-2.5 px-3 text-right font-black text-orange-400 price-num">${formatCFA(ret)}</td>
+              <td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded text-[9px] font-black bg-blue-950 text-blue-300 border border-blue-800">${o.stepLabel || 'En cours'}</span></td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      switchAdminVendorTab('pieces');
+      document.getElementById("admin-vendor-modal").classList.remove("hidden");
+    }
+
+    function closeAdminVendorModal() {
+      const m = document.getElementById("admin-vendor-modal");
+      if (m) m.classList.add("hidden");
+    }
+
+    function switchAdminVendorTab(tab) {
+      const viewPieces = document.getElementById("modal-vendor-view-pieces");
+      const viewOrders = document.getElementById("modal-vendor-view-orders");
+      const btnPieces = document.getElementById("btn-modal-vendor-tab-pieces");
+      const btnOrders = document.getElementById("btn-modal-vendor-tab-orders");
+
+      if (tab === 'pieces') {
+        if (viewPieces) viewPieces.classList.remove("hidden");
+        if (viewOrders) viewOrders.classList.add("hidden");
+        if (btnPieces) {
+          btnPieces.className = "px-3.5 py-1.5 rounded-xl bg-orange-600 text-white font-black text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm";
+        }
+        if (btnOrders) {
+          btnOrders.className = "px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer";
+        }
+      } else {
+        if (viewPieces) viewPieces.classList.add("hidden");
+        if (viewOrders) viewOrders.classList.remove("hidden");
+        if (btnPieces) {
+          btnPieces.className = "px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer";
+        }
+        if (btnOrders) {
+          btnOrders.className = "px-3.5 py-1.5 rounded-xl bg-orange-600 text-white font-black text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm";
+        }
+      }
+    }
   </script>
+
+  <!-- MODALE FICHE DÉTAILLÉE DU VENDEUR (SUPER ADMIN) -->
+  <div id="admin-vendor-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0b0e17] border border-orange-500/40 rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-[0_20px_60px_rgba(255,69,0,0.2)] overflow-hidden">
+      
+      <!-- En-tête de la Fiche Vendeur -->
+      <div class="p-4 sm:p-5 border-b border-[#1c2438] bg-[#0e121d] flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3.5">
+          <div id="modal-vendor-avatar" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff4500] to-[#e63900] text-white flex items-center justify-center font-black text-sm shadow-md">
+            VN
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 id="modal-vendor-fullname" class="text-base sm:text-lg font-black text-white">Nom du Vendeur</h2>
+              <span id="modal-vendor-code-badge" class="px-2.5 py-0.5 rounded-lg bg-orange-950/80 text-orange-400 border border-orange-500/40 text-[11px] font-mono font-black">N° VND-123456</span>
+              <span id="modal-vendor-role-badge" class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">Vendeur Certifié</span>
+            </div>
+            <p id="modal-vendor-shop-sub" class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+              <span class="material-symbols-outlined text-[14px] text-red-500">storefront</span>
+              <span id="modal-vendor-shop-name">Boutique</span>
+              <span class="text-slate-600">·</span>
+              <span class="material-symbols-outlined text-[13px] text-red-400">location_on</span>
+              <span id="modal-vendor-hub">Hub</span>
+            </p>
+          </div>
+        </div>
+        <button onclick="closeAdminVendorModal()" class="w-9 h-9 rounded-xl bg-[#161c2c] hover:bg-red-950/50 hover:text-red-400 text-slate-400 border border-[#222a3d] flex items-center justify-center transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Corps défilable de la Fiche Vendeur -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
+        
+        <!-- 1. Caractéristiques & Coordonnées -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#080b12] p-4 rounded-2xl border border-[#1b2336]">
+          <div class="space-y-0.5">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Téléphone (Wave/OM)</span>
+            <a id="modal-vendor-phone-link" href="#" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px]">call</span>
+              <span id="modal-vendor-phone">--</span>
+            </a>
+          </div>
+          <div class="space-y-0.5">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Boutique / Enseigne</span>
+            <span id="modal-vendor-shop-detail" class="text-xs font-bold text-white block truncate">--</span>
+          </div>
+          <div class="space-y-0.5">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Localisation / Hub</span>
+            <span id="modal-vendor-location-detail" class="text-xs font-bold text-slate-300 block truncate">--</span>
+          </div>
+          <div class="space-y-0.5">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Solvabilité &amp; Score</span>
+            <div class="flex items-center gap-1.5">
+              <span id="modal-vendor-solvency-score" class="text-xs font-black text-emerald-400">100/100</span>
+              <span id="modal-vendor-solvency-status" class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">Certifié</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Les 4 KPI Financiers Vendeur -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="p-3.5 rounded-2xl bg-[#0e121d] border border-[#20273a] space-y-1">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Total Ventes</span>
+            <div id="modal-vendor-kpi-sales" class="text-base font-black text-white price-num">0 FCFA</div>
+            <span class="text-[9px] text-slate-400">Volume brut encaissé</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-[#0e121d] border border-emerald-500/40 space-y-1">
+            <span class="text-[10px] font-bold text-emerald-400 uppercase block">Solde Net Disponible</span>
+            <div id="modal-vendor-kpi-balance" class="text-base font-black text-emerald-400 price-num">0 FCFA</div>
+            <span class="text-[9px] text-emerald-400">Prêt pour virement Wave</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-[#0e121d] border border-[#ff4500]/40 space-y-1">
+            <span class="text-[10px] font-bold text-orange-400 uppercase block">Retainers Difonsé</span>
+            <div id="modal-vendor-kpi-retainers" class="text-base font-black text-orange-400 price-num">0 FCFA</div>
+            <span class="text-[9px] text-orange-400">10% commission retenue</span>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-[#0e121d] border border-[#20273a] space-y-1">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Pièces &amp; Ventes</span>
+            <div id="modal-vendor-kpi-counts" class="text-base font-black text-cyan-400">0 pièce(s) · 0 vente(s)</div>
+            <span class="text-[9px] text-slate-400">Activité globale</span>
+          </div>
+        </div>
+
+        <!-- 3. Onglets de détails (Ses Pièces vs Ses Ventes) -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 border-b border-[#1c2438] pb-2">
+            <button type="button" id="btn-modal-vendor-tab-pieces" onclick="switchAdminVendorTab('pieces')" class="px-3.5 py-1.5 rounded-xl bg-orange-600 text-white font-black text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm">
+              <span class="material-symbols-outlined text-[16px]">inventory_2</span>
+              <span>Ses Pièces au Catalogue</span>
+              <span id="badge-modal-vendor-pieces-count" class="px-1.5 py-0.2 rounded-full bg-black/40 text-[10px]">0</span>
+            </button>
+            <button type="button" id="btn-modal-vendor-tab-orders" onclick="switchAdminVendorTab('orders')" class="px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">receipt_long</span>
+              <span>Historique de ses Ventes</span>
+              <span id="badge-modal-vendor-orders-count" class="px-1.5 py-0.2 rounded-full bg-black/40 text-[10px]">0</span>
+            </button>
+          </div>
+
+          <!-- Onglet 1: Tableau des Pièces -->
+          <div id="modal-vendor-view-pieces" class="space-y-2">
+            <div class="overflow-x-auto rounded-2xl border border-[#1b2336] bg-[#080b12]">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-[#0e121d] text-[10px] font-black uppercase text-slate-400 border-b border-[#1b2336]">
+                  <tr>
+                    <th class="py-2.5 px-3">Pièce &amp; Véhicule</th>
+                    <th class="py-2.5 px-3">OEM / Réf</th>
+                    <th class="py-2.5 px-3">État</th>
+                    <th class="py-2.5 px-3 text-right">Prix Net Vendeur</th>
+                    <th class="py-2.5 px-3 text-right">Prix Client (+10%)</th>
+                    <th class="py-2.5 px-3 text-center">Stock</th>
+                  </tr>
+                </thead>
+                <tbody id="modal-vendor-pieces-tbody" class="divide-y divide-[#1b2336]/60">
+                  <tr><td colspan="6" class="py-6 text-center text-slate-500 italic">Aucune pièce publiée par ce vendeur.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Onglet 2: Tableau des Commandes / Ventes -->
+          <div id="modal-vendor-view-orders" class="hidden space-y-2">
+            <div class="overflow-x-auto rounded-2xl border border-[#1b2336] bg-[#080b12]">
+              <table class="w-full text-left text-xs text-slate-300">
+                <thead class="bg-[#0e121d] text-[10px] font-black uppercase text-slate-400 border-b border-[#1b2336]">
+                  <tr>
+                    <th class="py-2.5 px-3">N° Commande</th>
+                    <th class="py-2.5 px-3">Pièce Vendue</th>
+                    <th class="py-2.5 px-3">Acheteur &amp; Livraison</th>
+                    <th class="py-2.5 px-3 text-right">Net Vendeur</th>
+                    <th class="py-2.5 px-3 text-right">Retainer 10%</th>
+                    <th class="py-2.5 px-3 text-center">Statut</th>
+                  </tr>
+                </thead>
+                <tbody id="modal-vendor-orders-tbody" class="divide-y divide-[#1b2336]/60">
+                  <tr><td colspan="6" class="py-6 text-center text-slate-500 italic">Aucune commande pour ce vendeur.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pied de la modale -->
+      <div class="p-3.5 sm:p-4 border-t border-[#1c2438] bg-[#0e121d] flex items-center justify-between shrink-0">
+        <span class="text-[11px] text-slate-400">Fiche supervisée par Difonsé · Kooru sécurisé</span>
+        <button onclick="closeAdminVendorModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
+          Fermer
+        </button>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

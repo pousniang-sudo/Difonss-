@@ -151,6 +151,10 @@ function syncUserProfileToSupabase(profile) {
     const pScore = Number(profile.solvencyScore) || 98;
     const pStatus = profile.solvencyStatus || (pRole === 'seller' ? 'Vendeur Certifié' : 'Solvable Vérifié');
 
+    const vCode = profile.vendorCode || profile.vendor_code || null;
+    const availBal = Number(profile.availableBalance || profile.available_balance) || 0;
+    const totSales = Number(profile.totalSales || profile.total_sales) || 0;
+
     supabaseServerClient.from('profiles').upsert([{
       phone: profile.phone,
       first_name: pFirst,
@@ -162,6 +166,9 @@ function syncUserProfileToSupabase(profile) {
       gps: pGps,
       solvency_score: pScore,
       solvency_status: pStatus,
+      vendor_code: vCode,
+      available_balance: availBal,
+      total_sales: totSales,
       last_login: new Date().toISOString()
     }], { onConflict: 'phone' }).then(() => {}).catch(() => {});
 
@@ -336,6 +343,9 @@ module.exports = async function handler(req, res) {
       warranty: "Garantie Difonsé 2 jours (48h pour montage mécanicien)"
     };
 
+    const vCode = body.vendorCode || body.vendor_code || ("VND-" + (body.vendorPhone ? body.vendorPhone.replace(/[^0-9]/g, '').slice(-6) : Math.floor(100000 + Math.random() * 900000)));
+    const vPhone = body.vendorPhone || body.vendor_phone || "";
+
     const newP = {
       id: "p_" + Date.now(),
       name: body.name,
@@ -349,7 +359,8 @@ module.exports = async function handler(req, res) {
       publicPrice: pubPrice,
       vendorId: body.vendorId || "usr_seller_1",
       vendor: body.vendor || "Boutique Modou Pikine",
-      vendorPhone: body.vendorPhone || "",
+      vendorCode: vCode,
+      vendorPhone: vPhone,
       hub: body.hub || "Pikine",
       image: img,
       gallery: gallery,
@@ -362,6 +373,32 @@ module.exports = async function handler(req, res) {
     products.unshift(newP);
     saveDataFile('products.json', products);
     logActivity("seller", newP.vendor, "ADD_PRODUCT", `Mise en vente: ${newP.name} (Prix banque: ${newP.bankPrice} FCFA | Client: ${newP.publicPrice} FCFA)`, newP.bankPrice, "add_circle");
+
+    if (supabaseServerClient) {
+      try {
+        supabaseServerClient.from('products').insert([{
+          id: newP.id,
+          name: newP.name,
+          oem: newP.oem,
+          vehicle: newP.vehicle,
+          category: newP.category,
+          condition: newP.condition,
+          condition_label: newP.conditionLabel,
+          bank_price: newP.bankPrice,
+          commission: newP.commission,
+          public_price: newP.publicPrice,
+          vendor: newP.vendor,
+          vendor_id: newP.vendorId,
+          vendor_code: newP.vendorCode,
+          vendor_phone: newP.vendorPhone,
+          hub: newP.hub,
+          stock: newP.stock,
+          image: newP.image,
+          compatible_car: newP.compatibleCar
+        }]).then(() => {}).catch(() => {});
+      } catch (e) {}
+    }
+
     return sendJson(200, { success: true, product: newP });
   }
 
@@ -451,13 +488,17 @@ module.exports = async function handler(req, res) {
       const retainer = Number(item.platformRetainer) || Number(item.commission) || Math.round(vBank * 0.10);
       const total = Number(item.totalPaid) || (vBank + retainer);
 
-      const clientFirstName = item.clientFirstName || body.clientFirstName || (body.clientName ? body.clientName.split(' ')[0] : 'Amadou');
-      const clientLastName = item.clientLastName || body.clientLastName || (body.clientName ? body.clientName.split(' ').slice(1).join(' ') : 'Diallo');
-      const clientFullName = item.clientName || body.clientName || `${clientFirstName} ${clientLastName}`;
-      const clientPhone = item.clientPhone || body.clientPhone || '+221 77 450 12 34';
+      const clientFirstName = item.clientFirstName || body.clientFirstName || (body.clientName ? body.clientName.split(' ')[0] : 'Acheteur');
+      const clientLastName = item.clientLastName || body.clientLastName || (body.clientName ? body.clientName.split(' ').slice(1).join(' ') : 'Difonsé');
+      const clientFullName = item.clientName || body.clientName || `${clientFirstName} ${clientLastName}`.trim();
+      const clientPhone = item.clientPhone || body.clientPhone || '';
       const solvencyScore = Number(item.solvencyScore || body.solvencyScore || 98);
       const solvencyStatus = item.solvencyStatus || body.solvencyStatus || 'Solvable Vérifié';
       const provider = item.provider || body.provider || "Wave";
+
+      const vCode = item.vendorCode || body.vendorCode || "";
+      const vPhone = item.vendorPhone || body.vendorPhone || "";
+      const vHub = item.vendorShopLocation || item.hub || body.hub || "Dakar";
 
       const newO = {
         id: cmdId,
@@ -473,7 +514,10 @@ module.exports = async function handler(req, res) {
         solvencyScore: solvencyScore,
         solvencyStatus: solvencyStatus,
         vendorId: item.vendorId || "usr_seller_1",
-        vendorName: item.vendorName || item.vendor || "Boutique Modou",
+        vendorName: item.vendorName || item.vendor || "Boutique Vendeur",
+        vendorCode: vCode,
+        vendorPhone: vPhone,
+        vendorShopLocation: vHub,
         vendorBankPrice: vBank,
         vendorNetPrice: vBank,
         commission: retainer,
@@ -494,7 +538,7 @@ module.exports = async function handler(req, res) {
 
       // Paiement direct du vendeur (crédit instantané du solde disponible)
       users.forEach(u => {
-        if (u.shopName === newO.vendorName || u.id === newO.vendorId) {
+        if (u.id === newO.vendorId || u.shopName === newO.vendorName || (vPhone && u.phone && u.phone.replace(/[^0-9]/g, '').endsWith(vPhone.replace(/[^0-9]/g, '')))) {
           u.availableBalance = (u.availableBalance || 0) + vBank;
           u.totalSales = (u.totalSales || 0) + vBank;
           u.totalRetainerPaid = (u.totalRetainerPaid || 0) + retainer;
@@ -522,6 +566,7 @@ module.exports = async function handler(req, res) {
             solvency_score: newO.solvencyScore,
             solvency_status: newO.solvencyStatus,
             vendor_id: newO.vendorId,
+            vendor_code: newO.vendorCode,
             vendor_name: newO.vendorName,
             vendor_shop_location: newO.vendorShopLocation,
             vendor_phone: newO.vendorPhone,
@@ -848,10 +893,14 @@ module.exports = async function handler(req, res) {
 
     const cleanPh = phone.replace(/[^0-9]/g, '');
     let matched = null;
-    if (cleanPh) {
+    if (body.id) {
+      matched = users.find(u => u.id === body.id);
+    }
+    if (!matched && cleanPh) {
+      const phSuffix = cleanPh.slice(-9);
       matched = users.find(u => {
         const uClean = (u.phone || '').replace(/[^0-9]/g, '');
-        return uClean === cleanPh && u.role === role;
+        return uClean.endsWith(phSuffix) && u.role === role;
       });
     }
 
@@ -863,9 +912,11 @@ module.exports = async function handler(req, res) {
     const fullName = (finalFirst || finalLast) ? `${finalFirst} ${finalLast}`.trim() : (isDemoAmadou ? 'Amadou Diallo' : (isDemoModou ? 'Modou Ndiaye' : 'Utilisateur Difonsé'));
 
     const userId = matched ? matched.id : (isDemoModou ? 'usr_seller_1' : (isDemoAmadou ? 'usr_buyer_1' : (body.id || `usr_${role}_${cleanPh || Date.now()}`)));
+    const vCode = (matched && matched.vendorCode) || body.vendorCode || (cleanPh ? `VND-${cleanPh.slice(-6)}` : `VND-${Math.floor(100000 + Math.random() * 900000)}`);
 
     const userSession = {
       id: userId,
+      vendorCode: role === 'seller' ? vCode : null,
       role: role,
       firstName: finalFirst,
       lastName: finalLast,
