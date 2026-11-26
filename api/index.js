@@ -349,6 +349,7 @@ module.exports = async function handler(req, res) {
       publicPrice: pubPrice,
       vendorId: body.vendorId || "usr_seller_1",
       vendor: body.vendor || "Boutique Modou Pikine",
+      vendorPhone: body.vendorPhone || "",
       hub: body.hub || "Pikine",
       image: img,
       gallery: gallery,
@@ -845,33 +846,42 @@ module.exports = async function handler(req, res) {
     const phone = (body.phone || '').trim();
     const role = body.role || 'buyer';
 
-    let matched = users.find(u => u.phone === phone && u.role === role);
-    if (!matched) {
-      matched = users.find(u => u.role === role);
+    const cleanPh = phone.replace(/[^0-9]/g, '');
+    let matched = null;
+    if (cleanPh) {
+      matched = users.find(u => {
+        const uClean = (u.phone || '').replace(/[^0-9]/g, '');
+        return uClean === cleanPh && u.role === role;
+      });
     }
 
-    const fullName = (firstName && lastName) ? `${firstName} ${lastName}` : (matched ? matched.name : (role === 'buyer' ? 'Amadou Diallo' : 'Modou Ndiaye'));
-    const finalFirst = firstName || (matched ? matched.firstName : (role === 'buyer' ? 'Amadou' : 'Modou'));
-    const finalLast = lastName || (matched ? matched.lastName : (role === 'buyer' ? 'Diallo' : 'Ndiaye'));
+    const isDemoModou = (role === 'seller' && (cleanPh === '778904512' || (lastName && lastName.toLowerCase() === 'ndiaye')));
+    const isDemoAmadou = (role === 'buyer' && (cleanPh === '774501234' || (lastName && lastName.toLowerCase() === 'diallo')));
+
+    const finalFirst = firstName || (matched ? matched.firstName : (isDemoAmadou ? 'Amadou' : (isDemoModou ? 'Modou' : '')));
+    const finalLast = lastName || (matched ? matched.lastName : (isDemoAmadou ? 'Diallo' : (isDemoModou ? 'Ndiaye' : '')));
+    const fullName = (finalFirst || finalLast) ? `${finalFirst} ${finalLast}`.trim() : (isDemoAmadou ? 'Amadou Diallo' : (isDemoModou ? 'Modou Ndiaye' : 'Utilisateur Difonsé'));
+
+    const userId = matched ? matched.id : (isDemoModou ? 'usr_seller_1' : (isDemoAmadou ? 'usr_buyer_1' : (body.id || `usr_${role}_${cleanPh || Date.now()}`)));
 
     const userSession = {
-      id: matched ? matched.id : `usr_${role}_${Date.now()}`,
+      id: userId,
       role: role,
       firstName: finalFirst,
       lastName: finalLast,
       name: fullName,
-      phone: phone || (matched ? matched.phone : (role === 'buyer' ? '+221 77 450 12 34' : '+221 77 890 45 12')),
-      garageName: body.garageName || (matched && matched.garageName) || 'Garage Castors Dakar',
-      shopName: body.shopName || (matched && matched.shopName) || 'Boutique Modou Pièces Auto',
-      location: body.location || body.hub || (matched && matched.location) || 'Pikine - Marché Tilène',
-      hub: body.location || body.hub || (matched && matched.hub) || 'Pikine',
-      activeCar: body.activeCar || (matched && matched.activeCar) || 'Toyota Hilux Vigo 2.5 D-4D',
+      phone: phone || (matched ? matched.phone : (isDemoAmadou ? '+221 77 450 12 34' : (isDemoModou ? '+221 77 890 45 12' : ''))),
+      garageName: body.garageName || (matched && matched.garageName) || (isDemoAmadou ? 'Garage Castors Dakar' : ''),
+      shopName: body.shopName || (matched && matched.shopName) || (isDemoModou ? 'Boutique Modou Pièces Auto' : ''),
+      location: body.location || body.hub || (matched && matched.location) || 'Dakar',
+      hub: body.location || body.hub || (matched && matched.hub) || 'Dakar',
+      activeCar: body.activeCar || (matched && matched.activeCar) || (isDemoAmadou ? 'Toyota Hilux Vigo 2.5 D-4D' : ''),
       solvencyScore: (matched && matched.solvencyScore) || (role === 'buyer' ? 98 : 95),
       solvencyStatus: (matched && matched.solvencyStatus) || (role === 'buyer' ? 'Solvable Vérifié' : 'Vendeur Certifié'),
-      solvencyDetails: (matched && matched.solvencyDetails) || 'Client vérifié par Wave / Orange Money sans défaut de paiement.',
-      availableBalance: (matched && matched.availableBalance) || 340000,
-      totalSales: (matched && matched.totalSales) || 1820000,
-      rating: (matched && matched.rating) || 4.9,
+      solvencyDetails: 'Client vérifié par Wave / Orange Money sans défaut de paiement.',
+      availableBalance: (matched && matched.availableBalance != null) ? matched.availableBalance : (isDemoModou ? 570000 : 0),
+      totalSales: (matched && matched.totalSales != null) ? matched.totalSales : (isDemoModou ? 2390000 : 0),
+      rating: (matched && matched.rating) || 5.0,
       isOpen: true
     };
 

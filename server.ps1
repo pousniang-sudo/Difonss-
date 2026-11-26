@@ -313,6 +313,7 @@ while ($listener.IsListening) {
                         publicPrice = $pubPrice
                         vendorId = if ($bodyObj.vendorId) { $bodyObj.vendorId } else { "usr_seller_1" }
                         vendor = if ($bodyObj.vendor) { $bodyObj.vendor } else { "Boutique Modou Pikine" }
+                        vendorPhone = if ($bodyObj.vendorPhone) { $bodyObj.vendorPhone } else { "" }
                         hub = if ($bodyObj.hub) { $bodyObj.hub } else { "Pikine" }
                         image = $mainImg
                         gallery = $gallery
@@ -841,31 +842,45 @@ while ($listener.IsListening) {
             elseif ($rawPath -eq "/api/auth/login" -and $request.HttpMethod -eq "POST") {
                 if ($null -ne $bodyObj) {
                     $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
-                    $matched = $users | Where-Object { $_.role -eq $bodyObj.role } | Select-Object -First 1
+                    if ($null -eq $users) { $users = @() }
 
-                    $fn = if ($bodyObj.firstName) { $bodyObj.firstName } elseif ($matched -and $matched.firstName) { $matched.firstName } else { "Amadou" }
-                    $ln = if ($bodyObj.lastName) { $bodyObj.lastName } elseif ($matched -and $matched.lastName) { $matched.lastName } else { "Diallo" }
-                    $ph = if ($bodyObj.phone) { $bodyObj.phone } elseif ($matched -and $matched.phone) { $matched.phone } else { "+221 77 450 12 34" }
-                    $fullN = "$fn $ln"
+                    $cleanPh = if ($bodyObj.phone) { ($bodyObj.phone -replace '[^0-9]', '') } else { '' }
+                    $matched = $null
+                    if ($cleanPh) {
+                        $matched = $users | Where-Object { 
+                            $uClean = ($_.phone -replace '[^0-9]', '')
+                            $uClean -eq $cleanPh -and $_.role -eq $bodyObj.role
+                        } | Select-Object -First 1
+                    }
+
+                    $isDemoModou = ($bodyObj.role -eq 'seller' -and ($cleanPh -eq '778904512' -or ($bodyObj.lastName -and $bodyObj.lastName.ToLower() -eq 'ndiaye')))
+                    $isDemoAmadou = ($bodyObj.role -eq 'buyer' -and ($cleanPh -eq '774501234' -or ($bodyObj.lastName -and $bodyObj.lastName.ToLower() -eq 'diallo')))
+
+                    $fn = if ($bodyObj.firstName) { $bodyObj.firstName } elseif ($matched -and $matched.firstName) { $matched.firstName } elseif ($isDemoAmadou) { "Amadou" } elseif ($isDemoModou) { "Modou" } else { "" }
+                    $ln = if ($bodyObj.lastName) { $bodyObj.lastName } elseif ($matched -and $matched.lastName) { $matched.lastName } elseif ($isDemoAmadou) { "Diallo" } elseif ($isDemoModou) { "Ndiaye" } else { "" }
+                    $ph = if ($bodyObj.phone) { $bodyObj.phone } elseif ($matched -and $matched.phone) { $matched.phone } elseif ($isDemoAmadou) { "+221 77 450 12 34" } elseif ($isDemoModou) { "+221 77 890 45 12" } else { "" }
+                    $fullN = if ($fn -or $ln) { "$fn $ln".Trim() } else { if ($isDemoAmadou) { "Amadou Diallo" } elseif ($isDemoModou) { "Modou Ndiaye" } else { "Utilisateur Difonsé" } }
+
+                    $userId = if ($matched) { $matched.id } elseif ($isDemoModou) { "usr_seller_1" } elseif ($isDemoAmadou) { "usr_buyer_1" } elseif ($bodyObj.id) { $bodyObj.id } else { "usr_" + $bodyObj.role + "_" + (if ($cleanPh) { $cleanPh } else { [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }) }
 
                     $sessUser = [PSCustomObject]@{
-                        id = if ($matched) { $matched.id } else { "usr_" + $bodyObj.role + "_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }
+                        id = $userId
                         role = $bodyObj.role
                         firstName = $fn
                         lastName = $ln
                         name = $fullN
                         phone = $ph
-                        garageName = if ($bodyObj.garageName) { $bodyObj.garageName } elseif ($matched -and $matched.garageName) { $matched.garageName } else { "Garage Castors Dakar" }
-                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } else { "Boutique Modou Pièces Auto" }
-                        location = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.location) { $matched.location } else { "Pikine - Marché Tilène" }
-                        hub = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Pikine" }
-                        activeCar = if ($matched -and $matched.activeCar) { $matched.activeCar } else { "Toyota Hilux Vigo 2.5 D-4D" }
-                        solvencyScore = if ($matched -and $matched.solvencyScore) { $matched.solvencyScore } else { 98 }
-                        solvencyStatus = if ($matched -and $matched.solvencyStatus) { $matched.solvencyStatus } else { "Solvable Vérifié" }
+                        garageName = if ($bodyObj.garageName) { $bodyObj.garageName } elseif ($matched -and $matched.garageName) { $matched.garageName } elseif ($isDemoAmadou) { "Garage Castors Dakar" } else { "" }
+                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } elseif ($matched -and $matched.shopName) { $matched.shopName } elseif ($isDemoModou) { "Boutique Modou Pièces Auto" } else { "" }
+                        location = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.location) { $matched.location } else { "Dakar" }
+                        hub = if ($bodyObj.location) { $bodyObj.location } elseif ($bodyObj.hub) { $bodyObj.hub } elseif ($matched -and $matched.hub) { $matched.hub } else { "Dakar" }
+                        activeCar = if ($matched -and $matched.activeCar) { $matched.activeCar } elseif ($isDemoAmadou) { "Toyota Hilux Vigo 2.5 D-4D" } else { "" }
+                        solvencyScore = if ($matched -and $matched.solvencyScore) { $matched.solvencyScore } elseif ($bodyObj.role -eq 'buyer') { 98 } else { 95 }
+                        solvencyStatus = if ($matched -and $matched.solvencyStatus) { $matched.solvencyStatus } elseif ($bodyObj.role -eq 'buyer') { "Solvable Vérifié" } else { "Vendeur Certifié" }
                         solvencyDetails = "Client vérifié par Wave / Orange Money sans défaut de paiement."
-                        availableBalance = if ($matched -and $matched.availableBalance) { $matched.availableBalance } else { 340000 }
-                        totalSales = if ($matched -and $matched.totalSales) { $matched.totalSales } else { 1820000 }
-                        rating = 4.9
+                        availableBalance = if ($matched -and $null -ne $matched.availableBalance) { $matched.availableBalance } elseif ($isDemoModou) { 570000 } else { 0 }
+                        totalSales = if ($matched -and $null -ne $matched.totalSales) { $matched.totalSales } elseif ($isDemoModou) { 2390000 } else { 0 }
+                        rating = if ($matched -and $matched.rating) { $matched.rating } else { 5.0 }
                         isOpen = $true
                     }
 

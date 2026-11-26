@@ -1,4 +1,24 @@
-[
+﻿[
+    {
+        "id":  "act_1795722163096",
+        "timestamp":  "2026-11-26T19:42:43.0967235Z",
+        "section":  "seller",
+        "actor":  "BINTEL",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente: Pompe à Injection Haute Pression Delphi (Prix banque: 120000 FCFA | Prix client: 132000 FCFA)",
+        "amount":  120000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795722160977",
+        "timestamp":  "2026-11-26T19:42:41.0108033Z",
+        "section":  "seller",
+        "actor":  "Khadim Gueye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Khadim Gueye (seller - SolvabilitÃ©: 100/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
     {
         "id":  "act_1795718640645",
         "timestamp":  "2026-11-26T18:44:00.6532021Z",

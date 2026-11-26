@@ -1,4 +1,4 @@
-[
+﻿[
     {
         "id":  "usr_buyer_1",
         "garageName":  "Garage Castors Dakar",
@@ -74,5 +74,25 @@
         "hub":  "Castors",
         "solvencyStatus":  "Vendeur Certifié",
         "rating":  4.8
+    },
+    {
+        "id":  "usr_seller_777127657",
+        "role":  "seller",
+        "firstName":  "Khadim",
+        "lastName":  "Gueye",
+        "name":  "Khadim Gueye",
+        "phone":  "+221 777127657",
+        "garageName":  "",
+        "shopName":  "BINTEL",
+        "location":  "HANN MARINAS",
+        "hub":  "HANN MARINAS",
+        "activeCar":  "",
+        "solvencyScore":  100,
+        "solvencyStatus":  "Vendeur Certifié",
+        "solvencyDetails":  "Client vÃ©rifiÃ© par Wave / Orange Money sans dÃ©faut de paiement.",
+        "availableBalance":  0,
+        "totalSales":  0,
+        "rating":  5.0,
+        "isOpen":  true
     }
 ]
