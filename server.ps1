@@ -61,6 +61,50 @@ function Helper-SupabasePost($table, $obj) {
     } catch {}
 }
 
+function Helper-SyncUserProfileToSupabase($u) {
+    if ($null -eq $u) { return }
+    $ph = if ($u.phone) { $u.phone } else { "" }
+    if ([string]::IsNullOrWhiteSpace($ph)) { return }
+
+    try {
+        $fn = if ($u.firstName) { $u.firstName } elseif ($u.name) { ($u.name -split ' ')[0] } else { "Utilisateur" }
+        $ln = if ($u.lastName) { $u.lastName } elseif ($u.name) { (($u.name -split ' ') | Select-Object -Skip 1) -join ' ' } else { "Difonsé" }
+        $org = if ($u.shopName) { $u.shopName } elseif ($u.garageName) { $u.garageName } elseif ($u.organization) { $u.organization } else { "" }
+        $hub = if ($u.location) { $u.location } elseif ($u.hub) { $u.hub } else { "Dakar" }
+        $addr = if ($u.address) { $u.address } elseif ($u.deliveryAddress) { $u.deliveryAddress } else { $null }
+        $gpsVal = if ($u.gps) { $u.gps } elseif ($u.deliveryGps) { ($u.deliveryGps | ConvertTo-Json -Compress) } else { $null }
+        $role = if ($u.role) { $u.role } else { "buyer" }
+        $score = if ($u.solvencyScore) { [int]$u.solvencyScore } else { 98 }
+        $status = if ($u.solvencyStatus) { $u.solvencyStatus } elseif ($role -eq "seller") { "Vendeur Certifié" } else { "Solvable Vérifié" }
+
+        Helper-SupabasePost "profiles?on_conflict=phone" @{
+            phone = $ph
+            first_name = $fn
+            last_name = $ln
+            role = $role
+            organization = $org
+            hub = $hub
+            address = $addr
+            gps = $gpsVal
+            solvency_score = $score
+            solvency_status = $status
+            last_login = [DateTime]::UtcNow.ToString("o")
+        }
+
+        Helper-SupabasePost "user_connections" @{
+            first_name = $fn
+            last_name = $ln
+            phone = $ph
+            role = $role
+            organization = $org
+            hub = $hub
+            solvency_score = $score
+            user_agent = "PowerShell Server"
+            connected_at = [DateTime]::UtcNow.ToString("o")
+        }
+    } catch {}
+}
+
 function Helper-LogActivity($section, $actor, $action, $details, $amount, $icon) {
     try {
         $actsJson = Helper-ReadJsonFile "activities.json"
@@ -475,6 +519,21 @@ while ($listener.IsListening) {
                             action_required = $newO.actionRequired
                             timeline = $newO.timeline
                         }
+
+                        # Enregistrement et synchronisation automatique du profil acheteur dans Supabase
+                        Helper-SyncUserProfileToSupabase @{
+                            phone = $newO.clientPhone
+                            firstName = $newO.clientFirstName
+                            lastName = $newO.clientLastName
+                            name = $newO.clientName
+                            role = "buyer"
+                            organization = if ($bodyObj.garageName) { $bodyObj.garageName } else { "Garage Client Difonsé" }
+                            hub = "Dakar"
+                            address = $newO.deliveryAddress
+                            deliveryGps = $newO.deliveryGps
+                            solvencyScore = $newO.solvencyScore
+                            solvencyStatus = $newO.solvencyStatus
+                        }
                     }
 
                     Helper-WriteJsonFile "orders.json" $orders
@@ -810,8 +869,69 @@ while ($listener.IsListening) {
                         isOpen = $true
                     }
 
+                    # Persistance locale dans users.json
+                    $userList = @($users)
+                    $existIdx = -1
+                    for ($i = 0; $i -lt $userList.Count; $i++) {
+                        if ($userList[$i].phone -eq $sessUser.phone -and $userList[$i].role -eq $sessUser.role) {
+                            $existIdx = $i; break
+                        }
+                    }
+                    if ($existIdx -ge 0) {
+                        $userList[$existIdx] = $sessUser
+                    } else {
+                        $userList += $sessUser
+                    }
+                    Helper-WriteJsonFile "users.json" $userList
+
+                    # Synchronisation Supabase en arrière-plan
+                    Helper-SyncUserProfileToSupabase $sessUser
+
                     Helper-LogActivity $sessUser.role $sessUser.name "LOGIN" ("Connexion réussie : " + $sessUser.name + " (" + $sessUser.role + " - Solvabilité: " + $sessUser.solvencyScore + "/100)") 0 "login"
                     $respObj = @{ success = $true; user = $sessUser }
+                }
+            }
+            # 18. GET /api/profiles
+            elseif ($rawPath -eq "/api/profiles" -and $request.HttpMethod -eq "GET") {
+                $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
+                $respObj = $users
+            }
+            # 19. POST /api/profiles
+            elseif ($rawPath -eq "/api/profiles" -and $request.HttpMethod -eq "POST") {
+                if ($null -ne $bodyObj) {
+                    $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
+                    if ($null -eq $users) { $users = @() }
+                    $userList = @($users)
+                    $ph = if ($bodyObj.phone) { $bodyObj.phone } else { "" }
+                    $profItem = [PSCustomObject]@{
+                        phone = $ph
+                        firstName = if ($bodyObj.firstName) { $bodyObj.firstName } else { "Utilisateur" }
+                        lastName = if ($bodyObj.lastName) { $bodyObj.lastName } else { "Difonsé" }
+                        name = if ($bodyObj.firstName -or $bodyObj.lastName) { ($bodyObj.firstName + " " + $bodyObj.lastName).Trim() } else { "Utilisateur Difonsé" }
+                        role = if ($bodyObj.role) { $bodyObj.role } else { "buyer" }
+                        shopName = if ($bodyObj.shopName) { $bodyObj.shopName } else { "" }
+                        garageName = if ($bodyObj.garageName) { $bodyObj.garageName } else { "" }
+                        organization = if ($bodyObj.organization) { $bodyObj.organization } elseif ($bodyObj.shopName) { $bodyObj.shopName } elseif ($bodyObj.garageName) { $bodyObj.garageName } else { "" }
+                        hub = if ($bodyObj.hub) { $bodyObj.hub } elseif ($bodyObj.location) { $bodyObj.location } else { "Dakar" }
+                        address = if ($bodyObj.address) { $bodyObj.address } else { "" }
+                        gps = if ($bodyObj.gps) { $bodyObj.gps } else { $null }
+                        solvencyScore = if ($bodyObj.solvencyScore) { [int]$bodyObj.solvencyScore } else { 98 }
+                        solvencyStatus = if ($bodyObj.solvencyStatus) { $bodyObj.solvencyStatus } else { "Solvable Vérifié" }
+                    }
+                    $existIdx = -1
+                    for ($i = 0; $i -lt $userList.Count; $i++) {
+                        if ($userList[$i].phone -eq $ph -and $userList[$i].role -eq $profItem.role) {
+                            $existIdx = $i; break
+                        }
+                    }
+                    if ($existIdx -ge 0) {
+                        $userList[$existIdx] = $profItem
+                    } else {
+                        $userList += $profItem
+                    }
+                    Helper-WriteJsonFile "users.json" $userList
+                    Helper-SyncUserProfileToSupabase $profItem
+                    $respObj = @{ success = $true; profile = $profItem }
                 }
             } else {
                 $response.StatusCode = 404

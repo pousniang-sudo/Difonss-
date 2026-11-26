@@ -106,6 +106,11 @@
           <span class="material-symbols-outlined text-[16px]">history</span>
           <span>Grand Livre SHA-256</span>
         </button>
+        <button onclick="switchAdminTab('users')" id="tab-btn-users" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[16px] text-cyan-400">group</span>
+          <span>Personnes &amp; Profils</span>
+          <span id="badge-users-count" class="bg-cyan-500 text-slate-950 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+        </button>
         <button onclick="switchAdminTab('tracking')" id="tab-btn-tracking" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white flex items-center gap-1.5 transition-all">
           <span class="material-symbols-outlined text-[16px] text-emerald-400">radar</span>
           <span>Tracking Supabase</span>
@@ -135,8 +140,8 @@
     <!-- ============================================================== -->
     <div id="view-dashboard" class="space-y-6">
       
-      <!-- 4 MÉTROLOGIES CONSOLIDÉES CLÉS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- 5 MÉTROLOGIES CONSOLIDÉES CLÉS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
         <div class="bg-admin-card p-4 rounded-2xl border border-admin-border space-y-2">
           <div class="flex items-center justify-between text-slate-400 text-xs font-bold">
@@ -159,6 +164,15 @@
           </div>
         </div>
 
+        <div class="bg-admin-card p-4 rounded-2xl border border-admin-border space-y-2">
+          <div class="flex items-center justify-between text-admin-gold text-xs font-bold">
+            <span>RETAINERS DIFONSÉ (10%)</span>
+            <span class="material-symbols-outlined text-admin-gold text-[20px]">savings</span>
+          </div>
+          <div class="text-2xl font-black text-admin-gold price-num" id="stat-commissions">0 FCFA</div>
+          <p class="text-[11px] text-slate-400">Retainer plateforme prélevé</p>
+        </div>
+
         <div class="bg-admin-card p-4 rounded-2xl border border-red-900/60 space-y-2">
           <div class="flex items-center justify-between text-red-400 text-xs font-bold">
             <span>LITIGES &amp; REMBOURSEMENTS</span>
@@ -171,13 +185,19 @@
           </div>
         </div>
 
-        <div class="bg-admin-card p-4 rounded-2xl border border-admin-border space-y-2">
-          <div class="flex items-center justify-between text-admin-gold text-xs font-bold">
-            <span>RETAINERS DIFONSÉ ENCAISSÉS (10%)</span>
-            <span class="material-symbols-outlined text-admin-gold text-[20px]">savings</span>
+        <div onclick="switchAdminTab('users')" class="bg-admin-card p-4 rounded-2xl border border-cyan-500/40 hover:border-cyan-400 space-y-2 cursor-pointer transition-all group shadow-[0_4px_20px_rgba(6,182,212,0.15)]">
+          <div class="flex items-center justify-between text-cyan-400 text-xs font-bold">
+            <span>PERSONNES INSCRITES</span>
+            <span class="material-symbols-outlined text-cyan-400 text-[20px] group-hover:scale-110 transition-transform">group</span>
           </div>
-          <div class="text-2xl font-black text-admin-gold price-num" id="stat-commissions">0 FCFA</div>
-          <p class="text-[11px] text-slate-400">Retainer plateforme prélevé à la commande</p>
+          <div class="text-2xl font-black text-white flex items-center gap-2">
+            <span id="stat-dashboard-users">0</span>
+            <span class="text-xs font-bold text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded-full border border-cyan-500/30">Supabase</span>
+          </div>
+          <p class="text-[11px] text-slate-400 flex items-center justify-between">
+            <span id="stat-dashboard-users-sub">Vendeurs &amp; Acheteurs</span>
+            <span class="text-[10px] text-cyan-400 font-bold group-hover:underline flex items-center">Gérer &rarr;</span>
+          </p>
         </div>
 
       </div>
@@ -327,7 +347,142 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- 6. VUE : TRACKING SUPABASE & CONNEXIONS EN TEMPS RÉEL           -->
+    <!-- 6. VUE : RÉPERTOIRE INTÉGRAL DES PERSONNES & PROFILS INSCRITS   -->
+    <!-- ============================================================== -->
+    <div id="view-users" class="hidden space-y-6">
+      
+      <!-- Carte Statut Supabase & Actions -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border p-5 space-y-4 shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-admin-border pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0">
+              <span class="material-symbols-outlined text-[26px]">manage_accounts</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-base font-extrabold text-white">Répertoire Central des Personnes &amp; Profils Inscrits</h2>
+                <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 text-[10px] font-black uppercase">PostgreSQL Supabase Live</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Supervision intégrale des acheteurs, mécaniciens, garages et vendeurs inscrits · Données synchronisées en direct avec la table <code class="text-cyan-400 font-mono text-[11px]">public.profiles</code>.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="loadSupabaseProfilesAndTrackingData()" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-black text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-sm cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">sync</span>
+              <span>Rafraîchir en Direct</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards Profils -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-admin-bg border border-admin-border">
+            <div class="text-[11px] font-bold text-slate-400 uppercase">Total Personnes Inscrites</div>
+            <div class="text-2xl font-black text-white mt-1" id="stat-users-total">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Acheteurs &amp; Vendeurs combinés</p>
+          </div>
+          <div class="p-4 rounded-xl bg-admin-bg border border-amber-900/40">
+            <div class="text-[11px] font-bold text-amber-400 uppercase">Vendeurs Agréés</div>
+            <div class="text-2xl font-black text-amber-400 mt-1" id="stat-users-sellers">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Boutiques &amp; grossistes Dakar/Pikine</p>
+          </div>
+          <div class="p-4 rounded-xl bg-admin-bg border border-emerald-900/40">
+            <div class="text-[11px] font-bold text-emerald-400 uppercase">Acheteurs &amp; Garages</div>
+            <div class="text-2xl font-black text-emerald-400 mt-1" id="stat-users-buyers">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Mécaniciens &amp; particuliers avec adresses</p>
+          </div>
+          <div class="p-4 rounded-xl bg-admin-bg border border-cyan-900/40">
+            <div class="text-[11px] font-bold text-cyan-400 uppercase">Sessions Tracées (Live)</div>
+            <div class="text-2xl font-black text-cyan-300 mt-1" id="stat-users-connections">0</div>
+            <p class="text-[10px] text-slate-500 mt-0.5">Historique des accès nominatifs</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barre de Recherche et Filtres -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+        <div class="relative flex-1 max-w-md">
+          <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-500 text-[18px]">search</span>
+          <input type="text" id="users-search-input" oninput="filterUsersTable()" placeholder="Rechercher par nom, téléphone, boutique, garage, hub..." class="w-full pl-9 pr-3 py-2 bg-admin-bg border border-admin-border rounded-xl text-xs text-white placeholder:text-slate-500 outline-none focus:border-cyan-500 transition-all font-medium" />
+        </div>
+        <div class="flex items-center gap-1.5 text-xs font-bold">
+          <span class="text-slate-400 text-[11px] mr-1">Filtrer par rôle :</span>
+          <button onclick="setUsersRoleFilter('all')" id="filter-role-all" class="px-3 py-1.5 rounded-lg bg-cyan-600 text-slate-950 font-black transition-all cursor-pointer">Tous (<span id="count-filter-all">0</span>)</button>
+          <button onclick="setUsersRoleFilter('seller')" id="filter-role-seller" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white bg-admin-bg border border-admin-border transition-all cursor-pointer">Vendeurs (<span id="count-filter-sellers">0</span>)</button>
+          <button onclick="setUsersRoleFilter('buyer')" id="filter-role-buyer" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white bg-admin-bg border border-admin-border transition-all cursor-pointer">Acheteurs (<span id="count-filter-buyers">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- TABLEAU 1 : LISTE DÉTAILLÉE DES PROFILS ENREGISTRÉS -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border overflow-hidden shadow-lg space-y-3">
+        <div class="p-4 sm:p-5 border-b border-admin-border flex items-center justify-between">
+          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-cyan-400">badge</span>
+            <span>Répertoire Nominatif des Profils Enregistrés (Table Supabase <code class="text-cyan-300 font-mono text-[11px]">profiles</code>)</span>
+          </h3>
+          <span class="text-[11px] text-slate-400">Total : <strong class="text-white" id="users-table-counter">0 profil(s)</strong></span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-admin-bg/80 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-admin-border">
+              <tr>
+                <th class="py-3 px-4">Identité &amp; Profil</th>
+                <th class="py-3 px-4">Téléphone (Wave / OM)</th>
+                <th class="py-3 px-4">Rôle</th>
+                <th class="py-3 px-4">Boutique / Garage</th>
+                <th class="py-3 px-4">Hub / Localisation</th>
+                <th class="py-3 px-4">Adresse &amp; GPS Livraison</th>
+                <th class="py-3 px-4">Solvabilité</th>
+                <th class="py-3 px-4">Inscription / Dernière Activité</th>
+              </tr>
+            </thead>
+            <tbody id="supabase-profiles-table-body" class="divide-y divide-admin-border/60">
+              <tr>
+                <td colspan="8" class="py-8 text-center text-slate-500">Chargement des profils Supabase...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TABLEAU 2 : JOURNAL EN DIRECT DES CONNEXIONS ET ACCÈS -->
+      <div class="bg-admin-card rounded-2xl border border-admin-border overflow-hidden shadow-lg space-y-3">
+        <div class="p-4 sm:p-5 border-b border-admin-border flex items-center justify-between">
+          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <span class="material-symbols-outlined text-emerald-400">history_toggle_off</span>
+            <span>Journal Live des Connexions &amp; Événements d'Accès (Table Supabase <code class="text-emerald-300 font-mono text-[11px]">user_connections</code>)</span>
+          </h3>
+          <span class="text-[11px] text-slate-400">50 dernières sessions tracées</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-admin-bg/80 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-admin-border">
+              <tr>
+                <th class="py-3 px-4">Horodatage</th>
+                <th class="py-3 px-4">Utilisateur</th>
+                <th class="py-3 px-4">Téléphone</th>
+                <th class="py-3 px-4">Rôle</th>
+                <th class="py-3 px-4">Garage / Boutique</th>
+                <th class="py-3 px-4">Hub</th>
+                <th class="py-3 px-4">Indice</th>
+                <th class="py-3 px-4">Appareil / Source</th>
+              </tr>
+            </thead>
+            <tbody id="supabase-users-connections-table-body" class="divide-y divide-admin-border/60">
+              <tr>
+                <td colspan="8" class="py-8 text-center text-slate-500">Chargement des connexions Supabase...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- 7. VUE : TRACKING SUPABASE & CONNEXIONS EN TEMPS RÉEL           -->
     <!-- ============================================================== -->
     <div id="view-tracking" class="hidden space-y-6">
       
@@ -424,61 +579,258 @@
       console.warn("Supabase admin init:", e);
     }
 
-    async function loadSupabaseTrackingData() {
-      if (!supabaseClient) return;
+    let allProfilesList = [];
+    let allConnectionsList = [];
+    let currentUsersRoleFilter = 'all';
+
+    async function loadSupabaseProfilesAndTrackingData() {
+      // 1. Récupération des profils (Supabase en direct avec fallback API Backend)
       try {
-        const { data: connections, error: connErr } = await supabaseClient
-          .from('user_connections')
-          .select('*')
-          .order('connected_at', { ascending: false })
-          .limit(50);
-
-        const { count: profCount } = await supabaseClient
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
-
-        const statConn = document.getElementById("supabase-stat-connections");
-        const statProf = document.getElementById("supabase-stat-profiles");
-        const badge = document.getElementById("badge-supabase-count");
-        const tbody = document.getElementById("supabase-connections-table-body");
-
-        if (connections) {
-          if (statConn) statConn.innerText = connections.length;
-          if (badge) badge.innerText = connections.length;
-          if (statProf) statProf.innerText = profCount || connections.length;
-
-          if (tbody) {
-            if (connections.length === 0) {
-              tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-500">Aucune connexion enregistrée pour l'instant. Connectez-vous sur le front-end pour générer une entrée.</td></tr>`;
-            } else {
-              tbody.innerHTML = connections.map(c => {
-                const dateStr = new Date(c.connected_at).toLocaleString("fr-FR", {
-                  day: "2-digit", month: "2-digit", year: "numeric",
-                  hour: "2-digit", minute: "2-digit", second: "2-digit"
-                });
-                const isBuyer = c.role === "buyer";
-                const roleBadge = isBuyer 
-                  ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase">Acheteur</span>`
-                  : `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-black uppercase">Vendeur</span>`;
-                return `
-                  <tr class="hover:bg-slate-800/40 transition-colors">
-                    <td class="py-3 px-4 font-mono text-[11px] text-slate-400">${dateStr}</td>
-                    <td class="py-3 px-4 font-bold text-white">${c.first_name || ""} ${c.last_name || ""}</td>
-                    <td class="py-3 px-4 font-mono text-emerald-400">${c.phone || "N/A"}</td>
-                    <td class="py-3 px-4">${roleBadge}</td>
-                    <td class="py-3 px-4 text-slate-300">${c.organization || "Particulier"}</td>
-                    <td class="py-3 px-4 font-semibold text-slate-400">${c.hub || "Dakar"}</td>
-                    <td class="py-3 px-4 font-black text-emerald-400">${c.solvency_score || 98}/100</td>
-                  </tr>
-                `;
-              }).join("");
-            }
+        if (supabaseClient) {
+          const { data: dbProfiles, error: profErr } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (!profErr && dbProfiles) {
+            allProfilesList = dbProfiles;
           }
         }
-      } catch (err) {
-        console.warn("Supabase tracker load:", err);
+      } catch (e) {
+        console.warn("Supabase profiles query:", e);
       }
+
+      // Si Supabase direct n'est pas dispo ou vide, fallback vers /api/profiles
+      if (!allProfilesList || allProfilesList.length === 0) {
+        try {
+          const res = await fetch(`${API_BASE}/profiles`);
+          if (res.ok) {
+            allProfilesList = await res.json();
+          }
+        } catch (e) {}
+      }
+
+      // 2. Récupération des connexions / sessions Supabase
+      try {
+        if (supabaseClient) {
+          const { data: connections, error: connErr } = await supabaseClient
+            .from('user_connections')
+            .select('*')
+            .order('connected_at', { ascending: false })
+            .limit(50);
+          if (!connErr && connections) {
+            allConnectionsList = connections;
+          }
+        }
+      } catch (e) {
+        console.warn("Supabase connections query:", e);
+      }
+
+      // 3. Mise à jour des compteurs et statistiques
+      const totalProfiles = allProfilesList.length;
+      const sellersCount = allProfilesList.filter(p => p.role === 'seller').length;
+      const buyersCount = allProfilesList.filter(p => p.role === 'buyer').length;
+      const connCount = allConnectionsList.length;
+
+      // Badges Navbar
+      const badgeUsers = document.getElementById("badge-users-count");
+      const badgeSupabase = document.getElementById("badge-supabase-count");
+      if (badgeUsers) badgeUsers.innerText = totalProfiles;
+      if (badgeSupabase) badgeSupabase.innerText = connCount;
+
+      // KPI Dashboard
+      const dashUsers = document.getElementById("stat-dashboard-users");
+      const dashUsersSub = document.getElementById("stat-dashboard-users-sub");
+      if (dashUsers) dashUsers.innerText = totalProfiles;
+      if (dashUsersSub) dashUsersSub.innerText = `${sellersCount} Vendeurs · ${buyersCount} Acheteurs`;
+
+      // KPI Vue Utilisateurs
+      const statTotal = document.getElementById("stat-users-total");
+      const statSellers = document.getElementById("stat-users-sellers");
+      const statBuyers = document.getElementById("stat-users-buyers");
+      const statConns = document.getElementById("stat-users-connections");
+      if (statTotal) statTotal.innerText = totalProfiles;
+      if (statSellers) statSellers.innerText = sellersCount;
+      if (statBuyers) statBuyers.innerText = buyersCount;
+      if (statConns) statConns.innerText = connCount;
+
+      // Compteurs des boutons filtres
+      const cAll = document.getElementById("count-filter-all");
+      const cSell = document.getElementById("count-filter-sellers");
+      const cBuy = document.getElementById("count-filter-buyers");
+      if (cAll) cAll.innerText = totalProfiles;
+      if (cSell) cSell.innerText = sellersCount;
+      if (cBuy) cBuy.innerText = buyersCount;
+
+      // Stats Vue Tracking
+      const trConn = document.getElementById("supabase-stat-connections");
+      const trProf = document.getElementById("supabase-stat-profiles");
+      if (trConn) trConn.innerText = connCount;
+      if (trProf) trProf.innerText = totalProfiles;
+
+      // 4. Rendu des tableaux
+      renderProfilesTable();
+      renderConnectionsTables();
     }
+
+    // Rendu du tableau des Profils avec filtrage et recherche
+    function renderProfilesTable() {
+      const tbody = document.getElementById("supabase-profiles-table-body");
+      const counterEl = document.getElementById("users-table-counter");
+      if (!tbody) return;
+
+      const searchInput = document.getElementById("users-search-input");
+      const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+      let filtered = allProfilesList.filter(p => {
+        if (currentUsersRoleFilter !== 'all' && p.role !== currentUsersRoleFilter) return false;
+        if (!query) return true;
+        const fn = (p.first_name || p.firstName || '').toLowerCase();
+        const ln = (p.last_name || p.lastName || '').toLowerCase();
+        const ph = (p.phone || '').toLowerCase();
+        const org = (p.organization || p.shopName || p.garageName || '').toLowerCase();
+        const hub = (p.hub || p.location || '').toLowerCase();
+        const addr = (p.address || p.deliveryAddress || '').toLowerCase();
+        return fn.includes(query) || ln.includes(query) || ph.includes(query) || org.includes(query) || hub.includes(query) || addr.includes(query);
+      });
+
+      if (counterEl) counterEl.innerText = `${filtered.length} profil(s)`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-500">Aucun profil ne correspond aux critères de recherche.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => {
+        const fn = p.first_name || p.firstName || '';
+        const ln = p.last_name || p.lastName || '';
+        const fullName = `${fn} ${ln}`.trim() || p.name || 'Utilisateur Anonyme';
+        const isSeller = p.role === 'seller';
+        const initials = ((fn[0] || 'U') + (ln[0] || 'D')).toUpperCase();
+        const org = p.organization || p.shopName || p.garageName || (isSeller ? 'Boutique Indépendante' : 'Particulier');
+        const hub = p.hub || p.location || 'Dakar';
+        const phone = p.phone || 'Non renseigné';
+        const score = p.solvency_score || p.solvencyScore || 98;
+        const status = p.solvency_status || p.solvencyStatus || (isSeller ? 'Vendeur Certifié' : 'Solvable Vérifié');
+        
+        let gpsHtml = '<span class="text-slate-500 text-[11px]">N/A</span>';
+        if (p.gps) {
+          try {
+            const gpsObj = typeof p.gps === 'object' ? p.gps : JSON.parse(p.gps);
+            if (gpsObj && gpsObj.lat && gpsObj.lng) {
+              gpsHtml = `<a href="https://www.google.com/maps?q=${gpsObj.lat},${gpsObj.lng}" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-red-400 hover:text-red-300 underline font-mono"><span class="material-symbols-outlined text-[12px]">location_on</span>GPS Maps</a>`;
+            }
+          } catch (e) {
+            gpsHtml = `<span class="text-[10px] text-slate-400 font-mono">${p.gps}</span>`;
+          }
+        }
+        const addressText = p.address || p.deliveryAddress || (isSeller ? hub : 'Non renseignée');
+
+        const roleBadge = isSeller 
+          ? `<span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-black uppercase tracking-wider flex items-center gap-1 w-max"><span class="material-symbols-outlined text-[13px]">storefront</span>Vendeur</span>`
+          : `<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase tracking-wider flex items-center gap-1 w-max"><span class="material-symbols-outlined text-[13px]">person</span>Acheteur</span>`;
+
+        const avatarBg = isSeller ? 'from-amber-600 to-orange-700 text-white' : 'from-emerald-600 to-teal-800 text-white';
+
+        const dateStr = p.created_at 
+          ? new Date(p.created_at).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" })
+          : (p.registeredAt ? new Date(p.registeredAt).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }) : "Récemment");
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition-colors">
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br ${avatarBg} font-black text-xs flex items-center justify-center shrink-0 shadow-sm">${initials}</div>
+                <div>
+                  <div class="font-extrabold text-white text-xs">${fullName}</div>
+                  <span class="text-[10px] text-slate-400">ID: ${p.id ? String(p.id).substring(0, 8) + '...' : 'Local'}</span>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <a href="tel:${phone.replace(/\s+/g, '')}" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px] text-emerald-500">phone</span>
+                <span>${phone}</span>
+              </a>
+            </td>
+            <td class="py-3 px-4">${roleBadge}</td>
+            <td class="py-3 px-4 font-semibold text-slate-200 text-xs">${org}</td>
+            <td class="py-3 px-4 font-bold text-slate-400 text-xs">${hub}</td>
+            <td class="py-3 px-4">
+              <div class="space-y-0.5">
+                <div class="text-[11px] text-slate-300 truncate max-w-[170px]" title="${addressText}">${addressText}</div>
+                ${gpsHtml}
+              </div>
+            </td>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-1.5">
+                <span class="font-black text-xs ${score >= 90 ? 'text-emerald-400' : 'text-amber-400'}">${score}/100</span>
+                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${score >= 90 ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-amber-950 text-amber-300 border border-amber-800'}">${status}</span>
+              </div>
+            </td>
+            <td class="py-3 px-4 text-[11px] text-slate-400 font-mono">${dateStr}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // Rendu des deux tableaux de connexions (Vue Profils & Vue Tracking)
+    function renderConnectionsTables() {
+      const body1 = document.getElementById("supabase-users-connections-table-body");
+      const body2 = document.getElementById("supabase-connections-table-body");
+
+      const rowsHtml = allConnectionsList.length === 0
+        ? `<tr><td colspan="8" class="py-8 text-center text-slate-500">Aucune session enregistrée pour l'instant.</td></tr>`
+        : allConnectionsList.map(c => {
+            const dateStr = new Date(c.connected_at).toLocaleString("fr-FR", {
+              day: "2-digit", month: "2-digit", year: "numeric",
+              hour: "2-digit", minute: "2-digit", second: "2-digit"
+            });
+            const isBuyer = c.role === "buyer";
+            const roleBadge = isBuyer 
+              ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase">Acheteur</span>`
+              : `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 text-[10px] font-black uppercase">Vendeur</span>`;
+            const cleanUA = (c.user_agent || 'Client Web').includes("PowerShell") 
+              ? "Serveur Local" 
+              : ((c.user_agent || '').includes("Mobile") ? "Smartphone Mobile" : "Ordinateur / Chrome");
+
+            return `
+              <tr class="hover:bg-slate-800/40 transition-colors">
+                <td class="py-3 px-4 font-mono text-[11px] text-slate-400">${dateStr}</td>
+                <td class="py-3 px-4 font-bold text-white">${c.first_name || ""} ${c.last_name || ""}</td>
+                <td class="py-3 px-4 font-mono text-emerald-400">${c.phone || "N/A"}</td>
+                <td class="py-3 px-4">${roleBadge}</td>
+                <td class="py-3 px-4 text-slate-300">${c.organization || "Particulier"}</td>
+                <td class="py-3 px-4 font-semibold text-slate-400">${c.hub || "Dakar"}</td>
+                <td class="py-3 px-4 font-black text-emerald-400">${c.solvency_score || 98}/100</td>
+                <td class="py-3 px-4 text-[11px] text-slate-400">${cleanUA}</td>
+              </tr>
+            `;
+          }).join("");
+
+      if (body1) body1.innerHTML = rowsHtml;
+      if (body2) body2.innerHTML = rowsHtml;
+    }
+
+    // Gestion du filtre de rôle
+    function setUsersRoleFilter(role) {
+      currentUsersRoleFilter = role;
+      const roles = ['all', 'seller', 'buyer'];
+      roles.forEach(r => {
+        const btn = document.getElementById(`filter-role-${r}`);
+        if (!btn) return;
+        if (r === role) {
+          btn.className = "px-3 py-1.5 rounded-lg bg-cyan-600 text-slate-950 font-black transition-all cursor-pointer";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white bg-admin-bg border border-admin-border transition-all cursor-pointer";
+        }
+      });
+      renderProfilesTable();
+    }
+
+    function filterUsersTable() {
+      renderProfilesTable();
+    }
+
     let adminStats = {};
     let adminOrders = [];
     let adminActivities = [];
@@ -487,17 +839,18 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       loadAllAdminData();
-      loadSupabaseTrackingData();
-      // Auto-refresh toutes les 3 secondes pour un suivi en temps réel des actions
+      loadSupabaseProfilesAndTrackingData();
+      // Auto-refresh toutes les 3 secondes pour un suivi en temps réel des actions et profils
       setInterval(loadAllAdminData, 3000);
-      setInterval(loadSupabaseTrackingData, 5000);
+      setInterval(loadSupabaseProfilesAndTrackingData, 4000);
     });
 
     function switchAdminTab(tab) {
-      const tabs = ["dashboard", "guarantee", "disputes", "payouts", "audit", "tracking"];
+      const tabs = ["dashboard", "guarantee", "disputes", "payouts", "audit", "users", "tracking"];
       tabs.forEach(t => {
         const view = document.getElementById(`view-${t}`);
         const btn = document.getElementById(`tab-btn-${t}`);
+        if (!view || !btn) return;
         if (t === tab) {
           view.classList.remove("hidden");
           btn.classList.add("bg-admin-cardLight", "text-white", "shadow-sm");
@@ -508,6 +861,9 @@
           btn.classList.add("text-slate-400");
         }
       });
+      if (tab === 'users' || tab === 'tracking') {
+        loadSupabaseProfilesAndTrackingData();
+      }
     }
 
     async function loadAllAdminData() {

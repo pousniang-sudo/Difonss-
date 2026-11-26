@@ -169,9 +169,15 @@
                 <p class="text-[11px] text-slate-400 leading-tight">
                   Mécaniciens &amp; particuliers : catalogue ouvert en libre accès avec garantie conformité 2 jours. <strong class="text-slate-200">Aucune connexion requise.</strong>
                 </p>
-                <div class="pt-1.5 flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-400">
-                  <span>Explorer directement le catalogue</span>
-                  <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+                <div class="pt-2 flex items-center justify-between">
+                  <div class="flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-400">
+                    <span>Explorer le catalogue</span>
+                    <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+                  </div>
+                  <button type="button" onclick="event.stopPropagation(); showScreen('login-buyer')" class="text-[10px] font-black text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-xl border border-white/10 transition-colors flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px] text-emerald-400">badge</span>
+                    <span>S'identifier</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -2108,35 +2114,50 @@
     }
 
     async function trackUserConnection(data) {
-      if (!supabaseClient) return;
-      try {
-        await supabaseClient.from('user_connections').insert([{
-          first_name: data.firstName,
-          last_name: data.lastName,
-          phone: data.phone,
-          role: data.role,
-          organization: data.organization || '',
-          hub: data.hub || 'Dakar',
-          solvency_score: data.solvencyScore || 98,
-          user_agent: navigator.userAgent,
-          connected_at: new Date().toISOString()
-        }]);
+      if (!data || !data.phone) return;
 
-        await supabaseClient.from('profiles').upsert([{
-          phone: data.phone,
-          first_name: data.firstName,
-          last_name: data.lastName,
-          role: data.role,
-          organization: data.organization || '',
-          hub: data.hub || 'Dakar',
-          solvency_score: data.solvencyScore || 98,
-          solvency_status: 'Solvable Vérifié',
-          last_login: new Date().toISOString()
-        }], { onConflict: 'phone' });
-        console.log("✅ Connexion tracée dans Supabase avec succès");
-      } catch (err) {
-        console.warn("Supabase tracking:", err);
+      // 1. Enregistrement direct côté client via Supabase JS SDK
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('user_connections').insert([{
+            first_name: data.firstName || '',
+            last_name: data.lastName || '',
+            phone: data.phone,
+            role: data.role || 'buyer',
+            organization: data.organization || data.shopName || data.garageName || '',
+            hub: data.hub || 'Dakar',
+            solvency_score: data.solvencyScore || 98,
+            user_agent: navigator.userAgent,
+            connected_at: new Date().toISOString()
+          }]);
+
+          await supabaseClient.from('profiles').upsert([{
+            phone: data.phone,
+            first_name: data.firstName || '',
+            last_name: data.lastName || '',
+            role: data.role || 'buyer',
+            organization: data.organization || data.shopName || data.garageName || '',
+            hub: data.hub || 'Dakar',
+            address: data.address || null,
+            gps: data.gps ? (typeof data.gps === 'object' ? JSON.stringify(data.gps) : String(data.gps)) : null,
+            solvency_score: data.solvencyScore || 98,
+            solvency_status: data.role === 'seller' ? 'Vendeur Certifié' : 'Solvable Vérifié',
+            last_login: new Date().toISOString()
+          }], { onConflict: 'phone' });
+          console.log("✅ Connexion & Profil tracés dans Supabase avec succès");
+        } catch (err) {
+          console.warn("Supabase direct tracking error:", err);
+        }
       }
+
+      // 2. Synchronisation de secours garantie vers l'API Backend (/api/profiles)
+      try {
+        await fetch(`${API_BASE}/profiles`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      } catch (e) {}
     }
 
     // Traçabilité universelle des actions en temps réel (Front-End <-> Back-End & Supabase)
@@ -2977,6 +2998,26 @@
       const cFullName = `${fn} ${ln}`;
       const gps = currentCapturedGps['cart'];
 
+      // Mise à jour de l'identité acheteur courante et synchronisation Supabase immédiate
+      currentBuyer.firstName = fn;
+      currentBuyer.lastName = ln;
+      currentBuyer.fullName = cFullName;
+      currentBuyer.phone = ph;
+      currentBuyer.garageName = addr;
+      syncBuyerHeader();
+
+      trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: ph,
+        role: "buyer",
+        organization: addr,
+        hub: "Dakar",
+        address: addr,
+        gps: gps,
+        solvencyScore: currentBuyer.solvencyScore || 98
+      });
+
       const itemsPayload = selectedItems.map(item => ({
         productId: item.productId || item.id,
         partName: item.name || item.partName,
@@ -3011,10 +3052,6 @@
             clientPhone: ph,
             deliveryAddress: addr,
             deliveryGps: gps,
-            solvencyScore: currentBuyer.solvencyScore || 98,
-            solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié"
-          })
-        });
             solvencyScore: currentBuyer.solvencyScore || 98,
             solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié"
           })
@@ -4378,6 +4415,26 @@
 
       const cFullName = `${fn} ${ln}`;
       const gps = currentCapturedGps['single'];
+
+      // Mise à jour de l'identité acheteur courante et synchronisation Supabase immédiate
+      currentBuyer.firstName = fn;
+      currentBuyer.lastName = ln;
+      currentBuyer.fullName = cFullName;
+      currentBuyer.phone = ph;
+      currentBuyer.garageName = addr;
+      syncBuyerHeader();
+
+      trackUserConnection({
+        firstName: fn,
+        lastName: ln,
+        phone: ph,
+        role: "buyer",
+        organization: addr,
+        hub: "Dakar",
+        address: addr,
+        gps: gps,
+        solvencyScore: currentBuyer.solvencyScore || 98
+      });
 
       const orderData = {
         productId: activeCheckoutItem.id,

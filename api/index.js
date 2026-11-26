@@ -137,6 +137,48 @@ function logActivity(section, actor, action, details, amount = 0, icon = "info")
   }
 }
 
+// Synchronisation automatique et traçabilité des utilisateurs dans Supabase (Profiles & User Connections)
+function syncUserProfileToSupabase(profile) {
+  if (!supabaseServerClient || !profile || !profile.phone) return;
+  try {
+    const pFirst = profile.firstName || (profile.name ? profile.name.split(' ')[0] : 'Utilisateur');
+    const pLast = profile.lastName || (profile.name ? profile.name.split(' ').slice(1).join(' ') : 'Difonsé');
+    const pOrg = profile.shopName || profile.garageName || profile.organization || '';
+    const pHub = profile.location || profile.hub || 'Dakar';
+    const pAddr = profile.address || profile.deliveryAddress || null;
+    const pGps = profile.gps || (profile.deliveryGps ? (typeof profile.deliveryGps === 'object' ? JSON.stringify(profile.deliveryGps) : String(profile.deliveryGps)) : null);
+    const pRole = profile.role || 'buyer';
+    const pScore = Number(profile.solvencyScore) || 98;
+    const pStatus = profile.solvencyStatus || (pRole === 'seller' ? 'Vendeur Certifié' : 'Solvable Vérifié');
+
+    supabaseServerClient.from('profiles').upsert([{
+      phone: profile.phone,
+      first_name: pFirst,
+      last_name: pLast,
+      role: pRole,
+      organization: pOrg,
+      hub: pHub,
+      address: pAddr,
+      gps: pGps,
+      solvency_score: pScore,
+      solvency_status: pStatus,
+      last_login: new Date().toISOString()
+    }], { onConflict: 'phone' }).then(() => {}).catch(() => {});
+
+    supabaseServerClient.from('user_connections').insert([{
+      first_name: pFirst,
+      last_name: pLast,
+      phone: profile.phone,
+      role: pRole,
+      organization: pOrg,
+      hub: pHub,
+      solvency_score: pScore,
+      user_agent: 'API Backend Server (Vercel)',
+      connected_at: new Date().toISOString()
+    }]).then(() => {}).catch(() => {});
+  } catch (e) {}
+}
+
 // Handler HTTP principal compatible Vercel Serverless & Node.js
 module.exports = async function handler(req, res) {
   // En-têtes CORS universels
@@ -497,6 +539,20 @@ module.exports = async function handler(req, res) {
             created_at: newO.createdAt
           }]).then(() => {}).catch(() => {});
         } catch (e) {}
+
+        // Enregistrement et synchronisation automatique du profil acheteur dans Supabase
+        syncUserProfileToSupabase({
+          phone: clientPhone,
+          firstName: clientFirstName,
+          lastName: clientLastName,
+          role: 'buyer',
+          organization: body.garageName || 'Garage Client Difonsé',
+          hub: 'Dakar',
+          address: newO.deliveryAddress,
+          deliveryGps: newO.deliveryGps,
+          solvencyScore: solvencyScore,
+          solvencyStatus: solvencyStatus
+        });
       }
     });
 
@@ -819,8 +875,69 @@ module.exports = async function handler(req, res) {
       isOpen: true
     };
 
+    // Sauvegarde en mémoire & persistante du profil utilisateur
+    const matchIdx = users.findIndex(u => u.phone === userSession.phone && u.role === userSession.role);
+    if (matchIdx >= 0) {
+      users[matchIdx] = { ...users[matchIdx], ...userSession };
+    } else {
+      users.push(userSession);
+    }
+    saveDataFile('users.json', users);
+
+    // Synchronisation automatique et instantanée dans Supabase (Profiles & User Connections)
+    syncUserProfileToSupabase(userSession);
+
     logActivity(userSession.role, userSession.name, "LOGIN", `Connexion réussie : ${userSession.name} (${userSession.role === 'buyer' ? 'Acheteur · Solvabilité ' + userSession.solvencyScore + '/100' : 'Vendeur'})`, 0, "login");
     return sendJson(200, { success: true, user: userSession });
+  }
+
+  // ROUTE 18: GET /api/profiles (Liste complète des profils inscrits pour le Super Admin)
+  if (route === '/profiles' && req.method === 'GET') {
+    if (supabaseServerClient) {
+      try {
+        const { data: dbProfiles, error } = await supabaseServerClient
+          .from('profiles')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!error && dbProfiles && dbProfiles.length > 0) {
+          return sendJson(200, dbProfiles);
+        }
+      } catch (e) {}
+    }
+    return sendJson(200, users);
+  }
+
+  // ROUTE 19: POST /api/profiles (Enregistrement ou mise à jour directe d'un profil)
+  if (route === '/profiles' && req.method === 'POST') {
+    const body = await parseBody();
+    const phone = (body.phone || '').trim();
+    if (!phone) return sendJson(400, { error: "Numéro de téléphone requis" });
+    const userProfile = {
+      phone: phone,
+      firstName: (body.firstName || '').trim(),
+      lastName: (body.lastName || '').trim(),
+      name: `${body.firstName || ''} ${body.lastName || ''}`.trim(),
+      role: body.role || 'buyer',
+      shopName: body.shopName || '',
+      garageName: body.garageName || '',
+      organization: body.organization || body.shopName || body.garageName || '',
+      hub: body.hub || body.location || 'Dakar',
+      address: body.address || '',
+      gps: body.gps || null,
+      solvencyScore: Number(body.solvencyScore) || 98,
+      solvencyStatus: body.solvencyStatus || 'Solvable Vérifié'
+    };
+
+    const matchIdx = users.findIndex(u => u.phone === userProfile.phone && u.role === userProfile.role);
+    if (matchIdx >= 0) {
+      users[matchIdx] = { ...users[matchIdx], ...userProfile };
+    } else {
+      users.push(userProfile);
+    }
+    saveDataFile('users.json', users);
+
+    syncUserProfileToSupabase(userProfile);
+    return sendJson(200, { success: true, profile: userProfile });
   }
 
   // 404 Route non trouvée

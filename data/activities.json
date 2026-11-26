@@ -1,5 +1,15 @@
 [
     {
+        "id":  "act_1795718640645",
+        "timestamp":  "2026-11-26T18:44:00.6532021Z",
+        "section":  "seller",
+        "actor":  "Moussa Diop",
+        "action":  "LOGIN",
+        "details":  "Connexion réussie : Moussa Diop (seller - Solvabilité: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
         "id":  "act_1794613793114",
         "action":  "DIRECT_PAYOUT",
         "timestamp":  "2026-11-13T23:49:53.114Z",
