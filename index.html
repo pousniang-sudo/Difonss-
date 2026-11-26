@@ -1043,7 +1043,7 @@
           </div>
           <div onclick="showScreen('login-seller')" title="Cliquez pour modifier votre profil vendeur" class="cursor-pointer group">
             <div class="text-xs font-black text-white flex items-center gap-1.5">
-              <span id="seller-header-name">Modou Ndiaye</span>
+              <span id="seller-header-name">Espace Vendeur</span>
               <span class="text-[9px] bg-red-950/60 text-red-400 border border-red-500/40 font-extrabold px-1.5 py-0.2 rounded-full flex items-center gap-1">
                 <span class="w-1 h-1 rounded-full bg-red-400 animate-pulse"></span>
                 <span>Vendeur Certifié</span>
@@ -1051,10 +1051,10 @@
             </div>
             <p class="text-[10px] text-slate-400 flex items-center gap-1 group-hover:text-slate-200 transition-colors">
               <span class="material-symbols-outlined text-[12px] text-red-500">storefront</span>
-              <span id="seller-shop-title">Boutique Modou Pièces Auto</span>
+              <span id="seller-shop-title">Boutique</span>
               <span class="text-slate-600">·</span>
               <span class="material-symbols-outlined text-[11px] text-red-400">location_on</span>
-              <span id="seller-hub-badge" class="font-bold text-slate-300">Pikine - Marché Tilène</span>
+              <span id="seller-hub-badge" class="font-bold text-slate-300">Dakar</span>
             </p>
           </div>
         </div>
@@ -1109,7 +1109,7 @@
             </div>
             <div class="mt-2.5 space-y-0.5">
               <span class="text-xs font-black text-white block group-hover:text-emerald-400 transition-colors">Solde de mes Ventes</span>
-              <div class="text-xs font-black text-emerald-400 price-num" id="seller-btn-balance-display">340 000 FCFA</div>
+              <div class="text-xs font-black text-emerald-400 price-num" id="seller-btn-balance-display">0 FCFA</div>
               <p class="text-[10px] text-slate-400 leading-tight">Solde vendu &amp; retenue Difonsé</p>
             </div>
           </button>
@@ -1353,7 +1353,7 @@
             <span class="text-[10px] font-black uppercase tracking-wider text-emerald-300 block">1. Solde Vendu (Votre Net)</span>
             <span class="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/50 text-emerald-400 font-black text-[9px]">Disponible</span>
           </div>
-          <div class="text-2xl font-black text-emerald-400 price-num" id="modal-balance-sold">340 000 FCFA</div>
+          <div class="text-2xl font-black text-emerald-400 price-num" id="modal-balance-sold">0 FCFA</div>
           <p class="text-[10px] text-slate-300 leading-tight">
             Montant net qui vous revient à 100% sur vos pièces vendues. Vous pouvez le retirer immédiatement vers votre compte Wave ou Orange Money.
           </p>
@@ -1370,7 +1370,7 @@
             <span class="text-[10px] font-black uppercase tracking-wider text-orange-300 block">2. Solde Retenu par Difonsé</span>
             <span class="px-2 py-0.5 rounded-full bg-[#2a170e] border border-[#ff4500]/40 text-orange-400 font-black text-[9px]">Retainer 10%</span>
           </div>
-          <div class="text-2xl font-black text-orange-400 price-num" id="modal-balance-retainer">34 000 FCFA</div>
+          <div class="text-2xl font-black text-orange-400 price-num" id="modal-balance-retainer">0 FCFA</div>
           <p class="text-[10px] text-slate-400 leading-tight">
             Commission de service Difonsé (10%) pour la logistique de livraison Tiak-Tiak, la mise en relation sécurisée et la garantie 2 jours.
           </p>
@@ -2236,10 +2236,16 @@
         const savedSeller = localStorage.getItem("difonse_seller_profile");
         if (savedSeller) {
           const parsed = JSON.parse(savedSeller);
+          const cleanSavedPh = (parsed.phone || "").replace(/[^0-9]/g, "");
+          const isDemoModou = (cleanSavedPh.endsWith("778904512") && (parsed.firstName || "").trim().toLowerCase() === "modou" && (parsed.lastName || "").trim().toLowerCase() === "ndiaye");
+
+          if (!isDemoModou) {
+            parsed.id = `usr_seller_${cleanSavedPh || Date.now()}`;
+            parsed.availableBalance = Number(parsed.availableBalance) || 0;
+            parsed.escrowBalance = Number(parsed.escrowBalance) || 0;
+            parsed.totalSales = Number(parsed.totalSales) || 0;
+          }
           Object.assign(currentSeller, parsed);
-          currentSeller.availableBalance = Number(parsed.availableBalance) || 0;
-          currentSeller.escrowBalance = Number(parsed.escrowBalance) || 0;
-          currentSeller.totalSales = Number(parsed.totalSales) || 0;
           // Pré-remplir les inputs de l'écran login vendeur
           const fn = document.getElementById("login-seller-firstname");
           const ln = document.getElementById("login-seller-lastname");
@@ -2253,6 +2259,9 @@
           if (loc && (parsed.location || parsed.hub)) loc.value = parsed.location || parsed.hub;
         }
       } catch (e) {}
+
+      syncSellerHeader();
+      updateSellerBalanceDisplay();
 
       // Démarrage sur la sélection du portail (Acheteur vs Vendeur)
       showScreen('portal-choice');
@@ -2425,8 +2434,8 @@
       }
 
       const cleanDigits = ph.replace(/[^0-9]/g, '');
-      const isDemoModou = (cleanDigits === "778904512" || ln.toLowerCase().includes("ndiaye") || fn.toLowerCase().includes("modou"));
-      const vendorId = isDemoModou ? "usr_seller_1" : (currentSeller.id || `usr_seller_${cleanDigits || Date.now()}`);
+      const isDemoModou = (cleanDigits.endsWith("778904512") && fn.trim().toLowerCase() === "modou" && ln.trim().toLowerCase() === "ndiaye");
+      const vendorId = isDemoModou ? "usr_seller_1" : `usr_seller_${cleanDigits || Date.now()}`;
 
       currentSeller.isIdentified = true;
       currentSeller.id = vendorId;
@@ -2437,11 +2446,14 @@
       currentSeller.shopName = shop;
       currentSeller.location = loc;
       currentSeller.hub = loc;
-      if (!isDemoModou && currentSeller.availableBalance == null) {
+      if (!isDemoModou) {
         currentSeller.availableBalance = 0;
         currentSeller.escrowBalance = 0;
         currentSeller.totalSales = 0;
       }
+
+      syncSellerHeader();
+      updateSellerBalanceDisplay();
 
       // Persistance dans localStorage
       try {
@@ -2558,11 +2570,13 @@
       const hubEl = document.getElementById("seller-hub-badge");
       const initialsEl = document.getElementById("seller-avatar-initials");
 
-      if (nameEl) nameEl.innerText = currentSeller.fullName;
-      if (shopEl) shopEl.innerText = currentSeller.shopName;
-      if (hubEl) hubEl.innerText = currentSeller.location || currentSeller.hub;
+      if (nameEl) nameEl.innerText = currentSeller.fullName || "Espace Vendeur";
+      if (shopEl) shopEl.innerText = currentSeller.shopName || "Boutique";
+      if (hubEl) hubEl.innerText = currentSeller.location || currentSeller.hub || "Dakar";
 
-      const initials = ((currentSeller.firstName[0] || 'M') + (currentSeller.lastName[0] || 'N')).toUpperCase();
+      const fnInit = (currentSeller.firstName && currentSeller.firstName[0]) || 'V';
+      const lnInit = (currentSeller.lastName && currentSeller.lastName[0]) || 'D';
+      const initials = (fnInit + lnInit).toUpperCase();
       if (initialsEl) initialsEl.innerText = initials;
     }
 
@@ -3595,11 +3609,11 @@
         if (pRes.ok) buyerProducts = await pRes.json();
         if (uRes.ok) {
           const users = await uRes.json();
-          const cleanPh = (currentSeller.phone || "").replace(/[^0-9]/g, "");
-          const isDemoModou = (currentSeller.id === "usr_seller_1" || cleanPh === "778904512");
+          const cleanPh = (currentSeller.phone || "").replace(/[^0-9]/g, "").slice(-9);
+          const isDemoModou = (currentSeller.id === "usr_seller_1" && cleanPh === "778904512");
           const seller = users.find(u => 
             (currentSeller.id && u.id === currentSeller.id) ||
-            (cleanPh && u.phone && u.phone.replace(/[^0-9]/g, "") === cleanPh)
+            (cleanPh && u.phone && u.phone.replace(/[^0-9]/g, "").slice(-9) === cleanPh && u.role === "seller")
           );
           if (seller) {
             currentSeller.id = seller.id || currentSeller.id;
@@ -3670,18 +3684,16 @@
       const container = document.getElementById("seller-history-orders-list");
       if (!container) return;
 
-      const cleanSellerPhone = (currentSeller.phone || "").replace(/[^0-9]/g, "");
-      const sellerId = currentSeller.id || (cleanSellerPhone ? `usr_seller_${cleanSellerPhone}` : "usr_seller_1");
-      const isDemoModou = (sellerId === "usr_seller_1" || cleanSellerPhone === "778904512" || (currentSeller.lastName && currentSeller.lastName.toLowerCase().includes("ndiaye")));
+      const cleanSellerPhone = (currentSeller.phone || "").replace(/[^0-9]/g, "").slice(-9);
+      const isDemoModou = (currentSeller.id === "usr_seller_1" && cleanSellerPhone === "778904512");
 
       const filtered = (sellerOrders || []).filter(o => {
         if (isDemoModou) {
-          return o.vendorId === "usr_seller_1" || (o.vendorName && o.vendorName.toLowerCase().includes("modou"));
+          return o.vendorId === "usr_seller_1";
         }
-        const oPhone = (o.vendorPhone || "").replace(/[^0-9]/g, "");
-        return (o.vendorId && o.vendorId === sellerId) ||
-               (cleanSellerPhone && oPhone && oPhone === cleanSellerPhone) ||
-               (currentSeller.shopName && o.vendorName && o.vendorName.trim().toLowerCase() === currentSeller.shopName.trim().toLowerCase());
+        const oPhone = (o.vendorPhone || "").replace(/[^0-9]/g, "").slice(-9);
+        return (currentSeller.id && o.vendorId === currentSeller.id) ||
+               (cleanSellerPhone && oPhone && oPhone === cleanSellerPhone);
       });
 
       const listToRender = filtered.slice(0, 5);
@@ -3756,18 +3768,16 @@
       const countEl = document.getElementById("seller-history-pieces-count");
       if (!container) return;
 
-      const cleanSellerPhone = (currentSeller.phone || "").replace(/[^0-9]/g, "");
-      const sellerId = currentSeller.id || (cleanSellerPhone ? `usr_seller_${cleanSellerPhone}` : "usr_seller_1");
-      const isDemoModou = (sellerId === "usr_seller_1" || cleanSellerPhone === "778904512" || (currentSeller.lastName && currentSeller.lastName.toLowerCase().includes("ndiaye")));
+      const cleanSellerPhone = (currentSeller.phone || "").replace(/[^0-9]/g, "").slice(-9);
+      const isDemoModou = (currentSeller.id === "usr_seller_1" && cleanSellerPhone === "778904512");
 
       const vendorProds = (buyerProducts || []).filter(p => {
         if (isDemoModou) {
-          return p.vendorId === "usr_seller_1" || (p.vendor && p.vendor.toLowerCase().includes("modou"));
+          return p.vendorId === "usr_seller_1";
         }
-        const pPhone = (p.vendorPhone || "").replace(/[^0-9]/g, "");
-        return (p.vendorId && p.vendorId === sellerId) ||
-               (cleanSellerPhone && pPhone && pPhone === cleanSellerPhone) ||
-               (currentSeller.shopName && p.vendor && p.vendor.trim().toLowerCase() === currentSeller.shopName.trim().toLowerCase());
+        const pPhone = (p.vendorPhone || "").replace(/[^0-9]/g, "").slice(-9);
+        return (currentSeller.id && p.vendorId === currentSeller.id) ||
+               (cleanSellerPhone && pPhone && pPhone === cleanSellerPhone);
       });
 
       if (countEl) countEl.innerText = vendorProds.length;

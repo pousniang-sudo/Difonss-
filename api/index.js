@@ -855,8 +855,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const isDemoModou = (role === 'seller' && (cleanPh === '778904512' || (lastName && lastName.toLowerCase() === 'ndiaye')));
-    const isDemoAmadou = (role === 'buyer' && (cleanPh === '774501234' || (lastName && lastName.toLowerCase() === 'diallo')));
+    const isDemoModou = (role === 'seller' && cleanPh.endsWith('778904512') && firstName.toLowerCase().trim() === 'modou' && lastName.toLowerCase().trim() === 'ndiaye');
+    const isDemoAmadou = (role === 'buyer' && cleanPh.endsWith('774501234') && firstName.toLowerCase().trim() === 'amadou' && lastName.toLowerCase().trim() === 'diallo');
 
     const finalFirst = firstName || (matched ? matched.firstName : (isDemoAmadou ? 'Amadou' : (isDemoModou ? 'Modou' : '')));
     const finalLast = lastName || (matched ? matched.lastName : (isDemoAmadou ? 'Diallo' : (isDemoModou ? 'Ndiaye' : '')));

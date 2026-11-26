@@ -1,5 +1,65 @@
 ﻿[
     {
+        "id":  "act_1795724633651",
+        "timestamp":  "2026-11-26T20:23:53.6513329Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Modou Ndiaye (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795724633275",
+        "timestamp":  "2026-11-26T20:23:53.2756800Z",
+        "section":  "seller",
+        "actor":  "Moussa Ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Moussa Ndiaye (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795724632735",
+        "timestamp":  "2026-11-26T20:23:52.7445124Z",
+        "section":  "seller",
+        "actor":  "KHADIM ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : KHADIM ndiaye (seller - SolvabilitÃ©: 100/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795724389202",
+        "timestamp":  "2026-11-26T20:19:49.2021279Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Modou Ndiaye (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795724385733",
+        "timestamp":  "2026-11-26T20:19:45.7729032Z",
+        "section":  "seller",
+        "actor":  "KHADIM ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : KHADIM ndiaye (seller - SolvabilitÃ©: 100/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795724057946",
+        "timestamp":  "2026-11-26T20:14:17.9798582Z",
+        "section":  "seller",
+        "actor":  "KHADIM ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : KHADIM ndiaye (seller - SolvabilitÃ©: 100/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
         "id":  "act_1795722163096",
         "timestamp":  "2026-11-26T19:42:43.0967235Z",
         "section":  "seller",

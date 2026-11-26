@@ -39,25 +39,19 @@ function Helper-SupabasePost($table, $obj) {
         $json = @($obj) | ConvertTo-Json -Depth 6
         $b = [System.Text.Encoding]::UTF8.GetBytes($json)
 
-        [System.Threading.ThreadPool]::QueueUserWorkItem({
-            param($state)
-            try {
-                $urlTarget, $headersTarget, $bytesTarget = $state
-                $req = [System.Net.HttpWebRequest]::Create($urlTarget)
-                $req.Method = "POST"
-                $req.ContentType = "application/json; charset=utf-8"
-                $req.Timeout = 4000
-                foreach ($k in $headersTarget.Keys) {
-                    $req.Headers.Add($k, $headersTarget[$k])
-                }
-                $req.ContentLength = $bytesTarget.Length
-                $st = $req.GetRequestStream()
-                $st.Write($bytesTarget, 0, $bytesTarget.Length)
-                $st.Close()
-                $res = $req.GetResponse()
-                $res.Close()
-            } catch {}
-        }, @($u, $hdrs, $b)) | Out-Null
+        $req = [System.Net.HttpWebRequest]::Create($u)
+        $req.Method = "POST"
+        $req.ContentType = "application/json; charset=utf-8"
+        $req.Timeout = 2000
+        foreach ($k in $hdrs.Keys) {
+            $req.Headers.Add($k, $hdrs[$k])
+        }
+        $req.ContentLength = $b.Length
+        $st = $req.GetRequestStream()
+        $st.Write($b, 0, $b.Length)
+        $st.Close()
+        $res = $req.GetResponse()
+        $res.Close()
     } catch {}
 }
 
@@ -853,15 +847,16 @@ while ($listener.IsListening) {
                         } | Select-Object -First 1
                     }
 
-                    $isDemoModou = ($bodyObj.role -eq 'seller' -and ($cleanPh -eq '778904512' -or ($bodyObj.lastName -and $bodyObj.lastName.ToLower() -eq 'ndiaye')))
-                    $isDemoAmadou = ($bodyObj.role -eq 'buyer' -and ($cleanPh -eq '774501234' -or ($bodyObj.lastName -and $bodyObj.lastName.ToLower() -eq 'diallo')))
+                    $isDemoModou = ($bodyObj.role -eq 'seller' -and $cleanPh.EndsWith('778904512') -and $bodyObj.firstName -and $bodyObj.firstName.ToLower().Trim() -eq 'modou' -and $bodyObj.lastName -and $bodyObj.lastName.ToLower().Trim() -eq 'ndiaye')
+                    $isDemoAmadou = ($bodyObj.role -eq 'buyer' -and $cleanPh.EndsWith('774501234') -and $bodyObj.firstName -and $bodyObj.firstName.ToLower().Trim() -eq 'amadou' -and $bodyObj.lastName -and $bodyObj.lastName.ToLower().Trim() -eq 'diallo')
 
                     $fn = if ($bodyObj.firstName) { $bodyObj.firstName } elseif ($matched -and $matched.firstName) { $matched.firstName } elseif ($isDemoAmadou) { "Amadou" } elseif ($isDemoModou) { "Modou" } else { "" }
                     $ln = if ($bodyObj.lastName) { $bodyObj.lastName } elseif ($matched -and $matched.lastName) { $matched.lastName } elseif ($isDemoAmadou) { "Diallo" } elseif ($isDemoModou) { "Ndiaye" } else { "" }
                     $ph = if ($bodyObj.phone) { $bodyObj.phone } elseif ($matched -and $matched.phone) { $matched.phone } elseif ($isDemoAmadou) { "+221 77 450 12 34" } elseif ($isDemoModou) { "+221 77 890 45 12" } else { "" }
                     $fullN = if ($fn -or $ln) { "$fn $ln".Trim() } else { if ($isDemoAmadou) { "Amadou Diallo" } elseif ($isDemoModou) { "Modou Ndiaye" } else { "Utilisateur Difonsé" } }
 
-                    $userId = if ($matched) { $matched.id } elseif ($isDemoModou) { "usr_seller_1" } elseif ($isDemoAmadou) { "usr_buyer_1" } elseif ($bodyObj.id) { $bodyObj.id } else { "usr_" + $bodyObj.role + "_" + (if ($cleanPh) { $cleanPh } else { [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }) }
+                    $uniqueSuffix = if ($cleanPh) { $cleanPh } else { [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() }
+                    $userId = if ($matched) { $matched.id } elseif ($isDemoModou) { "usr_seller_1" } elseif ($isDemoAmadou) { "usr_buyer_1" } elseif ($bodyObj.id) { $bodyObj.id } else { "usr_" + $bodyObj.role + "_" + $uniqueSuffix }
 
                     $sessUser = [PSCustomObject]@{
                         id = $userId
