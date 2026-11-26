@@ -487,8 +487,10 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       loadAllAdminData();
-      // Auto-refresh toutes les 6 secondes
-      setInterval(loadAllAdminData, 6000);
+      loadSupabaseTrackingData();
+      // Auto-refresh toutes les 3 secondes pour un suivi en temps réel des actions
+      setInterval(loadAllAdminData, 3000);
+      setInterval(loadSupabaseTrackingData, 5000);
     });
 
     function switchAdminTab(tab) {
@@ -544,12 +546,56 @@
     }
 
     async function loadOrders() {
+      let ords = [];
       try {
         const res = await fetch(`${API_BASE}/orders`);
         if (res.ok) {
-          adminOrders = await res.json();
+          ords = await res.json();
         }
       } catch (e) {}
+
+      if (supabaseClient && ords.length === 0) {
+        try {
+          const { data } = await supabaseClient
+            .from('orders')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (data && data.length > 0) {
+            ords = data.map(o => ({
+              id: o.id,
+              productId: o.product_id,
+              partName: o.part_name,
+              clientFirstName: o.client_first_name,
+              clientLastName: o.client_last_name,
+              clientName: o.client_name,
+              clientPhone: o.client_phone,
+              deliveryAddress: o.delivery_address,
+              deliveryNotes: o.delivery_notes,
+              deliveryGps: o.delivery_gps,
+              solvencyScore: o.solvency_score,
+              solvencyStatus: o.solvency_status,
+              vendorId: o.vendor_id,
+              vendorName: o.vendor_name,
+              vendorShopLocation: o.vendor_shop_location,
+              vendorPhone: o.vendor_phone,
+              provider: o.payment_provider,
+              vendorBankPrice: o.vendor_bank_price,
+              vendorNetPrice: o.vendor_net_price,
+              commission: o.commission,
+              platformRetainer: o.platform_retainer,
+              totalPaid: o.total_paid,
+              pickupCode: o.pickup_code,
+              step: o.step,
+              stepLabel: o.step_label,
+              vendorPaymentStatus: o.vendor_payment_status,
+              actionRequired: o.action_required,
+              timeline: o.timeline,
+              createdAt: o.created_at
+            }));
+          }
+        } catch (err) {}
+      }
+      adminOrders = ords;
     }
 
     async function loadDisputes() {
@@ -571,12 +617,44 @@
     }
 
     async function loadActivities() {
+      let acts = [];
       try {
         const res = await fetch(`${API_BASE}/activities`);
         if (res.ok) {
-          adminActivities = await res.json();
+          acts = await res.json();
         }
       } catch (e) {}
+
+      // Synchronisation directe avec Supabase
+      if (supabaseClient) {
+        try {
+          const { data } = await supabaseClient
+            .from('activities')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(60);
+          if (data && data.length > 0) {
+            const seen = new Set(acts.map(a => a.id));
+            data.forEach(item => {
+              if (!seen.has(item.id)) {
+                acts.push({
+                  id: item.id,
+                  section: item.section,
+                  actor: item.actor,
+                  action: item.action,
+                  details: item.details,
+                  amount: Number(item.amount) || 0,
+                  icon: item.icon,
+                  timestamp: item.created_at
+                });
+                seen.add(item.id);
+              }
+            });
+            acts.sort((a, b) => new Date(b.timestamp || b.created_at) - new Date(a.timestamp || a.created_at));
+          }
+        } catch (err) {}
+      }
+      adminActivities = acts;
     }
 
     function formatCFA(num) {
@@ -928,7 +1006,7 @@
             </span>
             <div>
               <div class="font-bold text-slate-200">
-                ${a.actor} · <span class="text-[10px] text-slate-500 font-mono">${new Date(a.timestamp).toLocaleString()}</span>
+                ${a.actor || 'Système'} · <span class="text-[10px] text-slate-500 font-mono">${new Date(a.timestamp || a.created_at || Date.now()).toLocaleString()}</span>
               </div>
               <p class="text-[11px] text-slate-400">${a.details}</p>
             </div>

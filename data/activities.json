@@ -1,5 +1,75 @@
 ﻿[
     {
+        "id":  "act_1795658928627",
+        "timestamp":  "2026-11-26T02:08:48.6287443Z",
+        "section":  "seller",
+        "actor":  "Boutique Modou Pièces Auto",
+        "action":  "DIRECT_PAYMENT_RECEIVED",
+        "details":  "Paiement direct reÃ§u : 120000 FCFA pour Turbo Garrett GT2052V Hilux D-4D",
+        "amount":  120000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1795658928551",
+        "timestamp":  "2026-11-26T02:08:48.5519497Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "RETAINER_COLLECTED",
+        "details":  "Retainer plateforme prÃ©levÃ© : 12000 FCFA sur commande CMD-4779",
+        "amount":  12000,
+        "icon":  "savings"
+    },
+    {
+        "id":  "act_1795658928494",
+        "timestamp":  "2026-11-26T02:08:48.4941116Z",
+        "section":  "buyer",
+        "actor":  "Babacar Diop",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande payÃ©e via Wave : Turbo Garrett GT2052V Hilux D-4D (132000 FCFA)",
+        "amount":  132000,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_1795658927846",
+        "timestamp":  "2026-11-26T02:08:47.8576155Z",
+        "section":  "buyer",
+        "actor":  "Mamadou Sy",
+        "action":  "VIEW_PIECE_TECH",
+        "details":  "Consultation fiche technique : Démarreur 12V Toyota Hilux (45 000 FCFA)",
+        "amount":  45000,
+        "icon":  "visibility"
+    },
+    {
+        "id":  "act_1795655010083",
+        "timestamp":  "2026-11-26T01:03:30.0830236Z",
+        "section":  "seller",
+        "actor":  "Boutique Modou Pièces Auto",
+        "action":  "DIRECT_PAYMENT_RECEIVED",
+        "details":  "Paiement direct reçu : 35000 FCFA pour Alternateur 12V 80A Denso Hilux",
+        "amount":  35000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1795655010041",
+        "timestamp":  "2026-11-26T01:03:30.0412147Z",
+        "section":  "platform",
+        "actor":  "Plateforme Difonsé",
+        "action":  "RETAINER_COLLECTED",
+        "details":  "Retainer plateforme prélevé : 3500 FCFA sur commande CMD-3266",
+        "amount":  3500,
+        "icon":  "savings"
+    },
+    {
+        "id":  "act_1795655009965",
+        "timestamp":  "2026-11-26T01:03:29.9789339Z",
+        "section":  "buyer",
+        "actor":  "Cheikh Fall",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande payée via Wave : Alternateur 12V 80A Denso Hilux (38500 FCFA)",
+        "amount":  38500,
+        "icon":  "shopping_bag"
+    },
+    {
         "id":  "act_1795635686527",
         "timestamp":  "2026-11-25T19:41:26.5666722Z",
         "section":  "seller",

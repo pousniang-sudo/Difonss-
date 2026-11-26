@@ -8,6 +8,7 @@ const url = require('url');
 
 // Supabase Server Configuration
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://qqhgxnizhxfqanswjpmg.supabase.co";
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxaGd4bml6aHhmcWFuc3dqcG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyOTAzMTAsImV4cCI6MjExMDg2NjMxMH0.PQ9qZ1HrSzq4u7EbOwa3PqTdY5Me9ECzx2MPIeylq-M";
 const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_Ae2cpdJhhmU15DUD4-iiTA_BX09Wf-a";
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY || "";
 const SUPABASE_JWKS_URL = process.env.SUPABASE_JWKS_URL || `${SUPABASE_URL}/auth/v1/.well-known/jwks.json`;
@@ -15,7 +16,7 @@ const SUPABASE_JWKS_URL = process.env.SUPABASE_JWKS_URL || `${SUPABASE_URL}/auth
 let supabaseServerClient = null;
 try {
   const { createClient } = require('@supabase/supabase-js');
-  const activeKey = (SUPABASE_SECRET_KEY && !SUPABASE_SECRET_KEY.includes('••')) ? SUPABASE_SECRET_KEY : SUPABASE_PUBLISHABLE_KEY;
+  const activeKey = (SUPABASE_SECRET_KEY && !SUPABASE_SECRET_KEY.includes('••') && SUPABASE_SECRET_KEY.length > 20) ? SUPABASE_SECRET_KEY : SUPABASE_ANON_KEY;
   supabaseServerClient = createClient(SUPABASE_URL, activeKey);
 } catch (e) {
   // Optional in environments where @supabase/supabase-js is not pre-installed
@@ -119,6 +120,21 @@ function logActivity(section, actor, action, details, amount = 0, icon = "info")
   activities.unshift(item);
   if (activities.length > 50) activities.pop();
   saveDataFile('activities.json', activities);
+
+  if (supabaseServerClient) {
+    try {
+      supabaseServerClient.from('activities').insert([{
+        id: item.id,
+        section: item.section,
+        actor: item.actor,
+        action: item.action,
+        details: item.details,
+        amount: item.amount,
+        icon: item.icon,
+        created_at: item.timestamp
+      }]).then(() => {}).catch(() => {});
+    } catch (e) {}
+  }
 }
 
 // Handler HTTP principal compatible Vercel Serverless & Node.js
@@ -408,6 +424,9 @@ module.exports = async function handler(req, res) {
         clientLastName: clientLastName,
         clientName: clientFullName,
         clientPhone: clientPhone,
+        deliveryAddress: item.deliveryAddress || body.deliveryAddress || clientFullName,
+        deliveryNotes: item.deliveryNotes || body.deliveryNotes || '',
+        deliveryGps: item.deliveryGps || body.deliveryGps || null,
         solvencyScore: solvencyScore,
         solvencyStatus: solvencyStatus,
         vendorId: item.vendorId || "usr_seller_1",
@@ -423,7 +442,7 @@ module.exports = async function handler(req, res) {
         stepLabel: "Payé par Difonsé · Tiak-Tiak en route vers le vendeur",
         vendorPaymentStatus: "PAID_DIRECT",
         actionRequired: `Vendeur : Remettre la pièce payée au coursier contre le code ${pkCode}`,
-        timeline: `Acheteur débité via ${provider}. Retainer Difonsé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA).`,
+        timeline: `Acheteur débité via ${provider}. Retainer Difonsé prélevé (${retainer} FCFA). Vendeur payé directement (${vBank} FCFA). Livraison : ${item.deliveryAddress || body.deliveryAddress || 'Dakar'}`,
         createdAt: new Date().toISOString()
       };
 
@@ -443,6 +462,42 @@ module.exports = async function handler(req, res) {
       logActivity("buyer", newO.clientName, "ORDER_PLACED", `Commande payée via ${provider} : ${newO.partName} (${newO.totalPaid} FCFA)`, newO.totalPaid, "shopping_bag");
       logActivity("platform", "Plateforme Difonsé", "RETAINER_COLLECTED", `Retainer plateforme prélevé : ${retainer} FCFA sur commande ${newO.id}`, retainer, "savings");
       logActivity("seller", newO.vendorName, "DIRECT_PAYMENT_RECEIVED", `Paiement direct reçu : ${vBank} FCFA pour ${newO.partName}`, vBank, "payments");
+
+      if (supabaseServerClient) {
+        try {
+          supabaseServerClient.from('orders').insert([{
+            id: newO.id,
+            product_id: newO.productId,
+            part_name: newO.partName,
+            client_first_name: newO.clientFirstName,
+            client_last_name: newO.clientLastName,
+            client_name: newO.clientName,
+            client_phone: newO.clientPhone,
+            delivery_address: newO.deliveryAddress,
+            delivery_notes: newO.deliveryNotes,
+            delivery_gps: newO.deliveryGps,
+            solvency_score: newO.solvencyScore,
+            solvency_status: newO.solvencyStatus,
+            vendor_id: newO.vendorId,
+            vendor_name: newO.vendorName,
+            vendor_shop_location: newO.vendorShopLocation,
+            vendor_phone: newO.vendorPhone,
+            payment_provider: newO.provider,
+            vendor_bank_price: newO.vendorBankPrice,
+            vendor_net_price: newO.vendorNetPrice,
+            commission: newO.commission,
+            platform_retainer: newO.platformRetainer,
+            total_paid: newO.totalPaid,
+            pickup_code: newO.pickupCode,
+            step: newO.step,
+            step_label: newO.stepLabel,
+            vendor_payment_status: newO.vendorPaymentStatus,
+            action_required: newO.actionRequired,
+            timeline: newO.timeline,
+            created_at: newO.createdAt
+          }]).then(() => {}).catch(() => {});
+        } catch (e) {}
+      }
     });
 
     saveDataFile('orders.json', orders);

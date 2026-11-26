@@ -120,12 +120,16 @@
   <div class="mobile-app-shell relative flex flex-col justify-between">
 
     <!-- ================= BANDEAU DÉMO PERMANENT ================= -->
-    <div class="h-7 bg-[#0e121d] text-amber-400 border-b border-amber-500/30 flex items-center justify-center px-3 text-[10px] font-black uppercase tracking-wider sticky top-0 z-[60] shadow-sm">
+    <div class="h-7 bg-[#0e121d] text-amber-400 border-b border-amber-500/30 flex items-center justify-between px-3 text-[10px] font-black uppercase tracking-wider sticky top-0 z-[60] shadow-sm">
       <div class="flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
         <span class="material-symbols-outlined text-[13px] text-amber-400">verified_user</span>
         <span>MODE DÉMO LIVE · PIKINE &amp; COLOBANE</span>
       </div>
+      <a href="admin.html" target="_blank" class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold hover:bg-cyan-500 hover:text-slate-900 transition-all shadow-sm" title="Ouvrir le Cockpit de Supervision Back-End">
+        <span class="material-symbols-outlined text-[12px]">dashboard</span>
+        <span>Cockpit Back-End</span>
+      </a>
     </div>
 
     <!-- ============================================================== -->
@@ -194,18 +198,42 @@
               </div>
             </div>
           </div>
+          <!-- COCKPIT BACK-END & SUPERVISION (SUIVRE TOUTES LES ACTIONS) -->
+          <a href="admin.html" target="_blank" class="auto-card hover:border-cyan-500/60 transition-all cursor-pointer p-4 rounded-3xl relative group active:scale-[0.99] block border border-[#20293e] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <div class="flex items-start gap-3.5">
+              <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-600 via-sky-600 to-blue-700 text-white flex items-center justify-center shrink-0 shadow-md">
+                <span class="material-symbols-outlined text-[24px]">dashboard</span>
+              </div>
+              <div class="space-y-1">
+                <div class="font-black text-sm text-white group-hover:text-cyan-300 flex items-center gap-2">
+                  <span>Cockpit Back-End &amp; Supervision</span>
+                  <span class="px-2 py-0.5 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-black rounded-full uppercase tracking-wider">Live Audit</span>
+                </div>
+                <p class="text-[11px] text-slate-400 leading-tight">
+                  Supervision DG : suivez toutes les actions en direct (commandes, livraisons GPS, retainers Difonsé, garantie 2 jours, litiges et traçabilité Supabase).
+                </p>
+                <div class="pt-1.5 flex items-center gap-1.5 text-[11px] font-extrabold text-cyan-400 group-hover:translate-x-1 transition-transform">
+                  <span>Ouvrir le Cockpit Back-End</span>
+                  <span class="material-symbols-outlined text-[15px]">open_in_new</span>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
 
         <!-- Accès Rapides Démo 1-clic -->
         <div class="pt-2 text-center space-y-2">
-          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Accès instantané aux 2 espaces :</span>
-          <div class="flex items-center justify-center gap-2">
-            <button onclick="showScreen('buyer')" class="text-xs font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-emerald-500/40 transition-all shadow-sm cursor-pointer">
-              ⚡ Espace Acheteur (Catalogue)
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Accès instantané aux espaces :</span>
+          <div class="grid grid-cols-3 gap-1.5">
+            <button onclick="showScreen('buyer')" class="text-[11px] font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-emerald-500/40 transition-all shadow-sm cursor-pointer truncate">
+              ⚡ Acheteur
             </button>
-            <button onclick="showScreen('login-seller')" class="text-xs font-bold text-red-400 bg-[#121624] hover:bg-[#161c2e] px-3.5 py-2 rounded-xl border border-red-500/40 transition-all shadow-sm cursor-pointer">
-              ⚡ Espace Vendeur (S'identifier)
+            <button onclick="showScreen('login-seller')" class="text-[11px] font-bold text-red-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-red-500/40 transition-all shadow-sm cursor-pointer truncate">
+              ⚡ Vendeur
             </button>
+            <a href="admin.html" target="_blank" class="text-[11px] font-bold text-cyan-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-cyan-500/40 transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1 truncate">
+              <span>⚡ Cockpit</span>
+            </a>
           </div>
         </div>
 
@@ -340,21 +368,21 @@
         <!-- FORMULAIRE VENDEUR AVEC LES 5 CHAMPS EXACTS -->
         <form onsubmit="handleSellerLogin(event)" class="space-y-3.5 bg-[#0d121f]/90 p-4.5 rounded-3xl border border-[#20293e] shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
           
-          <!-- 1 & 2 : NOM & PRÉNOM -->
+          <!-- 1 & 2 : NOM & PRÉNOM (CHAMPS VIDES AVEC EXEMPLES EN FILIGRANE) -->
           <div class="grid grid-cols-2 gap-2.5">
             <div>
               <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
                 <span class="material-symbols-outlined text-[12px] text-red-400">badge</span>
                 <span>Nom :</span>
               </label>
-              <input type="text" id="login-seller-lastname" required value="Ndiaye" placeholder="Ex: Ndiaye" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600" />
+              <input type="text" id="login-seller-lastname" required value="" placeholder="Ex: Ndiaye" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-500" />
             </div>
             <div>
               <label class="block text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
                 <span class="material-symbols-outlined text-[12px] text-red-400">person</span>
                 <span>Prénom :</span>
               </label>
-              <input type="text" id="login-seller-firstname" required value="Modou" placeholder="Ex: Modou" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600" />
+              <input type="text" id="login-seller-firstname" required value="" placeholder="Ex: Modou" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-500" />
             </div>
           </div>
 
@@ -372,7 +400,7 @@
             </label>
             <div class="relative">
               <span class="absolute left-3 top-2.5 text-xs font-black text-slate-500 select-none">+221</span>
-              <input type="tel" id="login-seller-phone" required value="77 890 45 12" placeholder="77 890 45 12" class="w-full pl-12 pr-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600" />
+              <input type="tel" id="login-seller-phone" required value="" placeholder="Ex: 77 890 45 12" class="w-full pl-12 pr-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-500 font-mono" />
             </div>
           </div>
 
@@ -382,7 +410,7 @@
               <span class="material-symbols-outlined text-[12px] text-amber-400">storefront</span>
               <span>Nom de la boutique :</span>
             </label>
-            <input type="text" id="login-seller-shop" required value="Boutique Modou Pièces Auto" placeholder="Ex: Boutique Modou Pièces Auto" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600" />
+            <input type="text" id="login-seller-shop" required value="" placeholder="Ex: Boutique Modou Pièces Auto" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-500" />
           </div>
 
           <!-- 5 : LOCALISATION DE LA BOUTIQUE -->
@@ -394,7 +422,7 @@
               </span>
               <span class="text-[9px] text-slate-500 font-medium">Marché ou Quartier</span>
             </label>
-            <input type="text" id="login-seller-location" required value="Pikine - Marché Tilène" placeholder="Ex: Pikine - Marché Tilène, Box 142" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600" />
+            <input type="text" id="login-seller-location" required value="" placeholder="Ex: Pikine - Marché Tilène, Box 142" class="w-full px-3 py-2.5 rounded-xl bg-[#080b12] border border-[#20283c] text-xs font-black text-white outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-500" />
             
             <!-- Puces de sélection rapide de localisation -->
             <div class="flex flex-wrap gap-1.5 mt-2">
@@ -478,6 +506,10 @@
           <button onclick="playWolofAudio('buyer')" title="Aide vocale Wolof" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-[#1a2030] border border-[#222a3d] flex items-center justify-center text-amber-400 transition-colors">
             <span class="material-symbols-outlined text-[17px]">volume_up</span>
           </button>
+
+          <a href="admin.html" target="_blank" title="Supervision Back-End en direct" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-cyan-950/40 hover:text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-cyan-400 transition-colors">
+            <span class="material-symbols-outlined text-[16px]">dashboard</span>
+          </a>
 
           <button onclick="showScreen('portal-choice')" title="Déconnexion / Changer de profil" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-red-950/40 hover:text-red-400 border border-[#222a3d] flex items-center justify-center text-slate-400 transition-colors">
             <span class="material-symbols-outlined text-[17px]">logout</span>
@@ -1021,12 +1053,15 @@
           </div>
         </div>
 
-        <!-- Bascule Acheteur & Quitter -->
+        <!-- Bascule Acheteur, Cockpit & Quitter -->
         <div class="flex items-center gap-1">
           <button onclick="showScreen('buyer')" class="px-2.5 py-1.5 bg-[#141b2a] hover:bg-[#1d273c] text-slate-200 border border-[#20273a] font-bold text-[10px] rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
             <span class="material-symbols-outlined text-[13px] text-[#ff4500]">handyman</span>
             <span>Acheteur</span>
           </button>
+          <a href="admin.html" target="_blank" title="Supervision Back-End en direct" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-cyan-950/40 hover:text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-cyan-400 transition-colors">
+            <span class="material-symbols-outlined text-[16px]">dashboard</span>
+          </a>
           <button onclick="showScreen('portal-choice')" title="Changer d'utilisateur" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-[#201518] hover:text-red-400 border border-[#20273a] flex items-center justify-center text-slate-400 transition-colors cursor-pointer">
             <span class="material-symbols-outlined text-[16px]">logout</span>
           </button>
@@ -1625,14 +1660,82 @@
           </div>
         </div>
 
-        <!-- Coordonnées Acheteur & Livraison (Accès libre sans connexion) -->
-        <div class="space-y-1.5 p-3 rounded-2xl bg-[#0a0d14] border border-[#1e273a]">
-          <label class="block text-[10px] font-bold text-slate-400 uppercase">Coordonnées de Livraison &amp; Contact :</label>
-          <div class="grid grid-cols-2 gap-1.5">
-            <input type="text" id="checkout-buyer-name" placeholder="Votre Nom &amp; Prénom" value="Amadou Diallo" class="px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-bold text-white outline-none focus:border-[#ff4500]" />
-            <input type="text" id="checkout-buyer-phone" placeholder="Téléphone Wave / OM" value="+221 77 450 12 34" class="px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-bold text-white outline-none focus:border-[#ff4500] font-mono" />
+        <!-- INTERFACE DE LIVRAISON & COORDINATION LOGISTIQUE DIRECTE -->
+        <div class="space-y-2.5 p-3.5 rounded-2xl bg-[#090d16] border border-[#20283c] shadow-inner">
+          <div class="flex items-center justify-between border-b border-[#1c2438] pb-1.5">
+            <span class="text-[10px] font-black text-white uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px] text-red-500">local_shipping</span>
+              <span>Coordination de la Livraison</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Coursier Tiak-Tiak</span>
+            </span>
           </div>
-          <input type="text" id="checkout-buyer-address" placeholder="Atelier / Adresse de livraison (ex: Garage Castors)" value="Garage Castors Dakar" class="w-full px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-semibold text-white outline-none focus:border-[#ff4500]" />
+
+          <!-- 1 & 2 : NOM & PRÉNOM DU DESTINATAIRE -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-red-400">badge</span>
+                <span>Nom destinataire :</span>
+              </label>
+              <input type="text" id="checkout-buyer-lastname" placeholder="Ex: Diallo" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+            </div>
+            <div>
+              <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-red-400">person</span>
+                <span>Prénom destinataire :</span>
+              </label>
+              <input type="text" id="checkout-buyer-firstname" placeholder="Ex: Amadou" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+            </div>
+          </div>
+
+          <!-- 3 : NUMÉRO DE TÉLÉPHONE DE LIVRAISON -->
+          <div>
+            <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center justify-between">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-emerald-400">phone_in_talk</span>
+                <span>Numéro Téléphone Livraison :</span>
+              </span>
+              <span class="text-[9px] text-emerald-400 font-bold">Appels livreur &amp; Wave/OM</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-2.5 top-1.5 text-[11px] font-black text-slate-500 select-none">+221</span>
+              <input type="tel" id="checkout-buyer-phone" placeholder="77 450 12 34" class="w-full pl-11 pr-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 font-mono transition-all" />
+            </div>
+          </div>
+
+          <!-- 4 : PARTAGE DE LA LOCALISATION POUR LA LIVRAISON -->
+          <div class="space-y-1.5 pt-1 border-t border-[#1a2336]">
+            <div class="flex items-center justify-between">
+              <label class="block text-[9px] font-black text-slate-300 uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined text-[12px] text-red-500">pin_drop</span>
+                <span>Partage de la Localisation de Livraison :</span>
+              </label>
+              <span class="text-[8px] text-slate-400">GPS ou Adresse</span>
+            </div>
+
+            <!-- Bouton interactif GPS -->
+            <button type="button" onclick="shareLiveLocation('single')" id="btn-share-location-single" class="w-full py-2 px-2.5 rounded-xl bg-[#0f172a] hover:bg-[#16223d] border border-sky-500/40 hover:border-sky-400 text-sky-300 font-bold text-[10px] flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm group active:scale-[0.98]">
+              <span class="material-symbols-outlined text-[15px] text-sky-400 group-hover:scale-110 transition-transform">my_location</span>
+              <span>Partager ma localisation GPS exacte en direct</span>
+            </button>
+            <div id="single-gps-status" class="hidden"></div>
+
+            <!-- Champ texte adresse / garage / quartier -->
+            <input type="text" id="checkout-buyer-address" placeholder="Atelier / Adresse exacte (ex: Garage Castors Dakar, Rue 10)" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-semibold text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+
+            <!-- Puces de raccourci rapide Dakar -->
+            <div class="flex flex-wrap items-center gap-1 pt-0.5">
+              <span class="text-[8px] text-slate-500 font-bold">Raccourci :</span>
+              <button type="button" onclick="setDeliveryQuickLocation('single', 'Garage Castors Dakar, Angle Rue 10')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Castors</button>
+              <button type="button" onclick="setDeliveryQuickLocation('single', 'Médina Dakar, Rue 22 x Corniche')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Médina</button>
+              <button type="button" onclick="setDeliveryQuickLocation('single', 'Atelier Pikine Tally Boumack')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Pikine</button>
+              <button type="button" onclick="setDeliveryQuickLocation('single', 'Colobane, Marché Pièces')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Colobane</button>
+              <button type="button" onclick="setDeliveryQuickLocation('single', 'Parcelles Assainies U26')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Parcelles</button>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -1691,14 +1794,82 @@
           <!-- Injecté dynamiquement -->
         </div>
 
-        <!-- Coordonnées Acheteur & Livraison (Accès libre sans connexion) -->
-        <div class="space-y-1.5 p-3 rounded-2xl bg-[#0a0d14] border border-[#1e273a]">
-          <label class="block text-[10px] font-bold text-slate-400 uppercase">Coordonnées de Livraison &amp; Contact :</label>
-          <div class="grid grid-cols-2 gap-1.5">
-            <input type="text" id="cart-buyer-name" placeholder="Votre Nom &amp; Prénom" value="Amadou Diallo" class="px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-bold text-white outline-none focus:border-[#ff4500]" />
-            <input type="text" id="cart-buyer-phone" placeholder="Téléphone Wave / OM" value="+221 77 450 12 34" class="px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-bold text-white outline-none focus:border-[#ff4500] font-mono" />
+        <!-- INTERFACE DE LIVRAISON & COORDINATION LOGISTIQUE DIRECTE -->
+        <div class="space-y-2.5 p-3.5 rounded-2xl bg-[#090d16] border border-[#20283c] shadow-inner">
+          <div class="flex items-center justify-between border-b border-[#1c2438] pb-1.5">
+            <span class="text-[10px] font-black text-white uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px] text-red-500">local_shipping</span>
+              <span>Coordination de la Livraison</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Coursier Tiak-Tiak</span>
+            </span>
           </div>
-          <input type="text" id="cart-buyer-address" placeholder="Atelier / Adresse de livraison (ex: Garage Castors)" value="Garage Castors Dakar" class="w-full px-2.5 py-2 rounded-xl bg-[#131722] border border-[#20273a] text-[11px] font-semibold text-white outline-none focus:border-[#ff4500]" />
+
+          <!-- 1 & 2 : NOM & PRÉNOM DU DESTINATAIRE -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-red-400">badge</span>
+                <span>Nom destinataire :</span>
+              </label>
+              <input type="text" id="cart-buyer-lastname" placeholder="Ex: Diallo" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+            </div>
+            <div>
+              <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-red-400">person</span>
+                <span>Prénom destinataire :</span>
+              </label>
+              <input type="text" id="cart-buyer-firstname" placeholder="Ex: Amadou" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+            </div>
+          </div>
+
+          <!-- 3 : NUMÉRO DE TÉLÉPHONE DE LIVRAISON -->
+          <div>
+            <label class="block text-[9px] font-black text-slate-400 uppercase mb-0.5 flex items-center justify-between">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[11px] text-emerald-400">phone_in_talk</span>
+                <span>Numéro Téléphone Livraison :</span>
+              </span>
+              <span class="text-[9px] text-emerald-400 font-bold">Appels livreur &amp; Wave/OM</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-2.5 top-1.5 text-[11px] font-black text-slate-500 select-none">+221</span>
+              <input type="tel" id="cart-buyer-phone" placeholder="77 450 12 34" class="w-full pl-11 pr-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-black text-white outline-none focus:border-red-500 placeholder:text-slate-500 font-mono transition-all" />
+            </div>
+          </div>
+
+          <!-- 4 : PARTAGE DE LA LOCALISATION POUR LA LIVRAISON -->
+          <div class="space-y-1.5 pt-1 border-t border-[#1a2336]">
+            <div class="flex items-center justify-between">
+              <label class="block text-[9px] font-black text-slate-300 uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined text-[12px] text-red-500">pin_drop</span>
+                <span>Partage de la Localisation de Livraison :</span>
+              </label>
+              <span class="text-[8px] text-slate-400">GPS ou Adresse</span>
+            </div>
+
+            <!-- Bouton interactif GPS -->
+            <button type="button" onclick="shareLiveLocation('cart')" id="btn-share-location-cart" class="w-full py-2 px-2.5 rounded-xl bg-[#0f172a] hover:bg-[#16223d] border border-sky-500/40 hover:border-sky-400 text-sky-300 font-bold text-[10px] flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm group active:scale-[0.98]">
+              <span class="material-symbols-outlined text-[15px] text-sky-400 group-hover:scale-110 transition-transform">my_location</span>
+              <span>Partager ma localisation GPS exacte en direct</span>
+            </button>
+            <div id="cart-gps-status" class="hidden"></div>
+
+            <!-- Champ texte adresse / garage / quartier -->
+            <input type="text" id="cart-buyer-address" placeholder="Atelier / Adresse exacte (ex: Garage Castors Dakar, Rue 10)" class="w-full px-2.5 py-1.5 rounded-xl bg-[#111624] border border-[#222c42] text-[11px] font-semibold text-white outline-none focus:border-red-500 placeholder:text-slate-500 transition-all" />
+
+            <!-- Puces de raccourci rapide Dakar -->
+            <div class="flex flex-wrap items-center gap-1 pt-0.5">
+              <span class="text-[8px] text-slate-500 font-bold">Raccourci :</span>
+              <button type="button" onclick="setDeliveryQuickLocation('cart', 'Garage Castors Dakar, Angle Rue 10')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Castors</button>
+              <button type="button" onclick="setDeliveryQuickLocation('cart', 'Médina Dakar, Rue 22 x Corniche')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Médina</button>
+              <button type="button" onclick="setDeliveryQuickLocation('cart', 'Atelier Pikine Tally Boumack')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Pikine</button>
+              <button type="button" onclick="setDeliveryQuickLocation('cart', 'Colobane, Marché Pièces')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Colobane</button>
+              <button type="button" onclick="setDeliveryQuickLocation('cart', 'Parcelles Assainies U26')" class="px-2 py-0.5 rounded-lg bg-[#141b2a] hover:bg-[#1f283c] text-slate-300 hover:text-white border border-[#222d42] text-[9px] font-bold transition-all cursor-pointer">Parcelles</button>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -1967,6 +2138,41 @@
         console.warn("Supabase tracking:", err);
       }
     }
+
+    // Traçabilité universelle des actions en temps réel (Front-End <-> Back-End & Supabase)
+    async function logAction(section, actor, action, details, amount = 0, icon = 'info') {
+      console.log(`[ACTION] [${section}] ${actor} -> ${action}: ${details}`);
+
+      // 1. Envoyer à l'API REST locale ou Vercel
+      try {
+        fetch(`${API_BASE}/activities`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section, actor, action, details, amount, icon })
+        }).catch(() => {});
+      } catch (e) {}
+
+      // 2. Écriture directe temps réel dans la table Supabase activities
+      if (supabaseClient) {
+        try {
+          const actId = 'act_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+          supabaseClient.from('activities').insert([{
+            id: actId,
+            section: section || 'platform',
+            actor: actor || 'Utilisateur',
+            action: action || 'ACTION',
+            details: details || '',
+            amount: Number(amount) || 0,
+            icon: icon || 'info',
+            created_at: new Date().toISOString()
+          }]).then(() => {
+            console.log("⚡ Action archivée dans Supabase :", action);
+          }).catch(err => {
+            console.warn("Supabase logAction error:", err);
+          });
+        } catch (e) {}
+      }
+    }
     
     // Profils de session nominatifs pour identification et solvabilité
     let currentBuyer = {
@@ -1982,13 +2188,13 @@
 
     let currentSeller = {
       isIdentified: false,
-      firstName: "Modou",
-      lastName: "Ndiaye",
-      fullName: "Modou Ndiaye",
-      shopName: "Boutique Modou Pièces Auto",
-      phone: "+221 77 890 45 12",
-      location: "Pikine - Marché Tilène",
-      hub: "Pikine - Marché Tilène",
+      firstName: "",
+      lastName: "",
+      fullName: "",
+      shopName: "",
+      phone: "",
+      location: "",
+      hub: "",
       availableBalance: 340000,
       escrowBalance: 230000,
       totalSales: 1820000
@@ -2154,6 +2360,7 @@
         hub: "Castors",
         solvencyScore: currentBuyer.solvencyScore || 98
       });
+      logAction("buyer", currentBuyer.fullName, "LOGIN", `Connexion Acheteur : ${currentBuyer.fullName} (${garage})`, 0, "login");
       showScreen('buyer');
     }
 
@@ -2166,14 +2373,31 @@
       const shopInput = document.getElementById("login-seller-shop");
       const locInput = document.getElementById("login-seller-location");
 
-      const ln = (lnInput ? lnInput.value : "").trim() || "Ndiaye";
-      const fn = (fnInput ? fnInput.value : "").trim() || "Modou";
-      let ph = (phInput ? phInput.value : "").trim() || "77 890 45 12";
+      const ln = (lnInput ? lnInput.value : "").trim();
+      const fn = (fnInput ? fnInput.value : "").trim();
+      let ph = (phInput ? phInput.value : "").trim();
+      const shop = (shopInput ? shopInput.value : "").trim();
+      const loc = (locInput ? locInput.value : "").trim();
+
+      if (!ln || !fn) {
+        alert("Veuillez renseigner votre Nom et Prénom dans le formulaire.");
+        return;
+      }
+      if (!ph) {
+        alert("Veuillez renseigner votre Numéro de Téléphone pour les virements Wave / Orange Money.");
+        return;
+      }
       if (!ph.startsWith("+221")) {
         ph = `+221 ${ph}`;
       }
-      const shop = (shopInput ? shopInput.value : "").trim() || "Boutique Modou Pièces Auto";
-      const loc = (locInput ? locInput.value : "").trim() || "Pikine - Marché Tilène";
+      if (!shop) {
+        alert("Veuillez renseigner le Nom de votre boutique.");
+        return;
+      }
+      if (!loc) {
+        alert("Veuillez renseigner la Localisation de votre boutique (quartier ou marché).");
+        return;
+      }
 
       currentSeller.isIdentified = true;
       currentSeller.lastName = ln;
@@ -2225,6 +2449,7 @@
         hub: loc,
         solvencyScore: 100
       });
+      logAction("seller", shop, "LOGIN", `Connexion Vendeur : ${shop} (${fn} ${ln}) - ${loc}`, 0, "storefront");
 
       syncSellerHeader();
       showScreen('seller');
@@ -2690,6 +2915,15 @@
       document.getElementById("cart-checkout-total").innerText = formatCFA(totGrand);
       document.getElementById("btn-confirm-cart-pay-text").innerText = `Confirmer le Règlement (${formatCFA(totGrand)})`;
 
+      const lnInput = document.getElementById("cart-buyer-lastname");
+      const fnInput = document.getElementById("cart-buyer-firstname");
+      const phInput = document.getElementById("cart-buyer-phone");
+      const addrInput = document.getElementById("cart-buyer-address");
+      if (lnInput && !lnInput.value) lnInput.value = currentBuyer.lastName || "Diallo";
+      if (fnInput && !fnInput.value) fnInput.value = currentBuyer.firstName || "Amadou";
+      if (phInput && !phInput.value) phInput.value = (currentBuyer.phone || "77 450 12 34").replace("+221", "").trim();
+      if (addrInput && !addrInput.value) addrInput.value = currentBuyer.garageName || "Garage Castors Dakar";
+
       document.getElementById("cart-checkout-modal").classList.remove("hidden");
     }
 
@@ -2702,11 +2936,11 @@
       const wBtn = document.getElementById("btn-cart-pay-wave");
       const omBtn = document.getElementById("btn-cart-pay-om");
       if (prov === 'Wave') {
-        wBtn.className = "p-2 rounded-xl border-2 border-brand-wave bg-sky-50 text-sky-950 font-bold text-xs flex items-center justify-center gap-1.5";
-        omBtn.className = "p-2 rounded-xl border border-brand-border bg-white text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5";
+        wBtn.className = "p-2.5 rounded-xl border-2 border-brand-wave bg-sky-950/60 text-sky-200 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer";
+        omBtn.className = "p-2.5 rounded-xl border border-[#20273a] bg-[#141b2a] text-slate-300 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer";
       } else {
-        omBtn.className = "p-2 rounded-xl border-2 border-brand-om bg-orange-50 text-orange-950 font-bold text-xs flex items-center justify-center gap-1.5";
-        wBtn.className = "p-2 rounded-xl border border-brand-border bg-white text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5";
+        omBtn.className = "p-2.5 rounded-xl border-2 border-brand-om bg-amber-950/60 text-amber-200 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer";
+        wBtn.className = "p-2.5 rounded-xl border border-[#20273a] bg-[#141b2a] text-slate-300 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer";
       }
     }
 
@@ -2714,24 +2948,44 @@
       const selectedItems = buyerCart.filter(i => i.selected);
       if (selectedItems.length === 0) return;
 
-      const nameInput = document.getElementById("cart-buyer-name");
+      const lnInput = document.getElementById("cart-buyer-lastname");
+      const fnInput = document.getElementById("cart-buyer-firstname");
       const phoneInput = document.getElementById("cart-buyer-phone");
       const addrInput = document.getElementById("cart-buyer-address");
 
-      const cFullName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : (currentBuyer.fullName || "Amadou Diallo");
-      const cPhone = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "+221 77 450 12 34");
-      const cAddress = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
-      const nameParts = cFullName.split(" ");
-      const cFirstName = nameParts[0] || "Amadou";
-      const cLastName = nameParts.slice(1).join(" ") || "Diallo";
+      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.lastName || "Diallo");
+      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.firstName || "Amadou");
+      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "77 450 12 34");
+      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
+
+      if (!ln || !fn) {
+        alert("Veuillez renseigner le Nom et Prénom du destinataire pour la livraison.");
+        return;
+      }
+      if (!ph) {
+        alert("Veuillez renseigner le Numéro de téléphone de livraison pour coordonner le coursier.");
+        return;
+      }
+      if (!ph.startsWith("+221")) {
+        ph = `+221 ${ph.replace("+221", "").trim()}`;
+      }
+      if (!addr) {
+        alert("Veuillez indiquer l'adresse ou partager votre localisation GPS pour la livraison.");
+        return;
+      }
+
+      const cFullName = `${fn} ${ln}`;
+      const gps = currentCapturedGps['cart'];
 
       const itemsPayload = selectedItems.map(item => ({
         productId: item.productId || item.id,
         partName: item.name || item.partName,
-        clientFirstName: cFirstName,
-        clientLastName: cLastName,
-        clientName: `${cFullName} (${cAddress})`,
-        clientPhone: cPhone,
+        clientFirstName: fn,
+        clientLastName: ln,
+        clientName: cFullName,
+        clientPhone: ph,
+        deliveryAddress: addr,
+        deliveryGps: gps,
         solvencyScore: currentBuyer.solvencyScore || 98,
         solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié",
         vendorId: item.vendorId || "usr_seller_1",
@@ -2752,9 +3006,15 @@
             items: itemsPayload,
             provider: selectedCartPay + " Sénégal",
             clientName: cFullName,
-            clientFirstName: cFirstName,
-            clientLastName: cLastName,
-            clientPhone: cPhone,
+            clientFirstName: fn,
+            clientLastName: ln,
+            clientPhone: ph,
+            deliveryAddress: addr,
+            deliveryGps: gps,
+            solvencyScore: currentBuyer.solvencyScore || 98,
+            solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié"
+          })
+        });
             solvencyScore: currentBuyer.solvencyScore || 98,
             solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié"
           })
@@ -2904,6 +3164,8 @@
       const prod = buyerProducts.find(p => p.id === productId);
       if (!prod) return;
       activeDetailProduct = prod;
+
+      logAction("buyer", currentBuyer.fullName || "Acheteur", "VIEW_PIECE_TECH", `Consultation fiche technique : ${prod.name} (${formatCFA(prod.publicPrice)})`, prod.publicPrice, "visibility");
 
       // Top bar title
       const hTitle = document.getElementById("detail-header-title");
@@ -3115,6 +3377,42 @@
             ${o.step === 2 ? `Code retrait coursier Tiak-Tiak : <strong class="text-orange-400 font-mono text-xs">${o.pickupCode}</strong>` : ''}
           </div>
 
+          <!-- CARTE COORDINATION LIVRAISON DIRECTE -->
+          <div class="p-2.5 bg-[#090d16] rounded-xl border border-[#1e273a] text-[10px] space-y-1">
+            <div class="flex items-center justify-between text-slate-400 font-bold border-b border-[#172033] pb-1">
+              <span class="flex items-center gap-1 text-slate-300">
+                <span class="material-symbols-outlined text-[13px] text-red-500">local_shipping</span>
+                <span>Coordination Livraison Coursier</span>
+              </span>
+              <span class="text-[9px] text-emerald-400 font-mono flex items-center gap-0.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>${o.provider || 'Wave'}</span>
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-white font-medium pt-0.5">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-[12px] text-slate-400">person</span>
+                <strong>${o.clientFirstName || ''} ${o.clientLastName || ''}</strong>
+              </span>
+              <a href="tel:${o.clientPhone}" class="text-emerald-400 hover:underline font-mono flex items-center gap-0.5">
+                <span class="material-symbols-outlined text-[11px]">call</span>
+                <span>${o.clientPhone}</span>
+              </a>
+            </div>
+            <div class="flex items-center justify-between text-slate-300 pt-0.5">
+              <span class="flex items-center gap-1 truncate max-w-[210px]">
+                <span class="material-symbols-outlined text-[12px] text-red-400 shrink-0">pin_drop</span>
+                <span class="truncate">${o.deliveryAddress || o.clientName || 'Castors Dakar'}</span>
+              </span>
+              ${o.deliveryGps ? `
+                <a href="https://maps.google.com/?q=${o.deliveryGps.lat},${o.deliveryGps.lng}" target="_blank" class="px-2 py-0.5 rounded bg-sky-950/80 border border-sky-500/40 text-[9px] text-sky-300 font-bold hover:bg-sky-900 transition-colors flex items-center gap-0.5 shrink-0" title="Ouvrir l'itinéraire Google Maps">
+                  <span class="material-symbols-outlined text-[11px] text-sky-400">navigation</span>
+                  <span>GPS Maps</span>
+                </a>
+              ` : ''}
+            </div>
+          </div>
+
           <!-- ACTIONS SOUS GARANTIE DE CONFORMITÉ 2 JOURS MAX -->
           ${o.step === 3 ? `
             <div class="p-2.5 bg-[#0d2218] border border-emerald-500/50 rounded-xl text-[10px] text-emerald-300 flex items-center justify-between">
@@ -3169,10 +3467,12 @@
             body: JSON.stringify({ id: orderId, reason: reason })
           });
           if (res.ok) {
+            logAction("buyer", currentBuyer.fullName || "Acheteur", "RETURN_REQUESTED", `Demande de retour sous garantie 2j pour commande ${orderId} (${reason})`, 0, "undo");
             alert("✅ Demande de retour enregistrée sous la garantie 2 jours !\n\nUn remboursement intégral a été déclenché vers votre compte Wave / OM.\nLe coursier Tiak-Tiak se rendra au garage pour récupérer la pièce.");
             await loadBuyerData();
           }
         } catch (e) {
+          logAction("buyer", currentBuyer.fullName || "Acheteur", "RETURN_REQUESTED", `Demande de retour sous garantie 2j pour commande ${orderId} (${reason})`, 0, "undo");
           alert("Action enregistrée.");
         }
       }
@@ -3187,10 +3487,12 @@
             body: JSON.stringify({ id: orderId })
           });
           if (res.ok) {
+            logAction("buyer", currentBuyer.fullName || "Mécanicien", "ORDER_CONFIRMED", `Pièce validée conforme au garage pour commande ${orderId}. Transaction clôturée.`, 0, "verified");
             alert("✅ Conformité validée avec succès ! Transaction clôturée.");
             await loadBuyerData();
           }
         } catch (e) {
+          logAction("buyer", currentBuyer.fullName || "Mécanicien", "ORDER_CONFIRMED", `Pièce validée conforme au garage pour commande ${orderId}. Transaction clôturée.`, 0, "verified");
           alert("Action enregistrée.");
         }
       }
@@ -3317,8 +3619,29 @@
             </div>
 
             <div class="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
-              <span>Acheteur : <strong class="text-slate-200">${o.clientName || 'Garage Dakar'}</strong></span>
+              <span>Acheteur : <strong class="text-slate-200">${o.clientFirstName || ''} ${o.clientLastName || o.clientName || 'Garage Dakar'}</strong></span>
               <span>Retainer Difonsé : <strong class="text-orange-400">${formatCFA(retAmt)}</strong></span>
+            </div>
+
+            <!-- Coordination Livraison Destinataire pour le Vendeur et Coursier -->
+            <div class="p-2 bg-[#090d16] rounded-xl border border-[#1b2336] text-[10px] space-y-0.5">
+              <div class="flex items-center justify-between text-slate-300">
+                <span class="flex items-center gap-1 font-bold">
+                  <span class="material-symbols-outlined text-[12px] text-red-500">local_shipping</span>
+                  <span>Livraison : ${o.clientFirstName || ''} ${o.clientLastName || ''}</span>
+                </span>
+                <a href="tel:${o.clientPhone}" class="text-emerald-400 hover:underline font-mono font-bold flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-[10px]">call</span>
+                  <span>${o.clientPhone}</span>
+                </a>
+              </div>
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="truncate max-w-[210px] flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[11px] text-red-400 shrink-0">pin_drop</span>
+                  <span class="truncate">${o.deliveryAddress || o.clientName || 'Dakar'}</span>
+                </span>
+                ${o.deliveryGps ? `<a href="https://maps.google.com/?q=${o.deliveryGps.lat},${o.deliveryGps.lng}" target="_blank" class="text-[9px] text-sky-400 font-bold hover:underline shrink-0 flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">navigation</span>GPS Maps</a>` : ''}
+              </div>
             </div>
 
             <div class="flex items-center justify-between pt-1 border-t border-[#1c2436] text-[10px]">
@@ -3849,6 +4172,7 @@
           body: JSON.stringify({ id: orderId })
         });
         if (res.ok) {
+          logAction("seller", currentSeller.shopName || "Vendeur", "COURIER_PICKUP", `Colis remis au coursier Tiak-Tiak pour commande ${orderId}. Délai d'essai 48h démarré.`, 0, "local_shipping");
           alert("Colis remis au coursier Tiak-Tiak ! Le délai d'essai 48h a démarré.");
           await loadSellerData();
           renderSellerHistoryModalOrders();
@@ -3920,6 +4244,72 @@
     // -------------------------------------------------------------
     // MODALES COMMERCIALES & CHECKOUT
     // -------------------------------------------------------------
+    let currentCapturedGps = { single: null, cart: null };
+
+    function shareLiveLocation(context) {
+      const statusEl = document.getElementById(context === 'single' ? 'single-gps-status' : 'cart-gps-status');
+      const addrInput = document.getElementById(context === 'single' ? 'checkout-buyer-address' : 'cart-buyer-address');
+      const btn = document.getElementById(context === 'single' ? 'btn-share-location-single' : 'btn-share-location-cart');
+
+      if (!navigator.geolocation) {
+        if (statusEl) {
+          statusEl.className = "text-[10px] text-amber-400 font-bold block pt-1";
+          statusEl.innerHTML = "⚠️ Géolocalisation non supportée par votre navigateur. Saisissez votre adresse manuellement.";
+          statusEl.classList.remove("hidden");
+        }
+        return;
+      }
+
+      if (statusEl) {
+        statusEl.className = "text-[10px] text-sky-300 font-bold block pt-1 animate-pulse";
+        statusEl.innerHTML = "📡 Récupération de votre position GPS exacte en cours...";
+        statusEl.classList.remove("hidden");
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude.toFixed(6);
+          const lng = pos.coords.longitude.toFixed(6);
+          const acc = Math.round(pos.coords.accuracy);
+          currentCapturedGps[context] = { lat, lng, accuracy: acc, timestamp: new Date().toISOString() };
+
+          if (statusEl) {
+            statusEl.className = "text-[10px] text-emerald-400 font-black block pt-1 flex items-center gap-1";
+            statusEl.innerHTML = `<span class="material-symbols-outlined text-[13px]">my_location</span><span>Position GPS partagée : ${lat}, ${lng} (précision ~${acc}m)</span>`;
+            statusEl.classList.remove("hidden");
+          }
+          if (btn) {
+            btn.classList.add("border-emerald-500", "text-emerald-300", "bg-emerald-950/60");
+            btn.innerHTML = `<span class="material-symbols-outlined text-[15px] text-emerald-400">check_circle</span><span>Position GPS capturée [${lat}, ${lng}]</span>`;
+          }
+          if (addrInput) {
+            if (!addrInput.value || addrInput.value.includes("Castors")) {
+              addrInput.value = `Position GPS capturée [${lat}, ${lng}] - Dakar`;
+            } else if (!addrInput.value.includes("GPS")) {
+              addrInput.value = `${addrInput.value} (GPS: ${lat}, ${lng})`;
+            }
+          }
+        },
+        (err) => {
+          console.warn("Geolocation error:", err);
+          if (statusEl) {
+            statusEl.className = "text-[10px] text-amber-400 font-bold block pt-1";
+            statusEl.innerHTML = "ℹ️ Autorisation GPS refusée ou indisponible. Précisez votre adresse ci-dessous.";
+            statusEl.classList.remove("hidden");
+          }
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+      );
+    }
+
+    function setDeliveryQuickLocation(context, loc) {
+      const input = document.getElementById(context === 'single' ? 'checkout-buyer-address' : 'cart-buyer-address');
+      if (input) {
+        input.value = loc;
+        input.focus();
+      }
+    }
+
     function openCheckoutModalForItem(prodId) {
       const item = buyerProducts.find(p => p.id === prodId);
       if (!item) return;
@@ -3927,6 +4317,16 @@
       document.getElementById("checkout-item-title").innerText = item.name;
       document.getElementById("checkout-item-vendor").innerText = `${item.vendor} (${item.hub})`;
       document.getElementById("checkout-item-price").innerText = formatCFA(item.publicPrice);
+
+      const lnInput = document.getElementById("checkout-buyer-lastname");
+      const fnInput = document.getElementById("checkout-buyer-firstname");
+      const phInput = document.getElementById("checkout-buyer-phone");
+      const addrInput = document.getElementById("checkout-buyer-address");
+      if (lnInput && !lnInput.value) lnInput.value = currentBuyer.lastName || "Diallo";
+      if (fnInput && !fnInput.value) fnInput.value = currentBuyer.firstName || "Amadou";
+      if (phInput && !phInput.value) phInput.value = (currentBuyer.phone || "77 450 12 34").replace("+221", "").trim();
+      if (addrInput && !addrInput.value) addrInput.value = currentBuyer.garageName || "Garage Castors Dakar";
+
       document.getElementById("checkout-modal").classList.remove("hidden");
     }
 
@@ -3950,24 +4350,44 @@
     async function executeOrderCheckout() {
       if (!activeCheckoutItem) return;
 
-      const nameInput = document.getElementById("checkout-buyer-name");
+      const lnInput = document.getElementById("checkout-buyer-lastname");
+      const fnInput = document.getElementById("checkout-buyer-firstname");
       const phoneInput = document.getElementById("checkout-buyer-phone");
       const addrInput = document.getElementById("checkout-buyer-address");
 
-      const cFullName = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : (currentBuyer.fullName || "Amadou Diallo");
-      const cPhone = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "+221 77 450 12 34");
-      const cAddress = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
-      const nameParts = cFullName.split(" ");
-      const cFirstName = nameParts[0] || "Amadou";
-      const cLastName = nameParts.slice(1).join(" ") || "Diallo";
+      const ln = (lnInput && lnInput.value.trim()) ? lnInput.value.trim() : (currentBuyer.lastName || "Diallo");
+      const fn = (fnInput && fnInput.value.trim()) ? fnInput.value.trim() : (currentBuyer.firstName || "Amadou");
+      let ph = (phoneInput && phoneInput.value.trim()) ? phoneInput.value.trim() : (currentBuyer.phone || "77 450 12 34");
+      const addr = (addrInput && addrInput.value.trim()) ? addrInput.value.trim() : (currentBuyer.garageName || "Garage Castors Dakar");
+
+      if (!ln || !fn) {
+        alert("Veuillez renseigner le Nom et Prénom du destinataire pour la livraison.");
+        return;
+      }
+      if (!ph) {
+        alert("Veuillez renseigner le Numéro de téléphone de livraison pour coordonner le coursier.");
+        return;
+      }
+      if (!ph.startsWith("+221")) {
+        ph = `+221 ${ph.replace("+221", "").trim()}`;
+      }
+      if (!addr) {
+        alert("Veuillez indiquer l'adresse ou partager votre localisation GPS pour la livraison.");
+        return;
+      }
+
+      const cFullName = `${fn} ${ln}`;
+      const gps = currentCapturedGps['single'];
 
       const orderData = {
         productId: activeCheckoutItem.id,
         partName: activeCheckoutItem.name,
-        clientFirstName: cFirstName,
-        clientLastName: cLastName,
-        clientName: `${cFullName} (${cAddress})`,
-        clientPhone: cPhone,
+        clientFirstName: fn,
+        clientLastName: ln,
+        clientName: cFullName,
+        clientPhone: ph,
+        deliveryAddress: addr,
+        deliveryGps: gps,
         solvencyScore: currentBuyer.solvencyScore || 98,
         solvencyStatus: currentBuyer.solvencyStatus || "Solvable Vérifié",
         vendorId: activeCheckoutItem.vendorId || "usr_seller_1",
@@ -3988,11 +4408,13 @@
         });
         if (res.ok) {
           closeCheckoutModal();
+          logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
           alert(`🎉 Paiement validé via ${selectedPay} !\nRetainer Difonsé prélevé (10%) et vendeur crédité directement.\nLe coursier Tiak-Tiak se rend chez le vendeur.`);
           await loadBuyerData();
         }
       } catch (e) {
         closeCheckoutModal();
+        logAction("buyer", cFullName, "ORDER_PLACED", `Commande payée via ${selectedPay} : ${activeCheckoutItem.name} (${formatCFA(activeCheckoutItem.publicPrice)}) - Livraison : ${addr}`, activeCheckoutItem.publicPrice, "shopping_bag");
         alert(`🎉 Paiement validé via ${selectedPay} !`);
       }
     }

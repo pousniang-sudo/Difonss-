@@ -1,4 +1,4 @@
-﻿$listener = New-Object System.Net.HttpListener
+$listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:8080/")
 $listener.Start()
 Write-Output "Backend REST API & Web Server listening on http://localhost:8080/"
@@ -27,6 +27,40 @@ function Helper-WriteJsonFile($fileName, $obj) {
     [System.IO.File]::WriteAllText($p, $json, [System.Text.Encoding]::UTF8)
 }
 
+function Helper-SupabasePost($table, $obj) {
+    try {
+        $u = "https://qqhgxnizhxfqanswjpmg.supabase.co/rest/v1/$table"
+        $anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxaGd4bml6aHhmcWFuc3dqcG1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyOTAzMTAsImV4cCI6MjExMDg2NjMxMH0.PQ9qZ1HrSzq4u7EbOwa3PqTdY5Me9ECzx2MPIeylq-M"
+        $hdrs = @{
+            "apikey" = $anonKey
+            "Authorization" = "Bearer $anonKey"
+            "Prefer" = "resolution=merge-duplicates"
+        }
+        $json = @($obj) | ConvertTo-Json -Depth 6
+        $b = [System.Text.Encoding]::UTF8.GetBytes($json)
+
+        [System.Threading.ThreadPool]::QueueUserWorkItem({
+            param($state)
+            try {
+                $urlTarget, $headersTarget, $bytesTarget = $state
+                $req = [System.Net.HttpWebRequest]::Create($urlTarget)
+                $req.Method = "POST"
+                $req.ContentType = "application/json; charset=utf-8"
+                $req.Timeout = 4000
+                foreach ($k in $headersTarget.Keys) {
+                    $req.Headers.Add($k, $headersTarget[$k])
+                }
+                $req.ContentLength = $bytesTarget.Length
+                $st = $req.GetRequestStream()
+                $st.Write($bytesTarget, 0, $bytesTarget.Length)
+                $st.Close()
+                $res = $req.GetResponse()
+                $res.Close()
+            } catch {}
+        }, @($u, $hdrs, $b)) | Out-Null
+    } catch {}
+}
+
 function Helper-LogActivity($section, $actor, $action, $details, $amount, $icon) {
     try {
         $actsJson = Helper-ReadJsonFile "activities.json"
@@ -49,6 +83,17 @@ function Helper-LogActivity($section, $actor, $action, $details, $amount, $icon)
             $allActs = $allActs[0..199]
         }
         Helper-WriteJsonFile "activities.json" $allActs
+
+        # Miroir temps réel vers Supabase
+        Helper-SupabasePost "activities" @{
+            id = $newAct.id
+            section = $newAct.section
+            actor = $newAct.actor
+            action = $newAct.action
+            details = $newAct.details
+            amount = $newAct.amount
+            icon = $newAct.icon
+        }
     } catch {
         Write-Output "Error logging activity: $_"
     }
@@ -325,7 +370,7 @@ while ($listener.IsListening) {
                     if ($null -eq $users) { $users = @() }
 
                     $itemsToProcess = @()
-                    if ($null -ne $bodyObj.items -and $bodyObj.items.Count -gt 0) {
+                    if ($null -ne $bodyObj.items) {
                         $itemsToProcess = @($bodyObj.items)
                     } else {
                         $itemsToProcess = @($bodyObj)
@@ -352,16 +397,19 @@ while ($listener.IsListening) {
                         $vId = if ($item.vendorId) { $item.vendorId } else { "usr_seller_1" }
                         $vName = if ($item.vendorName) { $item.vendorName } elseif ($item.vendor) { $item.vendor } else { "Boutique Modou" }
                         $pName = if ($item.partName) { $item.partName } elseif ($item.name) { $item.name } else { "Pièce" }
-                        $pId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
+                        $prodId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
 
                         $newO = [PSCustomObject]@{
                             id = $cmdId
-                            productId = $pId
+                            productId = $prodId
                             partName = $pName
                             clientFirstName = $cFirst
                             clientLastName = $cLast
                             clientName = $cFull
                             clientPhone = $cPhone
+                            deliveryAddress = if ($item.deliveryAddress) { $item.deliveryAddress } elseif ($bodyObj.deliveryAddress) { $bodyObj.deliveryAddress } else { $cFull }
+                            deliveryNotes = if ($item.deliveryNotes) { $item.deliveryNotes } elseif ($bodyObj.deliveryNotes) { $bodyObj.deliveryNotes } else { "" }
+                            deliveryGps = if ($item.deliveryGps) { $item.deliveryGps } elseif ($bodyObj.deliveryGps) { $bodyObj.deliveryGps } else { $null }
                             solvencyScore = $cScore
                             solvencyStatus = $cStatus
                             vendorId = $vId
@@ -396,6 +444,37 @@ while ($listener.IsListening) {
                         Helper-LogActivity "buyer" $cFull "ORDER_PLACED" ("Commande payée via " + $prov + " : " + $pName + " (" + $total + " FCFA)") $total "shopping_bag"
                         Helper-LogActivity "platform" "Plateforme Difonsé" "RETAINER_COLLECTED" ("Retainer plateforme prélevé : " + $retainer + " FCFA sur commande " + $cmdId) $retainer "savings"
                         Helper-LogActivity "seller" $vName "DIRECT_PAYMENT_RECEIVED" ("Paiement direct reçu : " + $vBank + " FCFA pour " + $pName) $vBank "payments"
+
+                        Helper-SupabasePost "orders" @{
+                            id = $newO.id
+                            product_id = $newO.productId
+                            part_name = $newO.partName
+                            client_first_name = $newO.clientFirstName
+                            client_last_name = $newO.clientLastName
+                            client_name = $newO.clientName
+                            client_phone = $newO.clientPhone
+                            delivery_address = $newO.deliveryAddress
+                            delivery_notes = $newO.deliveryNotes
+                            delivery_gps = $newO.deliveryGps
+                            solvency_score = $newO.solvencyScore
+                            solvency_status = $newO.solvencyStatus
+                            vendor_id = $newO.vendorId
+                            vendor_name = $newO.vendorName
+                            vendor_shop_location = "Pikine"
+                            vendor_phone = "+221 77 890 45 12"
+                            payment_provider = $newO.provider
+                            vendor_bank_price = $newO.vendorBankPrice
+                            vendor_net_price = $newO.vendorNetPrice
+                            commission = $newO.commission
+                            platform_retainer = $newO.platformRetainer
+                            total_paid = $newO.totalPaid
+                            pickup_code = $newO.pickupCode
+                            step = $newO.step
+                            step_label = $newO.stepLabel
+                            vendor_payment_status = $newO.vendorPaymentStatus
+                            action_required = $newO.actionRequired
+                            timeline = $newO.timeline
+                        }
                     }
 
                     Helper-WriteJsonFile "orders.json" $orders
@@ -782,6 +861,12 @@ while ($listener.IsListening) {
         }
         $response.Close()
     } catch {
-        # continue loop
+        Write-Output "SERVER_ERROR: $($_.Exception.Message)"
+        if ($null -ne $context -and $null -ne $context.Response) {
+            try {
+                $context.Response.StatusCode = 500
+                $context.Response.Close()
+            } catch {}
+        }
     }
 }
