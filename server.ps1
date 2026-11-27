@@ -24,7 +24,8 @@ function Helper-ReadJsonFile($fileName) {
 function Helper-WriteJsonFile($fileName, $obj) {
     $p = Join-Path $dataDir $fileName
     $json = $obj | ConvertTo-Json -Depth 10
-    [System.IO.File]::WriteAllText($p, $json, [System.Text.Encoding]::UTF8)
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($p, $json, $utf8NoBom)
 }
 
 function Helper-SupabasePost($table, $obj) {
@@ -306,7 +307,7 @@ while ($listener.IsListening) {
 
                     $newP = [PSCustomObject]@{
                         id = "p_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
-                        name = $bodyObj.name
+                        name = if ($bodyObj.name) { $bodyObj.name } elseif ($bodyObj.title) { $bodyObj.title } else { "Pièce Auto" }
                         oem = $oemCode
                         vehicle = $veh
                         category = $bodyObj.category
@@ -475,6 +476,11 @@ while ($listener.IsListening) {
                         $pName = if ($item.partName) { $item.partName } elseif ($item.name) { $item.name } else { "Pièce" }
                         $prodId = if ($item.productId) { $item.productId } elseif ($item.id) { $item.id } else { "p1" }
 
+                        $dAddress = if ($item.deliveryAddress) { $item.deliveryAddress } elseif ($bodyObj.deliveryAddress) { $bodyObj.deliveryAddress } else { $cFull }
+                        $dNotes = if ($item.deliveryNotes) { $item.deliveryNotes } elseif ($bodyObj.deliveryNotes) { $bodyObj.deliveryNotes } else { "" }
+                        $dGps = if ($item.deliveryGps) { $item.deliveryGps } elseif ($bodyObj.deliveryGps) { $bodyObj.deliveryGps } else { $null }
+                        $dOrg = if ($bodyObj.garageName) { $bodyObj.garageName } else { "Garage Client Difonsé" }
+
                         $newO = [PSCustomObject]@{
                             id = $cmdId
                             productId = $prodId
@@ -483,9 +489,9 @@ while ($listener.IsListening) {
                             clientLastName = $cLast
                             clientName = $cFull
                             clientPhone = $cPhone
-                            deliveryAddress = if ($item.deliveryAddress) { $item.deliveryAddress } elseif ($bodyObj.deliveryAddress) { $bodyObj.deliveryAddress } else { $cFull }
-                            deliveryNotes = if ($item.deliveryNotes) { $item.deliveryNotes } elseif ($bodyObj.deliveryNotes) { $bodyObj.deliveryNotes } else { "" }
-                            deliveryGps = if ($item.deliveryGps) { $item.deliveryGps } elseif ($bodyObj.deliveryGps) { $bodyObj.deliveryGps } else { $null }
+                            deliveryAddress = $dAddress
+                            deliveryNotes = $dNotes
+                            deliveryGps = $dGps
                             solvencyScore = $cScore
                             solvencyStatus = $cStatus
                             vendorId = $vId
@@ -504,7 +510,7 @@ while ($listener.IsListening) {
                             stepLabel = "Payé par Difonsé · Tiak-Tiak en route vers le vendeur"
                             vendorPaymentStatus = "PAID_DIRECT"
                             actionRequired = "Vendeur : Remettre la pièce payée au coursier contre le code $pkCode"
-                            timeline = "Acheteur débité via $prov. Retainer Difonsé prélevé ($retainer FCFA). Vendeur payé directement ($vBank FCFA). Livraison : " + (if ($item.deliveryAddress) { $item.deliveryAddress } else { 'Dakar' })
+                            timeline = "Acheteur débité via $prov. Retainer Difonsé prélevé ($retainer FCFA). Vendeur payé directement ($vBank FCFA). Livraison : $dAddress"
                             createdAt = [DateTime]::UtcNow.ToString("o")
                         }
 
@@ -514,6 +520,9 @@ while ($listener.IsListening) {
                         # Update seller available balance directly
                         foreach ($u in $users) {
                             if ($u.id -eq $vId -or $u.shopName -eq $vName -or ($vPhone -and $u.phone -and ($u.phone -replace '[^0-9]').EndsWith(($vPhone -replace '[^0-9]')))) {
+                                if ($null -eq $u.PSObject.Properties['availableBalance']) { $u | Add-Member -MemberType NoteProperty -Name 'availableBalance' -Value 0 }
+                                if ($null -eq $u.PSObject.Properties['totalSales']) { $u | Add-Member -MemberType NoteProperty -Name 'totalSales' -Value 0 }
+                                if ($null -eq $u.PSObject.Properties['totalRetainerPaid']) { $u | Add-Member -MemberType NoteProperty -Name 'totalRetainerPaid' -Value 0 }
                                 $u.availableBalance = [int]$u.availableBalance + $vBank
                                 $u.totalSales = [int]$u.totalSales + $vBank
                                 $u.totalRetainerPaid = [int]$u.totalRetainerPaid + $retainer
@@ -563,7 +572,7 @@ while ($listener.IsListening) {
                             lastName = $newO.clientLastName
                             name = $newO.clientName
                             role = "buyer"
-                            organization = if ($bodyObj.garageName) { $bodyObj.garageName } else { "Garage Client Difonsé" }
+                            organization = $dOrg
                             hub = "Dakar"
                             address = $newO.deliveryAddress
                             deliveryGps = $newO.deliveryGps
@@ -853,7 +862,7 @@ while ($listener.IsListening) {
                     $newSeller = [PSCustomObject]@{
                         id = "usr_seller_" + [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()
                         role = "seller"
-                        name = $bodyObj.name
+                        name = if ($bodyObj.name) { $bodyObj.name } elseif ($bodyObj.title) { $bodyObj.title } else { "Pièce Auto" }
                         shopName = $bodyObj.shopName
                         ninea = if ($bodyObj.ninea) { $bodyObj.ninea } else { "00" + (Get-Random -Minimum 1000000 -Maximum 9999999) + "-2K" }
                         boxNumber = if ($bodyObj.boxNumber) { $bodyObj.boxNumber } else { "Box #" + (Get-Random -Minimum 10 -Maximum 299) }
@@ -922,6 +931,7 @@ while ($listener.IsListening) {
                         solvencyDetails = "Client vérifié par Wave / Orange Money sans défaut de paiement."
                         availableBalance = if ($matched -and $null -ne $matched.availableBalance) { $matched.availableBalance } elseif ($isDemoModou) { 570000 } else { 0 }
                         totalSales = if ($matched -and $null -ne $matched.totalSales) { $matched.totalSales } elseif ($isDemoModou) { 2390000 } else { 0 }
+                        totalRetainerPaid = if ($matched -and $null -ne $matched.totalRetainerPaid) { $matched.totalRetainerPaid } elseif ($isDemoModou) { 239000 } else { 0 }
                         rating = if ($matched -and $matched.rating) { $matched.rating } else { 5.0 }
                         isOpen = $true
                     }

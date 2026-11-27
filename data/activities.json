@@ -1,4 +1,194 @@
-﻿[
+[
+    {
+        "id":  "act_1795744216623",
+        "timestamp":  "2026-11-27T01:50:16.6238196Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "DIRECT_PAYMENT_RECEIVED",
+        "details":  "Paiement direct reÃ§u : 65000 FCFA pour Alternateur Bosch 12V 90A",
+        "amount":  65000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1795744216476",
+        "timestamp":  "2026-11-27T01:50:16.4760231Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "RETAINER_COLLECTED",
+        "details":  "Retainer plateforme prÃ©levÃ© : 6500 FCFA sur commande CMD-8916",
+        "amount":  6500,
+        "icon":  "savings"
+    },
+    {
+        "id":  "act_1795744216303",
+        "timestamp":  "2026-11-27T01:50:16.3039924Z",
+        "section":  "buyer",
+        "actor":  "Babacar Sow",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande payÃ©e via Wave Sénégal : Alternateur Bosch 12V 90A (71500 FCFA)",
+        "amount":  71500,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_1795744215791",
+        "timestamp":  "2026-11-27T01:50:15.7916632Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente: Alternateur Bosch 12V 90A (Prix banque: 65000 FCFA | Prix client: 71500 FCFA)",
+        "amount":  65000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795744215309",
+        "timestamp":  "2026-11-27T01:50:15.3269614Z",
+        "section":  "seller",
+        "actor":  "Mamadou Diallo",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Mamadou Diallo (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795744091787",
+        "timestamp":  "2026-11-27T01:48:11.7873980Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "DIRECT_PAYMENT_RECEIVED",
+        "details":  "Paiement direct reÃ§u : 65000 FCFA pour Alternateur Bosch 12V 90A",
+        "amount":  65000,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1795744091638",
+        "timestamp":  "2026-11-27T01:48:11.6384326Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "RETAINER_COLLECTED",
+        "details":  "Retainer plateforme prÃ©levÃ© : 6500 FCFA sur commande CMD-1154",
+        "amount":  6500,
+        "icon":  "savings"
+    },
+    {
+        "id":  "act_1795744091498",
+        "timestamp":  "2026-11-27T01:48:11.4980556Z",
+        "section":  "buyer",
+        "actor":  "Babacar Sow",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande payÃ©e via Wave Sénégal : Alternateur Bosch 12V 90A (71500 FCFA)",
+        "amount":  71500,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_1795744091065",
+        "timestamp":  "2026-11-27T01:48:11.0650399Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente: Alternateur Bosch 12V 90A (Prix banque: 65000 FCFA | Prix client: 71500 FCFA)",
+        "amount":  65000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795744090554",
+        "timestamp":  "2026-11-27T01:48:10.5843699Z",
+        "section":  "seller",
+        "actor":  "Mamadou Diallo",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Mamadou Diallo (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795743809938",
+        "timestamp":  "2026-11-27T01:43:29.9382223Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "DIRECT_PAYMENT_RECEIVED",
+        "details":  "Paiement direct reÃ§u : 0 FCFA pour PiÃ¨ce",
+        "amount":  0,
+        "icon":  "payments"
+    },
+    {
+        "id":  "act_1795743809803",
+        "timestamp":  "2026-11-27T01:43:29.8031927Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "RETAINER_COLLECTED",
+        "details":  "Retainer plateforme prÃ©levÃ© : 0 FCFA sur commande CMD-4071",
+        "amount":  0,
+        "icon":  "savings"
+    },
+    {
+        "id":  "act_1795743809654",
+        "timestamp":  "2026-11-27T01:43:29.6540948Z",
+        "section":  "buyer",
+        "actor":  "Acheteur DifonsÃ©",
+        "action":  "ORDER_PLACED",
+        "details":  "Commande payÃ©e via Wave : PiÃ¨ce (0 FCFA)",
+        "amount":  0,
+        "icon":  "shopping_bag"
+    },
+    {
+        "id":  "act_1795743809034",
+        "timestamp":  "2026-11-27T01:43:29.0347340Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente:  (Prix banque: 65000 FCFA | Prix client: 71500 FCFA)",
+        "amount":  65000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795743808366",
+        "timestamp":  "2026-11-27T01:43:28.3938089Z",
+        "section":  "seller",
+        "actor":  "Mamadou Diallo",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Mamadou Diallo (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795736993628",
+        "timestamp":  "2026-11-26T23:49:53.6284863Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente:  (Prix banque: 65000 FCFA | Prix client: 71500 FCFA)",
+        "amount":  65000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795736990447",
+        "timestamp":  "2026-11-26T23:49:50.4750120Z",
+        "section":  "seller",
+        "actor":  "Mamadou Diallo",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Mamadou Diallo (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795736717070",
+        "timestamp":  "2026-11-26T23:45:17.0705144Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "ADD_PRODUCT",
+        "details":  "Mise en vente:  (Prix banque: 65000 FCFA | Prix client: 71500 FCFA)",
+        "amount":  65000,
+        "icon":  "add_circle"
+    },
+    {
+        "id":  "act_1795736715291",
+        "timestamp":  "2026-11-26T23:45:15.3250793Z",
+        "section":  "seller",
+        "actor":  "Mamadou Diallo",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Mamadou Diallo (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
     {
         "id":  "act_1795724633651",
         "timestamp":  "2026-11-26T20:23:53.6513329Z",

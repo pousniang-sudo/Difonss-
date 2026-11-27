@@ -348,7 +348,7 @@ module.exports = async function handler(req, res) {
 
     const newP = {
       id: "p_" + Date.now(),
-      name: body.name,
+      name: body.name || body.title || "Pièce Auto",
       oem: oemCode,
       vehicle: veh,
       category: body.category,
@@ -862,7 +862,7 @@ module.exports = async function handler(req, res) {
     const newSeller = {
       id: "usr_seller_" + Date.now(),
       role: "seller",
-      name: body.name,
+      name: body.name || body.title || "Pièce Auto",
       shopName: body.shopName,
       ninea: body.ninea || "00" + Math.floor(1000000 + Math.random() * 9000000) + "-2K",
       boxNumber: body.boxNumber || "Box #" + Math.floor(10 + Math.random() * 290),
