@@ -120,16 +120,12 @@
   <div class="mobile-app-shell relative flex flex-col justify-between">
 
     <!-- ================= BANDEAU DÉMO PERMANENT ================= -->
-    <div class="h-7 bg-[#0e121d] text-amber-400 border-b border-amber-500/30 flex items-center justify-between px-3 text-[10px] font-black uppercase tracking-wider sticky top-0 z-[60] shadow-sm">
+    <div class="h-7 bg-[#0e121d] text-amber-400 border-b border-amber-500/30 flex items-center justify-center px-3 text-[10px] font-black uppercase tracking-wider sticky top-0 z-[60] shadow-sm">
       <div class="flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
         <span class="material-symbols-outlined text-[13px] text-amber-400">verified_user</span>
         <span>MODE DÉMO LIVE · PIKINE &amp; COLOBANE</span>
       </div>
-      <a href="admin.html" target="_blank" class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold hover:bg-cyan-500 hover:text-slate-900 transition-all shadow-sm" title="Ouvrir le Cockpit de Supervision Back-End">
-        <span class="material-symbols-outlined text-[12px]">dashboard</span>
-        <span>Cockpit Back-End</span>
-      </a>
     </div>
 
     <!-- ============================================================== -->
@@ -490,10 +486,6 @@
           <button onclick="playWolofAudio('buyer')" title="Aide vocale Wolof" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-[#1a2030] border border-[#222a3d] flex items-center justify-center text-amber-400 transition-colors">
             <span class="material-symbols-outlined text-[17px]">volume_up</span>
           </button>
-
-          <a href="admin.html" target="_blank" title="Supervision Back-End en direct" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-cyan-950/40 hover:text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-cyan-400 transition-colors">
-            <span class="material-symbols-outlined text-[16px]">dashboard</span>
-          </a>
 
           <button onclick="showScreen('portal-choice')" title="Déconnexion / Changer de profil" class="w-8 h-8 rounded-xl bg-[#141825] hover:bg-red-950/40 hover:text-red-400 border border-[#222a3d] flex items-center justify-center text-slate-400 transition-colors">
             <span class="material-symbols-outlined text-[17px]">logout</span>
@@ -1038,15 +1030,12 @@
           </div>
         </div>
 
-        <!-- Bascule Acheteur, Cockpit & Quitter -->
+        <!-- Bascule Acheteur & Quitter -->
         <div class="flex items-center gap-1">
           <button onclick="showScreen('buyer')" class="px-2.5 py-1.5 bg-[#141b2a] hover:bg-[#1d273c] text-slate-200 border border-[#20273a] font-bold text-[10px] rounded-xl transition-colors flex items-center gap-1 cursor-pointer">
             <span class="material-symbols-outlined text-[13px] text-[#ff4500]">handyman</span>
             <span>Acheteur</span>
           </button>
-          <a href="admin.html" target="_blank" title="Supervision Back-End en direct" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-cyan-950/40 hover:text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-cyan-400 transition-colors">
-            <span class="material-symbols-outlined text-[16px]">dashboard</span>
-          </a>
           <button onclick="logoutSeller()" title="Se déconnecter" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-[#201518] hover:text-red-400 border border-[#20273a] flex items-center justify-center text-slate-400 transition-colors cursor-pointer">
             <span class="material-symbols-outlined text-[16px]">logout</span>
           </button>
