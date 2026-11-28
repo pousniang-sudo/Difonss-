@@ -204,42 +204,20 @@
               </div>
             </div>
           </div>
-          <!-- COCKPIT BACK-END & SUPERVISION (SUIVRE TOUTES LES ACTIONS) -->
-          <a href="admin.html" target="_blank" class="auto-card hover:border-cyan-500/60 transition-all cursor-pointer p-4 rounded-3xl relative group active:scale-[0.99] block border border-[#20293e] shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <div class="flex items-start gap-3.5">
-              <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-600 via-sky-600 to-blue-700 text-white flex items-center justify-center shrink-0 shadow-md">
-                <span class="material-symbols-outlined text-[24px]">dashboard</span>
-              </div>
-              <div class="space-y-1">
-                <div class="font-black text-sm text-white group-hover:text-cyan-300 flex items-center gap-2">
-                  <span>Cockpit Back-End &amp; Supervision</span>
-                  <span class="px-2 py-0.5 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-black rounded-full uppercase tracking-wider">Live Audit</span>
-                </div>
-                <p class="text-[11px] text-slate-400 leading-tight">
-                  Supervision DG : suivez toutes les actions en direct (commandes, livraisons GPS, retainers Difonsé, garantie 2 jours, litiges et traçabilité Supabase).
-                </p>
-                <div class="pt-1.5 flex items-center gap-1.5 text-[11px] font-extrabold text-cyan-400 group-hover:translate-x-1 transition-transform">
-                  <span>Ouvrir le Cockpit Back-End</span>
-                  <span class="material-symbols-outlined text-[15px]">open_in_new</span>
-                </div>
-              </div>
-            </div>
-          </a>
         </div>
 
         <!-- Accès Rapides Démo 1-clic -->
         <div class="pt-2 text-center space-y-2">
           <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Accès instantané aux espaces :</span>
-          <div class="grid grid-cols-3 gap-1.5">
-            <button onclick="showScreen('buyer')" class="text-[11px] font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-emerald-500/40 transition-all shadow-sm cursor-pointer truncate">
-              ⚡ Acheteur
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="showScreen('buyer')" class="text-[11px] font-bold text-emerald-400 bg-[#121624] hover:bg-[#161c2e] py-2.5 rounded-xl border border-emerald-500/40 transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5 truncate">
+              <span class="material-symbols-outlined text-[14px]">handyman</span>
+              <span>⚡ Espace Acheteur</span>
             </button>
-            <button onclick="showScreen('login-seller')" class="text-[11px] font-bold text-red-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-red-500/40 transition-all shadow-sm cursor-pointer truncate">
-              ⚡ Vendeur
+            <button onclick="showScreen('login-seller')" class="text-[11px] font-bold text-red-400 bg-[#121624] hover:bg-[#161c2e] py-2.5 rounded-xl border border-red-500/40 transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5 truncate">
+              <span class="material-symbols-outlined text-[14px]">storefront</span>
+              <span>⚡ Espace Vendeur</span>
             </button>
-            <a href="admin.html" target="_blank" class="text-[11px] font-bold text-cyan-400 bg-[#121624] hover:bg-[#161c2e] py-2 rounded-xl border border-cyan-500/40 transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1 truncate">
-              <span>⚡ Cockpit</span>
-            </a>
           </div>
         </div>
 
@@ -284,11 +262,11 @@
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Prénom :</label>
-              <input type="text" id="login-buyer-firstname" required value="Amadou" placeholder="Ex: Amadou" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all" />
+              <input type="text" id="login-buyer-firstname" required value="" placeholder="Ex: Babacar" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all placeholder:text-slate-500" />
             </div>
             <div>
               <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Nom de famille :</label>
-              <input type="text" id="login-buyer-lastname" required value="Diallo" placeholder="Ex: Diallo" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all" />
+              <input type="text" id="login-buyer-lastname" required value="" placeholder="Ex: Sow" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all placeholder:text-slate-500" />
             </div>
           </div>
 
@@ -296,13 +274,13 @@
             <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Téléphone Wave / Orange Money (+221) :</label>
             <div class="relative">
               <span class="absolute left-3 top-2 text-xs font-black text-slate-500">+221</span>
-              <input type="tel" id="login-buyer-phone" required value="77 450 12 34" class="w-full pl-12 pr-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all" />
+              <input type="tel" id="login-buyer-phone" required value="" placeholder="77 123 45 67" class="w-full pl-12 pr-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-black text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all placeholder:text-slate-500 font-mono" />
             </div>
           </div>
 
           <div>
             <label class="block text-[10px] font-black text-slate-400 uppercase mb-1">Nom de votre Atelier / Garage ou Ville :</label>
-            <input type="text" id="login-buyer-garage" value="Garage Castors Dakar" placeholder="Ex: Garage Expert Ouakam" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-bold text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all" />
+            <input type="text" id="login-buyer-garage" value="" placeholder="Ex: Garage Expert Dakar ou Domicile" class="w-full px-3 py-2 rounded-xl bg-[#090d16] border border-[#20273a] text-xs font-bold text-white outline-none focus:border-emerald-400 focus:bg-[#0e1422] transition-all placeholder:text-slate-500" />
           </div>
 
           <!-- BANDEAU SOLVABILITÉ & GARANTIE CONFORMITÉ -->
@@ -1069,7 +1047,7 @@
           <a href="admin.html" target="_blank" title="Supervision Back-End en direct" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-cyan-950/40 hover:text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-cyan-400 transition-colors">
             <span class="material-symbols-outlined text-[16px]">dashboard</span>
           </a>
-          <button onclick="showScreen('portal-choice')" title="Changer d'utilisateur" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-[#201518] hover:text-red-400 border border-[#20273a] flex items-center justify-center text-slate-400 transition-colors cursor-pointer">
+          <button onclick="logoutSeller()" title="Se déconnecter" class="w-8 h-8 rounded-xl bg-[#141b2a] hover:bg-[#201518] hover:text-red-400 border border-[#20273a] flex items-center justify-center text-slate-400 transition-colors cursor-pointer">
             <span class="material-symbols-outlined text-[16px]">logout</span>
           </button>
         </div>
@@ -2239,15 +2217,6 @@
         const savedSeller = localStorage.getItem("difonse_seller_profile");
         if (savedSeller) {
           const parsed = JSON.parse(savedSeller);
-          const cleanSavedPh = (parsed.phone || "").replace(/[^0-9]/g, "");
-          const isDemoModou = (cleanSavedPh.endsWith("778904512") && (parsed.firstName || "").trim().toLowerCase() === "modou" && (parsed.lastName || "").trim().toLowerCase() === "ndiaye");
-
-          if (!isDemoModou) {
-            parsed.id = `usr_seller_${cleanSavedPh || Date.now()}`;
-            parsed.availableBalance = Number(parsed.availableBalance) || 0;
-            parsed.escrowBalance = Number(parsed.escrowBalance) || 0;
-            parsed.totalSales = Number(parsed.totalSales) || 0;
-          }
           Object.assign(currentSeller, parsed);
           // Pré-remplir les inputs de l'écran login vendeur
           const fn = document.getElementById("login-seller-firstname");
@@ -2266,10 +2235,26 @@
       syncSellerHeader();
       updateSellerBalanceDisplay();
 
-      // Démarrage sur la sélection du portail (Acheteur vs Vendeur)
-      showScreen('portal-choice');
+      // Persistance de session intelligente au rafraîchissement (F5)
+      const lastScreen = localStorage.getItem("difonse_active_screen");
+      if (lastScreen === 'seller' && currentSeller && currentSeller.isIdentified) {
+        showScreen('seller');
+      } else if (lastScreen === 'buyer') {
+        showScreen('buyer');
+      } else {
+        showScreen('portal-choice');
+      }
       updateSellerLiveCalc();
     });
+
+    function logoutSeller() {
+      currentSeller.isIdentified = false;
+      try {
+        localStorage.removeItem("difonse_active_screen");
+        localStorage.removeItem("difonse_seller_profile");
+      } catch (e) {}
+      showScreen('portal-choice');
+    }
 
     function goToSellerPortal() {
       if (currentSeller && currentSeller.isIdentified) {
@@ -2300,6 +2285,15 @@
         const el = document.getElementById(id);
         if (el) el.classList.add("hidden");
       });
+
+      // Mémoriser l'écran actif pour préserver la session en cas de rafraîchissement (F5)
+      if (screenId === 'seller' || screenId === 'buyer' || screenId === 'portal-choice') {
+        try {
+          localStorage.setItem("difonse_active_screen", screenId);
+          if (screenId === 'seller') localStorage.setItem("difonse_current_role", "seller");
+          if (screenId === 'buyer') localStorage.setItem("difonse_current_role", "buyer");
+        } catch (e) {}
+      }
 
       if (screenId === 'portal-choice') {
         const el = document.getElementById('screen-portal-choice');
@@ -2438,8 +2432,30 @@
 
       const cleanDigits = ph.replace(/[^0-9]/g, '');
       const isDemoModou = (cleanDigits.endsWith("778904512") && fn.trim().toLowerCase() === "modou" && ln.trim().toLowerCase() === "ndiaye");
-      const vendorId = isDemoModou ? "usr_seller_1" : `usr_seller_${cleanDigits || Date.now()}`;
-      const vendorCode = isDemoModou ? "VND-4512" : (cleanDigits ? `VND-${cleanDigits.slice(-6)}` : `VND-${Math.floor(100000 + Math.random() * 900000)}`);
+
+      // Préserver les données existantes (code vendeur, solde et ventes)
+      let preservedVCode = (currentSeller && currentSeller.vendorCode) ? currentSeller.vendorCode : null;
+      let preservedBal = (currentSeller && currentSeller.availableBalance != null) ? Number(currentSeller.availableBalance) : 0;
+      let preservedSales = (currentSeller && currentSeller.totalSales != null) ? Number(currentSeller.totalSales) : 0;
+      let preservedEscrow = (currentSeller && currentSeller.escrowBalance != null) ? Number(currentSeller.escrowBalance) : 0;
+
+      // Chercher si le vendeur existe déjà dans localStorage
+      try {
+        const saved = localStorage.getItem("difonse_seller_profile");
+        if (saved) {
+          const sp = JSON.parse(saved);
+          const spPh = (sp.phone || "").replace(/[^0-9]/g, "");
+          if (spPh && cleanDigits && (spPh.slice(-9) === cleanDigits.slice(-9))) {
+            if (sp.vendorCode) preservedVCode = sp.vendorCode;
+            if (sp.availableBalance != null) preservedBal = Math.max(preservedBal, Number(sp.availableBalance));
+            if (sp.totalSales != null) preservedSales = Math.max(preservedSales, Number(sp.totalSales));
+            if (sp.escrowBalance != null) preservedEscrow = Math.max(preservedEscrow, Number(sp.escrowBalance));
+          }
+        }
+      } catch (e) {}
+
+      const vendorId = isDemoModou ? "usr_seller_1" : (currentSeller.id || (cleanDigits ? `usr_seller_${cleanDigits}` : `usr_seller_${Date.now()}`));
+      const vendorCode = isDemoModou ? "VND-4512" : (preservedVCode || (cleanDigits ? `VND-${cleanDigits.slice(-6)}` : `VND-${Math.floor(100000 + Math.random() * 900000)}`));
 
       currentSeller.isIdentified = true;
       currentSeller.id = vendorId;
@@ -2451,33 +2467,12 @@
       currentSeller.shopName = shop;
       currentSeller.location = loc;
       currentSeller.hub = loc;
-      if (!isDemoModou) {
-        currentSeller.availableBalance = 0;
-        currentSeller.escrowBalance = 0;
-        currentSeller.totalSales = 0;
-      }
+      currentSeller.availableBalance = isDemoModou ? 570000 : preservedBal;
+      currentSeller.escrowBalance = isDemoModou ? 0 : preservedEscrow;
+      currentSeller.totalSales = isDemoModou ? 2390000 : preservedSales;
 
       syncSellerHeader();
       updateSellerBalanceDisplay();
-
-      // Persistance dans localStorage
-      try {
-        localStorage.setItem("difonse_seller_profile", JSON.stringify({
-          isIdentified: true,
-          id: vendorId,
-          vendorCode: vendorCode,
-          firstName: fn,
-          lastName: ln,
-          fullName: `${fn} ${ln}`,
-          phone: ph,
-          shopName: shop,
-          location: loc,
-          hub: loc,
-          availableBalance: currentSeller.availableBalance || 0,
-          escrowBalance: currentSeller.escrowBalance || 0,
-          totalSales: currentSeller.totalSales || 0
-        }));
-      } catch (err) {}
 
       // Synchronisation API Backend
       try {
@@ -2501,11 +2496,51 @@
           if (data.user) {
             currentSeller.id = data.user.id || currentSeller.id;
             currentSeller.vendorCode = data.user.vendorCode || currentSeller.vendorCode;
-            currentSeller.availableBalance = Number(data.user.availableBalance) || 0;
-            currentSeller.totalSales = Number(data.user.totalSales) || 0;
-            currentSeller.escrowBalance = Number(data.user.escrowBalance) || 0;
+            if (data.user.availableBalance != null) currentSeller.availableBalance = Math.max(currentSeller.availableBalance, Number(data.user.availableBalance));
+            if (data.user.totalSales != null) currentSeller.totalSales = Math.max(currentSeller.totalSales, Number(data.user.totalSales));
+            if (data.user.escrowBalance != null) currentSeller.escrowBalance = Math.max(currentSeller.escrowBalance, Number(data.user.escrowBalance));
           }
         }
+      } catch (err) {}
+
+      // Vérification Supabase en direct
+      if (supabaseClient) {
+        try {
+          const { data: supaProfiles } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('role', 'seller');
+          if (supaProfiles && supaProfiles.length > 0) {
+            const foundSupa = supaProfiles.find(sp => {
+              const spClean = (sp.phone || '').replace(/[^0-9]/g, '');
+              return (spClean && cleanDigits && spClean.slice(-9) === cleanDigits.slice(-9)) || (currentSeller.vendorCode && sp.vendor_code === currentSeller.vendorCode);
+            });
+            if (foundSupa) {
+              if (foundSupa.vendor_code) currentSeller.vendorCode = foundSupa.vendor_code;
+              if (foundSupa.available_balance != null) currentSeller.availableBalance = Math.max(currentSeller.availableBalance, Number(foundSupa.available_balance));
+              if (foundSupa.total_sales != null) currentSeller.totalSales = Math.max(currentSeller.totalSales, Number(foundSupa.total_sales));
+            }
+          }
+        } catch (err) {}
+      }
+
+      // Persistance finale sécurisée dans localStorage
+      try {
+        localStorage.setItem("difonse_seller_profile", JSON.stringify({
+          isIdentified: true,
+          id: currentSeller.id,
+          vendorCode: currentSeller.vendorCode,
+          firstName: fn,
+          lastName: ln,
+          fullName: `${fn} ${ln}`,
+          phone: ph,
+          shopName: shop,
+          location: loc,
+          hub: loc,
+          availableBalance: currentSeller.availableBalance || 0,
+          escrowBalance: currentSeller.escrowBalance || 0,
+          totalSales: currentSeller.totalSales || 0
+        }));
       } catch (err) {}
 
       // Traçabilité Supabase en temps réel
@@ -2516,12 +2551,14 @@
         role: "seller",
         organization: shop,
         hub: loc,
-        vendorCode: vendorCode,
+        vendorCode: currentSeller.vendorCode,
         solvencyScore: 100
       });
-      logAction("seller", shop, "LOGIN", `Connexion Vendeur : ${shop} (${fn} ${ln}) - ${loc}`, 0, "storefront");
+      logAction("seller", shop, "LOGIN", `Connexion Vendeur : ${shop} (${fn} ${ln}) - ${loc} [${currentSeller.vendorCode}]`, 0, "storefront");
 
       syncSellerHeader();
+      updateSellerBalanceDisplay();
+      await loadSellerData();
       showScreen('seller');
     }
 
@@ -3188,23 +3225,90 @@
     }
 
     async function loadBuyerData() {
+      let prods = [];
+      let ords = [];
+
+      // 1. Chargement depuis l'API Backend
       try {
         const [pRes, oRes] = await Promise.all([
           fetch(`${API_BASE}/products`),
           fetch(`${API_BASE}/orders`)
         ]);
-        if (pRes.ok) buyerProducts = await pRes.json();
-        if (oRes.ok) buyerOrders = await oRes.json();
-      } catch (e) {
-        // Fallback local si offline
-        if (buyerProducts.length === 0) {
-          buyerProducts = [
-            { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", conditionLabel: "Neuf d'Origine OEM", publicPrice: 49500, bankPrice: 45000, commission: 4500, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
-            { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", conditionLabel: "Occasion Testée", publicPrice: 55000, bankPrice: 50000, commission: 5000, vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" },
-            { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", conditionLabel: "Neuf d'Origine OEM", publicPrice: 88000, bankPrice: 80000, commission: 8000, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" }
-          ];
-        }
+        if (pRes.ok) prods = await pRes.json();
+        if (oRes.ok) ords = await oRes.json();
+      } catch (e) {}
+
+      // 2. Chargement direct Supabase pour garantir que chaque pièce vendeur ajoutée est visible en temps réel
+      if (supabaseClient) {
+        try {
+          const { data: supaProds } = await supabaseClient
+            .from('products')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (supaProds && supaProds.length > 0) {
+            const pMap = new Map();
+            // Pièces Supabase (temps réel)
+            supaProds.forEach(dbP => {
+              pMap.set(dbP.id, {
+                id: dbP.id,
+                name: dbP.name || dbP.title || "Pièce Détachée",
+                title: dbP.name || dbP.title || "Pièce Détachée",
+                oem: dbP.oem || "OEM-STD",
+                vehicle: dbP.vehicle || "Toyota Hilux",
+                category: dbP.category || "moteur",
+                condition: dbP.condition || "neuf",
+                conditionLabel: dbP.condition_label || "Neuf d'Origine OEM",
+                bankPrice: Number(dbP.bank_price) || 0,
+                commission: Number(dbP.commission) || 0,
+                publicPrice: Number(dbP.public_price) || 0,
+                vendor: dbP.vendor || "Boutique Vendeur",
+                vendorId: dbP.vendor_id || "usr_seller_1",
+                vendorCode: dbP.vendor_code || "",
+                vendorPhone: dbP.vendor_phone || "",
+                hub: dbP.hub || "Dakar",
+                stock: Number(dbP.stock) || 1,
+                image: dbP.image || "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80",
+                compatibleCar: dbP.compatible_car || dbP.vehicle,
+                createdAt: dbP.created_at
+              });
+            });
+            // Fusionner avec les pièces de l'API
+            prods.forEach(p => {
+              if (!pMap.has(p.id)) pMap.set(p.id, p);
+            });
+            prods = Array.from(pMap.values());
+          }
+        } catch (err) {}
       }
+
+      // 3. Fusionner les pièces enregistrées localement par les vendeurs
+      try {
+        const localCustom = localStorage.getItem("difonse_seller_custom_pieces");
+        if (localCustom) {
+          const parsed = JSON.parse(localCustom);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const pMap = new Map();
+            parsed.forEach(p => pMap.set(p.id, p));
+            prods.forEach(p => {
+              if (!pMap.has(p.id)) pMap.set(p.id, p);
+            });
+            prods = Array.from(pMap.values());
+          }
+        }
+      } catch (e) {}
+
+      // Fallback si totalement vide
+      if (prods.length === 0) {
+        prods = [
+          { id: "p1", name: "Plaquettes de Frein Avant Céramique Brembo", oem: "04465-05240", vehicle: "Toyota Hilux Vigo 2.5 D-4D", category: "Freinage", conditionLabel: "Neuf d'Origine OEM", publicPrice: 49500, bankPrice: 45000, commission: 4500, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=600&q=80" },
+          { id: "p2", name: "Alternateur 150A Original Valéo", oem: "27060-0L040", vehicle: "Toyota Hilux / Fortuner 2.5", category: "Électricité", conditionLabel: "Occasion Testée", publicPrice: 55000, bankPrice: 50000, commission: 5000, vendor: "Comptoir Colobane Pièces", hub: "Colobane", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" },
+          { id: "p3", name: "Injecteur Common Rail Bosch", oem: "0445110368", vehicle: "Toyota Hilux 2KD-FTV", category: "Moteur", conditionLabel: "Neuf d'Origine OEM", publicPrice: 88000, bankPrice: 80000, commission: 8000, vendor: "Boutique Modou", hub: "Pikine", image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80" }
+        ];
+      }
+
+      buyerProducts = prods;
+      if (ords.length > 0) buyerOrders = ords;
+
       renderBuyerProducts();
       renderBuyerOrders();
       renderCart();
@@ -3230,13 +3334,23 @@
     }
 
     function renderBuyerProducts() {
-      const q = (document.getElementById("buyer-search") ? document.getElementById("buyer-search").value : "").toLowerCase();
+      const qInput = document.getElementById("buyer-search");
+      const q = (qInput ? qInput.value : "").toLowerCase().trim();
       const container = document.getElementById("buyer-products-list");
       if (!container) return;
 
+      const norm = str => String(str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+      const normCat = norm(selectedCat);
+
       const filtered = buyerProducts.filter(p => {
-        const matchQ = p.name.toLowerCase().includes(q) || (p.oem && p.oem.toLowerCase().includes(q)) || p.vehicle.toLowerCase().includes(q);
-        const matchCat = selectedCat === "all" || p.category === selectedCat;
+        const pName = norm(p.name || p.title || 'Pièce');
+        const pOem = norm(p.oem || '');
+        const pVeh = norm(p.vehicle || p.compatibleCar || '');
+        const pCat = norm(p.category || '');
+
+        const matchQ = !q || pName.includes(q) || pOem.includes(q) || pVeh.includes(q);
+        const matchCat = normCat === "all" || pCat === normCat || (normCat === "electricite" && pCat.includes("electr")) || (normCat === "freinage" && pCat.includes("frein")) || (normCat === "moteur" && pCat.includes("moteur")) || (normCat === "suspension" && pCat.includes("suspens"));
+
         return matchQ && matchCat;
       });
 
@@ -3676,23 +3790,101 @@
         if (uRes.ok) {
           const users = await uRes.json();
           const cleanPh = (currentSeller.phone || "").replace(/[^0-9]/g, "").slice(-9);
-          const isDemoModou = (currentSeller.id === "usr_seller_1" && cleanPh === "778904512");
           const seller = users.find(u => 
             (currentSeller.id && u.id === currentSeller.id) ||
+            (currentSeller.vendorCode && (u.vendorCode === currentSeller.vendorCode || u.vendor_code === currentSeller.vendorCode)) ||
             (cleanPh && u.phone && u.phone.replace(/[^0-9]/g, "").slice(-9) === cleanPh && u.role === "seller")
           );
           if (seller) {
             currentSeller.id = seller.id || currentSeller.id;
-            currentSeller.availableBalance = seller.availableBalance != null ? Number(seller.availableBalance) : 0;
-            currentSeller.totalSales = seller.totalSales != null ? Number(seller.totalSales) : 0;
-            currentSeller.escrowBalance = seller.escrowBalance != null ? Number(seller.escrowBalance) : 0;
-          } else if (!isDemoModou) {
-            currentSeller.availableBalance = 0;
-            currentSeller.totalSales = 0;
-            currentSeller.escrowBalance = 0;
+            currentSeller.vendorCode = seller.vendorCode || seller.vendor_code || currentSeller.vendorCode;
+            if (seller.availableBalance != null) currentSeller.availableBalance = Number(seller.availableBalance);
+            else if (seller.available_balance != null) currentSeller.availableBalance = Number(seller.available_balance);
+
+            if (seller.totalSales != null) currentSeller.totalSales = Number(seller.totalSales);
+            else if (seller.total_sales != null) currentSeller.totalSales = Number(seller.total_sales);
+
+            if (seller.escrowBalance != null) currentSeller.escrowBalance = Number(seller.escrowBalance);
           }
         }
       } catch (e) {}
+
+      // Synchronisation Supabase en direct pour récupérer solde & ventes réelles
+      if (supabaseClient && currentSeller && currentSeller.phone) {
+        try {
+          const cleanPh = currentSeller.phone.replace(/[^0-9]/g, "").slice(-9);
+          const { data: supaProfiles } = await supabaseClient.from('profiles').select('*').eq('role', 'seller');
+          if (supaProfiles && supaProfiles.length > 0) {
+            const foundSupa = supaProfiles.find(sp => {
+              const spClean = (sp.phone || '').replace(/[^0-9]/g, '');
+              return (spClean && spClean.slice(-9) === cleanPh) || (currentSeller.vendorCode && sp.vendor_code === currentSeller.vendorCode);
+            });
+            if (foundSupa) {
+              if (foundSupa.vendor_code) currentSeller.vendorCode = foundSupa.vendor_code;
+              if (foundSupa.available_balance != null) currentSeller.availableBalance = Math.max(currentSeller.availableBalance, Number(foundSupa.available_balance));
+              if (foundSupa.total_sales != null) currentSeller.totalSales = Math.max(currentSeller.totalSales, Number(foundSupa.total_sales));
+            }
+          }
+        } catch (err) {}
+      }
+
+      // Fusionner les pièces Supabase pour que le vendeur voie toutes ses créations
+      if (supabaseClient) {
+        try {
+          const { data: supaProds } = await supabaseClient.from('products').select('*');
+          if (supaProds && supaProds.length > 0) {
+            const pMap = new Map();
+            buyerProducts.forEach(p => pMap.set(p.id, p));
+            supaProds.forEach(dbP => {
+              if (!pMap.has(dbP.id)) {
+                pMap.set(dbP.id, {
+                  id: dbP.id,
+                  name: dbP.name || dbP.title || "Pièce",
+                  title: dbP.name || dbP.title || "Pièce",
+                  oem: dbP.oem || "OEM-STD",
+                  vehicle: dbP.vehicle || "Toyota Hilux",
+                  category: dbP.category || "moteur",
+                  condition: dbP.condition || "neuf",
+                  conditionLabel: dbP.condition_label || "Neuf d'Origine OEM",
+                  bankPrice: Number(dbP.bank_price) || 0,
+                  commission: Number(dbP.commission) || 0,
+                  publicPrice: Number(dbP.public_price) || 0,
+                  vendor: dbP.vendor,
+                  vendorId: dbP.vendor_id,
+                  vendorCode: dbP.vendor_code,
+                  vendorPhone: dbP.vendor_phone,
+                  hub: dbP.hub,
+                  stock: Number(dbP.stock) || 1,
+                  image: dbP.image,
+                  compatibleCar: dbP.compatible_car
+                });
+              }
+            });
+            buyerProducts = Array.from(pMap.values());
+          }
+        } catch (err) {}
+      }
+
+      // Persistance finale du profil vendeur
+      try {
+        localStorage.setItem("difonse_seller_profile", JSON.stringify({
+          isIdentified: true,
+          id: currentSeller.id,
+          vendorCode: currentSeller.vendorCode,
+          firstName: currentSeller.firstName,
+          lastName: currentSeller.lastName,
+          fullName: currentSeller.fullName,
+          phone: currentSeller.phone,
+          shopName: currentSeller.shopName,
+          location: currentSeller.location,
+          hub: currentSeller.hub,
+          availableBalance: currentSeller.availableBalance || 0,
+          escrowBalance: currentSeller.escrowBalance || 0,
+          totalSales: currentSeller.totalSales || 0
+        }));
+      } catch (e) {}
+
+      syncSellerHeader();
       updateSellerBalanceDisplay();
     }
 

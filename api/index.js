@@ -712,7 +712,67 @@ module.exports = async function handler(req, res) {
     return sendJson(200, { success: true, order: found });
   }
 
-  // ROUTE 10: POST /api/orders/dispute
+  // ROUTE 9c: POST /api/orders/cancel (Super Admin cancels order and refunds buyer)
+  if (route === '/orders/cancel' && req.method === 'POST') {
+    const body = await parseBody();
+    const orderId = body.id || body.orderId;
+    let found = null;
+    orders.forEach(o => {
+      if (o.id === orderId) {
+        o.step = 5;
+        o.status = "CANCELLED";
+        o.stepLabel = "Commande Annulée par le Super Admin · Acheteur Remboursé";
+        o.actionRequired = "Superviseur : Commande annulée. Remboursement intégral acheteur via " + o.provider;
+        const reasonText = body.reason || "Annulation par le Superviseur Difonsé";
+        o.timeline = `Commande annulée par le Super Admin : ${reasonText}. Remboursement de ${o.totalPaid} FCFA exécuté vers l'acheteur via ${o.provider}.`;
+        found = o;
+      }
+    });
+    saveDataFile('orders.json', orders);
+
+    if (found) {
+      // Revert vendor balance
+      users.forEach(u => {
+        if (u.shopName === found.vendorName || u.id === found.vendorId || (found.vendorCode && u.vendorCode === found.vendorCode)) {
+          const vNet = found.vendorNetPrice != null ? Number(found.vendorNetPrice) : Number(found.vendorBankPrice || 0);
+          const ret = found.platformRetainer != null ? Number(found.platformRetainer) : Number(found.commission || 0);
+          u.availableBalance = Math.max(0, (Number(u.availableBalance) || 0) - vNet);
+          u.totalSales = Math.max(0, (Number(u.totalSales) || 0) - vNet);
+          u.totalRetainerPaid = Math.max(0, (Number(u.totalRetainerPaid) || 0) - ret);
+        }
+      });
+      saveDataFile('users.json', users);
+
+      const cancelRefund = {
+        id: "PAY-CAN-" + Math.floor(1000 + Math.random() * 9000),
+        vendor: found.clientName,
+        phone: found.clientPhone || "+221 77 450 12 34",
+        amount: found.totalPaid,
+        provider: found.provider || "Wave",
+        status: "COMPLETED",
+        statusLabel: "Commande Annulée · Remboursement Effectué",
+        type: "ORDER_CANCELLED_REFUND",
+        orderId: found.id,
+        createdAt: new Date().toISOString()
+      };
+      payouts.unshift(cancelRefund);
+      saveDataFile('payouts.json', payouts);
+
+      logActivity("platform", "Super Admin", "ORDER_CANCELLED", `Commande ${found.id} annulée par le superviseur. Remboursement intégral de ${found.totalPaid} FCFA déclenché vers l'acheteur.`, found.totalPaid, "cancel");
+
+      if (supabaseServerClient) {
+        supabaseServerClient.from('orders').update({
+          step: 5,
+          step_label: found.stepLabel,
+          action_required: found.actionRequired,
+          timeline: found.timeline,
+          vendor_payment_status: "CANCELLED_REFUNDED"
+        }).eq('id', found.id).then(() => {}).catch(() => {});
+      }
+    }
+
+    return sendJson(200, { success: true, order: found });
+  }
   if (route === '/orders/dispute' && req.method === 'POST') {
     const body = await parseBody();
     let foundOrder = null;

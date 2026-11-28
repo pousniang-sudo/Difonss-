@@ -28,6 +28,15 @@ function Helper-WriteJsonFile($fileName, $obj) {
     [System.IO.File]::WriteAllText($p, $json, $utf8NoBom)
 }
 
+function Helper-SetProp($obj, [string]$name, $val) {
+    if ($null -eq $obj) { return }
+    if ($null -eq $obj.PSObject.Properties[$name]) {
+        $obj | Add-Member -MemberType NoteProperty -Name $name -Value $val
+    } else {
+        $obj.$name = $val
+    }
+}
+
 function Helper-SupabasePost($table, $obj) {
     try {
         $u = "https://qqhgxnizhxfqanswjpmg.supabase.co/rest/v1/$table"
@@ -658,12 +667,12 @@ while ($listener.IsListening) {
                     $found = $null
                     foreach ($o in $orders) {
                         if ($o.id -eq $orderId) {
-                            $o.step = 5
-                            $o.status = "RETURNED_REFUNDED"
-                            $o.stepLabel = "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)"
-                            $o.actionRequired = "Coursier Tiak-Tiak : Restituer la pièce au vendeur · Acheteur remboursé via Wave/OM"
+                            Helper-SetProp $o "step" 5
+                            Helper-SetProp $o "status" "RETURNED_REFUNDED"
+                            Helper-SetProp $o "stepLabel" "Pièce Non Conforme Retournée · Remboursement Effectué (Garantie 2 Jours)"
+                            Helper-SetProp $o "actionRequired" "Coursier Tiak-Tiak : Restituer la pièce au vendeur · Acheteur remboursé via Wave/OM"
                             $reasonText = if ($bodyObj.reason) { $bodyObj.reason } else { "Pièce non conforme retournée" }
-                            $o.timeline = "Garantie conformité 2 jours invoquée : " + $reasonText + ". Remboursement intégral de " + $o.totalPaid + " FCFA exécuté vers l'acheteur via " + $o.provider + "."
+                            Helper-SetProp $o "timeline" ("Garantie conformité 2 jours invoquée : " + $reasonText + ". Remboursement intégral de " + $o.totalPaid + " FCFA exécuté vers l'acheteur via " + $o.provider + ".")
                             $found = $o
                         }
                     }
@@ -692,6 +701,72 @@ while ($listener.IsListening) {
                         Helper-LogActivity "buyer" $found.clientName "PART_RETURN_REQUESTED" ("Retour pièce non conforme sous garantie 2 jours pour " + $found.id + " (" + $found.partName + ")") $found.totalPaid "replay"
                         Helper-LogActivity "platform" "Plateforme Difonsé" "BUYER_REFUNDED" ("Remboursement intégral effectué : " + $found.totalPaid + " FCFA à " + $found.clientName + " via " + $found.provider + " (Garantie 48h conformité)") $found.totalPaid "payments"
                         Helper-LogActivity "seller" $found.vendorName "RETURN_DISPATCHED" ("Coursier Tiak-Tiak mandaté pour restitution de " + $found.partName + " au vendeur") 0 "local_shipping"
+                    }
+
+                    $respObj = @{ success = $true; order = $found }
+                }
+            }
+            # 9c. POST /api/orders/cancel (Super Admin cancels order and refunds buyer)
+            elseif ($rawPath -eq "/api/orders/cancel" -and $request.HttpMethod -eq "POST") {
+                if ($null -ne $bodyObj) {
+                    $orders = (Helper-ReadJsonFile "orders.json") | ConvertFrom-Json
+                    $orderId = if ($bodyObj.id) { $bodyObj.id } else { $bodyObj.orderId }
+                    $found = $null
+                    foreach ($o in $orders) {
+                        if ($o.id -eq $orderId) {
+                            Helper-SetProp $o "step" 5
+                            Helper-SetProp $o "status" "CANCELLED"
+                            Helper-SetProp $o "vendorPaymentStatus" "CANCELLED_REFUNDED"
+                            Helper-SetProp $o "stepLabel" "Commande Annulée par le Super Admin · Acheteur Remboursé"
+                            Helper-SetProp $o "actionRequired" ("Superviseur : Commande annulée. Remboursement intégral acheteur via " + $o.provider)
+                            $reasonText = if ($bodyObj.reason) { $bodyObj.reason } else { "Annulation par le Superviseur Difonsé" }
+                            Helper-SetProp $o "timeline" ("Commande annulée par le Super Admin : " + $reasonText + ". Remboursement de " + $o.totalPaid + " FCFA exécuté vers l'acheteur via " + $o.provider + ".")
+                            $found = $o
+                        }
+                    }
+                    Helper-WriteJsonFile "orders.json" $orders
+
+                    if ($null -ne $found) {
+                        $users = (Helper-ReadJsonFile "users.json") | ConvertFrom-Json
+                        foreach ($u in $users) {
+                            if ($u.shopName -eq $found.vendorName -or $u.id -eq $found.vendorId -or ($found.vendorCode -and $u.vendorCode -eq $found.vendorCode)) {
+                                $vNet = if ($null -ne $found.vendorNetPrice) { [int]$found.vendorNetPrice } else { [int]$found.vendorBankPrice }
+                                $ret = if ($null -ne $found.platformRetainer) { [int]$found.platformRetainer } else { [int]$found.commission }
+                                Helper-SetProp $u "availableBalance" ([Math]::Max(0, [int]$u.availableBalance - $vNet))
+                                Helper-SetProp $u "totalSales" ([Math]::Max(0, [int]$u.totalSales - $vNet))
+                                Helper-SetProp $u "totalRetainerPaid" ([Math]::Max(0, [int]$u.totalRetainerPaid - $ret))
+                            }
+                        }
+                        Helper-WriteJsonFile "users.json" $users
+
+                        $payouts = (Helper-ReadJsonFile "payouts.json") | ConvertFrom-Json
+                        if ($null -eq $payouts) { $payouts = @() }
+
+                        $newRefund = [PSCustomObject]@{
+                            id = "PAY-CAN-" + (Get-Random -Minimum 1000 -Maximum 9999)
+                            vendor = $found.clientName
+                            phone = if ($found.clientPhone) { $found.clientPhone } else { "+221 77 450 12 34" }
+                            amount = [int]$found.totalPaid
+                            provider = if ($found.provider) { $found.provider } else { "Wave" }
+                            status = "COMPLETED"
+                            statusLabel = "Commande Annulée · Remboursement Effectué"
+                            type = "ORDER_CANCELLED_REFUND"
+                            orderId = $found.id
+                            createdAt = [DateTime]::UtcNow.ToString("o")
+                        }
+                        $allPayouts = @($newRefund) + @($payouts)
+                        Helper-WriteJsonFile "payouts.json" $allPayouts
+
+                        Helper-LogActivity "platform" "Super Admin" "ORDER_CANCELLED" ("Commande " + $found.id + " annulée par le superviseur. Remboursement intégral de " + $found.totalPaid + " FCFA déclenché.") $found.totalPaid "cancel"
+
+                        Helper-SupabasePost "orders" @{
+                            id = $found.id
+                            step = 5
+                            step_label = $found.stepLabel
+                            action_required = $found.actionRequired
+                            timeline = $found.timeline
+                            vendor_payment_status = "CANCELLED_REFUNDED"
+                        }
                     }
 
                     $respObj = @{ success = $true; order = $found }

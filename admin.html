@@ -585,32 +585,83 @@
     let currentUsersRoleFilter = 'all';
 
     async function loadSupabaseProfilesAndTrackingData() {
-      // 1. Récupération des profils (Supabase en direct avec fallback API Backend)
+      // 1. Récupération des profils Supabase en direct
+      let dbProfiles = [];
       try {
         if (supabaseClient) {
-          const { data: dbProfiles, error: profErr } = await supabaseClient
+          const { data, error: profErr } = await supabaseClient
             .from('profiles')
             .select('*')
             .order('created_at', { ascending: false });
-          if (!profErr && dbProfiles) {
-            allProfilesList = dbProfiles;
+          if (!profErr && data) {
+            dbProfiles = data;
           }
         }
       } catch (e) {
         console.warn("Supabase profiles query:", e);
       }
 
-      // Si Supabase direct n'est pas dispo ou vide, fallback vers /api/profiles
-      if (!allProfilesList || allProfilesList.length === 0) {
-        try {
-          const res = await fetch(`${API_BASE}/profiles`);
-          if (res.ok) {
-            allProfilesList = await res.json();
-          }
-        } catch (e) {}
-      }
+      // 2. Récupération des utilisateurs backend /api/users
+      let backendUsers = [];
+      try {
+        const res = await fetch(`${API_BASE}/users`);
+        if (res.ok) {
+          backendUsers = await res.json();
+        }
+      } catch (e) {}
 
-      // 2. Récupération des connexions / sessions Supabase
+      // Fusion complète dbProfiles + backendUsers
+      const profMap = new Map();
+      const cleanPhone = (ph) => ph ? String(ph).replace(/\D/g, '').slice(-9) : '';
+
+      backendUsers.forEach(u => {
+        const pKey = cleanPhone(u.phone) || u.id || u.vendorCode;
+        if (!pKey) return;
+        profMap.set(pKey, {
+          id: u.id,
+          phone: u.phone,
+          first_name: u.firstName || u.first_name || (u.name ? u.name.split(' ')[0] : ''),
+          last_name: u.lastName || u.last_name || (u.name ? u.name.split(' ').slice(1).join(' ') : ''),
+          name: u.name || `${u.firstName || ''} ${u.lastName || ''}`.trim(),
+          role: u.role || 'seller',
+          organization: u.organization || u.shopName || u.name,
+          shopName: u.shopName || u.organization,
+          hub: u.hub || u.location || u.shopLocation || 'Dakar',
+          solvency_score: u.solvencyScore || 95,
+          solvency_status: u.solvencyStatus || 'Vendeur Certifié',
+          vendor_code: u.vendorCode || u.vendor_code || (cleanPhone(u.phone) ? 'VND-' + cleanPhone(u.phone).slice(-6) : ''),
+          available_balance: Number(u.availableBalance != null ? u.availableBalance : u.balance) || 0,
+          total_sales: Number(u.totalSales) || 0,
+          created_at: u.createdAt || u.registeredAt || new Date().toISOString()
+        });
+      });
+
+      dbProfiles.forEach(p => {
+        const pKey = cleanPhone(p.phone) || p.id || p.vendor_code;
+        if (!pKey) return;
+        const existing = profMap.get(pKey) || {};
+        profMap.set(pKey, {
+          id: p.id || existing.id,
+          phone: p.phone || existing.phone,
+          first_name: p.first_name || existing.first_name,
+          last_name: p.last_name || existing.last_name,
+          name: `${p.first_name || existing.first_name || ''} ${p.last_name || existing.last_name || ''}`.trim() || existing.name,
+          role: p.role || existing.role || 'seller',
+          organization: p.organization || existing.organization,
+          shopName: p.organization || existing.shopName,
+          hub: p.hub || existing.hub || 'Dakar',
+          solvency_score: p.solvency_score || existing.solvency_score || 95,
+          solvency_status: p.solvency_status || existing.solvency_status || 'Vendeur Certifié',
+          vendor_code: p.vendor_code || existing.vendor_code || (cleanPhone(p.phone) ? 'VND-' + cleanPhone(p.phone).slice(-6) : ''),
+          available_balance: Number(p.available_balance != null ? p.available_balance : (p.balance != null ? p.balance : existing.available_balance)) || 0,
+          total_sales: Number(p.total_sales != null ? p.total_sales : existing.total_sales) || 0,
+          created_at: p.created_at || existing.created_at
+        });
+      });
+
+      allProfilesList = Array.from(profMap.values());
+
+      // 3. Récupération des connexions / sessions Supabase
       try {
         if (supabaseClient) {
           const { data: connections, error: connErr } = await supabaseClient
@@ -1098,7 +1149,7 @@
         if (filter === "ALL") return true;
         if (filter === "GUARANTEE") return o.step === 2 || o.step === 3;
         if (filter === "CONFIRMED") return o.step === 4;
-        if (filter === "RETURNED") return o.step === 5 || o.status === "RETURNED_REFUNDED";
+        if (filter === "RETURNED") return o.step === 5 || o.status === "RETURNED_REFUNDED" || o.status === "CANCELLED";
         if (filter === "DISPUTE") return o.step >= 5;
         return true;
       });
@@ -1113,45 +1164,92 @@
         let statusText = o.stepLabel || "En cours";
         let actionButton = "";
 
-        const retainer = o.platformRetainer != null ? o.platformRetainer : (o.commission || Math.round((o.vendorBankPrice || 0) * 0.10));
-        const netVendor = o.vendorNetPrice != null ? o.vendorNetPrice : (o.vendorBankPrice || (o.totalPaid - retainer));
+        const retainer = o.platformRetainer != null ? o.platformRetainer : (o.commission || Math.round((Number(o.vendorBankPrice) || Number(o.totalPaid) || 0) * 0.10));
+        const netVendor = o.vendorNetPrice != null ? o.vendorNetPrice : ((Number(o.vendorBankPrice) || Number(o.totalPaid) || 0) - retainer);
 
         if (o.step === 2) {
           badgeClass = "bg-amber-950 text-amber-400 border border-amber-800";
-          actionButton = `<span class="text-slate-400 italic">En attente du coursier (Code ${o.pickupCode})</span>`;
+          actionButton = `
+            <div class="flex items-center justify-end gap-1.5" onclick="event.stopPropagation()">
+              <button onclick="adminAdvanceOrder('${o.id}')" title="Valider la remise au coursier" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-black rounded-lg transition-all text-[11px] flex items-center gap-1 shadow-sm cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">local_shipping</span>
+                <span>Valider Remise</span>
+              </button>
+              <button onclick="adminCancelOrder('${o.id}')" title="Annuler la commande et rembourser l'acheteur" class="px-2 py-1 bg-red-950 hover:bg-red-800 text-red-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 border border-red-800 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">cancel</span>
+                <span>Annuler</span>
+              </button>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails complets de la commande" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">visibility</span>
+                <span>Fiche</span>
+              </button>
+            </div>
+          `;
         } else if (o.step === 3) {
           badgeClass = "bg-sky-950 text-sky-400 border border-sky-800";
           actionButton = `
-            <div class="flex items-center justify-end gap-1.5">
-              <button onclick="adminProcessReturnRefund('${o.id}')" title="Déclencher le retour et rembourser l'acheteur sous garantie 2 jours" class="px-2 py-1 bg-red-950 hover:bg-red-800 text-red-300 font-bold rounded transition-all text-[11px] flex items-center gap-1 border border-red-800 cursor-pointer">
-                <span class="material-symbols-outlined text-[13px]">replay</span>
-                <span>Retour &amp; Remboursement</span>
-              </button>
-              <button onclick="adminConfirmConformity('${o.id}')" title="Valider la conformité de la pièce (48h écoulées)" class="px-2 py-1 bg-admin-emerald text-slate-900 font-black rounded hover:bg-emerald-400 transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+            <div class="flex items-center justify-end gap-1.5" onclick="event.stopPropagation()">
+              <button onclick="adminConfirmConformity('${o.id}')" title="Valider la conformité de la pièce (48h écoulées)" class="px-2.5 py-1 bg-admin-emerald text-slate-900 font-black rounded-lg hover:bg-emerald-400 transition-all text-[11px] flex items-center gap-1 cursor-pointer shadow-sm">
                 <span class="material-symbols-outlined text-[13px]">check_circle</span>
                 <span>Valider (48h)</span>
+              </button>
+              <button onclick="adminProcessReturnRefund('${o.id}')" title="Déclencher le retour et rembourser l'acheteur sous garantie 2 jours" class="px-2 py-1 bg-purple-950 hover:bg-purple-800 text-purple-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 border border-purple-800 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">replay</span>
+                <span>Retour</span>
+              </button>
+              <button onclick="adminCancelOrder('${o.id}')" title="Annuler la commande" class="px-2 py-1 bg-red-950 hover:bg-red-800 text-red-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 border border-red-800 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">cancel</span>
+              </button>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails complets" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">visibility</span>
+                <span>Fiche</span>
               </button>
             </div>
           `;
         } else if (o.step === 4) {
           badgeClass = "bg-emerald-950 text-emerald-400 border border-emerald-800";
-          actionButton = `<span class="text-emerald-400 font-bold">✓ Conforme &amp; Clôturé</span>`;
-        } else if (o.step === 5 || o.status === "RETURNED_REFUNDED") {
+          actionButton = `
+            <div class="flex items-center justify-end gap-2" onclick="event.stopPropagation()">
+              <span class="text-emerald-400 font-bold text-[11px]">✓ Conforme &amp; Clôturé</span>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">visibility</span>
+                <span>Fiche</span>
+              </button>
+            </div>
+          `;
+        } else if (o.step === 5 || o.status === "RETURNED_REFUNDED" || o.status === "CANCELLED") {
           badgeClass = "bg-purple-950 text-purple-300 border border-purple-800";
-          actionButton = `<span class="text-purple-300 font-bold">✓ Pièce Retournée · Remboursé</span>`;
+          const lbl = o.status === "CANCELLED" ? "✓ Annulé &amp; Remboursé" : "✓ Retourné &amp; Remboursé";
+          actionButton = `
+            <div class="flex items-center justify-end gap-2" onclick="event.stopPropagation()">
+              <span class="text-purple-300 font-bold text-[11px]">${lbl}</span>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">visibility</span>
+                <span>Fiche</span>
+              </button>
+            </div>
+          `;
         } else if (o.step === 6) {
           badgeClass = "bg-slate-800 text-slate-400 border border-slate-700";
-          actionButton = `<span class="text-slate-300 font-bold">✓ Dossier Scellé SHA-256</span>`;
+          actionButton = `
+            <div class="flex items-center justify-end gap-2" onclick="event.stopPropagation()">
+              <span class="text-slate-300 font-bold text-[11px]">✓ Dossier Scellé SHA-256</span>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg transition-all text-[11px] flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-[13px]">visibility</span>
+                <span>Fiche</span>
+              </button>
+            </div>
+          `;
         }
 
         return `
-          <tr class="hover:bg-admin-bg/40 transition-colors">
-            <td class="py-3 px-4 font-mono font-bold text-white">${o.id}</td>
-            <td class="py-3 px-4 text-slate-400">${new Date(o.createdAt || Date.now()).toLocaleTimeString()}</td>
+          <tr onclick="openAdminOrderModal('${o.id}')" class="hover:bg-slate-800/60 transition-colors cursor-pointer group">
+            <td class="py-3 px-4 font-mono font-bold text-white group-hover:text-orange-400 transition-colors">${o.id}</td>
+            <td class="py-3 px-4 text-slate-400 font-mono text-[11px]">${new Date(o.createdAt || Date.now()).toLocaleTimeString()}</td>
             <td class="py-3 px-4 font-bold text-slate-200">${o.partName}</td>
             <td class="py-3 px-4 text-slate-300">
               <div class="font-bold text-white flex items-center gap-1.5">
-                <span>${o.clientFirstName ? (o.clientFirstName + ' ' + (o.clientLastName || '')) : o.clientName}</span>
+                <span>${o.clientFirstName ? (o.clientFirstName + ' ' + (o.clientLastName || '')) : (o.clientName || 'Client')}</span>
                 <span class="w-1.5 h-1.5 rounded-full ${o.solvencyScore && o.solvencyScore >= 80 ? 'bg-emerald-400' : 'bg-amber-400'}"></span>
               </div>
               <div class="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
@@ -1161,7 +1259,7 @@
                 </span>
               </div>
             </td>
-            <td class="py-3 px-4 text-slate-400">${o.vendorName}</td>
+            <td class="py-3 px-4 text-slate-400 font-semibold">${o.vendorName || 'Vendeur'}</td>
             <td class="py-3 px-4 font-black text-white price-num">${formatCFA(o.totalPaid)}</td>
             <td class="py-3 px-4 font-bold text-admin-gold price-num">${formatCFA(retainer)}</td>
             <td class="py-3 px-4 font-black text-admin-emerald price-num">${formatCFA(netVendor)}</td>
@@ -1196,10 +1294,10 @@
       }
 
       container.innerHTML = activeGuaranteeOrders.map(o => `
-        <div class="p-4 rounded-xl bg-admin-bg border border-admin-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div onclick="openAdminOrderModal('${o.id}')" class="p-4 rounded-xl bg-admin-bg border border-admin-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-800/40 cursor-pointer transition-colors group">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <span class="font-mono font-extrabold text-admin-accent">${o.id}</span>
+              <span class="font-mono font-extrabold text-admin-accent group-hover:text-orange-400 transition-colors">${o.id}</span>
               <span class="text-white font-bold">${o.partName}</span>
               <span class="text-[10px] font-black bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-800 flex items-center gap-1">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1215,25 +1313,84 @@
             </p>
           </div>
 
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3" onclick="event.stopPropagation()">
             <div class="text-right">
               <span class="text-[10px] uppercase text-slate-400 block font-bold">Montant Remboursable</span>
               <span class="text-base font-black text-admin-emerald price-num">${formatCFA(o.totalPaid)}</span>
             </div>
 
             <div class="flex items-center gap-1.5">
+              ${o.step === 2 ? `
+                <button onclick="adminAdvanceOrder('${o.id}')" title="Valider la remise au coursier" class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs rounded-lg transition-all flex items-center gap-1 shadow-sm cursor-pointer">
+                  <span class="material-symbols-outlined text-[15px]">local_shipping</span>
+                  <span>Valider Remise</span>
+                </button>
+              ` : `
+                <button onclick="adminConfirmConformity('${o.id}')" title="Confirmer la conformité et clôturer la garantie" class="px-3 py-2 bg-admin-emerald text-slate-900 font-extrabold text-xs rounded-lg hover:bg-emerald-400 transition-all flex items-center gap-1 shadow-sm cursor-pointer">
+                  <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                  <span>Valider Conforme</span>
+                </button>
+              `}
               <button onclick="adminProcessReturnRefund('${o.id}')" title="Déclencher retour et remboursement" class="px-3 py-2 bg-red-950 hover:bg-red-800 text-red-300 font-extrabold text-xs rounded-lg transition-all flex items-center gap-1 border border-red-800 shadow-sm cursor-pointer">
                 <span class="material-symbols-outlined text-[15px]">replay</span>
-                <span>Retour &amp; Remboursement</span>
+                <span>Retour</span>
               </button>
-              <button onclick="adminConfirmConformity('${o.id}')" title="Confirmer la conformité et clôturer la garantie" class="px-3 py-2 bg-admin-emerald text-slate-900 font-extrabold text-xs rounded-lg hover:bg-emerald-400 transition-all flex items-center gap-1 shadow-sm cursor-pointer">
-                <span class="material-symbols-outlined text-[15px]">check_circle</span>
-                <span>Valider Conforme</span>
+              <button onclick="adminCancelOrder('${o.id}')" title="Annuler la commande" class="px-2.5 py-2 bg-red-950/60 hover:bg-red-800 text-red-300 font-bold text-xs rounded-lg transition-all flex items-center gap-1 border border-red-900/60 cursor-pointer">
+                <span class="material-symbols-outlined text-[15px]">cancel</span>
+              </button>
+              <button onclick="openAdminOrderModal('${o.id}')" title="Voir les détails complets" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white font-extrabold text-xs rounded-lg transition-all flex items-center gap-1 shadow-sm cursor-pointer">
+                <span class="material-symbols-outlined text-[15px]">visibility</span>
+                <span>Fiche</span>
               </button>
             </div>
           </div>
         </div>
       `).join("");
+    }
+
+    async function adminAdvanceOrder(orderId) {
+      if (confirm(`Confirmez-vous la remise de la pièce au coursier pour la commande ${orderId} ?\nLa garantie de conformité 48h sera activée.`)) {
+        try {
+          const res = await fetch(`${API_BASE}/orders/advance`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: orderId })
+          });
+          if (res.ok) {
+            await loadAllAdminData();
+            closeAdminOrderModal();
+            alert(`✅ Remise au coursier validée pour la commande ${orderId} !\nLa garantie d'essai atelier 48h est maintenant active.`);
+          } else {
+            alert("Erreur lors de la validation de la remise.");
+          }
+        } catch (e) {
+          alert("Erreur réseau ou serveur.");
+        }
+      }
+    }
+
+    async function adminCancelOrder(orderId) {
+      const reason = prompt("Précisez le motif d'annulation de la commande (ex: Rupture stock vendeur, Erreur adresse, Demande acheteur) :", "Annulation administrative Difonsé");
+      if (reason === null) return;
+
+      if (confirm(`Confirmez-vous l'annulation définitive de la commande ${orderId} ?\n- L'acheteur sera immédiatement remboursé intégralement via Wave/OM.\n- Le solde du vendeur sera réajusté.`)) {
+        try {
+          const res = await fetch(`${API_BASE}/orders/cancel`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: orderId, reason: reason })
+          });
+          if (res.ok) {
+            await loadAllAdminData();
+            closeAdminOrderModal();
+            alert(`✅ Commande ${orderId} annulée avec succès !\nRemboursement exécuté vers l'acheteur.`);
+          } else {
+            alert("Erreur lors de l'annulation de la commande.");
+          }
+        } catch (e) {
+          alert("Erreur réseau ou serveur.");
+        }
+      }
     }
 
     async function adminProcessReturnRefund(orderId) {
@@ -1249,6 +1406,7 @@
           });
           if (res.ok) {
             await loadAllAdminData();
+            closeAdminOrderModal();
             alert(`✅ Pièce enregistrée en retour sous garantie 2 jours !\nRemboursement intégral exécuté vers l'acheteur via Wave/OM.\nLe coursier Tiak-Tiak est mandaté pour restituer la pièce au vendeur.`);
           }
         } catch (e) {
@@ -1267,12 +1425,167 @@
           });
           if (res.ok) {
             await loadAllAdminData();
+            closeAdminOrderModal();
             alert(`✅ Conformité validée ! Transaction ${orderId} clôturée avec succès.`);
           }
         } catch (e) {
           alert("Erreur lors de la communication avec le serveur.");
         }
       }
+    }
+
+    // -------------------------------------------------------------
+    // MODALE FICHE DÉTAILLÉE DE LA COMMANDE (SUPER ADMIN)
+    // -------------------------------------------------------------
+    let currentAdminOrderModalData = null;
+
+    function openAdminOrderModal(orderId) {
+      if (!orderId) return;
+      const order = adminOrders.find(o => o.id === orderId);
+      if (!order) {
+        alert("Commande introuvable.");
+        return;
+      }
+      currentAdminOrderModalData = order;
+
+      // Badges & IDs
+      document.getElementById("modal-order-id").innerText = order.id;
+      document.getElementById("modal-order-pickup-badge").innerText = `Code Retrait : ${order.pickupCode || 'PK-DIRECT'}`;
+      
+      const stBadge = document.getElementById("modal-order-status-badge");
+      if (stBadge) {
+        let badgeColor = "bg-amber-950 text-amber-400 border-amber-800";
+        if (order.step === 3) badgeColor = "bg-sky-950 text-sky-400 border-sky-800";
+        if (order.step === 4) badgeColor = "bg-emerald-950 text-emerald-400 border-emerald-800";
+        if (order.step === 5 || order.status === "RETURNED_REFUNDED" || order.status === "CANCELLED") badgeColor = "bg-purple-950 text-purple-300 border-purple-800";
+        stBadge.className = `px-2.5 py-0.5 rounded-full border text-[10px] font-black uppercase ${badgeColor}`;
+        stBadge.innerText = order.stepLabel || (order.status === 'CANCELLED' ? 'Annulée' : 'En cours');
+      }
+
+      // Acheteur
+      const buyerName = order.clientFirstName ? `${order.clientFirstName} ${order.clientLastName || ''}`.trim() : (order.clientName || 'Client');
+      document.getElementById("modal-order-buyer-name").innerText = buyerName;
+      
+      const bPhone = order.clientPhone || '';
+      const bPhoneLink = document.getElementById("modal-order-buyer-phone-link");
+      const bPhoneText = document.getElementById("modal-order-buyer-phone");
+      if (bPhoneLink) bPhoneLink.href = `tel:${bPhone.replace(/\s+/g, '')}`;
+      if (bPhoneText) bPhoneText.innerText = bPhone || 'Non renseigné';
+
+      const bAddr = document.getElementById("modal-order-delivery-address");
+      if (bAddr) bAddr.innerText = order.deliveryAddress || 'Dakar';
+
+      const bNotes = document.getElementById("modal-order-delivery-notes");
+      if (bNotes) bNotes.innerText = order.deliveryNotes ? `Note : ${order.deliveryNotes}` : 'Aucune consigne particulière';
+
+      const bGps = document.getElementById("modal-order-delivery-gps");
+      if (bGps) {
+        let gpsStr = '';
+        if (typeof order.deliveryGps === 'string') {
+          gpsStr = order.deliveryGps;
+        } else if (order.deliveryGps && order.deliveryGps.latitude && order.deliveryGps.longitude) {
+          gpsStr = `${order.deliveryGps.latitude},${order.deliveryGps.longitude}`;
+        }
+        if (gpsStr) {
+          bGps.innerHTML = `<a href="https://maps.google.com/?q=${encodeURIComponent(gpsStr)}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1 font-mono text-[11px]"><span class="material-symbols-outlined text-[13px]">pin_drop</span><span>${gpsStr} (Google Maps)</span></a>`;
+        } else {
+          bGps.innerHTML = `<span class="text-slate-500 text-[11px]">Position GPS non transmise</span>`;
+        }
+      }
+
+      const bSolv = document.getElementById("modal-order-buyer-solvency");
+      if (bSolv) {
+        bSolv.innerText = `🛡️ Score : ${order.solvencyScore || 98}/100 (${order.solvencyStatus || 'Solvable Vérifié'})`;
+      }
+
+      // Vendeur
+      document.getElementById("modal-order-vendor-shop").innerText = order.vendorName || 'Boutique Partenaire';
+      document.getElementById("modal-order-vendor-code").innerText = `N° ${order.vendorCode || 'VND-PRO'}`;
+      
+      const vPhone = order.vendorPhone || '';
+      const vPhoneLink = document.getElementById("modal-order-vendor-phone-link");
+      const vPhoneText = document.getElementById("modal-order-vendor-phone");
+      if (vPhoneLink) vPhoneLink.href = `tel:${vPhone.replace(/\s+/g, '')}`;
+      if (vPhoneText) vPhoneText.innerText = vPhone || 'Non renseigné';
+
+      const vLoc = document.getElementById("modal-order-vendor-location");
+      if (vLoc) vLoc.innerText = order.vendorShopLocation || 'Hub Dakar';
+
+      // Pièce
+      document.getElementById("modal-order-part-name").innerText = order.partName || 'Pièce Automobile';
+      
+      const prod = adminProducts.find(p => p.id === order.productId);
+      const partImg = document.getElementById("modal-order-part-image");
+      if (partImg) {
+        partImg.src = (prod && prod.image) || 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=600&q=80';
+      }
+
+      const partVeh = document.getElementById("modal-order-part-vehicle");
+      if (partVeh) partVeh.innerText = prod ? `Véhicule : ${prod.vehicle || 'Standard'}` : 'Véhicule standard';
+
+      const partOem = document.getElementById("modal-order-part-oem");
+      if (partOem) partOem.innerText = prod ? `OEM : ${prod.oem || 'Standard'}` : '';
+
+      // Financier
+      const retainer = order.platformRetainer != null ? order.platformRetainer : (order.commission || Math.round((Number(order.totalPaid) || 0) * 0.10));
+      const netVendor = order.vendorNetPrice != null ? order.vendorNetPrice : (order.vendorBankPrice || ((Number(order.totalPaid) || 0) - retainer));
+      
+      document.getElementById("modal-order-fin-total").innerText = formatCFA(order.totalPaid || 0);
+      document.getElementById("modal-order-fin-retainer").innerText = formatCFA(retainer);
+      document.getElementById("modal-order-fin-net").innerText = formatCFA(netVendor);
+      document.getElementById("modal-order-fin-provider").innerText = `Paiement sécurisé Kooru via ${order.provider || 'Wave'}`;
+
+      const dateEl = document.getElementById("modal-order-date");
+      if (dateEl) {
+        dateEl.innerText = new Date(order.createdAt || Date.now()).toLocaleString("fr-FR", {
+          day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+        });
+      }
+
+      // Actions dynamiques dans le footer
+      const actionsContainer = document.getElementById("modal-order-actions-container");
+      if (actionsContainer) {
+        let btnsHtml = '';
+        if (order.step === 2) {
+          btnsHtml += `
+            <button onclick="adminAdvanceOrder('${order.id}')" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">local_shipping</span>
+              <span>Valider la Remise Coursier</span>
+            </button>
+            <button onclick="adminCancelOrder('${order.id}')" class="px-3.5 py-2 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 border border-red-800 font-black text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">cancel</span>
+              <span>Annuler la Commande</span>
+            </button>
+          `;
+        } else if (order.step === 3) {
+          btnsHtml += `
+            <button onclick="adminConfirmConformity('${order.id}')" class="px-3.5 py-2 rounded-xl bg-admin-emerald hover:bg-emerald-400 text-slate-900 font-black text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              <span>Valider Conformité (Clôturer 48h)</span>
+            </button>
+            <button onclick="adminProcessReturnRefund('${order.id}')" class="px-3.5 py-2 rounded-xl bg-purple-950 hover:bg-purple-800 text-purple-300 border border-purple-800 font-black text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">replay</span>
+              <span>Retour &amp; Remboursement</span>
+            </button>
+            <button onclick="adminCancelOrder('${order.id}')" class="px-3.5 py-2 rounded-xl bg-red-950 hover:bg-red-800 text-red-300 border border-red-800 font-black text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-[16px]">cancel</span>
+              <span>Annuler la Commande</span>
+            </button>
+          `;
+        } else {
+          btnsHtml += `
+            <span class="text-xs text-slate-400 italic">Statut commande : ${order.stepLabel || 'Finalisée'}. Aucune action en attente.</span>
+          `;
+        }
+        actionsContainer.innerHTML = btnsHtml;
+      }
+
+      document.getElementById("admin-order-modal").classList.remove("hidden");
+    }
+
+    function closeAdminOrderModal() {
+      const m = document.getElementById("admin-order-modal");
+      if (m) m.classList.add("hidden");
     }
 
     // -------------------------------------------------------------
@@ -1446,21 +1759,30 @@
 
     function openAdminVendorModal(vendorIdOrPhone) {
       if (!vendorIdOrPhone) return;
-      const cleanTargetPhone = String(vendorIdOrPhone).replace(/[^0-9]/g, '');
+      const cleanTargetPhone = String(vendorIdOrPhone).replace(/\D/g, '');
 
       // 1. Chercher le profil dans allProfilesList
       let vendor = allProfilesList.find(p => {
         if (p.id && String(p.id) === String(vendorIdOrPhone)) return true;
+        if (p.vendor_code && String(p.vendor_code).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) return true;
+        if (p.vendorCode && String(p.vendorCode).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) return true;
         if (p.phone) {
-          const ph = String(p.phone).replace(/[^0-9]/g, '');
+          const ph = String(p.phone).replace(/\D/g, '');
           if (cleanTargetPhone && (ph === cleanTargetPhone || ph.endsWith(cleanTargetPhone.slice(-9)))) return true;
         }
+        if (p.organization && String(p.organization).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) return true;
+        if (p.name && String(p.name).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) return true;
         return false;
       });
 
       // Si pas trouvé dans les profils, chercher dans les commandes ou produits
       if (!vendor) {
-        const ord = adminOrders.find(o => (o.vendorId === vendorIdOrPhone) || (o.vendorPhone && String(o.vendorPhone).replace(/\D/g, '').endsWith(cleanTargetPhone.slice(-9))));
+        const ord = adminOrders.find(o => 
+          (o.vendorId === vendorIdOrPhone) || 
+          (o.vendorCode && String(o.vendorCode).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) ||
+          (o.vendorName && String(o.vendorName).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) ||
+          (o.vendorPhone && cleanTargetPhone && String(o.vendorPhone).replace(/\D/g, '').endsWith(cleanTargetPhone.slice(-9)))
+        );
         if (ord) {
           vendor = {
             id: ord.vendorId,
@@ -1477,6 +1799,30 @@
         }
       }
 
+      // Si toujours pas trouvé, chercher dans adminProducts
+      if (!vendor) {
+        const prod = adminProducts.find(p => 
+          (p.vendorId === vendorIdOrPhone) ||
+          (p.vendorCode && String(p.vendorCode).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) ||
+          (p.vendor && String(p.vendor).toLowerCase() === String(vendorIdOrPhone).toLowerCase()) ||
+          (p.vendorPhone && cleanTargetPhone && String(p.vendorPhone).replace(/\D/g, '').endsWith(cleanTargetPhone.slice(-9)))
+        );
+        if (prod) {
+          vendor = {
+            id: prod.vendorId || ('vnd_' + cleanTargetPhone),
+            vendor_code: prod.vendorCode || (`VND-${cleanTargetPhone.slice(-6)}`),
+            first_name: prod.vendor ? prod.vendor.split(' ')[0] : 'Vendeur',
+            last_name: prod.vendor ? prod.vendor.split(' ').slice(1).join(' ') : 'Difonsé',
+            phone: prod.vendorPhone || vendorIdOrPhone,
+            role: 'seller',
+            organization: prod.vendor || 'Boutique Partenaire',
+            hub: prod.hub || 'Dakar',
+            solvency_score: 95,
+            solvency_status: 'Vendeur Certifié'
+          };
+        }
+      }
+
       if (!vendor) {
         alert("Profil introuvable.");
         return;
@@ -1487,7 +1833,7 @@
       const vLn = vendor.last_name || vendor.lastName || '';
       const vFullName = `${vFn} ${vLn}`.trim() || vendor.name || vendor.organization || 'Utilisateur Difonsé';
       const vPhone = vendor.phone || '';
-      const vCleanPhone = vPhone.replace(/[^0-9]/g, '');
+      const vCleanPhone = vPhone.replace(/\D/g, '');
       const vCode = vendor.vendor_code || vendor.vendorCode || (`VND-${vCleanPhone ? vCleanPhone.slice(-6) : 'PRO'}`);
       const vShop = vendor.organization || vendor.shopName || vendor.garageName || 'Boutique Indépendante';
       const vHub = vendor.hub || vendor.location || 'Dakar';
@@ -1496,35 +1842,43 @@
 
       // Filtrer les pièces de ce vendeur
       const vendorProds = adminProducts.filter(p => {
-        if (vendor.id && p.vendorId === vendor.id) return true;
-        if (vCode && p.vendorCode && p.vendorCode === vCode) return true;
+        if (vendor.id && (p.vendorId === vendor.id || p.vendor_id === vendor.id)) return true;
+        if (vCode && (p.vendorCode === vCode || p.vendor_code === vCode)) return true;
         if (vCleanPhone && p.vendorPhone) {
-          const pPh = String(p.vendorPhone).replace(/[^0-9]/g, '');
+          const pPh = String(p.vendorPhone).replace(/\D/g, '');
           if (pPh.endsWith(vCleanPhone.slice(-9))) return true;
         }
+        if (vShop && p.vendor && (p.vendor.toLowerCase() === vShop.toLowerCase() || p.vendor.toLowerCase().includes(vShop.toLowerCase()))) return true;
+        if (vFullName && p.vendor && (p.vendor.toLowerCase() === vFullName.toLowerCase() || p.vendor.toLowerCase().includes(vFullName.toLowerCase()))) return true;
         return false;
       });
 
       // Filtrer les commandes de ce vendeur
       const vendorOrds = adminOrders.filter(o => {
-        if (vendor.id && o.vendorId === vendor.id) return true;
-        if (vCode && o.vendorCode && o.vendorCode === vCode) return true;
+        if (vendor.id && (o.vendorId === vendor.id || o.vendor_id === vendor.id)) return true;
+        if (vCode && (o.vendorCode === vCode || o.vendor_code === vCode)) return true;
         if (vCleanPhone && o.vendorPhone) {
-          const oPh = String(o.vendorPhone).replace(/[^0-9]/g, '');
+          const oPh = String(o.vendorPhone).replace(/\D/g, '');
           if (oPh.endsWith(vCleanPhone.slice(-9))) return true;
         }
+        if (vShop && o.vendorName && (o.vendorName.toLowerCase() === vShop.toLowerCase() || o.vendorName.toLowerCase().includes(vShop.toLowerCase()))) return true;
+        if (vFullName && o.vendorName && (o.vendorName.toLowerCase() === vFullName.toLowerCase() || o.vendorName.toLowerCase().includes(vFullName.toLowerCase()))) return true;
         return false;
       });
 
-      // Calculs financiers
-      let totalSales = vendor.total_sales || vendor.totalSales || 0;
+      // Calculs financiers exacts
+      let totalSales = 0;
       let totalRetainers = 0;
-      let netBalance = vendor.available_balance || vendor.availableBalance || 0;
+      let netBalance = 0;
 
       if (vendorOrds.length > 0) {
         totalSales = vendorOrds.reduce((sum, o) => sum + (Number(o.totalPaid) || Number(o.vendorNetPrice) || 0), 0);
-        totalRetainers = vendorOrds.reduce((sum, o) => sum + (Number(o.platformRetainer) || Number(o.commission) || 0), 0);
+        totalRetainers = vendorOrds.reduce((sum, o) => sum + (Number(o.platformRetainer) || Number(o.commission) || Math.round((Number(o.totalPaid) || 0) * 0.10)), 0);
         netBalance = totalSales - totalRetainers;
+      } else {
+        totalSales = Number(vendor.total_sales || vendor.totalSales) || 0;
+        netBalance = Number(vendor.available_balance != null ? vendor.available_balance : vendor.availableBalance) || 0;
+        totalRetainers = Math.round(totalSales * 0.10);
       }
 
       // Remplissage DOM
@@ -1794,6 +2148,141 @@
       <div class="p-3.5 sm:p-4 border-t border-[#1c2438] bg-[#0e121d] flex items-center justify-between shrink-0">
         <span class="text-[11px] text-slate-400">Fiche supervisée par Difonsé · Kooru sécurisé</span>
         <button onclick="closeAdminVendorModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
+          Fermer
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODALE FICHE DÉTAILLÉE DE LA COMMANDE (SUPER ADMIN) -->
+  <div id="admin-order-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0b0e17] border border-cyan-500/40 rounded-3xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-[0_20px_60px_rgba(6,182,212,0.2)] overflow-hidden">
+      
+      <!-- En-tête de la Modale Commande -->
+      <div class="p-4 sm:p-5 border-b border-[#1c2438] bg-[#0e121d] flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-600 to-blue-700 text-white flex items-center justify-center font-black text-sm shadow-md">
+            <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 id="modal-order-id" class="text-base sm:text-lg font-black text-white font-mono">CMD-0000</h2>
+              <span id="modal-order-status-badge" class="px-2.5 py-0.5 rounded-full border text-[10px] font-black uppercase">Statut</span>
+              <span id="modal-order-pickup-badge" class="px-2 py-0.5 rounded-lg bg-orange-950/80 text-orange-400 border border-orange-500/40 text-[11px] font-mono font-black">Code Retrait : PK-000</span>
+            </div>
+            <p class="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
+              <span id="modal-order-date">Date de commande</span>
+              <span>·</span>
+              <span class="text-emerald-400 font-bold">Garantie 48h Kooru</span>
+            </p>
+          </div>
+        </div>
+        <button onclick="closeAdminOrderModal()" class="w-9 h-9 rounded-xl bg-[#161c2c] hover:bg-red-950/50 hover:text-red-400 text-slate-400 border border-[#222a3d] flex items-center justify-center transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Corps défilable de la Fiche Commande -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4 flex-1">
+        
+        <!-- Cartes Acheteur, Vendeur & Décomposition Financière -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          
+          <!-- Acheteur & Livraison -->
+          <div class="bg-[#080b12] p-3.5 rounded-2xl border border-[#1b2336] space-y-2">
+            <div class="flex items-center gap-1.5 text-slate-400 font-bold text-[11px] uppercase border-b border-[#1b2336] pb-1.5">
+              <span class="material-symbols-outlined text-[15px] text-cyan-400">person</span>
+              <span>Acheteur &amp; Livraison</span>
+            </div>
+            <div class="space-y-1">
+              <span id="modal-order-buyer-name" class="font-extrabold text-white text-xs block">Nom Client</span>
+              <a id="modal-order-buyer-phone-link" href="#" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px]">call</span>
+                <span id="modal-order-buyer-phone">--</span>
+              </a>
+              <div class="text-[11px] text-slate-300 pt-1">
+                <span class="text-slate-500 block text-[10px] uppercase font-bold">Adresse :</span>
+                <span id="modal-order-delivery-address">--</span>
+              </div>
+              <div id="modal-order-delivery-notes" class="text-[10px] text-slate-400 italic">--</div>
+              <div id="modal-order-delivery-gps" class="pt-0.5"></div>
+              <div id="modal-order-buyer-solvency" class="text-[10px] font-bold text-emerald-400 pt-1">--</div>
+            </div>
+          </div>
+
+          <!-- Vendeur & Expédition -->
+          <div class="bg-[#080b12] p-3.5 rounded-2xl border border-[#1b2336] space-y-2">
+            <div class="flex items-center gap-1.5 text-slate-400 font-bold text-[11px] uppercase border-b border-[#1b2336] pb-1.5">
+              <span class="material-symbols-outlined text-[15px] text-orange-400">storefront</span>
+              <span>Vendeur Partenaire</span>
+            </div>
+            <div class="space-y-1">
+              <span id="modal-order-vendor-shop" class="font-extrabold text-white text-xs block">Boutique</span>
+              <span id="modal-order-vendor-code" class="text-[11px] font-mono font-black text-orange-400 block">N° VND-0000</span>
+              <a id="modal-order-vendor-phone-link" href="#" class="font-mono text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px]">call</span>
+                <span id="modal-order-vendor-phone">--</span>
+              </a>
+              <div class="text-[11px] text-slate-300 pt-1">
+                <span class="text-slate-500 block text-[10px] uppercase font-bold">Localisation Atelier / Hub :</span>
+                <span id="modal-order-vendor-location">--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Décomposition Financière -->
+          <div class="bg-[#080b12] p-3.5 rounded-2xl border border-[#1b2336] space-y-2">
+            <div class="flex items-center gap-1.5 text-slate-400 font-bold text-[11px] uppercase border-b border-[#1b2336] pb-1.5">
+              <span class="material-symbols-outlined text-[15px] text-emerald-400">payments</span>
+              <span>Décomposition Financière</span>
+            </div>
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] text-slate-400">Total Payé Acheteur :</span>
+                <span id="modal-order-fin-total" class="font-black text-white text-xs price-num">0 FCFA</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] text-orange-400">Retainer Difonsé (10%) :</span>
+                <span id="modal-order-fin-retainer" class="font-black text-orange-400 text-xs price-num">0 FCFA</span>
+              </div>
+              <div class="flex items-center justify-between border-t border-[#1b2336] pt-1">
+                <span class="text-[10px] text-emerald-400 font-bold">Net Reversé Vendeur :</span>
+                <span id="modal-order-fin-net" class="font-black text-emerald-400 text-xs price-num">0 FCFA</span>
+              </div>
+              <div id="modal-order-fin-provider" class="text-[10px] text-slate-400 pt-1">Paiement sécurisé via Wave</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Détail de la Pièce Commandée -->
+        <div class="bg-[#080b12] p-4 rounded-2xl border border-[#1b2336] flex flex-col sm:flex-row sm:items-center gap-4">
+          <div class="w-16 h-16 rounded-2xl bg-[#0e121d] border border-[#20273a] overflow-hidden shrink-0">
+            <img id="modal-order-part-image" src="" alt="Pièce" class="w-full h-full object-cover" />
+          </div>
+          <div class="space-y-1 flex-1">
+            <span id="modal-order-part-name" class="font-black text-white text-sm block">Désignation de la pièce</span>
+            <div class="flex items-center gap-3 text-xs text-slate-400 flex-wrap">
+              <span id="modal-order-part-vehicle">🚗 Véhicule standard</span>
+              <span>·</span>
+              <span id="modal-order-part-oem" class="font-mono text-slate-300">OEM : Standard</span>
+            </div>
+            <p class="text-[10px] text-slate-400 flex items-center gap-1 pt-0.5">
+              <span class="material-symbols-outlined text-[13px] text-emerald-400">verified</span>
+              <span>Protégé par le séquestre automatique Difonsé et la garantie d'essai 48h.</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pied de la modale avec actions -->
+      <div class="p-4 border-t border-[#1c2438] bg-[#0e121d] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+        <div id="modal-order-actions-container" class="flex items-center gap-2 flex-wrap">
+          <!-- Boutons dynamiques : Valider Remise, Valider (48h), Annuler -->
+        </div>
+        <button onclick="closeAdminOrderModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
           Fermer
         </button>
       </div>

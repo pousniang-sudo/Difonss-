@@ -1,5 +1,75 @@
 [
     {
+        "id":  "act_1795833460218",
+        "timestamp":  "2026-11-28T02:37:40.2182965Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "TRANSACTION_FINALIZED",
+        "details":  "Transaction CMD-1154 clÃ´turÃ©e : Vendeur Diallo Auto Pièces rÃ©munÃ©rÃ© directement, retainer encaissÃ©",
+        "amount":  0,
+        "icon":  "task_alt"
+    },
+    {
+        "id":  "act_1795833460098",
+        "timestamp":  "2026-11-28T02:37:40.0980252Z",
+        "section":  "buyer",
+        "actor":  "Babacar Sow",
+        "action":  "CONFORMITY_CONFIRMED",
+        "details":  "Montage validÃ© conforme pour CMD-1154",
+        "amount":  0,
+        "icon":  "verified"
+    },
+    {
+        "id":  "act_1795833451276",
+        "timestamp":  "2026-11-28T02:37:31.2764794Z",
+        "section":  "platform",
+        "actor":  "Plateforme DifonsÃ©",
+        "action":  "TEST_PERIOD_STARTED",
+        "details":  "DÃ©lai d\u0027essai 48h dÃ©marrÃ© pour CMD-1154",
+        "amount":  0,
+        "icon":  "timer"
+    },
+    {
+        "id":  "act_1795833450236",
+        "timestamp":  "2026-11-28T02:37:30.2362446Z",
+        "section":  "seller",
+        "actor":  "Diallo Auto Pièces",
+        "action":  "COURIER_PICKUP",
+        "details":  "PiÃ¨ce remise au coursier pour CMD-1154 contre code PK-795",
+        "amount":  0,
+        "icon":  "local_shipping"
+    },
+    {
+        "id":  "act_1795833436766",
+        "timestamp":  "2026-11-28T02:37:16.7734967Z",
+        "section":  "platform",
+        "actor":  "Super Admin",
+        "action":  "ORDER_CANCELLED",
+        "details":  "Commande CMD-8916 annulÃ©e par le superviseur. Remboursement intÃ©gral de 71500 FCFA dÃ©clenchÃ©.",
+        "amount":  71500,
+        "icon":  "cancel"
+    },
+    {
+        "id":  "act_1795833272459",
+        "timestamp":  "2026-11-28T02:34:32.4595426Z",
+        "section":  "seller",
+        "actor":  "Modou Ndiaye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Modou Ndiaye (seller - SolvabilitÃ©: 95/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
+        "id":  "act_1795833271893",
+        "timestamp":  "2026-11-28T02:34:31.9241349Z",
+        "section":  "seller",
+        "actor":  "Khadim Gueye",
+        "action":  "LOGIN",
+        "details":  "Connexion rÃ©ussie : Khadim Gueye (seller - SolvabilitÃ©: 100/100)",
+        "amount":  0,
+        "icon":  "login"
+    },
+    {
         "id":  "act_1795744216623",
         "timestamp":  "2026-11-27T01:50:16.6238196Z",
         "section":  "seller",

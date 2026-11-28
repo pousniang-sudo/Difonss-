@@ -48,9 +48,10 @@
         "activeCar":  "",
         "solvencyScore":  95,
         "solvencyStatus":  "Vendeur Certifié",
-        "solvencyDetails":  "Client vérifié par Wave / Orange Money sans défaut de paiement.",
+        "solvencyDetails":  "Client vÃ©rifiÃ© par Wave / Orange Money sans dÃ©faut de paiement.",
         "availableBalance":  570000,
         "totalSales":  2390000,
+        "totalRetainerPaid":  0,
         "rating":  4.9,
         "isOpen":  true
     },
@@ -91,9 +92,10 @@
         "activeCar":  "",
         "solvencyScore":  100,
         "solvencyStatus":  "Vendeur Certifié",
-        "solvencyDetails":  "Client vérifié par Wave / Orange Money sans défaut de paiement.",
+        "solvencyDetails":  "Client vÃ©rifiÃ© par Wave / Orange Money sans dÃ©faut de paiement.",
         "availableBalance":  0,
         "totalSales":  0,
+        "totalRetainerPaid":  0,
         "rating":  5.0,
         "isOpen":  true
     },
@@ -134,9 +136,9 @@
         "solvencyScore":  95,
         "solvencyStatus":  "Vendeur CertifiÃ©",
         "solvencyDetails":  "Client vÃ©rifiÃ© par Wave / Orange Money sans dÃ©faut de paiement.",
-        "availableBalance":  130000,
-        "totalSales":  130000,
-        "totalRetainerPaid":  13000,
+        "availableBalance":  65000,
+        "totalSales":  65000,
+        "totalRetainerPaid":  6500,
         "rating":  5,
         "isOpen":  true
     }

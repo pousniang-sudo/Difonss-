@@ -24,12 +24,13 @@
         "totalPaid":  71500,
         "provider":  "Wave Sénégal",
         "pickupCode":  "PK-391",
-        "step":  2,
-        "stepLabel":  "PayÃ© par DifonsÃ© Â· Tiak-Tiak en route vers le vendeur",
-        "vendorPaymentStatus":  "PAID_DIRECT",
-        "actionRequired":  "Vendeur : Remettre la piÃ¨ce payÃ©e au coursier contre le code PK-391",
-        "timeline":  "Acheteur dÃ©bitÃ© via Wave Sénégal. Retainer DifonsÃ© prÃ©levÃ© (6500 FCFA). Vendeur payÃ© directement (65000 FCFA). Livraison : Parcelles Assainies U2",
-        "createdAt":  "2026-11-27T01:50:16.2527275Z"
+        "step":  5,
+        "stepLabel":  "Commande AnnulÃ©e par le Super Admin Â· Acheteur RemboursÃ©",
+        "vendorPaymentStatus":  "CANCELLED_REFUNDED",
+        "actionRequired":  "Superviseur : Commande annulÃ©e. Remboursement intÃ©gral acheteur via Wave Sénégal",
+        "timeline":  "Commande annulÃ©e par le Super Admin : Test annulation super admin Difonse. Remboursement de 71500 FCFA exÃ©cutÃ© vers l\u0027acheteur via Wave Sénégal.",
+        "createdAt":  "2026-11-27T01:50:16.2527275Z",
+        "status":  "CANCELLED"
     },
     {
         "id":  "CMD-1154",
@@ -56,11 +57,11 @@
         "totalPaid":  71500,
         "provider":  "Wave Sénégal",
         "pickupCode":  "PK-795",
-        "step":  2,
-        "stepLabel":  "PayÃ© par DifonsÃ© Â· Tiak-Tiak en route vers le vendeur",
+        "step":  4,
+        "stepLabel":  "PiÃ¨ce Conforme ValidÃ©e Â· Transaction ClÃ´turÃ©e",
         "vendorPaymentStatus":  "PAID_DIRECT",
-        "actionRequired":  "Vendeur : Remettre la piÃ¨ce payÃ©e au coursier contre le code PK-795",
-        "timeline":  "Acheteur dÃ©bitÃ© via Wave Sénégal. Retainer DifonsÃ© prÃ©levÃ© (6500 FCFA). Vendeur payÃ© directement (65000 FCFA). Livraison : Parcelles Assainies U2",
+        "actionRequired":  "Aucune action requise (TerminÃ©)",
+        "timeline":  "ValidÃ© conforme par le mÃ©canicien au garage. Transaction finalisÃ©e avec succÃ¨s (Vendeur payÃ© directement Ã  la commande).",
         "createdAt":  "2026-11-27T01:48:11.4658069Z"
     },
     {
